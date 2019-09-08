@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Message } from '../../../../../common/communication/message';
+import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
 import { IndexService } from '../../services/index/index.service';
-import { MatDialog } from '@angular/material/dialog';
-import { NewDrawingComponent } from 'src/app/components/new-drawing/new-drawing.component';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +25,8 @@ export class AppComponent {
   }
 
   openDialog() {
-    this.dialog.open(NewDrawingComponent);
+    this.dialog.open(NewDrawingComponent, {
+      width: '50%',
+    });
   }
 }

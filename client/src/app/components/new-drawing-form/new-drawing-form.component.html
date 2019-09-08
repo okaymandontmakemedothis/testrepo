@@ -1,9 +1,28 @@
-<mat-form-field>
-    <mat-label>Width:</mat-label>
-    <input matInput [(ngModel)]=" innerWidth" type="number" placeholder="Width">
-</mat-form-field>
-X
-<mat-form-field>
-    <mat-label>Height:</mat-label>
-    <input matInput [(ngModel)]="innerHeight" type="number" placeholder="Height">
-</mat-form-field>
+<!-- <div class='row'>
+        <div class='col'> -->
+<h2 class="mat-h2">Drawing dimensions :</h2>
+<div [formGroup]="group">
+    <div class="row">
+        <div class="col-sm">
+            <mat-form-field>
+                <mat-label>Width</mat-label>
+                <input matInput formControlName='width' type="number" placeholder="Width">
+            </mat-form-field>
+        </div>
+        <!-- </div>
+        <div class='col'> -->
+        <div class="col-sm">
+            <h2>X</h2>
+            <!-- </div>
+        <div class='col'> -->
+        </div>
+        <div class="col-sm">
+            <mat-form-field>
+                <mat-label>Height</mat-label>
+                <input matInput formControlName='height' type="number" placeholder="Height">
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<!-- </div>
+    </div> -->

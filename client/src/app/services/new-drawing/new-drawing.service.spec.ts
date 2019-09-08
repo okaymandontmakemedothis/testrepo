@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DrawingService } from './drawing.service';
+import { NewDrawingService } from './new-drawing.service';
 
-describe('DrawingService', () => {
+describe('DrawingSizeService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: DrawingService = TestBed.get(DrawingService);
+    const service: NewDrawingService = TestBed.get(NewDrawingService);
     expect(service).toBeTruthy();
   });
 });

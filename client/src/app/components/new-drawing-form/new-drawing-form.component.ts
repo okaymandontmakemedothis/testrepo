@@ -1,5 +1,5 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { DrawingService } from '../../services/drawing/drawing.service';
+import { Component, HostListener, OnInit, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-new-drawing-form',
@@ -7,20 +7,18 @@ import { DrawingService } from '../../services/drawing/drawing.service';
   // styleUrls: ['./new-drawing-form.component.scss'],
 })
 export class NewDrawingFormComponent implements OnInit {
-  innerWidth: number;
-  innerHeight: number;
+
+  @Input() group: FormGroup;
 
   ngOnInit(): void {
-    this.innerWidth = this.drawing.getWidth();
-    this.innerHeight = this.drawing.getHeight();
   }
 
-  constructor(private drawing: DrawingService) {
-  }
+  constructor() { }
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    this.innerWidth = this.drawing.getWidth();
-    this.innerHeight = this.drawing.getHeight();
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    this.group.setValue({ width, height });
   }
 }
