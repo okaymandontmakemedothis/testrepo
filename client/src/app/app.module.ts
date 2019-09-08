@@ -28,7 +28,10 @@ import { NewDrawingFormComponent } from './components/new-drawing-form/new-drawi
   exports: [
   ],
   entryComponents: [
+<<<<<<< HEAD
     NewDrawingComponent,
+=======
+>>>>>>> master
   ],
   providers: [],
   bootstrap: [AppComponent],
