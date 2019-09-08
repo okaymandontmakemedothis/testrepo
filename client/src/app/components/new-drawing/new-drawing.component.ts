@@ -1,6 +1,6 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { DrawingService } from '../../services/drawing/drawing.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-new-drawing',
@@ -9,25 +9,22 @@ import { DrawingService } from '../../services/drawing/drawing.service';
 })
 export class NewDrawingComponent implements OnInit {
 
-  innerWidth: number;
-  innerHeight: number;
-
   ngOnInit(): void {
-    this.innerWidth = this.drawing.getWidth();
-    this.innerHeight = this.drawing.getHeight();
+    this.dialogRef.disableClose = true;
   }
 
-  constructor(
-    public dialogRef: MatDialogRef<NewDrawingComponent>, private drawing: DrawingService) { }
 
-  onNoClick(): void {
+  constructor(
+    public dialogRef: MatDialogRef<NewDrawingComponent>, private snackBar: MatSnackBar) { }
+
+  onAccept(): void {
+    this.snackBar.open('Drawing created', '', { duration: 1000, });
     this.dialogRef.close();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.innerWidth = this.drawing.getWidth();
-    this.innerHeight = this.drawing.getHeight();
+  onCancel(): void {
+    this.dialogRef.close();
   }
+
 
 }

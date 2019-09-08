@@ -25,10 +25,6 @@ export class AppComponent {
   }
 
   openDialog() {
-    this.dialog.open(NewDrawingComponent, {
-      height: '50%',
-      width: '50%',
-      disableClose: true,
-    });
+    this.dialog.open(NewDrawingComponent);
   }
 }
