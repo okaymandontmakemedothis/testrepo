@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Hi this is the new drawing window</h1>
+<div mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Width:</mat-label>
+        <input matInput [(ngModel)]="innerWidth" placeholder="Width">
+        <mat-label>Height:</mat-label>
+        <input matInput [(ngModel)]="innerHeight" placeholder="Height">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+</div>
