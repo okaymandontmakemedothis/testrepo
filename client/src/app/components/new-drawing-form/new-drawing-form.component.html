@@ -6,23 +6,19 @@
         <div class="col-sm">
             <mat-form-field>
                 <mat-label>Width</mat-label>
-                <input matInput formControlName='width' type="number" placeholder="Width">
+                <input matInput formControlName='width' type="number" placeholder="Width" min="1"
+                    ng-model-options="{ updateOn: 'blur' }" required>
             </mat-form-field>
         </div>
-        <!-- </div>
-        <div class='col'> -->
         <div class="col-sm">
             <h2>X</h2>
-            <!-- </div>
-        <div class='col'> -->
         </div>
         <div class="col-sm">
             <mat-form-field>
                 <mat-label>Height</mat-label>
-                <input matInput formControlName='height' type="number" placeholder="Height">
+                <input matInput formControlName='height' type="number" placeholder="Height" min="1"
+                    oninput="validity.valid;" required>
             </mat-form-field>
         </div>
     </div>
 </div>
-<!-- </div>
-    </div> -->

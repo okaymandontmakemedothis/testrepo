@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NewDrawingService } from 'src/app/services/new-drawing/new-drawing.service';
 import { DrawingSizeValidatorService } from 'src/app/services/drawing-size-validator/drawing-size-validator.service';
-import { FormGroup } from '@angular/forms';
+import { NewDrawingService } from 'src/app/services/new-drawing/new-drawing.service';
 
 @Component({
   selector: 'app-new-drawing',
@@ -35,6 +35,11 @@ export class NewDrawingComponent implements OnInit {
 
   onCancel(): void {
     this.dialogRef.close();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.newDrawingService.onResize();
   }
 
 }
