@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Bienvenue a PolyDessin</h1>
+<div mat-dialog-content>
+    <p>Ceci est un outil de dessin blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah </p>
+
+</div>
+<mat-checkbox (change)="test($event)">Désactiver le message de bienvenue</mat-checkbox>
+
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="openDialog()" >Aide</button>
+    <button mat-raised-button (click)="closeClick()">Fermé</button>
+</div>
