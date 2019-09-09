@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Message } from '../../../../../common/communication/message';
 import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
 import { IndexService } from '../../services/index/index.service';
+import { Color } from 'src/app/color';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,8 @@ export class AppComponent {
         map((message: Message) => `${message.title} ${message.body}`),
       )
       .subscribe(this.message);
+
+      Color.colorWithRGBA(0,255,255,1);
   }
 
   openDialog() {

@@ -35,9 +35,9 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'LOG2990'`, () => {
+  it(`should have as title 'PolyDessin E16'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('LOG2990');
+    expect(app.title).toEqual('PolyDessin E16');
   });
 });
