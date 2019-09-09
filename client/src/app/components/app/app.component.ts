@@ -24,7 +24,9 @@ export class AppComponent {
       )
       .subscribe(this.message);
 
-      Color.colorWithRGBA(0,255,255,1);
+      let c: Color = Color.colorWithHex(0xffa00f);
+      console.log(c.r + ' ' + c.g + ' ' + c.b)
+
   }
 
   openDialog() {

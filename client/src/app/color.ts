@@ -6,49 +6,32 @@ export class ColorError extends Error{
 
 export class Color {
 
-    constructor(public colorValue: number, colorOpacity: number = 1) {
+    constructor(public r: number , public g: number, public b: number, public colorOpacity: number = 1) {
      };
 
     static colorWithHex(hex: number): Color {
         this.validateHex(hex);
-        return new Color(hex);
+        const hexString = hex.toString(16);
+        return new Color(+('0x' + hexString.substr(0, 2)), +('0x' + hexString.substr(2, 2)), +('0x' + hexString.substr(4, 2)));
     }
 
     static colorWithRGBA(r: number, g: number, b: number, a: number) {
         this.validateRGBA(r,g,b,a);
-
-        let hex: string = '0x';
-
-        if(r < 16)
-            hex += '0' + r.toString(16).toString();
-        else
-            hex += r.toString(16).toString();
-
-        if(g < 16)
-            hex += '0' + g.toString(16).toString();
-        else
-            hex += g.toString(16).toString();
-
-        if(b < 16)
-            hex += '0' + b.toString(16).toString();
-        else
-            hex += b.toString(16).toString();
-            
-        return new Color(+hex, a);
+        return new Color(r, g, b, a);
     }
 
     private static validateRGBA(r: number, g: number, b: number, a: number){
         if (r > 255 || r < 0)
             throw new ColorError(r + " is bad");
 
-        if (g > 255 || r < 0)
-            throw new ColorError(r + "too high");
+        if (g > 255 || g < 0)
+            throw new ColorError(g + " is bad");
 
-        if (b > 255 || r < 0)
-            throw new ColorError(r + "too high");
+        if (b > 255 || b < 0)
+            throw new ColorError(b + " is bad");
 
-        if (a > 1 || r < 0)
-            throw new ColorError(r + "too high");
+        if (a > 1 || a < 0)
+            throw new ColorError(a + " is bad");
     }
 
     private static validateHex(hex: number){

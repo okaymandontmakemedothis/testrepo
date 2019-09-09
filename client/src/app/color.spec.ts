@@ -2,7 +2,7 @@ import { Color, ColorError } from './color';
 
 describe('Color', () => {
   it('should create an instance', () => {
-    expect(new Color(0xffffff)).toBeTruthy();
+    expect(new Color(0, 0, 0)).toBeTruthy();
   });
 
   it('colorWithRGBA variable must be less than 255', () => {
@@ -14,8 +14,10 @@ describe('Color', () => {
   });
 
   it('color should be of lenght 8', () => {
-    let color: Color = Color.colorWithRGBA(255,0,0,1);
-    expect(color.colorValue.toString().length).toEqual(8);
+    let color: Color = Color.colorWithHex(0xffffff);
+    expect(color.r).toEqual(255);
+    expect(color.g).toEqual(255);
+    expect(color.b).toEqual(255);
   });
 
   it('colorWithHex should throw a ColorError', () =>{
