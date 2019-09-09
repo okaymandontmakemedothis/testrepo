@@ -6,9 +6,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModules } from './app.material-modules';
 import { AppComponent } from './components/app/app.component';
-import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
+import { ColorOpacityComponent } from './components/color-picker/color-opacity/color-opacity.component';
+import { ColorPaletteComponent } from './components/color-picker/color-palette/color-palette.component';
 import { ColorPickerComponent } from './components/color-picker/color-picker.component';
+import { ColorSliderComponent } from './components/color-picker/color-slider/color-slider.component';
 import { NewDrawingFormComponent } from './components/new-drawing-form/new-drawing-form.component';
+import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +19,9 @@ import { NewDrawingFormComponent } from './components/new-drawing-form/new-drawi
     NewDrawingComponent,
     ColorPickerComponent,
     NewDrawingFormComponent,
+    ColorSliderComponent,
+    ColorPaletteComponent,
+    ColorOpacityComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,6 +32,7 @@ import { NewDrawingFormComponent } from './components/new-drawing-form/new-drawi
     MaterialModules,
   ],
   exports: [
+    ColorPickerComponent,
   ],
   entryComponents: [
     NewDrawingComponent,

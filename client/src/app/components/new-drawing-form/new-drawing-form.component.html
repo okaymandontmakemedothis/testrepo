@@ -2,23 +2,15 @@
         <div class='col'> -->
 <h2 class="mat-h2">Drawing dimensions :</h2>
 <div [formGroup]="group">
-    <div class="row">
-        <div class="col-sm">
-            <mat-form-field>
-                <mat-label>Width</mat-label>
-                <input matInput formControlName='width' type="number" placeholder="Width" min="1"
-                    ng-model-options="{ updateOn: 'blur' }" required>
-            </mat-form-field>
-        </div>
-        <div class="col-sm">
-            <h2>X</h2>
-        </div>
-        <div class="col-sm">
-            <mat-form-field>
-                <mat-label>Height</mat-label>
-                <input matInput formControlName='height' type="number" placeholder="Height" min="1"
-                    oninput="validity.valid;" required>
-            </mat-form-field>
-        </div>
-    </div>
+    <mat-form-field>
+        <mat-label>Width</mat-label>
+        <input matInput formControlName='width' type="number" placeholder="Width" min="1"
+            ng-model-options="{ updateOn: 'blur' }" required>
+    </mat-form-field>
+    <h2>X</h2>
+    <mat-form-field>
+        <mat-label>Height</mat-label>
+        <input matInput formControlName='height' type="number" placeholder="Height" min="1" oninput="validity.valid;"
+            required>
+    </mat-form-field>
 </div>

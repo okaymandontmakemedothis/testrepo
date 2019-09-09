@@ -1,1 +1,9 @@
-<p>color-picker works!</p>
+<div class="row" style="margin-bottom: 10px">
+    <app-color-palette [hue]="hue" [opacity]="a" (color)="rgb=$event" style='margin-right: 10px'>
+    </app-color-palette>
+    <app-color-slider (color)="hue=$event"></app-color-slider>
+</div>
+<div class="row">
+    <app-color-opacity [hue]="rgb || hue" (opacity)="a=$event"></app-color-opacity>
+</div>
+<p>{{a}}</p>
