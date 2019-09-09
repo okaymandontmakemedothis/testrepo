@@ -6,4 +6,7 @@
 <div class="row">
     <app-color-opacity [hue]="rgb || hue" (opacity)="a=$event"></app-color-opacity>
 </div>
+<div class="row">
+    <canvas #canvas width="30" height="30" class="color"> </canvas>
+</div>
 <p>{{a}}</p>
