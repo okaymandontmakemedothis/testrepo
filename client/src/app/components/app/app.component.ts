@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, HostListener } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Message } from '../../../../../common/communication/message';
-import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
 import { IndexService } from '../../services/index/index.service';
 import { Color } from 'src/app/color';
+import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
+import { MatDialog } from '@angular/material/dialog';
+import { HotkeysFichierService } from '../../services/hotkeys/hotkeys-fichier.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent {
   message = new BehaviorSubject<string>('');
   animal: string;
 
-  constructor(private basicService: IndexService, private dialog: MatDialog) {
+  constructor(private basicService: IndexService, private dialog: MatDialog, private hotkeyService:HotkeysFichierService) {
     this.basicService.basicGet()
       .pipe(
         map((message: Message) => `${message.title} ${message.body}`),
@@ -26,11 +27,14 @@ export class AppComponent {
 
       let c: Color = Color.colorWithHex(0xffa00f);
       console.log(c.r + ' ' + c.g + ' ' + c.b)
-
   }
 
   openDialog() {
     this.dialog.open(NewDrawingComponent, {
     });
   }
+
+
+  @HostListener('window:keydown', ['$event'])
+  hotkey(event:KeyboardEvent){ this.hotkeyService.hotkeysFichier(event);}
 }
