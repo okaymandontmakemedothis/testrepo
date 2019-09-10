@@ -25,16 +25,19 @@ export class AppComponent {
       )
       .subscribe(this.message);
 
-      let c: Color = Color.colorWithHex(0xffa00f);
-      console.log(c.r + ' ' + c.g + ' ' + c.b)
+    this.dialog.afterAllClosed.subscribe(() => {this.hotkeyService.canExecute = true;})
+
+    let c: Color = Color.colorWithHex(0xffa00f);
+    console.log(c.r + ' ' + c.g + ' ' + c.b)
   }
 
   openDialog() {
-    this.dialog.open(NewDrawingComponent, {
-    });
+    this.hotkeyService.canExecute = false;
+    this.dialog.open(NewDrawingComponent, { });
   }
 
-
   @HostListener('window:keydown', ['$event'])
-  hotkey(event:KeyboardEvent){ this.hotkeyService.hotkeysFichier(event);}
+  hotkey(event:KeyboardEvent){
+     this.hotkeyService.hotkeysFichier(event);
+  }
 }
