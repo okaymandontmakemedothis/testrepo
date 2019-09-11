@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Message } from '../../../../../common/communication/message';
 import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
 import { IndexService } from '../../services/index/index.service';
+import { Color } from 'src/app/color';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,10 @@ export class AppComponent {
         map((message: Message) => `${message.title} ${message.body}`),
       )
       .subscribe(this.message);
+
+      let c: Color = Color.colorWithHex(0xffa00f);
+      console.log(c.r + ' ' + c.g + ' ' + c.b)
+
   }
 
   openDialog() {
