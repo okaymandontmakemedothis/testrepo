@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import './hotkeys-constants';
+import { Injectable, EventEmitter, Output } from '@angular/core';
+import '../hotkeys-constants';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +7,7 @@ import './hotkeys-constants';
 export class HotkeysFichierService {
 
   canExecute: boolean = true;
+  @Output() dialog = new EventEmitter();
 
   constructor() { }
 
@@ -14,7 +15,7 @@ export class HotkeysFichierService {
     if(this.canExecute){
         if (event.ctrlKey && event.keyCode == keyCodes.d) {
             event.preventDefault();
-            console.log(keyCodes.d);
+            this.dialog.emit();
         }
 
         if (event.ctrlKey && event.keyCode == keyCodes.s) {
