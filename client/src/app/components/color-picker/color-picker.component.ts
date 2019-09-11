@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-color-picker',
@@ -7,9 +8,11 @@ import { Component } from '@angular/core';
 })
 export class ColorPickerComponent {
 
-  hue: { r: number, g: number, b: number };
+  @Input() group: FormGroup;
+
+  hue = 180;
+  hsl: { h: number, s: number, v: number } = { h: 180, s: 1, v: 1 };
   rgb: { r: number, g: number, b: number } = { r: 255, g: 255, b: 255 };
   a = 1;
   color: string;
-
 }

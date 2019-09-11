@@ -1,9 +1,12 @@
 <div class="row" style="margin-bottom: 10px">
-    <app-color-palette [hue]="hue" [opacity]="a" (color)="rgb=$event" style='margin-right: 10px'>
+    <app-color-palette [hue]="hue" [opacity]="a" (color)="hsl=$event" style='margin-right: 10px'>
     </app-color-palette>
     <app-color-slider (color)="hue=$event"></app-color-slider>
 </div>
 <div class="row">
-    <app-color-opacity [hue]="rgb || hue" (opacity)="a=$event"></app-color-opacity>
+    <app-color-opacity [hsl]="hsl" (opacity)="a=$event"></app-color-opacity>
 </div>
-<p>{{a}}</p>
+<div class="row">
+    <app-color-rgba-hex [hsla]="{h:hsl.h,s:hsl.s,l:hsl.l,a:a}" (color)="hsl=$event.hsl; a=$event.a;">
+    </app-color-rgba-hex>
+</div>
