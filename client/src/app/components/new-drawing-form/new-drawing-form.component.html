@@ -4,13 +4,15 @@
 <div [formGroup]="group">
     <mat-form-field>
         <mat-label>Width</mat-label>
-        <input matInput formControlName='width' type="number" placeholder="Width" min="1"
-            ng-model-options="{ updateOn: 'blur' }" required>
+        <input matInput formControlName='width' type="number" placeholder="Width" min="1" required>
     </mat-form-field>
-    <h2>X</h2>
+    <svg height="12" width="12">
+        <line x1="1" y1="1" x2="11" y2="11" style="stroke:rgb(0,0,0);stroke-width:3" />
+        <line x1="11" y1="1" x2="1" y2="11" style="stroke:rgb(0,0,0);stroke-width:3" />
+    </svg>
     <mat-form-field>
         <mat-label>Height</mat-label>
-        <input matInput formControlName='height' type="number" placeholder="Height" min="1" oninput="validity.valid;"
-            required>
+        <input matInput formControlName='height' type="number" placeholder="Height" min="1"
+            oninput="validity.valid || '';" required>
     </mat-form-field>
 </div>
