@@ -22,7 +22,7 @@ export class DialogComponent {
       panelClass: 'filter-popup',
       autoFocus: false,
       disableClose: true,
-      maxWidth: 500,
+      maxWidth: 1000,
       maxHeight: 500,
     });
 

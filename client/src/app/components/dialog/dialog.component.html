@@ -1,11 +1,15 @@
-<h1 mat-dialog-title>Bienvenue a PolyDessin</h1>
+<h1 mat-dialog-title align ="center">Bienvenue a PolyDessin</h1>
 <div mat-dialog-content>
-    <p>Ceci est un outil de dessin blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah </p>
+    <p> PolyDessin est un outil de dessin vectoriel. Ce site vous permet de dessiner puis de sauvegarder et exporter votre dessin par la suite. Plusieurs outils sont 
+        à votre disposition, soit des outils de tracage, des formes ainsi que plusieurs autres fonctionnalités. Pour créer un nouveau dessin, il suffit d'appuyer sur le boutton de nouveau de dessin et y définit la largeur, la hauteur et la couleur
+        d’arrière-plan de la surface à créer. <br>
+        <br>
+        Pour plus d'instructions conçernant les outils et autres fonctionnalités du programme appuyer sur le button aide. </p>
 
 </div>
 <mat-checkbox (change)="test($event)">Désactiver le message de bienvenue</mat-checkbox>
 
-<div mat-dialog-actions>
+<div mat-dialog-actions align="end">
     <button mat-raised-button (click)="openDialog()" >Aide</button>
     <button mat-raised-button (click)="closeClick()">Fermé</button>
 </div>
