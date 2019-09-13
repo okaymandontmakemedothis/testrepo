@@ -1,63 +1,38 @@
 import {
-  AfterViewInit, Component, ElementRef, EventEmitter, HostListener,
-  Input, OnChanges, Output, SimpleChanges, ViewChild
+  AfterViewInit, Component, ElementRef, HostListener,
+  Input, OnInit, ViewChild
 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ColorTransformer } from 'src/app/color-transformer';
 
 @Component({
   selector: 'app-color-opacity',
   templateUrl: './color-opacity.component.html',
   styleUrls: ['./color-opacity.component.scss'],
 })
-export class ColorOpacityComponent implements AfterViewInit, OnChanges {
+export class ColorOpacityComponent implements AfterViewInit, OnInit {
 
   @ViewChild('canvas', { static: false })
   canvas: ElementRef<HTMLCanvasElement>;
 
   @Input()
-  hsl: { h: number, s: number, l: number } = { h: 180, s: 1, l: 1 };
+  hsl: FormGroup;
 
-  @Output()
-  opacity: EventEmitter<number> = new EventEmitter();
+  @Input()
+  a: FormControl;
 
   private ctx: CanvasRenderingContext2D;
   private isMouseDown = false;
   private selectedWidth: number;
 
-  private hslToRGB(hsl: { h: number, s: number, l: number }): { r: number, g: number, b: number } {
-    while (hsl.h >= 360) {
-      hsl.h -= 360;
-    }
-    const h = hsl.h / 360;
-    const q = hsl.l < 0.5 ? hsl.l * (1 + hsl.s) : hsl.l + hsl.s - hsl.l * hsl.s;
-    const p = 2 * hsl.l - q;
-
-    return {
-      r: Math.round(this.hueToRGB(p, q, h + 1 / 3) * 255), g: Math.round(this.hueToRGB(p, q, h) * 255),
-      b: Math.round((this.hueToRGB(p, q, h - 1 / 3) * 255)),
-    };
-
-  }
-
-  private hueToRGB(p: number, q: number, t: number): number {
-    if (t < 0) { t += 1; }
-    if (t > 1) { t -= 1; }
-    if (t < 1 / 6) { return p + (q - p) * 6 * t; }
-    if (t < 1 / 2) { return q; }
-    if (t < 2 / 3) { return p + (q - p) * (2 / 3 - t) * 6; }
-    return p;
+  ngOnInit(): void {
+    this.hsl.valueChanges.subscribe((value) => this.draw());
+    this.a.valueChanges.subscribe((value) => this.draw());
   }
 
   ngAfterViewInit() {
     this.selectedWidth = this.canvas.nativeElement.width;
     this.draw();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.canvas) {
-      if (changes.hsl) {
-        this.draw();
-      }
-    }
   }
 
   draw() {
@@ -86,8 +61,13 @@ export class ColorOpacityComponent implements AfterViewInit, OnChanges {
         this.ctx.closePath();
       }
     }
-    const rgb = this.hslToRGB(this.hsl);
+
     const gradient = this.ctx.createLinearGradient(0, 0, width, 0);
+    const rgb = ColorTransformer.hsl2rgb({
+      h: (this.hsl.get('h') as FormControl).value,
+      s: (this.hsl.get('s') as FormControl).value,
+      l: (this.hsl.get('l') as FormControl).value,
+    });
 
     gradient.addColorStop(0, 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', 0)' || 'rgba(0,0,0,0)');
     gradient.addColorStop(1, 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', 1)' || 'rgba(0,0,0,0)');
@@ -109,9 +89,9 @@ export class ColorOpacityComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  emitOpacity(y: number) {
+  updateOpacity(y: number) {
     const opacityValue = this.getOpacityAtPosition(y);
-    this.opacity.emit(opacityValue);
+    this.a.setValue(opacityValue);
   }
 
   getOpacityAtPosition(x: number) {
@@ -128,16 +108,16 @@ export class ColorOpacityComponent implements AfterViewInit, OnChanges {
   onMouseMove(event: MouseEvent) {
     if (this.isMouseDown) {
       this.selectedWidth = event.offsetX;
+      this.updateOpacity(event.offsetX);
       this.draw();
-      this.emitOpacity(event.offsetX);
     }
   }
 
   onMouseDown(event: MouseEvent) {
     this.isMouseDown = true;
     this.selectedWidth = event.offsetX;
+    this.updateOpacity(event.offsetX);
     this.draw();
-    this.emitOpacity(event.offsetX);
   }
 
   @HostListener('window:mouseup', ['$event'])

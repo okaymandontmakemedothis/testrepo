@@ -1,26 +1,32 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-color-slider',
   templateUrl: './color-slider.component.html',
   styleUrls: ['./color-slider.component.scss'],
 })
-export class ColorSliderComponent implements AfterViewInit {
-
+export class ColorSliderComponent implements AfterViewInit, OnInit {
   @ViewChild('canvas', { static: false })
   canvas: ElementRef<HTMLCanvasElement>;
 
   @Output()
   color: EventEmitter<number> = new EventEmitter();
 
+  @Input()
+  hue: FormControl;
+
   private ctx: CanvasRenderingContext2D;
   private isMouseDown = false;
   private selectedHeight = 0;
 
+  ngOnInit(): void {
+    this.hue.valueChanges.subscribe((value) => { this.draw(); });
+  }
+
   ngAfterViewInit() {
     this.selectedHeight = this.canvas.nativeElement.height / 2;
     this.draw();
-    this.emitColor(this.selectedHeight);
   }
 
   draw() {
@@ -54,11 +60,6 @@ export class ColorSliderComponent implements AfterViewInit {
     }
   }
 
-  emitColor(y: number) {
-    const hue = this.getHueAtPosition(y);
-    this.color.emit(hue);
-  }
-
   getHueAtPosition(y: number) {
     if (y > this.canvas.nativeElement.height) {
       y = this.canvas.nativeElement.height;
@@ -70,20 +71,22 @@ export class ColorSliderComponent implements AfterViewInit {
     return 360 * heightPercentage;
   }
 
+  updateHue(y: number) {
+    this.selectedHeight = y;
+    const h = this.getHueAtPosition(y);
+    this.hue.setValue(h);
+    this.draw();
+  }
+
   onMouseMove(event: MouseEvent) {
     if (this.isMouseDown) {
-      this.selectedHeight = event.offsetY;
-      this.draw();
-      this.emitColor(event.offsetY);
+      this.updateHue(event.offsetY);
     }
   }
 
   onMouseDown(event: MouseEvent) {
     this.isMouseDown = true;
-    this.selectedHeight = event.offsetY;
-    this.draw();
-    this.emitColor(event.offsetY);
-
+    this.updateHue(event.offsetY);
   }
 
   @HostListener('window:mouseup', ['$event'])

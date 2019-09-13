@@ -1,10 +1,14 @@
 <div class="row">
-    <input matInput placeholder="R" value={{rgba.r}} type="number" min=0 max=255 style="width:50px">
-    <input matInput placeholder="G" value={{rgba.g}} type="number" min=0 max=255 style="width:50px">
-    <input matInput placeholder="B" value={{rgba.b}} type="number" min=0 max=255 style="width:50px">
-    <input matInput placeholder="A" value={{rgba.a.toFixed(2)}} type="number" min=0 max=1 step=0.1 style="width:50px">
+    <div [formGroup]='rgb'>
+        <input matInput placeholder="R" formControlName="r" type="number" min=0 max=255 style="width:50px">
+        <input matInput placeholder="G" formControlName="g" type="number" min=0 max=255 style="width:50px">
+        <input matInput placeholder="B" formControlName="b" type="number" min=0 max=255 style="width:50px">
+    </div>
+    <div [formGroup]='colorForm'>
+        <input matInput placeholder="A" formControlName="a" type="number" min=0 max=1 step=0.1 style="width:50px">
+    </div>
 </div>
 <div class="row">
     <label>HEX</label>
-    <input placeholder="HEX" value={{hex.toString(16)}} min=0>
+    <input placeholder="HEX" [(ngModel)]='hex' (blur)="changedHEX()">
 </div>

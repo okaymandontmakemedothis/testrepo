@@ -1,69 +1,42 @@
 import {
-  AfterViewInit, Component, ElementRef, EventEmitter, HostListener,
-  Input, OnChanges, Output, SimpleChanges, ViewChild
+  AfterViewInit, Component, ElementRef, HostListener,
+  Input, OnInit, ViewChild
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ColorTransformer } from 'src/app/color-transformer';
 
 @Component({
   selector: 'app-color-palette',
   templateUrl: './color-palette.component.html',
   styleUrls: ['./color-palette.component.scss'],
 })
-export class ColorPaletteComponent implements AfterViewInit, OnChanges {
+export class ColorPaletteComponent implements AfterViewInit, OnInit {
 
   @Input()
-  hue: number;
+  h: FormControl;
 
   @Input()
-  opacity: string;
+  s: FormControl;
 
-  @Output()
-  color: EventEmitter<{ h: number, s: number, l: number }> = new EventEmitter(true);
+  @Input()
+  l: FormControl;
 
   @ViewChild('canvas', { static: false })
   canvas: ElementRef<HTMLCanvasElement>;
 
   private ctx: CanvasRenderingContext2D;
-  private selectedPosition: { x: number; y: number } = { x: 0, y: 0 };
+  private selectedPosition: { x: number; y: number };
   private isMouseDown = false;
 
-  private hueToRGB(hue: number): { r: number, g: number, b: number } {
-    while (hue > 360) {
-      hue -= 360;
-    }
-    const x = 1 - Math.abs((hue / 60) % 2 - 1);
-    const c = 1;
-    let rgb = { r: 255, g: 255, b: 255 };
-    if (0 <= hue && hue < 60) {
-      rgb = { r: c, g: x, b: 0 };
-    } else if (60 <= hue && hue < 120) {
-      rgb = { r: x, g: c, b: 0 };
-    } else if (120 <= hue && hue < 180) {
-      rgb = { r: 0, g: c, b: x };
-    } else if (180 <= hue && hue < 240) {
-      rgb = { r: 0, g: x, b: c };
-    } else if (240 <= hue && hue < 300) {
-      rgb = { r: x, g: 0, b: c };
-    } else if (300 <= hue && hue < 360) {
-      rgb = { r: c, g: 0, b: x };
-    }
-    rgb.r = Math.round(rgb.r * 255); rgb.g = Math.round(rgb.g * 255); rgb.b = Math.round(rgb.b * 255);
-    return rgb;
+  ngOnInit(): void {
+    this.h.valueChanges.subscribe((value) => { this.draw(); });
+    this.s.valueChanges.subscribe((value) => { this.draw(); });
+    this.l.valueChanges.subscribe((value) => { this.draw(); });
   }
 
   ngAfterViewInit(): void {
+    this.selectedPosition = { x: this.canvas.nativeElement.width, y: this.canvas.nativeElement.height };
     this.draw();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.canvas) {
-      if (changes.hue || changes.opacity) {
-        this.draw();
-        const pos = this.selectedPosition;
-        if (pos) {
-          this.color.emit(this.getSaturationAndValueAtPosition(pos.x, pos.y));
-        }
-      }
-    }
   }
 
   draw() {
@@ -72,7 +45,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     }
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
-    const rbg = this.hueToRGB(this.hue);
+    const rbg = ColorTransformer.hue2rgb(this.h.value);
     this.ctx.fillStyle = 'rgba(' + rbg.r + ',' + rbg.g + ',' + rbg.b + ',1)' || 'rgba(255,255,255,1)';
     this.ctx.fillRect(0, 0, width, height);
 
@@ -102,8 +75,8 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
       this.ctx.fillStyle = 'white';
       this.ctx.beginPath();
       this.ctx.arc(
-        this.selectedPosition.x,
-        this.selectedPosition.y,
+        this.s.value * this.canvas.nativeElement.width,
+        this.l.value * this.canvas.nativeElement.height,
         6,
         0,
         2 * Math.PI,
@@ -116,18 +89,15 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
   onMouseMove(event: MouseEvent) {
     if (this.isMouseDown) {
-      this.selectedPosition = { x: event.offsetX, y: event.offsetY };
+      this.updateSL(event.offsetX, event.offsetY);
       this.draw();
-      this.emitColor(event.offsetX, event.offsetY);
     }
   }
 
   onMouseDown(event: MouseEvent) {
     this.isMouseDown = true;
-    this.selectedPosition = { x: event.offsetX, y: event.offsetY };
+    this.updateSL(event.offsetX, event.offsetY);
     this.draw();
-    this.color.emit(this.getSaturationAndValueAtPosition(event.offsetX, event.offsetY));
-
   }
 
   @HostListener('window:mouseup', ['$event'])
@@ -135,12 +105,13 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.isMouseDown = false;
   }
 
-  emitColor(x: number, y: number) {
-    const svColor = this.getSaturationAndValueAtPosition(x, y);
-    this.color.emit(svColor);
+  updateSL(x: number, y: number) {
+    const slColor = this.getSaturationAndValueAtPosition(x, y);
+    this.s.setValue(slColor.s);
+    this.l.setValue(slColor.l);
   }
 
-  getSaturationAndValueAtPosition(x: number, y: number): { h: number, s: number, l: number } {
+  getSaturationAndValueAtPosition(x: number, y: number): { s: number, l: number } {
     if (x > this.canvas.nativeElement.width) {
       x = this.canvas.nativeElement.width;
     }
@@ -153,9 +124,9 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     if (y < 0) {
       y = 0;
     }
-    const xPercentage = x / this.canvas.nativeElement.width;
-    const yPercentage = y / this.canvas.nativeElement.height;
-    return { h: this.hue, s: xPercentage, l: yPercentage };
+    const s = x / this.canvas.nativeElement.width;
+    const l = y / this.canvas.nativeElement.height;
+    return { s, l };
   }
 
 }
