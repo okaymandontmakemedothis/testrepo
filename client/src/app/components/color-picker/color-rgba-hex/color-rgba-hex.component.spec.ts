@@ -8,9 +8,9 @@ describe('ColorRgbaHexComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ColorRgbaHexComponent ]
+      declarations: [ColorRgbaHexComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

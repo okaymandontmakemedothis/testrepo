@@ -4,8 +4,9 @@
     <app-color-slider [hue]="hsl.get('h')"></app-color-slider>
 </div>
 <div class="row">
-    <app-color-opacity [a]="colorForm.get('a')" [hsl]="hsl">
+    <app-color-opacity [a]="colorForm.get('a')" [hsl]="hsl" style="margin-right: 10px">
     </app-color-opacity>
+    <app-color-square [rgb]=rgb [a]="colorForm.get('a')"></app-color-square>
 </div>
 <div class=" row">
     <app-color-rgba-hex [colorForm]="colorForm">

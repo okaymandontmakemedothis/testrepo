@@ -8,9 +8,9 @@ describe('ColorSliderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ColorSliderComponent ]
+      declarations: [ColorSliderComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

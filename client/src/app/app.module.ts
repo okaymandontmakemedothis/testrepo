@@ -9,10 +9,11 @@ import { AppComponent } from './components/app/app.component';
 import { ColorOpacityComponent } from './components/color-picker/color-opacity/color-opacity.component';
 import { ColorPaletteComponent } from './components/color-picker/color-palette/color-palette.component';
 import { ColorPickerComponent } from './components/color-picker/color-picker.component';
+import { ColorRgbaHexComponent } from './components/color-picker/color-rgba-hex/color-rgba-hex.component';
 import { ColorSliderComponent } from './components/color-picker/color-slider/color-slider.component';
+import { ColorSquareComponent } from './components/color-picker/color-square/color-square.component';
 import { NewDrawingFormComponent } from './components/new-drawing-form/new-drawing-form.component';
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
-import { ColorRgbaHexComponent } from './components/color-picker/color-rgba-hex/color-rgba-hex.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ColorRgbaHexComponent } from './components/color-picker/color-rgba-hex/
     ColorPaletteComponent,
     ColorOpacityComponent,
     ColorRgbaHexComponent,
+    ColorSquareComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -10,9 +10,6 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
   @ViewChild('canvas', { static: false })
   canvas: ElementRef<HTMLCanvasElement>;
 
-  @Output()
-  color: EventEmitter<number> = new EventEmitter();
-
   @Input()
   hue: FormControl;
 
@@ -21,7 +18,10 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
   private selectedHeight = 0;
 
   ngOnInit(): void {
-    this.hue.valueChanges.subscribe((value) => { this.draw(); });
+    this.hue.valueChanges.subscribe((value) => {
+      this.selectedHeight = value / 360 * this.canvas.nativeElement.height;
+      this.draw();
+    });
   }
 
   ngAfterViewInit() {

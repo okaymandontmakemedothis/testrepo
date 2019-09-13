@@ -8,8 +8,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class NewDrawingFormComponent {
 
-  @Input() group: FormGroup;
-
-  constructor() { }
+  @Input()
+  sizeForm: FormGroup;
 
 }

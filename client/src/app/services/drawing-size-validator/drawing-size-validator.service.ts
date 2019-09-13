@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ValidatorFn, FormGroup, ValidationErrors, FormControl } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Injectable()
 export class DrawingSizeValidatorService {
-
-  constructor() { }
 
   formValidator(): ValidatorFn {
     return (control: FormGroup): ValidationErrors | null => {

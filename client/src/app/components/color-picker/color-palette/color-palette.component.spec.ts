@@ -8,9 +8,9 @@ describe('ColorPaletteComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ColorPaletteComponent ]
+      declarations: [ColorPaletteComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -27,7 +27,10 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.hsl.valueChanges.subscribe((value) => this.draw());
-    this.a.valueChanges.subscribe((value) => this.draw());
+    this.a.valueChanges.subscribe((value) => {
+      this.selectedWidth = this.canvas.nativeElement.width * this.a.value;
+      this.draw();
+    });
   }
 
   ngAfterViewInit() {

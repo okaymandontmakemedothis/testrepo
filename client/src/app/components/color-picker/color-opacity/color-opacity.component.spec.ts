@@ -8,9 +8,9 @@ describe('ColorOpacityComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ColorOpacityComponent ]
+      declarations: [ColorOpacityComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

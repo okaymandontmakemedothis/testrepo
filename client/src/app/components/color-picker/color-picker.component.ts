@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ColorTransformer } from 'src/app/color-transformer';
 
 @Component({
   selector: 'app-color-picker',
@@ -33,25 +32,5 @@ export class ColorPickerComponent implements OnInit {
 
   get rgb(): FormGroup {
     return this.colorForm.get('rgb') as FormGroup;
-  }
-
-  updateRGB(value: any) {
-    const rgb = ColorTransformer.hsl2rgb({ h: value.h, s: value.s, l: value.l });
-    const r = this.rgb.get('r') as FormControl;
-    r.setValue(rgb.r);
-    const g = this.rgb.get('g') as FormControl;
-    g.setValue(rgb.g);
-    const b = this.rgb.get('b') as FormControl;
-    b.setValue(rgb.b);
-  }
-
-  updateHSL(value: any) {
-    const hsl = ColorTransformer.rgb2hsl({ r: value.r, g: value.g, b: value.b });
-    const h = this.hsl.get('h') as FormControl;
-    h.setValue(hsl.h);
-    const s = this.hsl.get('s') as FormControl;
-    s.setValue(hsl.s);
-    const l = this.hsl.get('l') as FormControl;
-    l.setValue(hsl.l);
   }
 }

@@ -8,9 +8,9 @@ describe('NewDrawingFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewDrawingFormComponent ]
+      declarations: [NewDrawingFormComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
