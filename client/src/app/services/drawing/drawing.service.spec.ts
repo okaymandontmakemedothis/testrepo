@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ColorPickerService } from './color-picker.service';
+import { DrawingService } from './drawing.service';
 
-describe('ColorPickerService', () => {
+describe('DrawingService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ColorPickerService = TestBed.get(ColorPickerService);
+    const service: DrawingService = TestBed.get(DrawingService);
     expect(service).toBeTruthy();
   });
 });

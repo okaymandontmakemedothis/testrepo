@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -7,6 +7,12 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./color-picker.component.scss'],
 })
 export class ColorPickerComponent implements OnInit {
+
+  @Input()
+  rgb: FormGroup;
+
+  @Input()
+  a: FormControl;
 
   colorForm: FormGroup;
 
@@ -17,20 +23,12 @@ export class ColorPickerComponent implements OnInit {
         s: new FormControl(1),
         l: new FormControl(1),
       }),
-      rgb: new FormGroup({
-        r: new FormControl(255),
-        g: new FormControl(255),
-        b: new FormControl(255),
-      }),
-      a: new FormControl(1),
+      rgb: this.rgb,
+      a: this.a,
     });
   }
 
   get hsl(): FormGroup {
     return this.colorForm.get('hsl') as FormGroup;
-  }
-
-  get rgb(): FormGroup {
-    return this.colorForm.get('rgb') as FormGroup;
   }
 }

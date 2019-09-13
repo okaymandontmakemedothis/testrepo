@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,7 +11,8 @@ import { IndexService } from '../../services/index/index.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
   readonly title: string = 'PolyDessin E16';
   message = new BehaviorSubject<string>('');
   animal: string;
@@ -23,6 +24,10 @@ export class AppComponent {
       )
       .subscribe(this.message);
 
+  }
+
+  ngOnInit(): void {
+    this.openDialog();
   }
 
   openDialog() {

@@ -14,6 +14,7 @@ import { ColorSliderComponent } from './components/color-picker/color-slider/col
 import { ColorSquareComponent } from './components/color-picker/color-square/color-square.component';
 import { NewDrawingFormComponent } from './components/new-drawing-form/new-drawing-form.component';
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
+import { NewDrawingAlertComponent } from './components/new-drawing-alert/new-drawing-alert.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { NewDrawingComponent } from './components/new-drawing/new-drawing.compon
     ColorOpacityComponent,
     ColorRgbaHexComponent,
     ColorSquareComponent,
+    NewDrawingAlertComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +41,7 @@ import { NewDrawingComponent } from './components/new-drawing/new-drawing.compon
     ColorPickerComponent,
   ],
   entryComponents: [
+    NewDrawingAlertComponent,
     NewDrawingComponent,
   ],
   providers: [],

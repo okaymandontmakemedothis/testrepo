@@ -17,7 +17,12 @@ export class NewDrawingService {
       }, {
         validator: this.drawingSizeValidatorService.formValidator(),
       }),
-      color: null,
+      rgb: this.formBuilder.group({
+        r: 255,
+        g: 255,
+        b: 255,
+      }),
+      a: this.formBuilder.control(1),
     });
 
     this.sizeGroup.valueChanges.subscribe((size) => {

@@ -5,10 +5,9 @@
         <app-new-drawing-form [sizeForm]="form.get('size')">
         </app-new-drawing-form>
         <h2 class="mat-h2">Background color :</h2>
-        <app-color-picker>
+        <app-color-picker [a]="form.get('a')" [rgb]="form.get('rgb')" style="text-align: center">
         </app-color-picker>
         <mat-divider></mat-divider>
-
     </div>
     <div mat-dialog-actions>
         <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Create</button>
