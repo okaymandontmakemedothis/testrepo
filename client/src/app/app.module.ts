@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModules } from './app.material-modules';
-import { AideDialogComponent } from './components/aide-dialog/aide-dialog.component';
 import { AppComponent } from './components/app/app.component';
-import { DialogComponent } from './components/dialog/dialog.component';
+import { AideDialogComponent } from './components/welcome-dialog/aide-dialog/aide-dialog.component';
+import { DialogComponent } from './components/welcome-dialog/dialog/dialog.component';
 import { WelcomeDialogComponent } from './components/welcome-dialog/welcome-dialog.component';
 
 @NgModule({
