@@ -1,3 +1,10 @@
+
+
+////////////////////////////--IMPORTANT--///////////////////////////////
+// Les tests seront a changer selon ce que l'on emet dans les hotkeys //
+////////////////////////////////////////////////////////////////////////
+
+
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -11,46 +18,48 @@ export class HotkeysSelectionService {
 
   hotkeysSelection(event:KeyboardEvent){
     if(this.canExecute){
-      if (event.ctrlKey && event.keyCode == keyCodes.x) {
+      if (event.ctrlKey && event.code == keyCodes.x) {
           event.preventDefault();
-          console.log(keyCodes.x);
+          return 'x';
       }
 
-      if (event.ctrlKey && event.keyCode == keyCodes.c) {
+      if (event.ctrlKey && event.code == keyCodes.c) {
           event.preventDefault();
-          console.log(keyCodes.c);
+          return 'c';
       }
 
-      if (event.ctrlKey && event.keyCode == keyCodes.v) {
+      if (event.ctrlKey && event.code == keyCodes.v) {
           event.preventDefault();
-          console.log(keyCodes.v);
+          return 'v';
       }
 
-      if (event.ctrlKey && event.keyCode == keyCodes.d) {
+      if (event.ctrlKey && event.code == keyCodes.d) {
           event.preventDefault();
-          console.log(keyCodes.d);
+          return 'd';
       }
 
-      if (event.keyCode == keyCodes.delete) {
+      if (event.code == keyCodes.delete) {
         event.preventDefault();
-        console.log(keyCodes.delete);
+        return 'del';
       }
 
-      if (event.ctrlKey && event.keyCode == keyCodes.a) {
+      if (event.ctrlKey && event.code == keyCodes.a) {
           event.preventDefault();
-          console.log(keyCodes.a);
+          return 'a';
       }
 
-      if (event.ctrlKey && event.shiftKey && event.keyCode == keyCodes.z) {
+      if (event.ctrlKey && event.shiftKey && event.code == keyCodes.z) {
         event.preventDefault();
-        console.log(keyCodes.shift);
+        return 'shz';
+
         return;
       }
 
-      if (event.ctrlKey && event.keyCode == keyCodes.z) {
+      if (event.ctrlKey && event.code == keyCodes.z) {
           event.preventDefault();
-          console.log(keyCodes.z);
+          return 'z';
       }
     }
+    return 'false';
   }
 }

@@ -1,3 +1,10 @@
+
+
+////////////////////////////--IMPORTANT--///////////////////////////////
+// Les tests seront a changer selon ce que l'on emet dans les hotkeys //
+////////////////////////////////////////////////////////////////////////
+
+
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import '../hotkeys-constants';
 
@@ -13,24 +20,24 @@ export class HotkeysFichierService {
 
   hotkeysFichier(event:KeyboardEvent){
     if(this.canExecute){
-        if (event.ctrlKey && event.keyCode == keyCodes.d) {
+        if (event.ctrlKey && event.code == keyCodes.o) {
             event.preventDefault();
             this.dialog.emit();
         }
 
-        if (event.ctrlKey && event.keyCode == keyCodes.s) {
+        if (event.ctrlKey && event.code == keyCodes.s) {
             event.preventDefault();
-            console.log(keyCodes.s);
+            this.dialog.emit();
         }
 
-        if (event.ctrlKey && event.keyCode == keyCodes.g) {
+        if (event.ctrlKey && event.code == keyCodes.g) {
             event.preventDefault();
-            console.log(keyCodes.g);
+            this.dialog.emit();
         }
 
-        if (event.ctrlKey && event.keyCode == keyCodes.e) {
+        if (event.ctrlKey && event.code == keyCodes.e) {
             event.preventDefault();
-            console.log(keyCodes.e);
+            this.dialog.emit();
         }
     }
   }
