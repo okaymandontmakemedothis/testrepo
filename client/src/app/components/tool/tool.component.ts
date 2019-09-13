@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SvgStoreService } from 'src/app/services/svg-store/svg-store.service';
-
 @Component({
   selector: 'app-tool',
   templateUrl: './tool.component.html',
@@ -8,10 +6,9 @@ import { SvgStoreService } from 'src/app/services/svg-store/svg-store.service';
 })
 export class ToolComponent implements OnInit {
 
-  constructor(private svgStoreService: SvgStoreService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.svgStoreService.init();
   }
 
 }
