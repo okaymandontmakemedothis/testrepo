@@ -14,6 +14,10 @@ import { ColorSliderComponent } from './components/color-picker/color-slider/col
 import { NewDrawingFormComponent } from './components/new-drawing-form/new-drawing-form.component';
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
 import { ToolComponent } from './components/tool/tool.component';
+import { MenuComponent } from './menu/menu.component';
+import { ParametersmenuComponent } from './parametersmenu/parametersmenu.component';
+import { WorkspaceComponent } from './workspace/workspace.component';
+import { CanvasComponent } from './canvas/canvas.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +28,11 @@ import { ToolComponent } from './components/tool/tool.component';
     ColorPaletteComponent,
     ColorOpacityComponent,
     ColorRgbaHexComponent,
-    ToolComponent
+    ToolComponent,
+    MenuComponent,
+    ParametersmenuComponent,
+    WorkspaceComponent,
+    CanvasComponent
   ],
   imports: [
     BrowserModule,
