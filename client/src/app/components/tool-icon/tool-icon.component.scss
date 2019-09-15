@@ -1,0 +1,18 @@
+div{
+  display: flex;
+  align-items: center;
+  position: relative;
+  outline: 1px solid blue;
+}
+
+button{
+  font-size: 1rem;
+  width: 2em;
+  height: 2em;
+}
+
+.centered ::ng-deep .mat-button-wrapper {
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}

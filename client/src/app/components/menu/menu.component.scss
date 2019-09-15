@@ -3,7 +3,7 @@ mat-drawer-container {
 }
 
 mat-drawer{
-  border: solid;
+  // border: solid;
 }
 
 app-parameter-menu{
@@ -16,8 +16,4 @@ app-parameter-menu{
   flex-flow: column wrap;
   height: 99vh;
   padding: 5%;
-}
-
-div div div{
-  font-size: 1.8em;
 }

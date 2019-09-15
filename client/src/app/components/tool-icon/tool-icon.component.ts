@@ -8,4 +8,5 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 })
 export class ToolIconComponent {
   @Input() faIcon: IconDefinition;
+  @Input() ariaLabel: string;
 }
