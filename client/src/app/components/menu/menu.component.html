@@ -1,0 +1,19 @@
+<mat-drawer-container>
+  <mat-drawer mode="side" opened>
+    <div class="container">
+      <div>
+        <div *ngFor="let faIcon of menuTopIconList">
+          <app-tool-icon [faIcon]="faIcon"></app-tool-icon>
+        </div>
+      </div>
+      <div>
+        <div *ngFor="let faIcon of menuBottomIconList">
+          <app-tool-icon [faIcon]="faIcon"></app-tool-icon>
+        </div>
+      </div>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+  	<app-parameter-menu></app-parameter-menu>
+  </mat-drawer-content>
+</mat-drawer-container>

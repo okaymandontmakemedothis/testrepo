@@ -1,0 +1,23 @@
+mat-drawer-container {
+  height: 100vh;
+}
+
+mat-drawer{
+  border: solid;
+}
+
+app-parameter-menu{
+  width: 50%;
+}
+
+.container{
+  display: flex;
+  justify-content: space-between;
+  flex-flow: column wrap;
+  height: 99vh;
+  padding: 5%;
+}
+
+div div div{
+  font-size: 1.8em;
+}

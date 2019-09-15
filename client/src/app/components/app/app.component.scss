@@ -1,0 +1,14 @@
+$sidebar-width: 18em;
+
+div{
+	display: flex;
+	height: 100vh;
+}
+
+app-workspace{
+	flex: 1 1 auto;
+}
+
+app-menu{
+	flex: 0 0 $sidebar-width;
+}

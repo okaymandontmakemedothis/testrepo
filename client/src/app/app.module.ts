@@ -6,13 +6,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MaterialModules } from './app.material-modules';
 import { AppComponent } from './components/app/app.component';
-import { MenuComponent } from './menu/menu.component';
-import { CanvasComponent } from './canvas/canvas.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { ParameterMenuComponent } from './components/parameter-menu/parameter-menu.component';
+import { ToolIconComponent } from './components/tool-icon/tool-icon.component';
+import { WorkspaceComponent } from './components/workspace/workspace.component';
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    CanvasComponent,
+    ParameterMenuComponent,
+    WorkspaceComponent,
+    ToolIconComponent,
   ],
   imports: [
     BrowserModule,
