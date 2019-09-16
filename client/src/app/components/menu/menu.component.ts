@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FaIcons } from '../../../assets/assets.faicons';
 
 @Component({
   selector: 'app-menu',
@@ -7,6 +6,4 @@ import { FaIcons } from '../../../assets/assets.faicons';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent  {
-  menuTopIconList = FaIcons.menuTopIconList;
-  menuBottomIconList = FaIcons.menuBottomIconList;
 }

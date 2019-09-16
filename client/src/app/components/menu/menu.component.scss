@@ -1,19 +1,13 @@
-mat-drawer-container {
-  height: 100vh;
+@import "../../../assets/assets.main-view.scss";
+
+div{
+  display: flex;
 }
 
-mat-drawer{
-  // border: solid;
+app-sidenav{
+  flex: 0 0 $sidenav-container-size;
 }
 
 app-parameter-menu{
-  width: 50%;
-}
-
-.container{
-  display: flex;
-  justify-content: space-between;
-  flex-flow: column wrap;
-  height: 99vh;
-  padding: 5%;
+  flex: 1 0;
 }
