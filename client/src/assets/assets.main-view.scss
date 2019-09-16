@@ -1,2 +1,5 @@
 $sidenav-size: 1.3rem;
 $sidenav-container-size: calc(2 * #{$sidenav-size});
+$sidenav-background-color:#f4ff81;
+
+$menu-container-size: calc(11.4rem + #{$sidenav-container-size});

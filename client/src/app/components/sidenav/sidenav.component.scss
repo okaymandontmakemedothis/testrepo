@@ -1,3 +1,9 @@
+@import "../../../assets/assets.main-view.scss";
+
+.color{
+  background-color: $sidenav-background-color;
+}//can be taken off since it wont follow if the buttons overflow
+
 mat-sidenav-container {
   height: 100vh;
 }

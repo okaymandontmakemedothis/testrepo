@@ -1,0 +1,14 @@
+app-canvas{
+  border: 1px blue solid;
+  flex: 1;
+  margin: 2%;
+  // the following two are already done by default...
+  top: 0px;
+  left: 0px;
+}
+
+div{
+  display: flex;
+  justify-content: center;
+  height:inherit;
+}

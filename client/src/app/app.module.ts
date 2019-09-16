@@ -11,6 +11,8 @@ import { ParameterMenuComponent } from './components/parameter-menu/parameter-me
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ToolIconComponent } from './components/tool-icon/tool-icon.component';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
+import { CanvasComponent } from './components/canvas/canvas.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,6 +21,7 @@ import { WorkspaceComponent } from './components/workspace/workspace.component';
     WorkspaceComponent,
     ToolIconComponent,
     SidenavComponent,
+    CanvasComponent,
   ],
   imports: [
     BrowserModule,

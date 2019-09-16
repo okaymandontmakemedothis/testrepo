@@ -1,4 +1,4 @@
-$sidebar-width: 18em;
+@import "../../../assets/assets.main-view.scss";
 
 div{
 	display: flex;
@@ -6,9 +6,12 @@ div{
 }
 
 app-workspace{
-	flex: 1 1 auto;
+  flex: 1 1;
+  height: inherit;
 }
 
 app-menu{
-	flex: 0 0 $sidebar-width;
+  flex: 1 1;
+  max-width: $menu-container-size;
+  min-width: $sidenav-container-size;
 }
