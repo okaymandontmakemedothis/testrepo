@@ -14,15 +14,13 @@ export class IndexService {
     }
 
     about(): Message {
-        
         return {
             title: 'This is merely a test',
             body: 'Lorem ipsum........',
         };
     }
-
      getTextRessource():JSON {
-        const file = fs.readFileSync("C:/Users/sophi/OneDrive/Documents/PolyDessin-E16/server/app/services/res/text/welcome_text2.json");
+        const file = fs.readFileSync('C:/Users/sophi/OneDrive/Documents/PolyDessin-E16/server/app/services/res/text/welcome_text2.json');
         const obj = JSON.parse(file.toString());
         return obj;
         }

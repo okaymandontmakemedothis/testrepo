@@ -51,45 +51,20 @@
             Racourcis
         </ng-template>
         <h2>Racourcis de clavier</h2>
-        <p>
-            <h4>Options de fichier:</h4>
-        Créer un nouveau dessin Ctrl-O <br>
-        Sauvegarder le dessin Ctrl-S <br>
-        Voir la galerie de dessins Ctrl-G <br>
-        Exporter le dessin Ctrl-E <br>
-        <h4>Manipulations de sélection:</h4>
-        Couper la sélection Ctrl-X <br>
-        Copier la sélection Ctrl-C <br>
-        Coller la sélection Ctrl-V <br>
-        Dupliquer la sélection Ctrl-D <br>
-        Supprimer la sélection Supprimer <br>
-        Tout sélectionner Ctrl-A <br>
-        Annuler Ctrl-Z <br>
-        Refaire Ctrl-Shift-Z <br>
+        <h4>Options de fichier:</h4>
+            <mat-list-item *ngFor="let shortcuts of shortcut">
+            {{shortcuts}}</mat-list-item>
+         <h4>Manipulations de sélection:</h4>
+            <mat-list-item *ngFor="let shortcuts2 of shortcut2">
+                {{shortcuts2}}</mat-list-item>
         <h4>Choisir un outil:</h4>
-        Crayon C <br>
-        Pinceau W <br>
-        Plume P <br>
-        Stylo Y <br>
-        Aérosol A <br>
-        Rectangle 1 <br>
-        Ellipse 2 <br>
-        Polygone 3 <br>
-        Ligne L <br>
-        Texte T <br>
-        Applicateur de couleur R <br>
-        Sceau de peinture B <br>
-        Efface E <br>
-        Pipette I <br>
-        Sélection S <br>
+            <mat-list-item *ngFor="let shortcuts3 of shortcut3">
+                {{shortcuts3}}</mat-list-item>
         <h4>Options de zone de travail: </h4>
-        Afficher/masquer la grille G <br>
-        Activer/désactiver le magnétisme M <br>
-        Augmenter la taille des carrés de la grille au prochain multiple de 5 + <br>
-        Diminuer la taille des carrés de la grille au prochain multiple de 5 - <br>
+            <mat-list-item *ngFor="let shortcuts4 of shortcut4">
+                {{shortcuts4}}</mat-list-item>
     </mat-tab>
 </mat-tab-group>
-
 <div mat-dialog-actions align="end">
     <button mat-raised-button color=primary (click)="Close()">Close</button>
 </div>
