@@ -22,11 +22,9 @@ export class IndexService {
     }
 
      getTextRessource():JSON {
-        const file =fs.readFileSync("/Users/kevin/Documents/LOG2990/PolyDessin-E16/server/app/services/res/text/welcome_text2.json");
-        let obj = JSON.parse(file.toString());
-        // res.json(obj)
+        const file = fs.readFileSync("C:/Users/sophi/OneDrive/Documents/PolyDessin-E16/server/app/services/res/text/welcome_text2.json");
+        const obj = JSON.parse(file.toString());
         return obj;
-    
         }
 
     async helloWorld(): Promise<Message> {
