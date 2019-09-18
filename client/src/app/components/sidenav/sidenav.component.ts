@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
+import { EventEmitter } from 'events';
 import { FaIcons } from '../../../assets/assets.faicons';
 
 @Component({
@@ -7,6 +8,7 @@ import { FaIcons } from '../../../assets/assets.faicons';
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent {
+  @Output() toggleDrawer = new EventEmitter();
   menuTopIconList = FaIcons.menuTopIconList;
   menuBottomIconList = FaIcons.menuBottomIconList;
 }

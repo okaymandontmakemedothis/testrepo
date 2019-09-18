@@ -15,3 +15,28 @@ app-menu{
   max-width: $menu-container-size;
   min-width: $sidenav-container-size;
 }
+
+
+@import "../../../assets/assets.main-view.scss";
+
+.flex{
+  display: flex;
+  flex: 1;
+}
+
+button{
+  font-size: $sidenav-size;
+  width: 2em;
+  height: 2em;
+}
+
+// ::ng-deep .mat-icon-button{
+//   line-height: 0px !important;
+//   padding: 0px !important;
+// }
+
+::ng-deep .mat-fab .mat-button-wrapper {
+  line-height: 0px !important;
+  padding: 0px !important;
+}
+
