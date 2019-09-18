@@ -2,17 +2,17 @@
 <ng-template #thenBlock class="flex">
   <mcc-speed-dial [direction]=right [spin]=true>
     <button mat-icon-button>
-        <fa-icon [icon]="faIcon"></fa-icon>
+        <fa-icon [icon]="faIcon"> </fa-icon>
     </button>
     <mcc-speed-dial-actions animation="scale">
         <button mat-icon-button *ngFor="let faIcon of speedDialIconList">
-            <fa-icon [icon]="faIcon"></fa-icon>
+            <fa-icon [icon]="faIcon" (click)= "select()"></fa-icon>
         </button>
     </mcc-speed-dial-actions>
   </mcc-speed-dial>
 </ng-template>
 <ng-template #elseBlock class="flex">
-  <button mat-icon-button>
+  <button mat-icon-button (click)="select()">
     <fa-icon [icon]="faIcon"></fa-icon>
   </button>
 </ng-template>
