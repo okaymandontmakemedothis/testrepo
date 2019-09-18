@@ -1,6 +1,6 @@
 <div class="color flex" *ngIf="addSpeedDial; then thenBlock else elseBlock"></div>
 <ng-template #thenBlock class="flex">
-  <mcc-speed-dial [direction]=right [spin]=false>
+  <mcc-speed-dial [direction]=right [spin]=true>
     <button mat-icon-button>
         <fa-icon [icon]="faIcon"></fa-icon>
     </button>

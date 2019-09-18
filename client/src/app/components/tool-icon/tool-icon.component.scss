@@ -11,6 +11,17 @@ button{
   height: 2em;
 }
 
+// mcc-speed-dial{
+//   position: absolute;
+//   left: 0;
+//   top: 0;
+// }
+
+// mcc-speed-dial-actions{
+//   position: absolute;
+//   left: $sidenav-container-size;
+// }
+
 .mat-icon-button{
   line-height: 0px !important;
 }
@@ -20,7 +31,17 @@ button{
   padding: 0px !important;
 }
 
-.mat-fab{
-  width: inherit;
-  height: inherit;
+::ng-deep .mat-fab{
+  width: $sidenav-container-size !important;
+  height: $sidenav-container-size !important;
 }
+
+::ng-deep .mat-fab.mat-accent{
+  background-color: $sidenav-background-color !important;
+}
+
+::ng-deep .mat-elevation-z1{
+  box-shadow: none !important;
+}
+
+
