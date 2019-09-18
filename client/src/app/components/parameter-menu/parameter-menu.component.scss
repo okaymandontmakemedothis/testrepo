@@ -1,14 +1,26 @@
-mat-drawer-container {
-  height:100%;
+mat-drawer-container::ng-deep {
+  height:100vh;
+  width: 18em;
+}
+
+mat-drawer-content{
+  display: flex;
+  height: inherit;
+  flex-flow: column wrap;
+  justify-content: flex-start;
 }
 
 button{
 	height: 5%;
-	position: absolute;
-	bottom: 0;
-	width: 100%;
+  position: relative;
 }
 
-mat-drawer-container{
-	width: 100%;
+mat-menu{
+  flex: 1 0 auto;
+}
+
+::ng-deep .mat-menu-panel{
+  max-width: none !important;
+  min-width: none !important;
+  width: 280px;
 }
