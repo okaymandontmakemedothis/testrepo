@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material';
 import { ToggleDrawerService } from 'src/app/toggle-drawer.service';
 
 
@@ -10,12 +11,14 @@ import { ToggleDrawerService } from 'src/app/toggle-drawer.service';
 export class ParameterMenuComponent implements AfterViewInit, OnInit {
 
   constructor(private toggleDrawerService: ToggleDrawerService){}
-  @ViewChild('pog', {static: false}) child: ElementRef;
+  @ViewChild(MatDrawer, {static: false}) child: MatDrawer;
+
   toggle() {
-    this.child.nativeElement.toggle();
+    console.log('toggled');
+    this.child.toggle();
   }
   ngAfterViewInit() {
-    console.log(this.child.nativeElement);
+    console.log(this.child);
   }
   ngOnInit() {
     this.toggleDrawerService.toggled.subscribe(
