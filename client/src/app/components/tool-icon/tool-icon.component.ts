@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { IconService } from 'src/app/icon.service';
-import { SelectToolService } from '../app/select-tool.service';
+import { SelectToolService } from '../../select-tool.service';
 
 @Component({
   selector: 'app-tool-icon',
@@ -25,9 +25,7 @@ export class ToolIconComponent implements OnInit {
     this.addSpeedDial = this.speedDialIconList !== undefined ? true : false;
   }
 
-  select(){
-
-  this.selectService.setIcone(this.faIcon);
-
+  select() {
+    this.selectService.setIcone(this.faIcon);
   }
 }

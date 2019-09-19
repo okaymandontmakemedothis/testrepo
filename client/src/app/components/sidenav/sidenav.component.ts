@@ -1,5 +1,5 @@
-import { Component, Output } from '@angular/core';
-import { EventEmitter } from 'events';
+import { Component } from '@angular/core';
+import { ToggleDrawerService } from 'src/app/toggle-drawer.service';
 import { FaIcons } from '../../../assets/assets.faicons';
 
 @Component({
@@ -8,7 +8,14 @@ import { FaIcons } from '../../../assets/assets.faicons';
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent {
-  @Output() toggleDrawer = new EventEmitter();
+
+  constructor(private toggleDrawerService: ToggleDrawerService){
+  }
+
   menuTopIconList = FaIcons.menuTopIconList;
   menuBottomIconList = FaIcons.menuBottomIconList;
+
+  toggle(){
+    this.toggleDrawerService.toggle();
+  }
 }
