@@ -1,5 +1,4 @@
-import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync,TestBed, tick } from '@angular/core/testing';
 import { MatCheckboxModule, MatDialog, MatDialogRef, MatTabsModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
@@ -11,7 +10,6 @@ describe('DialogComponent', () => {
   let component: DialogComponent;
   let fixture: ComponentFixture<DialogComponent>;
   let indexServiceSpy: SpyObj<IndexService>;
-  let debugElement: DebugElement;
 
   beforeEach(() => {
     const indexServiceSpy = jasmine.createSpyObj('IndexService', ['welcomeGet']);

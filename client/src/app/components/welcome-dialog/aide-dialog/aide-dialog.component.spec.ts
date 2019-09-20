@@ -9,7 +9,6 @@ describe('AideDialogComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AideDialogComponent ],
-      imports:[mat]
     })
     .compileComponents();
   }));
