@@ -24,6 +24,7 @@ describe('WelcomeDialogComponent', () => {
     fixture.detectChanges();
   });
 
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -34,3 +35,4 @@ describe('WelcomeDialogComponent', () => {
     expect(component.openDialog).toHaveBeenCalled();
   });
 });
+

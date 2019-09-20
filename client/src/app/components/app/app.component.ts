@@ -6,8 +6,11 @@ import {IndexService} from '../../services/index/index.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  // templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  template:
+  `<app-welcome-dialog></app-welcome-dialog>
+  `
 })
 export class AppComponent {
   readonly title: string = 'LOG2990';

@@ -15,7 +15,7 @@ import { NewDrawingFormComponent } from './components/new-drawing-form/new-drawi
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';*/
 import { AideDialogComponent } from './components/welcome-dialog/aide-dialog/aide-dialog.component';
 import { DialogComponent } from './components/welcome-dialog/dialog/dialog.component';
-import { WelcomeDialogComponent } from './components/welcome-dialog/welcome-dialog.component';
+import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.module';
 
 
 @NgModule({
@@ -28,7 +28,7 @@ import { WelcomeDialogComponent } from './components/welcome-dialog/welcome-dial
     ColorPaletteComponent,
     ColorOpacityComponent,
     ColorRgbaHexComponent,*/
-    WelcomeDialogComponent,
+    // WelcomeDialogComponent,
     DialogComponent,
     AideDialogComponent,
   ],
@@ -39,12 +39,14 @@ import { WelcomeDialogComponent } from './components/welcome-dialog/welcome-dial
     HttpClientModule,
     ReactiveFormsModule,
     MaterialModules,
+    WelcomeDialogModule,
   ],
   exports: [
     //ColorPickerComponent,
   ],
   entryComponents: [
     //NewDrawingComponent, 
+    // WelcomeDialogComponent,
     DialogComponent, AideDialogComponent,
   ],
   providers: [],
