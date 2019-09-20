@@ -1,6 +1,6 @@
 import {inject, injectable} from 'inversify';
 import 'reflect-metadata';
-import {Message} from '../../../common/communication/message';
+import {Message, WelcomeMessage} from '../../../common/communication/message';
 import Types from '../types';
 import {DateService} from './date.service';
 import * as fs from 'fs';
@@ -19,13 +19,14 @@ export class IndexService {
             body: 'Lorem ipsum........',
         };
     }
-     getTextRessource():JSON {
-        const file = fs.readFileSync('C:/Users/sophi/OneDrive/Documents/PolyDessin-E16/server/app/services/res/text/welcome_text2.json');
+     getTextRessource(): WelcomeMessage {
+        //const path = window.location.pathname + './res/text/welcome_text2.json';
+        const file = fs.readFileSync('C: \Users\sophi\OneDrive\Documents\PolyDessin-E16\server\app\services\res\text\welcome_text2.json');
         const obj = JSON.parse(file.toString());
         return obj;
-        }
-
-    async helloWorld(): Promise<Message> {
+     }
+     
+     async helloWorld(): Promise<Message> {
         return this.dateService.currentTime().then((timeMessage: Message) => {
             return {
                 title: 'Hello world',

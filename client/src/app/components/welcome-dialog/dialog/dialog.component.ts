@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { WelcomeMessage} from '../../../../../../common/communication/message'
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { WelcomeMessage} from '../../../../../../common/communication/message';
+import { IndexService } from '../../../services/index/index.service';
 import { AideDialogComponent } from '../aide-dialog/aide-dialog.component';
 
 @Component({
@@ -9,15 +12,23 @@ import { AideDialogComponent } from '../aide-dialog/aide-dialog.component';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss'],
 })
-export class DialogComponent implements OnInit{
+export class DialogComponent implements OnInit {
 
   ischecked: boolean;
   messagePart1: string;
   messagePart2: string;
+  messageW = new BehaviorSubject<string>('');
 
   constructor(public dialog: MatDialog, private http: HttpClient,
-              public dialogRef: MatDialogRef<DialogComponent>, 
-              @Inject(MAT_DIALOG_DATA) public data: any) { }
+              public dialogRef: MatDialogRef<DialogComponent>, private basicService: IndexService,
+              @Inject(MAT_DIALOG_DATA) public welcomeMessage: WelcomeMessage) {
+    this.basicService.welcomeGet()
+      .pipe(
+        map((messageW: WelcomeMessage) => `${messageW.body} ${messageW.end}`),
+      )
+      .subscribe(this.messageW);
+      console.log(this.messageW);
+              }
 
    openDialog() {
 
@@ -34,16 +45,16 @@ export class DialogComponent implements OnInit{
       console.log('The dialog was closed');
     });
   }
-  getTextRessource() {
+  /*getTextRessource() {
     this.http.get("http://localhost:3000/api/index/text").subscribe((res: WelcomeMessage) => {
       console.log(res);
       this.messagePart1 = res.body;
-      this.messagePart2 = res.head;
+      this.messagePart2 = res.end;
     });
-  }
+  }*/
 
   ngOnInit(): void {
-    this.getTextRessource();
+    //this.getTextRessource();
 
   }
 
