@@ -1,0 +1,15 @@
+<div class="header">
+    <h1 mat-dialog-title align ="center">Bienvenue a PolyDessin</h1>
+</div>
+<div mat-dialog-content>
+    <p> {{messageW.value.body}} </p> 
+    <p>{{messageW.value.end}}</p>
+        
+        
+</div>
+<mat-checkbox (change)="test($event)">Désactiver le message de bienvenue</mat-checkbox>
+
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color=primary (click)="openDialog()" >Aide</button>
+    <button mat-raised-button color=primary (click)="closeClick()">Fermé</button>
+</div>
