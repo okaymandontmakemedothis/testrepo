@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WelcomeDialogComponent } from './welcome-dialog.component';
+import { MatDialog } from '@angular/material';
 
 describe('WelcomeDialogComponent', () => {
   let component: WelcomeDialogComponent;
@@ -9,6 +10,7 @@ describe('WelcomeDialogComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ WelcomeDialogComponent ],
+      imports:[MatDialog]
     })
     .compileComponents();
   }));
@@ -19,7 +21,11 @@ describe('WelcomeDialogComponent', () => {
     fixture.detectChanges();
   });
 
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
 });
+

@@ -1,10 +1,17 @@
 import {HttpClientModule} from '@angular/common/http';
 import {async, TestBed} from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
+// import {RouterTestingModule} from '@angular/router/testing';
 import {of} from 'rxjs';
 import {IndexService} from '../../services/index/index.service';
 import {AppComponent} from './app.component';
 import SpyObj = jasmine.SpyObj;
+import { WelcomeDialogModule } from '../welcome-dialog/welcome-dialog.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModules } from './../../app.material-modules';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 
 describe('AppComponent', () => {
   let indexServiceSpy: SpyObj<IndexService>;
@@ -17,12 +24,18 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
         HttpClientModule,
+        ReactiveFormsModule,
+        MaterialModules,
+        WelcomeDialogModule,
       ],
       declarations: [
         AppComponent,
       ],
+
       providers: [
         {provide: IndexService, useValue: indexServiceSpy},
       ],
