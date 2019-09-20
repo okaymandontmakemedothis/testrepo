@@ -3,12 +3,13 @@ import {
   Input, OnInit, ViewChild
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ColorTransformer } from 'src/app/color-transformer';
+import { ColorTransformerService } from 'src/app/services/color-transformer/color-transformer.service';
 
 @Component({
   selector: 'app-color-opacity',
   templateUrl: './color-opacity.component.html',
   styleUrls: ['./color-opacity.component.scss'],
+  providers: [ColorTransformerService],
 })
 export class ColorOpacityComponent implements AfterViewInit, OnInit {
 
@@ -24,6 +25,8 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
   private ctx: CanvasRenderingContext2D;
   private isMouseDown = false;
   private selectedWidth: number;
+
+  constructor(private colorTransformer: ColorTransformerService) { }
 
   ngOnInit(): void {
     this.hsl.valueChanges.subscribe((value) => this.draw());
@@ -66,7 +69,7 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
     }
 
     const gradient = this.ctx.createLinearGradient(0, 0, width, 0);
-    const rgb = ColorTransformer.hsl2rgb({
+    const rgb = this.colorTransformer.hsl2rgb({
       h: (this.hsl.get('h') as FormControl).value,
       s: (this.hsl.get('s') as FormControl).value,
       l: (this.hsl.get('l') as FormControl).value,
@@ -104,7 +107,7 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
     if (x < 0) {
       x = 0;
     }
-    const percentage = x / this.canvas.nativeElement.width;
+    const percentage = Math.round(x / this.canvas.nativeElement.width * 100) / 100;
     return percentage;
   }
 

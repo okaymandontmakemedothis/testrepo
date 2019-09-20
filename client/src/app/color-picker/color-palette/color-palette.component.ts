@@ -3,12 +3,13 @@ import {
   Input, OnInit, ViewChild
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ColorTransformer } from 'src/app/color-transformer';
+import { ColorTransformerService } from 'src/app/services/color-transformer/color-transformer.service';
 
 @Component({
   selector: 'app-color-palette',
   templateUrl: './color-palette.component.html',
   styleUrls: ['./color-palette.component.scss'],
+  providers: [ColorTransformerService],
 })
 export class ColorPaletteComponent implements AfterViewInit, OnInit {
 
@@ -28,6 +29,8 @@ export class ColorPaletteComponent implements AfterViewInit, OnInit {
   private selectedPosition: { x: number; y: number };
   private isMouseDown = false;
 
+  constructor(private colorTransformer: ColorTransformerService) { }
+
   ngOnInit(): void {
     this.h.valueChanges.subscribe((value) => { this.draw(); });
     this.s.valueChanges.subscribe((value) => { this.draw(); });
@@ -45,7 +48,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnInit {
     }
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
-    const rbg = ColorTransformer.hue2rgb(this.h.value);
+    const rbg = this.colorTransformer.hue2rgb(this.h.value);
     this.ctx.fillStyle = 'rgba(' + rbg.r + ',' + rbg.g + ',' + rbg.b + ',1)' || 'rgba(255,255,255,1)';
     this.ctx.fillRect(0, 0, width, height);
 

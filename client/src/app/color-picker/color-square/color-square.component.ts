@@ -14,9 +14,10 @@ export class ColorSquareComponent implements OnInit {
   @Input()
   a: FormControl;
 
-  rgbString = 'rgb(0,0,0,1)';
+  rgbString = 'rgb(0,0,0)';
 
   ngOnInit(): void {
+
     this.rgb.valueChanges.subscribe((value) => {
       this.rgbString = this.getRGBString();
     });

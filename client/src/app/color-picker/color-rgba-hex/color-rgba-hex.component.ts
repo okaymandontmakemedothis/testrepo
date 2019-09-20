@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { ColorTransformer } from 'src/app/color-transformer';
+import { ColorTransformerService } from 'src/app/services/color-transformer/color-transformer.service';
 
 @Component({
   selector: 'app-color-rgba-hex',
@@ -19,6 +19,8 @@ export class ColorRgbaHexComponent implements OnInit {
 
   private subs: Subscription;
 
+  constructor(private colorTransformer: ColorTransformerService) { }
+
   ngOnInit(): void {
     this.rgb = this.colorForm.get('rgb') as FormGroup;
     this.hsl = this.colorForm.get('hsl') as FormGroup;
@@ -27,7 +29,7 @@ export class ColorRgbaHexComponent implements OnInit {
   }
 
   hslChangeUpdate() {
-    const rgb = ColorTransformer.hsl2rgb({
+    const rgb = this.colorTransformer.hsl2rgb({
       h: (this.hsl.get('h') as FormControl).value,
       s: (this.hsl.get('s') as FormControl).value,
       l: (this.hsl.get('l') as FormControl).value,
@@ -61,19 +63,21 @@ export class ColorRgbaHexComponent implements OnInit {
   }
 
   changedHEX() {
-    const rgb = ColorTransformer.hex2rgb(this.hex);
-    const hsl = ColorTransformer.rgb2hsl(rgb);
-    (this.colorForm.get('hsl') as FormGroup).setValue(hsl);
+    const rgb = this.colorTransformer.hex2rgb(this.hex);
+    const hsl = this.colorTransformer.rgb2hsl(rgb);
+    this.subs.unsubscribe();
+    this.updateRGB(rgb);
+    this.hsl.setValue(hsl);
+    this.subs = this.hsl.valueChanges.subscribe((value) => this.hslChangeUpdate());
   }
 
   updateHSL() {
     const r = this.rgb.get('r') as FormControl;
     const g = this.rgb.get('g') as FormControl;
     const b = this.rgb.get('b') as FormControl;
-    const hsl = ColorTransformer.rgb2hsl({ r: r.value, g: g.value, b: b.value });
+    const hsl = this.colorTransformer.rgb2hsl({ r: r.value, g: g.value, b: b.value });
     this.subs.unsubscribe();
     this.hsl.setValue(hsl);
-    console.log(hsl);
     this.updateHEX({ r: r.value, g: g.value, b: b.value });
     this.subs = this.hsl.valueChanges.subscribe((value) => this.hslChangeUpdate());
   }
