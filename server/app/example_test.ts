@@ -1,6 +1,6 @@
 // tslint:disable:no-magic-numbers
 // tslint:disable:no-console
-import {assert, expect} from 'chai';
+import { assert, expect } from 'chai';
 
 describe('A starting set of test examples to showcase test-suite behaviour', () => {
     // Defining some helper functions
@@ -28,7 +28,7 @@ describe('A starting set of test examples to showcase test-suite behaviour', () 
 
         beforeEach((d: Mocha.Done) => {
             // Get a promise of a value that will be later resolved
-            const promiseOfValue =  promiseGenerator().next();
+            const promiseOfValue = promiseGenerator().next();
             // Assign a value to our object
             promiseOfValue.value.then((v) => {
                 variableNeedingToBeChangedEachRun = v;

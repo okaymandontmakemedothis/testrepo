@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { ShortcutClavier } from '../../../../../../common/communication/message'
+import { ShortcutClavier } from '../../../../../../common/communication/message';
 
 @Component({
   selector: 'app-aide-dialog',
@@ -22,7 +22,7 @@ export class AideDialogComponent implements OnInit {
     this.dialogRef.close();
   }
   getTextRessource() {
-    this.http.get("http://localhost:3000/api/index/text").subscribe((res: ShortcutClavier) => {
+    this.http.get('http://localhost:3000/api/index/text').subscribe((res: ShortcutClavier) => {
       console.log(res);
       this.shortcut = [res.O, res.S, res.G, res.E];
       this.shortcut2 = [res.X, res.C, res.V, res.D, res.Sup, res.A, res.Z, res.ShiftZ];

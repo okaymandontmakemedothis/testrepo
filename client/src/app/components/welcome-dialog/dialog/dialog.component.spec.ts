@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync,TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatCheckboxModule, MatDialog, MatDialogRef, MatTabsModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
@@ -29,7 +29,7 @@ describe('DialogComponent', () => {
       ],
       providers: [
         DialogComponent,
-        { provide: IndexService, useValue: indexServiceSpy} ]
+        { provide: IndexService, useValue: indexServiceSpy} ],
     });
   }));
 

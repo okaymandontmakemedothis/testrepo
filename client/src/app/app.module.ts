@@ -1,10 +1,11 @@
-
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MaterialModules } from './app.material-modules';
+import { ColorPickerModule } from './color-picker/color-picker.module';
 import { AppComponent } from './components/app/app.component';
 /*import { ColorOpacityComponent } from './components/color-picker/color-opacity/color-opacity.component';
 import { ColorPaletteComponent } from './components/color-picker/color-palette/color-palette.component';
@@ -17,20 +18,19 @@ import { AideDialogComponent } from './components/welcome-dialog/aide-dialog/aid
 import { DialogComponent } from './components/welcome-dialog/dialog/dialog.component';
 import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.module';
 
+import { NewDrawingAlertComponent } from './components/new-drawing/new-drawing-alert/new-drawing-alert.component';
+import { NewDrawingFormComponent } from './components/new-drawing/new-drawing-form/new-drawing-form.component';
+import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    /*NewDrawingComponent,
-    ColorPickerComponent,
-    NewDrawingFormComponent,
-    ColorSliderComponent,
-    ColorPaletteComponent,
-    ColorOpacityComponent,
-    ColorRgbaHexComponent,*/
-    // WelcomeDialogComponent,
+
     DialogComponent,
     AideDialogComponent,
+    NewDrawingComponent,
+    NewDrawingFormComponent,
+    NewDrawingAlertComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,14 +40,18 @@ import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.
     ReactiveFormsModule,
     MaterialModules,
     WelcomeDialogModule,
+    ColorPickerModule,
+    FontAwesomeModule,
   ],
   exports: [
-    //ColorPickerComponent,
+    // ColorPickerComponent,
   ],
   entryComponents: [
-    //NewDrawingComponent, 
+    // NewDrawingComponent,
     // WelcomeDialogComponent,
     DialogComponent, AideDialogComponent,
+    NewDrawingAlertComponent,
+    NewDrawingComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],

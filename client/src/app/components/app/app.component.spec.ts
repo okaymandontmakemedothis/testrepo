@@ -1,28 +1,26 @@
 import {HttpClientModule} from '@angular/common/http';
-import {async, TestBed} from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import {RouterTestingModule} from '@angular/router/testing';
 import {of} from 'rxjs';
 import {IndexService} from '../../services/index/index.service';
-import {AppComponent} from './app.component';
 import SpyObj = jasmine.SpyObj;
 import { WelcomeDialogModule } from '../welcome-dialog/welcome-dialog.module';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModules } from './../../app.material-modules';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AppComponent} from './app.component';
 
-
+import { CommonModule } from '@angular/common';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material';
 
 describe('AppComponent', () => {
-  let indexServiceSpy: SpyObj<IndexService>;
-
-  beforeEach(() => {
-    indexServiceSpy = jasmine.createSpyObj('IndexService', ['basicGet']);
-    indexServiceSpy.basicGet.and.returnValue(of({title: '', body: ''}));
-  });
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      declarations: [AppComponent],
       imports: [
         BrowserModule,
         BrowserAnimationsModule,
@@ -32,25 +30,21 @@ describe('AppComponent', () => {
         MaterialModules,
         WelcomeDialogModule,
       ],
-      declarations: [
-        AppComponent,
-      ],
 
       providers: [
-        {provide: IndexService, useValue: indexServiceSpy},
+        { provide: MatDialog, useValue: MatDialog },
+
       ],
-    });
+    }).compileComponents();
   }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  it(`should have as title 'LOG2990'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('LOG2990');
+  it('should create the app', () => {
+    expect(component).toBeTruthy();
   });
 });
