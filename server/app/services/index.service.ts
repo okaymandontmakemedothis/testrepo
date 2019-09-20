@@ -24,7 +24,7 @@ export class IndexService {
 
         // const path = window.location.pathname + './res/text/welcome_text2.json';
         // console.log(window.location.pathname)
-        const file = fs.readFileSync(__dirname+'/../../res/text/welcome_text2.json');
+        const file = fs.readFileSync(__dirname+'/../../../../app/res/text/welcome_text2.json');
         const obj = JSON.parse(file.toString());
         return obj;
      }
