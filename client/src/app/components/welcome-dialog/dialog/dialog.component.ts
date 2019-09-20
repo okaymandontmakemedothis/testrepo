@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
@@ -17,15 +16,12 @@ export class DialogComponent implements OnInit {
   ischecked: boolean;
   messagePart1: string;
   messagePart2: string;
-  messageW = new BehaviorSubject<string>('');
+  messageW = new BehaviorSubject<WelcomeMessage>({"body":"","end":""});
 
-  constructor(public dialog: MatDialog, private http: HttpClient,
+  constructor(public dialog: MatDialog,
               public dialogRef: MatDialogRef<DialogComponent>, private basicService: IndexService,
               @Inject(MAT_DIALOG_DATA) public welcomeMessage: WelcomeMessage) {
     this.basicService.welcomeGet()
-      .pipe(
-        map((messageW: WelcomeMessage) => `${messageW.body} ${messageW.end}`),
-      )
       .subscribe(this.messageW);
       console.log(this.messageW);
               }
