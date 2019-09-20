@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 
 @Component({
   selector: 'app-color-slider',
@@ -10,26 +11,28 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
   @ViewChild('canvas', { static: false })
   canvas: ElementRef<HTMLCanvasElement>;
 
-  @Input()
   hue: FormControl;
 
   private ctx: CanvasRenderingContext2D;
   private isMouseDown = false;
   private selectedHeight = 0;
 
+  constructor(private colorPickerService: ColorPickerService) { }
+
   ngOnInit(): void {
+    this.hue = this.colorPickerService.hsl.get('h') as FormControl;
     this.hue.valueChanges.subscribe((value) => {
       this.selectedHeight = value / 360 * this.canvas.nativeElement.height;
       this.draw();
     });
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.selectedHeight = this.canvas.nativeElement.height / 2;
     this.draw();
   }
 
-  draw() {
+  draw(): void {
     if (!this.ctx) {
       this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
     }
@@ -60,7 +63,7 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
     }
   }
 
-  getHueAtPosition(y: number) {
+  getHueAtPosition(y: number): number {
     if (y > this.canvas.nativeElement.height) {
       y = this.canvas.nativeElement.height;
     }
@@ -71,26 +74,26 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
     return 360 * heightPercentage;
   }
 
-  updateHue(y: number) {
+  updateHue(y: number): void {
     this.selectedHeight = y;
     const h = this.getHueAtPosition(y);
     this.hue.setValue(h);
     this.draw();
   }
 
-  onMouseMove(event: MouseEvent) {
+  onMouseMove(event: MouseEvent): void {
     if (this.isMouseDown) {
       this.updateHue(event.offsetY);
     }
   }
 
-  onMouseDown(event: MouseEvent) {
+  onMouseDown(event: MouseEvent): void {
     this.isMouseDown = true;
     this.updateHue(event.offsetY);
   }
 
   @HostListener('window:mouseup', ['$event'])
-  onMouseUp(evt: MouseEvent) {
+  onMouseUp(evt: MouseEvent): void {
     this.isMouseDown = false;
   }
 }

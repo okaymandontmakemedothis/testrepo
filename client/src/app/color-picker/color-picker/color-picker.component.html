@@ -1,14 +1,15 @@
 <div class="row" style="margin-bottom: 10px">
-    <app-color-palette [h]="hsl.get('h')" [s]="hsl.get('s')" [l]="hsl.get('l')" style='margin-right: 10px'>
+    <app-color-palette style='margin-right: 10px'>
     </app-color-palette>
-    <app-color-slider [hue]="hsl.get('h')"></app-color-slider>
+    <!-- <app-color-slider [hue]="hsl.get('h')"></app-color-slider> -->
+    <app-color-slider></app-color-slider>
 </div>
 <div class="row">
-    <app-color-opacity [a]="a" [hsl]="hsl" style="margin-right: 10px">
+    <app-color-opacity style="margin-right: 10px">
     </app-color-opacity>
-    <app-color-square [rgb]=rgb [a]="a"></app-color-square>
+    <app-color-square></app-color-square>
 </div>
 <div class=" row" style="margin-top:10px;">
-    <app-color-rgba-hex [colorForm]="colorForm">
+    <app-color-rgba-hex>
     </app-color-rgba-hex>
 </div>

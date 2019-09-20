@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { HSL } from 'src/hsl.model';
+import { RGB } from 'src/rgb.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ColorTransformerService {
-  rgb2hsl(rgb: { r: number, g: number, b: number }): { h: number, s: number, l: number } {
+  rgb2hsl(rgb: RGB): HSL {
     if (rgb.r > 255) {
       rgb.r = 255;
     }
@@ -54,7 +56,7 @@ export class ColorTransformerService {
     return { h, s, l };
   }
 
-  hsl2rgb(hsl: { h: number, s: number, l: number }): { r: number, g: number, b: number } {
+  hsl2rgb(hsl: HSL): RGB {
     if (hsl.l > 1) {
       hsl.l = 1;
     }
@@ -101,11 +103,11 @@ export class ColorTransformerService {
 
   }
 
-  hue2rgb(hue: number): { r: number, g: number, b: number } {
+  hue2rgb(hue: number): RGB {
     return this.hsl2rgb({ h: hue, s: 1, l: 0.5 });
   }
 
-  hex2rgb(hex: string) {
+  hex2rgb(hex: string): RGB {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     if (result == null) {
       return { r: 255, g: 255, b: 255 };
@@ -117,7 +119,7 @@ export class ColorTransformerService {
     };
   }
 
-  rgb2hex(rgb: { r: number, g: number, b: number }): string {
+  rgb2hex(rgb: RGB): string {
     let r: string; let g: string; let b: string;
     if (rgb.r < 16) {
       r = '0' + rgb.r.toString(16);

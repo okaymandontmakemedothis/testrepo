@@ -1,26 +1,17 @@
 import {
   AfterViewInit, Component, ElementRef, HostListener,
-  Input, OnInit, ViewChild
+  OnInit, ViewChild
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 import { ColorTransformerService } from 'src/app/services/color-transformer/color-transformer.service';
 
 @Component({
   selector: 'app-color-palette',
   templateUrl: './color-palette.component.html',
   styleUrls: ['./color-palette.component.scss'],
-  providers: [ColorTransformerService],
 })
 export class ColorPaletteComponent implements AfterViewInit, OnInit {
-
-  @Input()
-  h: FormControl;
-
-  @Input()
-  s: FormControl;
-
-  @Input()
-  l: FormControl;
 
   @ViewChild('canvas', { static: false })
   canvas: ElementRef<HTMLCanvasElement>;
@@ -29,12 +20,22 @@ export class ColorPaletteComponent implements AfterViewInit, OnInit {
   private selectedPosition: { x: number; y: number };
   private isMouseDown = false;
 
-  constructor(private colorTransformer: ColorTransformerService) { }
+  constructor(private colorTransformer: ColorTransformerService, private colorPickerService: ColorPickerService) { }
 
   ngOnInit(): void {
-    this.h.valueChanges.subscribe((value) => { this.draw(); });
-    this.s.valueChanges.subscribe((value) => { this.draw(); });
-    this.l.valueChanges.subscribe((value) => { this.draw(); });
+    this.colorPickerService.hsl.valueChanges.subscribe((value) => { this.draw(); });
+  }
+
+  get h(): FormControl {
+    return this.colorPickerService.hsl.get('h') as FormControl;
+  }
+
+  get s(): FormControl {
+    return this.colorPickerService.hsl.get('s') as FormControl;
+  }
+
+  get l(): FormControl {
+    return this.colorPickerService.hsl.get('l') as FormControl;
   }
 
   ngAfterViewInit(): void {
@@ -42,7 +43,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnInit {
     this.draw();
   }
 
-  draw() {
+  draw(): void {
     if (!this.ctx) {
       this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
     }
@@ -90,25 +91,25 @@ export class ColorPaletteComponent implements AfterViewInit, OnInit {
 
   }
 
-  onMouseMove(event: MouseEvent) {
+  onMouseMove(event: MouseEvent): void {
     if (this.isMouseDown) {
       this.updateSL(event.offsetX, event.offsetY);
       this.draw();
     }
   }
 
-  onMouseDown(event: MouseEvent) {
+  onMouseDown(event: MouseEvent): void {
     this.isMouseDown = true;
     this.updateSL(event.offsetX, event.offsetY);
     this.draw();
   }
 
   @HostListener('window:mouseup', ['$event'])
-  onMouseUp(evt: MouseEvent) {
+  onMouseUp(evt: MouseEvent): void {
     this.isMouseDown = false;
   }
 
-  updateSL(x: number, y: number) {
+  updateSL(x: number, y: number): void {
     const slColor = this.getSaturationAndValueAtPosition(x, y);
     this.s.setValue(slColor.s);
     this.l.setValue(slColor.l);

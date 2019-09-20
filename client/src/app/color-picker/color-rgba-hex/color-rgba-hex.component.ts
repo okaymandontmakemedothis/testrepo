@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 import { ColorTransformerService } from 'src/app/services/color-transformer/color-transformer.service';
 
 @Component({
@@ -10,25 +11,28 @@ import { ColorTransformerService } from 'src/app/services/color-transformer/colo
 })
 export class ColorRgbaHexComponent implements OnInit {
 
-  @Input()
   colorForm: FormGroup;
-
   hex: string;
-  rgb: FormGroup;
-  hsl: FormGroup;
 
   private subs: Subscription;
 
-  constructor(private colorTransformer: ColorTransformerService) { }
+  constructor(private colorTransformer: ColorTransformerService, private colorPickerService: ColorPickerService) { }
 
   ngOnInit(): void {
-    this.rgb = this.colorForm.get('rgb') as FormGroup;
-    this.hsl = this.colorForm.get('hsl') as FormGroup;
+    this.colorForm = this.colorPickerService.colorForm;
     this.subs = this.hsl.valueChanges.subscribe((value) => this.hslChangeUpdate());
     this.hslChangeUpdate();
   }
 
-  hslChangeUpdate() {
+  get rgb(): FormGroup {
+    return this.colorPickerService.rgb;
+  }
+
+  get hsl(): FormGroup {
+    return this.colorPickerService.hsl;
+  }
+
+  hslChangeUpdate(): void {
     const rgb = this.colorTransformer.hsl2rgb({
       h: (this.hsl.get('h') as FormControl).value,
       s: (this.hsl.get('s') as FormControl).value,
@@ -38,11 +42,11 @@ export class ColorRgbaHexComponent implements OnInit {
     this.updateRGB(rgb);
   }
 
-  updateRGB(rgb: { r: number, g: number, b: number }) {
+  updateRGB(rgb: { r: number, g: number, b: number }): void {
     this.rgb.setValue(rgb);
   }
 
-  updateHEX(rgb: { r: number, g: number, b: number }) {
+  updateHEX(rgb: { r: number, g: number, b: number }): void {
     let r: string; let g: string; let b: string;
     if (rgb.r < 16) {
       r = '0' + rgb.r.toString(16);
@@ -62,7 +66,7 @@ export class ColorRgbaHexComponent implements OnInit {
     this.hex = '#' + r + g + b;
   }
 
-  changedHEX() {
+  changedHEX(): void {
     const rgb = this.colorTransformer.hex2rgb(this.hex);
     const hsl = this.colorTransformer.rgb2hsl(rgb);
     this.subs.unsubscribe();
@@ -71,7 +75,7 @@ export class ColorRgbaHexComponent implements OnInit {
     this.subs = this.hsl.valueChanges.subscribe((value) => this.hslChangeUpdate());
   }
 
-  updateHSL() {
+  updateHSL(): void {
     const r = this.rgb.get('r') as FormControl;
     const g = this.rgb.get('g') as FormControl;
     const b = this.rgb.get('b') as FormControl;

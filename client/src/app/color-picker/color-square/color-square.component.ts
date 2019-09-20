@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 
 @Component({
   selector: 'app-color-square',
@@ -8,26 +9,21 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class ColorSquareComponent implements OnInit {
 
-  @Input()
-  rgb: FormGroup;
-
-  @Input()
-  a: FormControl;
-
   rgbString = 'rgb(0,0,0)';
 
-  ngOnInit(): void {
+  constructor(private colorPickerService: ColorPickerService) { }
 
+  ngOnInit(): void {
     this.rgb.valueChanges.subscribe((value) => {
-      this.rgbString = this.getRGBString();
+      this.rgbString = this.colorPickerService.getRGBString();
     });
   }
 
-  getRGBString(): string {
-    const r = this.rgb.get('r') as FormControl;
-    const g = this.rgb.get('g') as FormControl;
-    const b = this.rgb.get('b') as FormControl;
-    return 'rgb(' + r.value + ',' + g.value + ',' + b.value + ')';
+  get rgb(): FormGroup {
+    return this.colorPickerService.rgb;
   }
 
+  get a(): FormControl {
+    return this.colorPickerService.a;
+  }
 }

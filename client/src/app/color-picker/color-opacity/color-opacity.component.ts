@@ -1,32 +1,26 @@
 import {
   AfterViewInit, Component, ElementRef, HostListener,
-  Input, OnInit, ViewChild
+  OnInit, ViewChild
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 import { ColorTransformerService } from 'src/app/services/color-transformer/color-transformer.service';
 
 @Component({
   selector: 'app-color-opacity',
   templateUrl: './color-opacity.component.html',
   styleUrls: ['./color-opacity.component.scss'],
-  providers: [ColorTransformerService],
 })
 export class ColorOpacityComponent implements AfterViewInit, OnInit {
 
   @ViewChild('canvas', { static: false })
   canvas: ElementRef<HTMLCanvasElement>;
 
-  @Input()
-  hsl: FormGroup;
-
-  @Input()
-  a: FormControl;
-
   private ctx: CanvasRenderingContext2D;
   private isMouseDown = false;
   private selectedWidth: number;
 
-  constructor(private colorTransformer: ColorTransformerService) { }
+  constructor(private colorTransformer: ColorTransformerService, private colorPickerService: ColorPickerService) { }
 
   ngOnInit(): void {
     this.hsl.valueChanges.subscribe((value) => this.draw());
@@ -36,12 +30,20 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
     });
   }
 
+  get hsl(): FormGroup {
+    return this.colorPickerService.hsl;
+  }
+
+  get a(): FormControl {
+    return this.colorPickerService.a;
+  }
+
   ngAfterViewInit() {
     this.selectedWidth = this.canvas.nativeElement.width;
     this.draw();
   }
 
-  draw() {
+  draw(): void {
     if (!this.ctx) {
       this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
     }
@@ -95,12 +97,12 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
     }
   }
 
-  updateOpacity(y: number) {
+  updateOpacity(y: number): void {
     const opacityValue = this.getOpacityAtPosition(y);
     this.a.setValue(opacityValue);
   }
 
-  getOpacityAtPosition(x: number) {
+  getOpacityAtPosition(x: number): number {
     if (x > this.canvas.nativeElement.width) {
       x = this.canvas.nativeElement.width;
     }
@@ -111,7 +113,7 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
     return percentage;
   }
 
-  onMouseMove(event: MouseEvent) {
+  onMouseMove(event: MouseEvent): void {
     if (this.isMouseDown) {
       this.selectedWidth = event.offsetX;
       this.updateOpacity(event.offsetX);
@@ -119,7 +121,7 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
     }
   }
 
-  onMouseDown(event: MouseEvent) {
+  onMouseDown(event: MouseEvent): void {
     this.isMouseDown = true;
     this.selectedWidth = event.offsetX;
     this.updateOpacity(event.offsetX);
@@ -127,7 +129,7 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
   }
 
   @HostListener('window:mouseup', ['$event'])
-  onMouseUp(evt: MouseEvent) {
+  onMouseUp(evt: MouseEvent): void {
     this.isMouseDown = false;
   }
 }
