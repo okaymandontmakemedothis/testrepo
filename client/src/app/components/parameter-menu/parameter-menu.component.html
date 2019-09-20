@@ -7,16 +7,22 @@
 
   <mat-drawer-content> <!--<button   mat-button  style=color:blue position> cddddddddddolor </button>-->
 
-<button mat-button [matMenuTriggerFor] = "menu">
+<button mat-button [matMenuTriggerFor] = "pinceau">
   Details pinceau </button>
-    <mat-menu #menu = "matMenu">
+    <mat-menu #pinceau = "matMenu">
      <button mat-menu-item > pinceau1 </button>
      <button mat-menu-item > pinceau2 </button>
      <button mat-menu-item > pinceau3 </button>
     </mat-menu>
 
 
-
+    <button mat-button [matMenuTriggerFor] = "couleur">
+      Details couleur </button>
+        <mat-menu #couleur = "matMenu">
+         <button mat-menu-item > couleur1 </button>
+         <button mat-menu-item > couleur2 </button>
+         <button mat-menu-item > couleur3 </button>
+        </mat-menu>
 
 
     <!--<mat-menu #appMenu= "matMenu" yPosition="above" xPosition="above" >
