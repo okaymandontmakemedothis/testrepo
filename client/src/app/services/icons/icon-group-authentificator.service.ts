@@ -1,27 +1,28 @@
 import { Injectable } from '@angular/core';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { IconGroup } from '../../../assets/assets.faicons-groups';
+// import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IconGroupAuthentificatorService {
 
-  private currentIcon: IconDefinition;
+  // constructor()
 
-  setCurrentIcon(icon: IconDefinition) {
-    this.currentIcon = icon;
-  }
+  // private currentIcon: IconDefinition;
 
-  determineAsIconGroup(icon: IconDefinition): boolean {
-    return IconGroup.groupIconLists.has(icon);
-  }
+  // setCurrentIcon(icon: IconDefinition) {
+  //   this.currentIcon = icon;
+  // }
 
-  getIconGroup(): IconDefinition[] | undefined {
-    if (this.determineAsIconGroup(this.currentIcon)) {
-      return IconGroup.groupIconLists.get(this.currentIcon);
-    }
-    return undefined;
-  }
+  // determineAsIconGroup(icon: IconDefinition): boolean {
+  //   return IconGroup.groupIconLists.has(icon);
+  // }
+
+  // getIconGroup(): IconDefinition[] | undefined {
+  //   if (this.determineAsIconGroup(this.currentIcon)) {
+  //     return IconGroup.groupIconLists.get(this.currentIcon);
+  //   }
+  //   return undefined;
+  // }
 
 }
