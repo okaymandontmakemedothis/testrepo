@@ -2,7 +2,7 @@
   <mat-sidenav mode="side" opened fixedInViewport=true disableClose=true>
     <div class="container color">
       <div>
-        <!-- <button mat-button color="accent" (click)="toggleDrawer.emit()"></button> -->
+        <button (click)="toggle()"></button>
         <div *ngFor="let faIcon of menuTopIconList">
           <app-tool-icon [faIcon]="faIcon"></app-tool-icon>
         </div>
@@ -14,5 +14,7 @@
       </div>
     </div>
   </mat-sidenav>
-  <mat-sidenav-content></mat-sidenav-content>
+  <mat-sidenav-content>
+
+  </mat-sidenav-content>
 </mat-sidenav-container>

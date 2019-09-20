@@ -5,10 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent  {
-  isToggled: boolean;
-
-  toggle() {
-    this.isToggled = !this.isToggled;
-  }
+export class MenuComponent {
 }

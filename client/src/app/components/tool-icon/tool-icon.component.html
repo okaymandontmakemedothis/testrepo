@@ -1,11 +1,5 @@
-<div class="color flex" *ngIf="addSpeedDial; then thenBlock else elseBlock"></div>
-<ng-template #thenBlock class="flex">
-    <button mat-icon-button>
-        <fa-icon [icon]="faIcon"> </fa-icon>
-    </button>
-</ng-template>
-<ng-template #elseBlock class="flex">
+<div class="color flex">
   <button mat-icon-button (click)="select()">
     <fa-icon [icon]="faIcon"></fa-icon>
   </button>
-</ng-template>
+</div>
