@@ -38,10 +38,10 @@ export class DialogComponent  {
     });
   }
 
-
   closeClick(): void {
     this.dialogRef.close(this.ischecked);
   }
+  
  test(event: any) {
     this.ischecked = event.checked;
   }
