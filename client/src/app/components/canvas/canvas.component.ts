@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToolsListService } from 'src/app/services/tools/tools-list.service';
 
 @Component({
   selector: 'app-canvas',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CanvasComponent implements OnInit {
 
-  constructor() { }
+  constructor(private tools:ToolsListService) {}
+
+  mouseDown(){
+    this.tools.toolsList[this.tools.toolSelectedID].onPressed();
+  }
 
   ngOnInit() {
   }
