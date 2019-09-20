@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material';
-import { ToggleDrawerService } from 'src/app/toggle-drawer.service';
+import { ToggleDrawerService } from 'src/app/services/menu/toggle-drawer.service';
 
 
 @Component({
@@ -8,7 +8,7 @@ import { ToggleDrawerService } from 'src/app/toggle-drawer.service';
   templateUrl: './parameter-menu.component.html',
   styleUrls: ['./parameter-menu.component.scss']
 })
-export class ParameterMenuComponent implements AfterViewInit, OnInit {
+export class ParameterMenuComponent implements OnInit {
 
   constructor(private toggleDrawerService: ToggleDrawerService){}
   @ViewChild(MatDrawer, {static: false}) child: MatDrawer;
@@ -16,9 +16,6 @@ export class ParameterMenuComponent implements AfterViewInit, OnInit {
   toggle() {
     console.log('toggled');
     this.child.toggle();
-  }
-  ngAfterViewInit() {
-    console.log(this.child);
   }
   ngOnInit() {
     this.toggleDrawerService.toggled.subscribe(

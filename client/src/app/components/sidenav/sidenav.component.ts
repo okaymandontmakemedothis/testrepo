@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { ToggleDrawerService } from 'src/app/toggle-drawer.service';
-import { FaIcons } from '../../../assets/assets.faicons';
+import { ToggleDrawerService } from 'src/app/services/menu/toggle-drawer.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -12,8 +11,8 @@ export class SidenavComponent {
   constructor(private toggleDrawerService: ToggleDrawerService){
   }
 
-  menuTopIconList = FaIcons.menuTopIconList;
-  menuBottomIconList = FaIcons.menuBottomIconList;
+  menuTopIconList = [];//FaIcons.menuTopIconList;
+  menuBottomIconList = [];//FaIcons.menuBottomIconList;
 
   toggle(){
     this.toggleDrawerService.toggle();

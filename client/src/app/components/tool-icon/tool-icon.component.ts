@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { IconService } from 'src/app/icon.service';
-import { SelectToolService } from '../../select-tool.service';
+import { IconGroupAuthentificatorService } from 'src/app/services/icons/icon-group-authentificator.service';
+import { SelectToolService } from '../../services/tool/select-tool.service';
 
 @Component({
   selector: 'app-tool-icon',
@@ -11,21 +11,16 @@ import { SelectToolService } from '../../select-tool.service';
 export class ToolIconComponent implements OnInit {
 
   @Input() faIcon: IconDefinition;
-  @Input() ariaLabel: string;
-  addSpeedDial: boolean;
-  speedDialIconList: IconDefinition[] | undefined;
 
-  constructor(private iconService: IconService
+  constructor(private iconGroupAuthService: IconGroupAuthentificatorService
     ,         private selectService: SelectToolService) {
   }
 
   ngOnInit() {
-    this.iconService.setCurrentIcon(this.faIcon);
-    this.speedDialIconList = this.iconService.getSpeelDialIcons();
-    this.addSpeedDial = this.speedDialIconList !== undefined ? true : false;
+    this.iconGroupAuthService.setCurrentIcon(this.faIcon);
   }
 
   select() {
-    this.selectService.setIcone(this.faIcon);
+    this.selectService.setIcon(this.faIcon);
   }
 }

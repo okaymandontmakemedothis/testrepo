@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { IconService } from './icon.service';
+import { IconService } from './icon-group-authentificator.service';
 
 describe('IconService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
