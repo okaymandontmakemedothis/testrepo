@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { ITools } from './ITools';
 import { ToolRectangleService } from './tools-rectangle/tool-rectangle.service';
 
@@ -11,7 +11,7 @@ export class ToolsListService {
     this.toolsList.push(new ToolRectangleService());
   }
 
-  toolSelectedID:number = 1;
+  toolSelectedID:number = 0;
 
-  toolsList:ITools[];
+  toolsList:ITools[] = [];
 }

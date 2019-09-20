@@ -5,16 +5,21 @@ import { ITools } from '../ITools';
   providedIn: 'root'
 })
 export class ToolRectangleService implements ITools {
-  id:number;
+  id:number = 1;
+  isDown:boolean = false;
 
-  onPressed(): Function {
-    console.log("ca marche");
+  onPressed(): void {
+    this.isDown = true;
+    console.log("down");
   }
-  onRelease(): Function {
-    throw new Error("Method not implemented.");
+
+  onRelease(): void {
+    this.isDown = false;
+    console.log("up");
   }
-  onMove(): Function {
-    throw new Error("Method not implemented.");
+  onMove(): void {
+    if(this.isDown)
+      console.log("moving");
   }
 
   constructor() { }

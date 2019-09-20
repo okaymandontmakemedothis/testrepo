@@ -10,8 +10,16 @@ export class CanvasComponent implements OnInit {
 
   constructor(private tools:ToolsListService) {}
 
-  mouseDown(){
-    this.tools.toolsList[this.tools.toolSelectedID].onPressed();
+  onMouseDown(){
+    this.tools.toolsList[0].onPressed();
+  }
+
+  onMouseUp(){
+    this.tools.toolsList[0].onRelease();
+  }
+
+  onMouseMove(){
+    this.tools.toolsList[0].onMove();
   }
 
   ngOnInit() {
