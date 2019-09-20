@@ -4,11 +4,11 @@ export interface Message {
 }
 
 export interface WelcomeMessage {
-    "body": string;
-    "end": string;
+    'body': string;
+    'end': string;
 }
 
-export interface ShortcutClavier{
+export interface ShortcutClavier {
     O: string;
     S: string;
     G: string;
@@ -41,4 +41,3 @@ export interface ShortcutClavier{
     Aug: string;
     Dim: string;
 }
-
