@@ -20,8 +20,11 @@ export class IndexService {
         };
     }
      getTextRessource(): WelcomeMessage {
-        //const path = window.location.pathname + './res/text/welcome_text2.json';
-        const file = fs.readFileSync('C: \Users\sophi\OneDrive\Documents\PolyDessin-E16\server\app\services\res\text\welcome_text2.json');
+        // console.log(window)
+
+        // const path = window.location.pathname + './res/text/welcome_text2.json';
+        // console.log(window.location.pathname)
+        const file = fs.readFileSync(__dirname+'/../../res/text/welcome_text2.json');
         const obj = JSON.parse(file.toString());
         return obj;
      }
