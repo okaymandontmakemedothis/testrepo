@@ -4,19 +4,24 @@
   background-color: $sidenav-background-color;
 }//can be taken off since it wont follow if the buttons overflow
 
-mat-sidenav-container {
+mat-sidenav-container {//met la barre lateral a la taille de l'ecran
   height: 100vh;
+  //height:200vh on multiplie la barre lateral par deux fois la taille de l'ecran
+  
 
 }
 
 .container{
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  align-content: center;
-  height: inherit;
+  //display: flex;
+  //justify-content: space-between;
+  //flex-direction: column;
+  //align-content: center;
+  height: 100%;
+  width:100%;
+
 }
 
 .mat-drawer-side {
-  border-right: none !important
+//  border-right: none !important;
+
 }

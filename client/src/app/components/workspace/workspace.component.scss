@@ -1,7 +1,10 @@
 app-canvas{
-  border: 1px blue solid;
+  //border: 1px blue solid;
   flex: 1;
-  margin: 2%;
+  margin: 0%;
+  height:100%;
+  overflow:hidden;
+
 
 }
 
@@ -9,8 +12,12 @@ div{
   display: flex;
   justify-content: center;
   background-color: green;
+
   height:100vh;
-  width:70vw;
+
+  width:100vw;
+  overflow:hidden;
 
 }
+
 
