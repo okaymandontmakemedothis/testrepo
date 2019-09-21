@@ -1,23 +1,47 @@
-app-canvas{
+/*app-canvas{
   //border: 1px blue solid;
-  flex: 1;
-  margin: 0%;
-  height:100%;
-  overflow:hidden;
+
+ // margin: 1%;
+  height:90%;
+  width:100%;
+  //overflow:hidden;
+  border:10px solid blue;
+  box-sizing:border-box;
 
 
-}
 
-div{
+
+}*/
+
+div{ // c<est le workspace
   display: flex;
-  justify-content: center;
-  background-color: green;
 
-  height:100vh;
+  justify-content: flex-start;
+  background-color: rgb(128, 51, 0);
 
-  width:100vw;
-  overflow:hidden;
+  height:100%;
+  width:100%;
+
 
 }
 
 
+mat-drawer-container { //c'est le conteneur de la zone de dessin
+  height: 100%;
+  width:80%;
+  border:10px solid blue;box-sizing:border-box;
+  overflow:auto;
+}
+
+
+
+
+mat-drawer-content{
+
+
+
+  background-color:rgb(8, 128, 68);
+  //width:100%;// pour que le content occupe tout l'espace
+
+
+}
