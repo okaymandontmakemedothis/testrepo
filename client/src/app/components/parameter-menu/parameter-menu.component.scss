@@ -1,7 +1,27 @@
 mat-drawer-container {
-  height:100vh;
-  width: 80vw; // la couleur du parameter menu un peu gris
-  //background-color: red;
+  height: 100%;
+
+  display:flex;
+  background-color: rgb(161, 22, 154);
+  overflow:auto;
+  width:100%;
 }
 
 
+mat-drawer{
+
+
+  background-color: aqua;
+   flex:1 1 auto;
+
+
+}
+
+mat-drawer-content{
+
+
+  flex:0 0 1;
+  background-color:yellow;
+  width:100%;// pour que le content occupe tout l'espace
+
+}

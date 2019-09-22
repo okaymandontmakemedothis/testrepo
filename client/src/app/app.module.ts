@@ -14,6 +14,7 @@ import { ParameterMenuComponent } from './components/parameter-menu/parameter-me
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ToolIconComponent } from './components/tool-icon/tool-icon.component';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
+import { DrawerService } from './services/drawer/drawer.service';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { WorkspaceComponent } from './components/workspace/workspace.component';
   entryComponents: [
   ],
   providers: [
+    DrawerService
   ],
   bootstrap: [AppComponent],
 })
