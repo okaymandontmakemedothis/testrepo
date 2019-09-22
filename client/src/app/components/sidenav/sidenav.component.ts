@@ -13,7 +13,7 @@ export class SidenavComponent {
   }
 
   menuTopIconList = FaIcons.menuTopIconList;
-  menuBottomIconList = FaIcons.menuBottomIcon;
+  menuBottomIconList = FaIcons.menuBottomIconList;
 
   toggle(){
     this.toggleDrawerService.toggle();

@@ -58,7 +58,9 @@ export class FaIcons {
     faUndoAlt,
   ];
 
-  static readonly menuBottomIcon = faBars
+  static readonly menuBottomIconList = [
+    faBars,
+  ]
 
   static readonly fileOptions = [
     faPlus, 
