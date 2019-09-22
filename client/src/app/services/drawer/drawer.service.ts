@@ -1,10 +1,10 @@
-import { Injectable, Input } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DrawerService {
- drawerheight: string= "100%"; //pourvoir l'injecter dans le html
+ drawerheight: string= "90%"; //pourvoir l'injecter dans le html
  drawerwidth: string= "100%";
 
 /*
