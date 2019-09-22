@@ -16,6 +16,7 @@ import { ToolIconComponent } from './components/tool-icon/tool-icon.component';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { IconGroupAuthentificatorService } from './services/icons/icon-group-authentificator.service';
 import { IconTranslatorService } from './services/icons/icon-translator.service';
+import { DrawerService } from './services/drawer/drawer.service';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { IconTranslatorService } from './services/icons/icon-translator.service'
   providers: [
     IconGroupAuthentificatorService,
     IconTranslatorService,
+    DrawerService
   ],
   bootstrap: [AppComponent],
 })
