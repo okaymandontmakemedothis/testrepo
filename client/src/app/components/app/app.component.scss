@@ -1,1 +1,10 @@
+mat-sidenav-container{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
 
+mat-sidenav{
+  background-color: yellow// rgb(48, 46, 64);
+}

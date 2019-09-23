@@ -1,17 +1,28 @@
-mat-drawer-container::ng-deep {
-  height:100vh;
+mat-drawer-container {
+  height: 100%;
+
+  display:flex;
+  background-color: rgb(161, 22, 154);
+  overflow:auto;
+  width:100%;
 }
 
-button{
-	height: 5%;
+
+mat-drawer{
+
+
+  background-color: aqua;
+   flex:1 1 auto;
+
+
+
 }
 
-mat-menu{
-  flex: 1 0 auto;
-}
+mat-drawer-content{
 
-// ::ng-deep .mat-menu-panel{
-//   max-width: none !important;
-//   min-width: none !important;
-//   width: 280px;
-// }
+
+  flex:0 0 1;
+  background-color:yellow;
+  width:100%;// pour que le content occupe tout l'espace
+
+}

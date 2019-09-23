@@ -12,8 +12,8 @@ export class SidenavComponent {
   constructor(private toggleDrawerService: ToggleDrawerService, public toolsListService: ToolsListService){
   }
 
-  menuTopToolsList = this.toolsListService.toolsList;//FaIcons.menuTopIconList;
-  menuBottomIconList = [];//FaIcons.menuBottomIconList;
+  menuTopToolsList = this.toolsListService.toolsList;
+  menuBottomIconList = [];
 
   toggle(){
     this.toggleDrawerService.toggle();

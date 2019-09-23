@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { FaIcons } from 'src/assets/assets.icons';
+
 @Injectable({
   providedIn: 'root',
 })
 export class SelectToolService {
   currentIcon: IconDefinition ;
-  constructor() { }
+  constructor() { this.currentIcon = FaIcons.defaultSelectedTool; }
   setIcon(icon: IconDefinition) {
     this.currentIcon = icon;
-    console.log('this.currentIcon');
   }
   getIcon(): IconDefinition {
     return this.currentIcon;

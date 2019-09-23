@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { IconService } from './icon-group-authentificator.service';
+import { ToolsService } from './tools.service';
 
-describe('IconService', () => {
+describe('ToolsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: IconService = TestBed.get(IconService);
+    const service: ToolsService = TestBed.get(ToolsService);
     expect(service).toBeTruthy();
   });
 });

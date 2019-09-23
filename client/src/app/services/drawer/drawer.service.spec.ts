@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, inject } from '@angular/core/testing';
-import { SelectToolService } from './select-tool.service';
+import { DrawerService } from './drawer.service';
 
-describe('Service: SelectTool', () => {
+describe('Service: Drawer', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SelectToolService]
+      providers: [DrawerService]
     });
   });
 
-  it('should ...', inject([SelectToolService], (service: SelectToolService) => {
+  it('should ...', inject([DrawerService], (service: DrawerService) => {
     expect(service).toBeTruthy();
   }));
 });
