@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HSL } from 'src/hsl.model';
-import { RGB } from 'src/rgb.model';
+import { RGB } from 'src/app/model/rgb.model';
+import { HSL } from 'src/app/model/hsl.model';
 
 @Injectable({
   providedIn: 'root',

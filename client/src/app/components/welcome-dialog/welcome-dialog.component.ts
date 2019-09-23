@@ -20,7 +20,6 @@ export class WelcomeDialogComponent implements OnInit {
       maxWidth: 500,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
       this.isChecked = result;
       if (this.isChecked) {
         sessionStorage.setItem('isChecked', 'true');

@@ -26,11 +26,6 @@ describe('ColorSquareComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ColorSquareComponent);
     component = fixture.componentInstance;
-
-    component.rgb = formBuilder.group({
-      r: 0, g: 0, b: 0,
-    });
-    component.a = formBuilder.control(1);
     fixture.detectChanges();
   });
 
@@ -38,8 +33,8 @@ describe('ColorSquareComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('#getRGBString with default value', () => {
-    expect(component.getRGBString()).toBe('rgb(0,0,0)');
+  it('rgbString with default value', () => {
+    expect(component.rgbString).toBe('rgb(0,0,0)');
   });
 
   it('rgbString after a value update', () => {

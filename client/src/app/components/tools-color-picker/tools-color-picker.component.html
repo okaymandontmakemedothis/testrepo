@@ -1,0 +1,15 @@
+<form>
+    <div mat-dialog-content>
+        <app-color-picker></app-color-picker>
+        <svg width="150" height="50">
+            <rect *ngFor="let color of lastColors; let index = index" [attr.x]="index >=5 ? (index-5)*30 : index*30"
+                [attr.y]="index >=5 ? 30 : 0" [attr.width]="20" [attr.height]="20" [style.fill]="rgba2rgbstring(color)"
+                [style.fill-opacity]="color.a" style="stroke-width:1;stroke:rgb(0,0,0)"
+                (click)="selectLastColor(color)" />
+        </svg>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button color="primary" [mat-dialog-close]="data">Select</button>
+        <button mat-button color="primary" (click)='close()'>Cancel</button>
+    </div>
+</form>
