@@ -9,5 +9,4 @@ export interface IObjects {
     primaryColor: RGBA;
     secondaryColor: RGBA;
     draw($event: MouseEvent): string;
-
 }
