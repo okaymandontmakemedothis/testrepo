@@ -1,6 +1,13 @@
-<div mat-dialog-content>
-    <app-color-picker></app-color-picker>
-</div>
-<div mat-dialog-actions>
-    <button [mat-dialog-close]="rgba">Test</button>
-</div>
+<form>
+    <div mat-dialog-content>
+        <app-color-picker></app-color-picker>
+        <svg *ngFor="let color of test; let index = index">
+            <rect [attr.width]="20" [attr.height]="20" [style.fill]="rgba2rgbstring(color)"
+                [style.fill-opacity]="color.a" style="stroke-width:3;stroke:rgb(0,0,0)" />
+        </svg>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button color="primary" [mat-dialog-close]="data">Select</button>
+        <button mat-button color="primary" (click)='close()'>Cancel</button>
+    </div>
+</form>

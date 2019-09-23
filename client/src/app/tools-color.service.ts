@@ -10,7 +10,7 @@ export class ToolsColorService {
   primaryAlpha = 1;
   secondaryColor: RGB = { r: 255, g: 255, b: 255 };
   secondaryAlpha = 1;
-  lastSelectedColors: RGB[] = [];
+  lastSelectedColors: { rgb: RGB, a: number }[] = [];
 
   setPrimaryColor(pc: RGB, a: number) {
     this.primaryColor = pc;
@@ -18,7 +18,7 @@ export class ToolsColorService {
     if (this.lastSelectedColors.length >= 10) {
       this.lastSelectedColors.shift();
     }
-    this.lastSelectedColors.push(pc);
+    this.lastSelectedColors.push({ rgb: pc, a });
   }
 
   get primaryColorString() {
@@ -35,7 +35,7 @@ export class ToolsColorService {
     if (this.lastSelectedColors.length >= 10) {
       this.lastSelectedColors.shift();
     }
-    this.lastSelectedColors.push(sc);
+    this.lastSelectedColors.push({ rgb: sc, a });
   }
 
   switchColor() {

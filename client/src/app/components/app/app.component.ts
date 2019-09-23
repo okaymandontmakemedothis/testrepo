@@ -4,8 +4,9 @@ import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.co
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  // templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
 
@@ -14,9 +15,9 @@ export class AppComponent implements OnInit {
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.dialog.open(NewDrawingComponent, {
-      data: { drawingPresent: false },
-    });
+    // this.dialog.open(NewDrawingComponent, {
+    //   data: { drawingPresent: false },
+    // });
   }
 
   openDialog() {

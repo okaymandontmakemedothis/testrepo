@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ColorRgbaHexComponent } from './color-rgba-hex.component';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ColorTransformerService } from 'src/app/services/color-transformer/color-transformer.service';
+import { ColorRgbaHexComponent } from './color-rgba-hex.component';
 
 describe('ColorRgbaHexComponent', () => {
   let component: ColorRgbaHexComponent;
@@ -22,7 +22,7 @@ describe('ColorRgbaHexComponent', () => {
       providers: [
         { provide: ColorTransformerService, useClass: ColorTransformerService },
         { provide: FormBuilder, useValue: formBuilder },
-      ]
+      ],
     })
       .compileComponents();
   }));
