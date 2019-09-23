@@ -6,7 +6,7 @@ import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ToolsListService {
+export class ToolsService {
 
   constructor() { 
     this.toolsList.push(new ToolPointerService());

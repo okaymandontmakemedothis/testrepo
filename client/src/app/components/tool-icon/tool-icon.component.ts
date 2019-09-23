@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 // import { IconGroupAuthentificatorService } from 'src/app/services/icons/icon-group-authentificator.service';
-import { ToolsListService } from 'src/app/services/tools/tools-list.service';
+import { ToolsService } from 'src/app/services/tools/tools.service';
 
 @Component({
   selector: 'app-tool-icon',
@@ -13,7 +13,7 @@ export class ToolIconComponent implements OnInit {
   @Input() faIcon: IconDefinition;
 
   constructor(// private iconGroupAuthService: IconGroupAuthentificatorService,
-             private toolsService: ToolsListService) {
+             private toolsService: ToolsService) {
   }
 
   ngOnInit() {

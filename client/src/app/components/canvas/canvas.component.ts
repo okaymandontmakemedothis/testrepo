@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import { ToolsListService } from 'src/app/services/tools/tools-list.service';
+import { ToolsService } from 'src/app/services/tools/tools.service';
 
 @Component({
   selector: 'app-canvas',
@@ -8,7 +8,7 @@ import { ToolsListService } from 'src/app/services/tools/tools-list.service';
 })
 export class CanvasComponent implements OnInit {
 
-  constructor(private tools:ToolsListService) {}
+  constructor(private tools:ToolsService) {}
   isDown:boolean = false;
 
   onMouseDown($event:MouseEvent){
