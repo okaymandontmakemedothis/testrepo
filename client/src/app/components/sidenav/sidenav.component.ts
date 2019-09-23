@@ -5,17 +5,17 @@ import { FaIcons } from 'src/assets/assets.icons';
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+  styleUrls: ['./sidenav.component.scss'],
 })
 export class SidenavComponent {
 
-  constructor(private toggleDrawerService: ToggleDrawerService){
+  constructor(private toggleDrawerService: ToggleDrawerService) {
   }
 
   menuTopIconList = FaIcons.menuTopIconList;
   menuBottomIconList = FaIcons.menuBottomIconList;
 
-  toggle(){
+  toggle() {
     this.toggleDrawerService.toggle();
   }
 }

@@ -3,7 +3,6 @@
 div{ // c<est le workspace ou on definit la taille de la zone des conteneurs de dessin et du workspace
   display: flex;
   justify-content:flex-start;
-  --background-color:rgb(0, 128, 53);
   --widthdessin:100%;
   --heightdessin:10%;
   --heightworkspace:100%;

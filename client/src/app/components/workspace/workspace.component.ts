@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DrawerService } from '../../services/drawer/drawer.service';
-
 
 @Component({
   selector: 'app-workspace',
@@ -9,32 +7,21 @@ import { DrawerService } from '../../services/drawer/drawer.service';
 })
 export class WorkspaceComponent implements OnInit {
 
-   width:string;
-   height:string;
-
-  constructor(private drawerService:DrawerService) {
-  }
-
+  width: number;
+  height: number;
 
   ngOnInit() {
 
-    this.height=this.drawerService.drawerheight;
-    this.width=this.drawerService.drawerwidth;
-
-
-    //construire la zone de dessin
-    this.buildDessinArea();
+    this.height = window.innerHeight;
+    this.width = window.innerWidth;
+    this.buildWorkplaceArea();
 
   }
 
 
-  buildDessinArea(){
-
-    let container=<HTMLElement>document.querySelector(".dessincontainer");
-    container.style.width =  this.width;
-    container.style.height =  this.height;
-    container.style.backgroundColor="violet";
-
-
+  private buildWorkplaceArea() {
+    const container = document.querySelector('.dessincontainer') as HTMLElement;
+    container.style.width = this.width.toString() + 'px';
+    container.style.height = this.height.toString() + 'px';
   }
 }

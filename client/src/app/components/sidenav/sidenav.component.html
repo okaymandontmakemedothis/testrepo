@@ -1,10 +1,9 @@
-
-
 <mat-sidenav-container>
   <mat-sidenav-content fixedInViewport=true disableClose=true>
     <div class="container color">
       <div>
         <button mat-raised-button (click)="toggle()"> click </button>
+        <app-tools-color></app-tools-color>
         <div *ngFor="let faIcon of menuTopIconList">
           <app-tool-icon [faIcon]="faIcon"></app-tool-icon>
         </div>
@@ -16,5 +15,4 @@
       </div>
     </div>
   </mat-sidenav-content>
-
 </mat-sidenav-container>
