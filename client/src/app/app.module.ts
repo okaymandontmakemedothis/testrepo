@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { MccSpeedDialModule } from 'material-community-components';
 import { MaterialModules } from './app.material-modules';
 import { AppComponent } from './components/app/app.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
@@ -17,6 +16,7 @@ import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { DrawerService } from './services/drawer/drawer.service';
 import { SelectToolService } from './services/tool/select-tool.service';
 import { ParameterMenuProviderService } from './services/menu/parameter-menu-provider.service';
+import { MatMenuModule, MatSidenavModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,8 @@ import { ParameterMenuProviderService } from './services/menu/parameter-menu-pro
     ReactiveFormsModule,
     MaterialModules,
     FontAwesomeModule,
-    MccSpeedDialModule,
+    MatMenuModule,
+    MatSidenavModule,
   ],
   exports: [
   ],

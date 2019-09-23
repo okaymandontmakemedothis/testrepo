@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ToolIconComponent } from './tool-icon.component';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 describe('ToolIconComponent', () => {
   let component: ToolIconComponent;
@@ -8,7 +9,10 @@ describe('ToolIconComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ToolIconComponent ]
+      declarations: [
+        ToolIconComponent,
+        FaIconComponent,
+      ],
     })
     .compileComponents();
   }));
