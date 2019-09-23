@@ -15,6 +15,9 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ToolIconComponent } from './components/tool-icon/tool-icon.component';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { DrawerService } from './services/drawer/drawer.service';
+import { FakeToolServiceService } from './services/tool/fake-tool-service.service';
+import { SelectToolService } from './services/tool/select-tool.service';
+import { ParameterMenuProviderService } from './services/menu/parameter-menu-provider.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,10 @@ import { DrawerService } from './services/drawer/drawer.service';
   entryComponents: [
   ],
   providers: [
-    DrawerService
+    DrawerService,
+    FakeToolServiceService,
+    SelectToolService,
+    ParameterMenuProviderService,
   ],
   bootstrap: [AppComponent],
 })

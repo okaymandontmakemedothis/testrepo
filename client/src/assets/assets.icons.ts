@@ -28,9 +28,21 @@ import {
   faSyringe,
   faUndoAlt,
   faVectorSquare,
+  IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 
 export class FaIcons {
+
+  constructor(){
+    FaIcons.iconParameters = new Map<IconDefinition, string[]>();
+    FaIcons.iconParameters.set(faSquare, [ "Épaisseur du trait" ]);
+    FaIcons.iconParameters.set(faSquare, [ "Épaisseur du trait" ]);
+    FaIcons.iconParameters.set(faPaintBrush, [ "Épaisseur du trait", "Texture du trait" ]);
+    FaIcons.iconParameters.set(faEyeDropper, [ "" ]);
+  }
+
+  static readonly defaultSelectedTool = faPencilAlt;
+
   static readonly menuTopIconList = [
     faPencilAlt,
     faPaintBrush,
@@ -39,7 +51,7 @@ export class FaIcons {
     faSprayCan,
     faSquare,
     faCircle,
-    faDrawPolygon,    
+    faDrawPolygon,
     faVectorSquare,
     faFont,
     faSyringe,
@@ -63,10 +75,11 @@ export class FaIcons {
   ]
 
   static readonly fileOptions = [
-    faPlus, 
+    faPlus,
     faSave,
     faImages,
     faFileExport,
   ];
 
+  static iconParameters: Map<IconDefinition, string[]>;
 }
