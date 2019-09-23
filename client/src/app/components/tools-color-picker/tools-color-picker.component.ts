@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { ColorPickerComponent } from '../color-picker/color-picker/color-picker.component';
-import { RGBA } from '../tools-color.model';
-import { ToolsColorService } from '../tools-color.service';
+import { ColorPickerComponent } from '../../color-picker/color-picker/color-picker.component';
+import { RGBA } from '../../model/rgba.model';
+import { ToolsColorService } from '../../services/tools-color/tools-color.service';
 
 @Component({
   selector: 'app-tools-color-picker',
@@ -14,10 +14,10 @@ export class ToolsColorPickerComponent implements AfterViewInit {
   colorPickerComponent: ColorPickerComponent;
 
   constructor(public dialogRef: MatDialogRef<ToolsColorPickerComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: RGBA, private toolsColor: ToolsColorService) { }
+    @Inject(MAT_DIALOG_DATA) public data: RGBA, private toolsColor: ToolsColorService) { }
 
   ngAfterViewInit(): void {
-    this.colorPickerComponent.resetForm();
+    // this.colorPickerComponent.resetForm();
     this.colorPickerComponent.setFormColor(this.data.rgb, this.data.a);
     this.colorPickerComponent.colorForm.valueChanges.subscribe((value) => {
       this.data.rgb = this.colorPickerComponent.rgb;

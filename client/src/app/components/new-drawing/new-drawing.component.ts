@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -7,6 +7,7 @@ import { DrawingSizeValidatorService } from 'src/app/services/drawing-size-valid
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { NewDrawingService } from 'src/app/services/new-drawing/new-drawing.service';
 import { NewDrawingAlertComponent } from './new-drawing-alert/new-drawing-alert.component';
+import { ColorPickerComponent } from 'src/app/color-picker/color-picker/color-picker.component';
 
 @Component({
   selector: 'app-new-drawing',
@@ -18,18 +19,24 @@ import { NewDrawingAlertComponent } from './new-drawing-alert/new-drawing-alert.
     DrawingSizeValidatorService,
   ],
 })
-export class NewDrawingComponent implements OnInit {
+export class NewDrawingComponent implements OnInit, AfterViewInit {
 
-  get form(): FormGroup {
-    return this.newDrawingService.form;
-  }
+  @ViewChild(ColorPickerComponent, { static: false })
+  colorPickerComponent: ColorPickerComponent;
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<NewDrawingComponent>, private snackBar: MatSnackBar,
+    private newDrawingService: NewDrawingService, private drawingService: DrawingService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.dialogRef.disableClose = true;
   }
+  ngAfterViewInit(): void {
+    this.colorPickerComponent.setFormColor({ r: 255, g: 255, b: 255 }, 1);
+  }
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<NewDrawingComponent>, private snackBar: MatSnackBar,
-              private newDrawingService: NewDrawingService, private drawingService: DrawingService, private dialog: MatDialog) { }
+  get form(): FormGroup {
+    return this.newDrawingService.form;
+  }
 
   onAccept(): void {
     if (this.data.drawingPresent) {

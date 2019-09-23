@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { DrawingService } from '../services/drawing/drawing.service';
+import { RGBA } from '../../model/rgba.model';
+import { DrawingService } from '../../services/drawing/drawing.service';
+import { ToolsColorService } from '../../services/tools-color/tools-color.service';
 import { ToolsColorPickerComponent } from '../tools-color-picker/tools-color-picker.component';
-import { RGBA } from '../tools-color.model';
-import { ToolsColorService } from '../tools-color.service';
 
 enum ColorType {
   primary,
@@ -46,7 +46,9 @@ export class ToolsColorComponent {
           data: { rgb: this.toolsColor.primaryColor, a: this.toolsColor.primaryAlpha },
         });
         dialogRef.afterClosed().subscribe((result: RGBA) => {
-          this.toolsColor.setPrimaryColor(result.rgb, result.a);
+          if (result) {
+            this.toolsColor.setPrimaryColor(result.rgb, result.a);
+          }
         });
         break;
       case ColorType.secondary:
@@ -55,7 +57,9 @@ export class ToolsColorComponent {
           data: { rgb: this.toolsColor.secondaryColor, a: this.toolsColor.secondaryAlpha },
         });
         dialogRef.afterClosed().subscribe((result: RGBA) => {
-          this.toolsColor.setSecondaryColor(result.rgb, result.a);
+          if (result) {
+            this.toolsColor.setSecondaryColor(result.rgb, result.a);
+          }
         });
         break;
       case ColorType.background:
@@ -64,7 +68,9 @@ export class ToolsColorComponent {
           data: { rgb: this.drawing.color, a: this.drawing.alpha },
         });
         dialogRef.afterClosed().subscribe((result: RGBA) => {
-          this.drawing.setDrawingColor(result);
+          if (result) {
+            this.drawing.setDrawingColor(result);
+          }
         });
         break;
       default:
@@ -102,12 +108,10 @@ export class ToolsColorComponent {
 
   onMouseClickPrimary(event: MouseEvent): void {
     this.openDialog(ColorType.primary);
-    console.log('primary');
   }
 
   onMouseClickSecondary(event: MouseEvent): void {
     this.openDialog(ColorType.secondary);
-    console.log('secondary');
   }
 
   onMouseClickBackground(event: MouseEvent): void {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { RGBA } from 'src/app/tools-color.model';
-import { RGB } from 'src/rgb.model';
+import { RGB } from 'src/app/model/rgb.model';
+import { RGBA } from 'src/app/model/rgba.model';
 
 @Injectable({
   providedIn: 'root',

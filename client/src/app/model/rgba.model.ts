@@ -1,4 +1,4 @@
-import { RGB } from 'src/rgb.model';
+import { RGB } from 'src/app/model/rgb.model';
 
 export interface RGBA {
     rgb: RGB;

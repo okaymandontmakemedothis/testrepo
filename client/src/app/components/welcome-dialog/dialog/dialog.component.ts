@@ -1,7 +1,7 @@
-import { Component} from '@angular/core';
-import {  MatDialog, MatDialogRef } from '@angular/material';
+import { Component } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { WelcomeMessage} from '../../../../../../common/communication/message';
+import { WelcomeMessage } from '../../../../../../common/communication/message';
 import { IndexService } from '../../../services/index/index.service';
 import { AideDialogComponent } from '../aide-dialog/aide-dialog.component';
 
@@ -10,19 +10,19 @@ import { AideDialogComponent } from '../aide-dialog/aide-dialog.component';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss'],
 })
-export class DialogComponent  {
+export class DialogComponent {
 
   ischecked: boolean;
-  messageW = new BehaviorSubject<WelcomeMessage>({body : '', end: ''});
+  messageW = new BehaviorSubject<WelcomeMessage>({ body: '', end: '' });
 
   constructor(public dialog: MatDialog,
-              public dialogRef: MatDialogRef<DialogComponent>, private basicService: IndexService,
-              ) {
+    public dialogRef: MatDialogRef<DialogComponent>, private basicService: IndexService,
+  ) {
     this.basicService.welcomeGet()
       .subscribe(this.messageW);
-              }
+  }
 
-   openDialog() {
+  openDialog() {
 
     const dialogRef = this.dialog.open(AideDialogComponent, {
       hasBackdrop: true,
@@ -42,7 +42,7 @@ export class DialogComponent  {
     this.dialogRef.close(this.ischecked);
   }
 
- test(event: any) {
+  test(event: any) {
     this.ischecked = event.checked;
   }
 }

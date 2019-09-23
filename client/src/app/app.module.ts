@@ -13,8 +13,8 @@ import { NewDrawingComponent } from './components/new-drawing/new-drawing.compon
 import { AideDialogComponent } from './components/welcome-dialog/aide-dialog/aide-dialog.component';
 import { DialogComponent } from './components/welcome-dialog/dialog/dialog.component';
 import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.module';
-import { ToolsColorPickerComponent } from './tools-color-picker/tools-color-picker.component';
-import { ToolsColorComponent } from './tools-color/tools-color.component';
+import { ToolsColorPickerComponent } from './components/tools-color-picker/tools-color-picker.component';
+import { ToolsColorComponent } from './components/tools-color/tools-color.component';
 
 @NgModule({
   declarations: [

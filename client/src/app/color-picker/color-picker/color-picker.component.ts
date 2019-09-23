@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
+import { RGB } from 'src/app/model/rgb.model';
 import { ColorTransformerService } from 'src/app/services/color-transformer/color-transformer.service';
-import { RGB } from 'src/rgb.model';
 
 @Component({
   selector: 'app-color-picker',

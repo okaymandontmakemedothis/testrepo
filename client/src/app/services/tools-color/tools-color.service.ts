@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { RGB } from 'src/rgb.model';
-import { RGBA } from './tools-color.model';
+import { RGB } from 'src/app/model/rgb.model';
+import { RGBA } from '../../model/rgba.model';
 
 @Injectable({
   providedIn: 'root',
@@ -53,7 +53,6 @@ export class ToolsColorService {
 
   switchColor() {
     const tempColor = this.primaryColor;
-    console.log(tempColor);
     const tempAlpha = this.primaryAlpha;
     this.primaryColor = this.secondaryColor;
     this.primaryAlpha = this.secondaryAlpha;
