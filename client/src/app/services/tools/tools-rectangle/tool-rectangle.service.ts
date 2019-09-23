@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ITools } from '../ITools';
+import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 
 @Injectable({
   providedIn: 'root'
@@ -7,19 +8,25 @@ import { ITools } from '../ITools';
 export class ToolRectangleService implements ITools {
   id:number = 1;
   isDown:boolean = false;
+  object:RectangleObject = new RectangleObject(0,0);
 
-  onPressed(): void {
+  onPressed($event:MouseEvent): string {
     this.isDown = true;
-    console.log("down");
+    this.object = new RectangleObject($event.clientX, $event.clientY)
+    console.log(this.object.svgLine)
+    return this.object.svgLine;
   }
 
-  onRelease(): void {
+  onRelease($event:MouseEvent): string {
     this.isDown = false;
-    console.log("up");
+    console.log(this.object.svgLine)
+    return this.object.draw($event);
   }
-  onMove(): void {
-    if(this.isDown)
-      console.log("moving");
+
+  onMove($event:MouseEvent): string | void {
+    //if(this.isDown)
+      //return this.object.draw($event);
+    
   }
 
   constructor() { }

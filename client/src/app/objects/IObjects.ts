@@ -1,6 +1,6 @@
 export interface IObjects {
     id:number;
     svgLine:string;
-    draw():void;
+    draw($event:MouseEvent):string;
     getColor():void;
 }

@@ -3,8 +3,8 @@
     <div class="container color">
       <div>
         <button (click)="toggle()"></button>
-        <div *ngFor="let faIcon of menuTopIconList">
-          <app-tool-icon [faIcon]="faIcon"></app-tool-icon>
+        <div *ngFor="let tool of menuTopToolsList">
+          <button mat-fab (click)="toolsListService.toolSelected(tool.id)"> rect</button>
         </div>
       </div>
       <div>

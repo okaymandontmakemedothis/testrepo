@@ -11,6 +11,10 @@ export class ToolsListService {
     this.toolsList.push(new ToolRectangleService());
   }
 
+  toolSelected(id:number){
+    this.toolSelectedID = id -1;
+  }
+
   toolSelectedID:number = 0;
 
   toolsList:ITools[] = [];
