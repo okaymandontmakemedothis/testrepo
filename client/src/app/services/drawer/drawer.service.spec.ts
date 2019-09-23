@@ -1,12 +1,12 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { DrawerService } from './drawer.service';
 
 describe('Service: Drawer', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DrawerService]
+      providers: [DrawerService],
     });
   });
 

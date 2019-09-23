@@ -1,13 +1,13 @@
-import { Component, HostListener, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { AfterViewInit, Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ColorPickerComponent } from 'src/app/color-picker/color-picker/color-picker.component';
 import { DrawingSizeValidatorService } from 'src/app/services/drawing-size-validator/drawing-size-validator.service';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { NewDrawingService } from 'src/app/services/new-drawing/new-drawing.service';
 import { NewDrawingAlertComponent } from './new-drawing-alert/new-drawing-alert.component';
-import { ColorPickerComponent } from 'src/app/color-picker/color-picker/color-picker.component';
 
 @Component({
   selector: 'app-new-drawing',
@@ -24,7 +24,7 @@ export class NewDrawingComponent implements OnInit, AfterViewInit {
   colorPickerComponent: ColorPickerComponent;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<NewDrawingComponent>, private snackBar: MatSnackBar,
-    private newDrawingService: NewDrawingService, private drawingService: DrawingService, private dialog: MatDialog) { }
+              private newDrawingService: NewDrawingService, private drawingService: DrawingService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.dialogRef.disableClose = true;

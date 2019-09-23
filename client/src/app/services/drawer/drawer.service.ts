@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DrawerService {
- drawerheight: string; //pouvoir l'injecter dans le html
+ drawerheight: string; // pouvoir l'injecter dans le html
  drawerwidth: string;
 
-
- height:number = 300;
- width:number = 300;
+ height = 300;
+ width = 300;
 
 /*constructor(height:string,width:string) {
     this.drawerheight = height;
@@ -22,13 +21,12 @@ constructor(height : number, width : number){
 }
 */
 
-constructor(){
+constructor() {
 
  this.drawerheight = this.height + 'px';
 
  this.drawerwidth = this.width + 'px';
 
 }
-
 
 }

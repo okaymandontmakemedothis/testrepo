@@ -14,7 +14,7 @@ export class ToolsColorPickerComponent implements AfterViewInit {
   colorPickerComponent: ColorPickerComponent;
 
   constructor(public dialogRef: MatDialogRef<ToolsColorPickerComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RGBA, private toolsColor: ToolsColorService) { }
+              @Inject(MAT_DIALOG_DATA) public data: RGBA, private toolsColor: ToolsColorService) { }
 
   ngAfterViewInit(): void {
     // this.colorPickerComponent.resetForm();

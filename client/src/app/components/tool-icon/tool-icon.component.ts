@@ -20,7 +20,7 @@ export class ToolIconComponent implements OnInit {
     // this.iconGroupAuthService.setCurrentIcon(this.faIcon);
   }
 
-  select($event:any) {
+  select($event: any) {
     this.toolsService.toolSelected($event);
   }
 }

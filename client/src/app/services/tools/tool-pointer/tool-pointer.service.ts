@@ -2,24 +2,24 @@ import { Injectable } from '@angular/core';
 import { ITools } from '../ITools';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToolPointerService implements ITools {
 
-  id: number = 0;
+  id = 0;
 
-  name:string = "Point";
+  name = 'Point';
 
   onPressed($event: MouseEvent): string {
-    return "Pressed";
+    return 'Pressed';
   }
 
   onRelease($event: MouseEvent): string {
-    return "Release";
+    return 'Release';
   }
 
   onMove($event: MouseEvent): string {
-    return "Move";
+    return 'Move';
   }
 
   constructor() { }

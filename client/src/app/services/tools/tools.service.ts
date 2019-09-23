@@ -5,21 +5,21 @@ import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToolsService {
 
-  constructor() { 
+  constructor() {
     this.toolsList.push(new ToolPointerService());
     this.toolsList.push(new ToolRectangleService());
     this.toolsList.push(new ToolsApplierColorsService());
   }
 
-  toolSelected(id:number){
+  toolSelectedID = 0;
+
+  toolsList: ITools[] = [];
+
+  toolSelected(id: number) {
     this.toolSelectedID = id;
   }
-
-  toolSelectedID:number = 0;
-
-  toolsList:ITools[] = [];
 }
