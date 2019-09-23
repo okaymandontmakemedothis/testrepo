@@ -1,5 +1,5 @@
 <div class="row">
-    <svg id='test' [attr.width]="width" [attr.height]="height">
+    <svg [attr.width]="width" [attr.height]="height">
         <rect [attr.width]="secondarySize.width" [attr.height]="secondarySize.height" [attr.fill]="secondaryColor"
             [attr.fill-opacity]="secondaryAlpha" style="stroke-width:1;stroke:rgb(0,0,0)"
             (click)="onMouseClickSecondary($event)" />
@@ -12,4 +12,11 @@
     <button mat-icon-button (click)="switchColor()">
         <mat-icon>invert_colors</mat-icon>
     </button>
+</div>
+<div class="row">
+    <h4>BG:</h4>
+    <svg [attr.width]="30" [attr.height]="30">
+        <rect [attr.width]="30" [attr.height]="30" [attr.fill]="backgroundColor" [attr.fill-opacity]="backgroundAlpha"
+            style="stroke-width:1;stroke:rgb(0,0,0)" (click)="onMouseClickBackground($event)" />
+    </svg>
 </div>

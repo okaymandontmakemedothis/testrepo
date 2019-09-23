@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RGB } from 'src/rgb.model';
+import { RGBA } from './tools-color.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,15 +11,13 @@ export class ToolsColorService {
   primaryAlpha = 1;
   secondaryColor: RGB = { r: 255, g: 255, b: 255 };
   secondaryAlpha = 1;
-  lastSelectedColors: { rgb: RGB, a: number }[] = [];
+  lastSelectedColors: RGBA[] = [];
 
-  setPrimaryColor(pc: RGB, a: number) {
-    this.primaryColor = pc;
-    this.primaryAlpha = a;
-    if (this.lastSelectedColors.length >= 10) {
-      this.lastSelectedColors.shift();
+  constructor() {
+    for (let i = 0; i < 9; i++) {
+      this.lastSelectedColors.push({ rgb: { r: 255, g: 255, b: 255 }, a: 1 });
     }
-    this.lastSelectedColors.push({ rgb: pc, a });
+    this.lastSelectedColors.push({ rgb: { r: 0, g: 0, b: 0 }, a: 1 });
   }
 
   get primaryColorString() {
@@ -29,13 +28,27 @@ export class ToolsColorService {
     return 'rgb(' + this.secondaryColor.r + ',' + this.secondaryColor.g + ',' + this.secondaryColor.b + ')';
   }
 
+  setPrimaryColor(pc: RGB, a: number) {
+    this.primaryColor = pc;
+    this.primaryAlpha = a;
+    this.addLastSelectedColor({ rgb: pc, a });
+  }
+
   setSecondaryColor(sc: RGB, a: number) {
     this.secondaryColor = sc;
     this.secondaryAlpha = a;
-    if (this.lastSelectedColors.length >= 10) {
-      this.lastSelectedColors.shift();
+    this.addLastSelectedColor({ rgb: sc, a });
+  }
+
+  private addLastSelectedColor(rgba: RGBA) {
+    if (!this.lastSelectedColors.find((el: RGBA) => {
+      return (el.rgb.r === rgba.rgb.r && el.rgb.g === rgba.rgb.g && el.rgb.b === rgba.rgb.b && el.a === rgba.a);
+    })) {
+      if (this.lastSelectedColors.length >= 10) {
+        this.lastSelectedColors.shift();
+      }
+      this.lastSelectedColors.push(rgba);
     }
-    this.lastSelectedColors.push({ rgb: sc, a });
   }
 
   switchColor() {

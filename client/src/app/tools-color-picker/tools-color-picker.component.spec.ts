@@ -8,7 +8,7 @@ describe('ToolsColorPickerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ToolsColorPickerComponent ]
+      declarations: [ ToolsColorPickerComponent ],
     })
     .compileComponents();
   }));

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
+import { ColorTransformerService } from 'src/app/services/color-transformer/color-transformer.service';
 import { RGB } from 'src/rgb.model';
 
 @Component({
@@ -12,7 +13,7 @@ export class ColorPickerComponent implements OnInit {
 
   colorForm: FormGroup;
 
-  constructor(private colorPickerService: ColorPickerService) {
+  constructor(private colorPickerService: ColorPickerService, private colorTransformer: ColorTransformerService) {
 
   }
 
@@ -36,6 +37,7 @@ export class ColorPickerComponent implements OnInit {
   }
 
   setFormColor(rgb: RGB, a: number) {
+    (this.colorForm.get('hsl') as FormGroup).setValue(this.colorTransformer.rgb2hsl(rgb));
     (this.colorForm.get('rgb') as FormGroup).setValue(rgb);
     (this.colorForm.get('a') as FormControl).setValue(a);
   }
