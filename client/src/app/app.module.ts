@@ -4,35 +4,30 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MccSpeedDialModule } from 'material-community-components';
 import { MaterialModules } from './app.material-modules';
 import { AppComponent } from './components/app/app.component';
-import { ColorOpacityComponent } from './components/color-picker/color-opacity/color-opacity.component';
-import { ColorPaletteComponent } from './components/color-picker/color-palette/color-palette.component';
-import { ColorPickerComponent } from './components/color-picker/color-picker.component';
-import { ColorRgbaHexComponent } from './components/color-picker/color-rgba-hex/color-rgba-hex.component';
-import { ColorSliderComponent } from './components/color-picker/color-slider/color-slider.component';
-import { NewDrawingFormComponent } from './components/new-drawing-form/new-drawing-form.component';
-import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
-import { ToolComponent } from './components/tool/tool.component';
-import { MenuComponent } from './menu/menu.component';
-import { ParametersmenuComponent } from './parametersmenu/parametersmenu.component';
-import { WorkspaceComponent } from './workspace/workspace.component';
-import { CanvasComponent } from './canvas/canvas.component';
+import { CanvasComponent } from './components/canvas/canvas.component';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { ParameterMenuComponent } from './components/parameter-menu/parameter-menu.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { ToolIconComponent } from './components/tool-icon/tool-icon.component';
+import { WorkspaceComponent } from './components/workspace/workspace.component';
+import { DrawerService } from './services/drawer/drawer.service';
+import { SelectToolService } from './services/tool/select-tool.service';
+import { ParameterMenuProviderService } from './services/menu/parameter-menu-provider.service';
+
 @NgModule({
   declarations: [
     AppComponent,
-    NewDrawingComponent,
-    ColorPickerComponent,
-    NewDrawingFormComponent,
-    ColorSliderComponent,
-    ColorPaletteComponent,
-    ColorOpacityComponent,
-    ColorRgbaHexComponent,
-    ToolComponent,
     MenuComponent,
-    ParametersmenuComponent,
+    ParameterMenuComponent,
     WorkspaceComponent,
-    CanvasComponent
+    ToolIconComponent,
+    SidenavComponent,
+    CanvasComponent,
+    DropdownComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +37,7 @@ import { CanvasComponent } from './canvas/canvas.component';
     ReactiveFormsModule,
     MaterialModules,
     FontAwesomeModule,
+    MccSpeedDialModule,
   ],
   exports: [
     ColorPickerComponent,
@@ -49,7 +45,11 @@ import { CanvasComponent } from './canvas/canvas.component';
   entryComponents: [
     NewDrawingComponent,
   ],
-  providers: [],
+  providers: [
+    DrawerService,
+    SelectToolService,
+    ParameterMenuProviderService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {
