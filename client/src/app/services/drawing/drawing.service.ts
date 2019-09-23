@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { RGB } from 'src/app/model/rgb.model';
 import { RGBA } from 'src/app/model/rgba.model';
 import { IObjects } from 'src/app/objects/IObjects';
-import { isObject } from 'util';
 
 @Injectable({
   providedIn: 'root',
