@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-dropdown',
@@ -8,7 +7,6 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 })
 export class DropdownComponent implements OnInit {
 
-  faIcon = faCoffee;
   items: {text: string}[] = [
     {text: 'element1'},
   ];
