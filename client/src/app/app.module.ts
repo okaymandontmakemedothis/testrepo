@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MccSpeedDialModule } from 'material-community-components';
 import { MaterialModules } from './app.material-modules';
+import { ColorPickerModule } from './color-picker/color-picker.module';
 import { AppComponent } from './components/app/app.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
@@ -16,6 +17,14 @@ import { ToolIconComponent } from './components/tool-icon/tool-icon.component';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { IconGroupAuthentificatorService } from './services/icons/icon-group-authentificator.service';
 import { IconTranslatorService } from './services/icons/icon-translator.service';
+import { NewDrawingAlertComponent } from './components/new-drawing/new-drawing-alert/new-drawing-alert.component';
+import { NewDrawingFormComponent } from './components/new-drawing/new-drawing-form/new-drawing-form.component';
+import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
+import { AideDialogComponent } from './components/welcome-dialog/aide-dialog/aide-dialog.component';
+import { DialogComponent } from './components/welcome-dialog/dialog/dialog.component';
+import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.module';
+import { ToolsColorPickerComponent } from './components/tools-color-picker/tools-color-picker.component';
+import { ToolsColorComponent } from './components/tools-color/tools-color.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +36,14 @@ import { IconTranslatorService } from './services/icons/icon-translator.service'
     SidenavComponent,
     CanvasComponent,
     DropdownComponent,
+
+    DialogComponent,
+    AideDialogComponent,
+    NewDrawingComponent,
+    NewDrawingFormComponent,
+    NewDrawingAlertComponent,
+    ToolsColorComponent,
+    ToolsColorPickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,12 +52,19 @@ import { IconTranslatorService } from './services/icons/icon-translator.service'
     HttpClientModule,
     ReactiveFormsModule,
     MaterialModules,
+    WelcomeDialogModule,
+    ColorPickerModule,
     FontAwesomeModule,
     MccSpeedDialModule,
   ],
   exports: [
   ],
   entryComponents: [
+    DialogComponent, AideDialogComponent,
+    NewDrawingAlertComponent,
+    NewDrawingComponent,
+    ToolsColorPickerComponent,
+
   ],
   providers: [
     IconGroupAuthentificatorService,

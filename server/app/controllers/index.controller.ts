@@ -3,6 +3,7 @@ import {inject, injectable} from 'inversify';
 
 import {Message} from '../../../common/communication/message';
 import {IndexService} from '../services/index.service';
+
 import Types from '../types';
 
 @injectable()
@@ -20,6 +21,7 @@ export class IndexController {
         this.router.get('/',
             async (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
+
                 const time: Message = await this.indexService.helloWorld();
                 res.json(time);
             });
@@ -28,6 +30,15 @@ export class IndexController {
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
                 res.json(this.indexService.about());
+
             });
+
+        this.router.get('/text',
+        (req: Request, res: Response, next: NextFunction) => {
+            // Returns the JSON file for text
+            //const obj = this.indexService.getTextRessource();
+            res.json(this.indexService.getTextRessource());
+
+        });
     }
 }
