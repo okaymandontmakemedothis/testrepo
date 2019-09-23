@@ -1,3 +1,5 @@
+import { IObjects } from 'src/app/objects/IObjects';
+
 export interface ITools {
     id: number;
     name: string;
