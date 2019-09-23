@@ -7,6 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MaterialModules } from './app.material-modules';
 import { ColorPickerModule } from './color-picker/color-picker.module';
 import { AppComponent } from './components/app/app.component';
+import { CanvasComponent } from './components/canvas/canvas.component';
 import { AideDialogComponent } from './components/welcome-dialog/aide-dialog/aide-dialog.component';
 import { DialogComponent } from './components/welcome-dialog/dialog/dialog.component';
 import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.module';
@@ -17,18 +18,25 @@ import { ParameterMenuComponent } from './components/parameter-menu/parameter-me
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ToolIconComponent } from './components/tool-icon/tool-icon.component';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
+import { NewDrawingAlertComponent } from './components/new-drawing/new-drawing-alert/new-drawing-alert.component';
+import { NewDrawingFormComponent } from './components/new-drawing/new-drawing-form/new-drawing-form.component';
 import { DrawerService } from './services/drawer/drawer.service';
 import { SelectToolService } from './services/tool/select-tool.service';
 import { ParameterMenuProviderService } from './services/menu/parameter-menu-provider.service';
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
-import { NewDrawingFormComponent } from './components/new-drawing/new-drawing-form/new-drawing-form.component';
-import { NewDrawingAlertComponent } from './components/new-drawing/new-drawing-alert/new-drawing-alert.component';
 import { ToolsColorPickerComponent } from './components/tools-color-picker/tools-color-picker.component';
-import { CanvasComponent } from './components/canvas/canvas.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    MenuComponent,
+    ParameterMenuComponent,
+    WorkspaceComponent,
+    ToolIconComponent,
+    SidenavComponent,
+    CanvasComponent,
+    DropdownComponent,
+
     DialogComponent,
     AideDialogComponent,
     NewDrawingComponent,

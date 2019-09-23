@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ToolsService } from './tools.service';
+import { ToolRectangleService } from './tool-rectangle.service';
 
-describe('ToolsListService', () => {
+describe('ToolRectangleService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ToolsService = TestBed.get(ToolsService);
+    const service: ToolRectangleService = TestBed.get(ToolRectangleService);
     expect(service).toBeTruthy();
   });
 });
