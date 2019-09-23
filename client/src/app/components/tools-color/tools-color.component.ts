@@ -45,6 +45,7 @@ export class ToolsColorComponent {
           width: '250px',
           data: { rgb: this.toolsColor.primaryColor, a: this.toolsColor.primaryAlpha },
         });
+        dialogRef.updatePosition({ top: '50px', left: '25px' });
         dialogRef.afterClosed().subscribe((result: RGBA) => {
           if (result) {
             this.toolsColor.setPrimaryColor(result.rgb, result.a);
@@ -56,6 +57,7 @@ export class ToolsColorComponent {
           width: '250px',
           data: { rgb: this.toolsColor.secondaryColor, a: this.toolsColor.secondaryAlpha },
         });
+        dialogRef.updatePosition({ top: '50px', left: '25px' });
         dialogRef.afterClosed().subscribe((result: RGBA) => {
           if (result) {
             this.toolsColor.setSecondaryColor(result.rgb, result.a);
@@ -67,6 +69,7 @@ export class ToolsColorComponent {
           width: '250px',
           data: { rgb: this.drawing.color, a: this.drawing.alpha },
         });
+        dialogRef.updatePosition({ top: '50px', left: '25px' });
         dialogRef.afterClosed().subscribe((result: RGBA) => {
           if (result) {
             this.drawing.setDrawingColor(result);

@@ -11,6 +11,13 @@ export class DrawingService {
 
   color: RGB = { r: 255, g: 255, b: 255 };
   alpha = 1;
+  width: number;
+  height: number;
+
+  setDimension(width: number, height: number) {
+    this.width = width;
+    this.height = height;
+  }
 
   setDrawingColor(rgba: RGBA) {
     this.color = rgba.rgb;
