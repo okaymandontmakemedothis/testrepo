@@ -8,7 +8,7 @@ import { DrawerService } from '../../services/drawer/drawer.service';
   styleUrls: ['./workspace.component.scss']
 })
 export class WorkspaceComponent implements OnInit {
-   //height:string;
+
    width:string;
    height:string;
 
