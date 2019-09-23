@@ -1,14 +1,16 @@
 import { IObjects } from '../IObjects';
-import { IShapes } from '../IShapes';
+import { RGBA} from  "../../model/rgba.model";
 
-export class RectangleObject implements IObjects, IShapes{
+export class RectangleObject implements IObjects{
+  primaryColor: RGBA;
+  secondaryColor: RGBA;
   id:number = 1;
 
   firstX:number = 0
   firstY:number = 0
-
   x: number = 0;
   y: number = 0;
+  
   height: number = 0;
   width: number = 0;
 

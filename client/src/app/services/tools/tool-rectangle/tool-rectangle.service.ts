@@ -7,6 +7,9 @@ import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 })
 export class ToolRectangleService implements ITools {
   id:number = 1;
+
+  name:string = "Rect";
+
   object:RectangleObject = new RectangleObject(0,0);
 
   onPressed($event:MouseEvent): string {

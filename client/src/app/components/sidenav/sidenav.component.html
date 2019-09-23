@@ -4,7 +4,7 @@
       <div>
         <button (click)="toggle()"></button>
         <div *ngFor="let tool of menuTopToolsList">
-          <button mat-fab (click)="toolsListService.toolSelected(tool.id)"> rect</button>
+          <button mat-fab (click)="toolsListService.toolSelected(tool.id)"> {{tool.name}}</button>
         </div>
       </div>
       <div>

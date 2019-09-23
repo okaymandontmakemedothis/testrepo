@@ -25,24 +25,18 @@ export class CanvasComponent implements OnInit {
   }
 
   onMouseMove($event:MouseEvent){
-    if ($event.offsetX >= 300-5 || $event.offsetY >= 300-5 || $event.offsetX <= 0 || $event.offsetY <= 0)
-      this.isDown = false;
+    //if ($event.offsetX >= 300-5 || $event.offsetY >= 300-5 || $event.offsetX <= 0 || $event.offsetY <= 0)
+      //this.isDown = false;
 
     if(this.isDown){
       this.objectSVGList[this.objectSVGList.length-1] = this.tools.toolsList[this.tools.toolSelectedID].onMove($event);
-      //let newnode = document.createTextNode(this.objectSVGList[this.objectSVGList.length-1]);
-      let tsvg = $event.target as SVGElement;
-      if(tsvg.lastElementChild != null){
-        tsvg.removeChild(tsvg.lastElementChild);
-        console.log(tsvg)
-      }
-      
-        //this.updateView();
+      this.updateView();
     }
   }
 
   @ViewChild('dataContainer',{static:false}) dataContainer: ElementRef;
   updateView(){
+    this.objectSVGString = "";
     this.objectSVGList.forEach(element => {
       this.objectSVGString += element
     });
