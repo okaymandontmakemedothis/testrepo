@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ShortcutClavier } from '../../../../../../common/communication/message';
 
@@ -23,11 +23,10 @@ export class AideDialogComponent implements OnInit {
   }
   getTextRessource() {
     this.http.get('http://localhost:3000/api/index/text').subscribe((res: ShortcutClavier) => {
-      console.log(res);
       this.shortcut = [res.O, res.S, res.G, res.E];
       this.shortcut2 = [res.X, res.C, res.V, res.D, res.Sup, res.A, res.Z, res.ShiftZ];
       this.shortcut3 = [res.Cray, res.W, res.P, res.Y, res.Aer, res.Rec, res.Ell, res.Poly,
-        res.L, res.T, res.R, res.B, res.Eff, res.I, res.Sel];
+      res.L, res.T, res.R, res.B, res.Eff, res.I, res.Sel];
       this.shortcut4 = [res.Gri, res.M, res.Aug, res.Dim];
     });
   }
