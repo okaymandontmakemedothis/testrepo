@@ -29,7 +29,7 @@ export class NewDrawingComponent implements OnInit {
   }
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<NewDrawingComponent>, private snackBar: MatSnackBar,
-              private newDrawingService: NewDrawingService, private drawingService: DrawingService, private dialog: MatDialog) { }
+    private newDrawingService: NewDrawingService, private drawingService: DrawingService, private dialog: MatDialog) { }
 
   onAccept(): void {
     if (this.data.drawingPresent) {

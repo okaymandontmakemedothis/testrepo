@@ -10,6 +10,8 @@ import { AppComponent } from './components/app/app.component';
 import { NewDrawingAlertComponent } from './components/new-drawing/new-drawing-alert/new-drawing-alert.component';
 import { NewDrawingFormComponent } from './components/new-drawing/new-drawing-form/new-drawing-form.component';
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
+import { ToolsColorComponent } from './tools-color/tools-color.component';
+import { ToolsColorPickerComponent } from './tools-color-picker/tools-color-picker.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { NewDrawingComponent } from './components/new-drawing/new-drawing.compon
     NewDrawingComponent,
     NewDrawingFormComponent,
     NewDrawingAlertComponent,
+    ToolsColorComponent,
+    ToolsColorPickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +37,8 @@ import { NewDrawingComponent } from './components/new-drawing/new-drawing.compon
   entryComponents: [
     NewDrawingAlertComponent,
     NewDrawingComponent,
+    ToolsColorPickerComponent,
+
   ],
   providers: [],
   bootstrap: [AppComponent],
