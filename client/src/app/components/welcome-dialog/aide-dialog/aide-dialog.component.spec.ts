@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NewDrawingAlertComponent } from './new-drawing-alert.component';
+import { AideDialogComponent } from './aide-dialog.component';
 
-describe('NewDrawingAlertComponent', () => {
-  let component: NewDrawingAlertComponent;
-  let fixture: ComponentFixture<NewDrawingAlertComponent>;
+describe('AideDialogComponent', () => {
+  let component: AideDialogComponent;
+  let fixture: ComponentFixture<AideDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewDrawingAlertComponent ],
+      declarations: [ AideDialogComponent ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewDrawingAlertComponent);
+    fixture = TestBed.createComponent(AideDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
