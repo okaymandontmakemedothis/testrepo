@@ -7,7 +7,7 @@ export class DrawerService {
  drawerheight: string; //pouvoir l'injecter dans le html
  drawerwidth: string;
 
- 
+
  height:number = 200;
  width:number = 300;
 

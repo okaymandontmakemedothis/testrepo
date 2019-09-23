@@ -40,10 +40,8 @@ import { ParameterMenuProviderService } from './services/menu/parameter-menu-pro
     MccSpeedDialModule,
   ],
   exports: [
-    ColorPickerComponent,
   ],
   entryComponents: [
-    NewDrawingComponent,
   ],
   providers: [
     DrawerService,
