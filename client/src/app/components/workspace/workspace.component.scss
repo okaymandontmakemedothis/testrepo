@@ -3,7 +3,7 @@ app-canvas{
  // margin: 1%;
   height:90%;
   width:100%;
-  //overflow:hidden;
+ // overflow:hidden;
   //border:10px solid blue;
   box-sizing:border-box;
 
@@ -33,6 +33,7 @@ div{ // c<est le workspace ou on definit la taille de la zone des conteneurs de 
   height:(var(--heightworkspace));
   width:(var(--widthworkspace));
 
+
 }
 
 
@@ -40,10 +41,10 @@ mat-drawer-container { //c'est le conteneur du worspace
 
   height: (var(--heightworkspace));
   width:var((--widthworkspace));
-  border:10px solid blue;
+  border:2px solid blue;
   box-sizing:border-box;
-  overflow:auto;
-
+  overflow-x:auto;
+  overflow-y:auto;
 }
 
 mat-drawer-content{ //container de  la zone de dessin
@@ -51,4 +52,7 @@ mat-drawer-content{ //container de  la zone de dessin
    height:(var(--heightdessin));
    background-color:(var(--background-color));
    width:var((--widthdessin));// pour que le contenu du dessin occupe l'espace alloue
+
+
+
 }

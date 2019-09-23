@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DrawerService {
- drawerheight: string= "1000%"; //pourvoir l'injecter dans le html
- drawerwidth: string= "1000%";
+ drawerheight: string= "100px"; //pouvoir l'injecter dans le html
+ drawerwidth: string= "200px";
 
 /*
 constructor(height:string,width:string) {
@@ -14,6 +14,7 @@ constructor(height:string,width:string) {
  }
 */
 constructor(){}
+
 
 
 }
