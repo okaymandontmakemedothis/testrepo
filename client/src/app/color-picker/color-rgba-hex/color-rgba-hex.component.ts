@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
@@ -9,10 +9,10 @@ import { ColorTransformerService } from 'src/app/services/color-transformer/colo
   templateUrl: './color-rgba-hex.component.html',
   styleUrls: ['./color-rgba-hex.component.scss'],
 })
-export class ColorRgbaHexComponent implements OnInit {
+export class ColorRgbaHexComponent implements OnInit, AfterViewInit {
 
   colorForm: FormGroup;
-  hex: string;
+  hex = '#000000';
 
   private subs: Subscription;
 
@@ -20,6 +20,9 @@ export class ColorRgbaHexComponent implements OnInit {
 
   ngOnInit(): void {
     this.colorForm = this.colorPickerService.colorForm;
+  }
+
+  ngAfterViewInit(): void {
     this.subs = this.hsl.valueChanges.subscribe((value) => this.hslChangeUpdate());
     this.hslChangeUpdate();
   }

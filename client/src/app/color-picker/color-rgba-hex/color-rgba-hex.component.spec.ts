@@ -49,8 +49,4 @@ describe('ColorRgbaHexComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('when the value changes hslChangeUpdate should be called', () => {
-
-  });
 });

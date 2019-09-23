@@ -12,7 +12,7 @@ describe('DialogComponent', () => {
   let indexServiceSpy: SpyObj<IndexService>;
 
   beforeEach(() => {
-    const indexServiceSpy = jasmine.createSpyObj('IndexService', ['welcomeGet']);
+    indexServiceSpy = jasmine.createSpyObj('IndexService', ['welcomeGet']);
     indexServiceSpy.welcomeGet.and.returnValue(of({ body: '', end: '' }));
   });
 
@@ -29,7 +29,7 @@ describe('DialogComponent', () => {
       ],
       providers: [
         DialogComponent,
-        { provide: IndexService, useValue: indexServiceSpy} ],
+        { provide: IndexService, useValue: indexServiceSpy }],
     });
   }));
 
