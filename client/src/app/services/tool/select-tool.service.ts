@@ -8,7 +8,6 @@ export class SelectToolService {
   constructor() { }
   setIcon(icon: IconDefinition) {
     this.currentIcon = icon;
-    console.log('this.currentIcon');
   }
   getIcon(): IconDefinition {
     return this.currentIcon;
