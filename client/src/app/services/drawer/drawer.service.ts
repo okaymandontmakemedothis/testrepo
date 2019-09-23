@@ -8,7 +8,7 @@ export class DrawerService {
  drawerwidth: string;
 
 
- height:number = 200;
+ height:number = 300;
  width:number = 300;
 
 /*constructor(height:string,width:string) {
