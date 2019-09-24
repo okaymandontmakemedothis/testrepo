@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, HostListener } from '@angular/core';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../drawing/drawing.service';
 import { ToolsColorService } from '../tools-color/tools-color.service';
@@ -31,7 +31,9 @@ export class ToolsService {
   currentObject: null | IObjects;
   tools: ITools[] = [];
 
+  @HostListener("mousedown", ['$event'])
   onPressed(event: MouseEvent): void {
+    console.log(event)
     this.currentObject = this.selectedTools.onPressed(event);
     if (this.currentObject) {
       this.currentObject.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
