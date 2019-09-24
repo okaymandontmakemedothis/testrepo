@@ -7,6 +7,7 @@ import { isObject } from 'util';
 import { TargetLocator } from 'selenium-webdriver';
 import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 import { TemplateBindingParseResult } from '@angular/compiler';
+import { DrawingService } from '../../drawing/drawing.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,13 +19,12 @@ export class ToolsApplierColorsService implements ITools {
   // onMove($event: MouseEvent): void;
   id = 2;
   name = 'Applier';
-  object: IObjects;
-  onPressed($event: MouseEvent): string {
+
+  onPressed($event: MouseEvent): IObjects {
+      const target = $event.target as Element;
       if ($event.button === 0) { // left click so set fill to a color
         console.log($event.target);
-        const target = $event.target as Element;
         target.setAttribute('style', 'fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,255)');
-        console.log(target);
 
       } else {     // right click so set stroke to a color
         document.addEventListener('contextmenu', ($event2) => {
@@ -32,15 +32,17 @@ export class ToolsApplierColorsService implements ITools {
         });
         console.log($event.target);
       }
-      return this.object.draw($event);
+
+      this.drawing.getObject(Number(target.id)); // this should return an IObjects (but it doesn't yet in the function from drawingService)
+      // this.object = this.drawing.getObject()...
+      this.object.draw($event); // function from IObjects
+      return this.object;
   }
-  onRelease($event: MouseEvent): string {
-    return this.object.draw($event);
+  onRelease($event: MouseEvent) {
   }
-  onMove($event: MouseEvent): string {
-    return this.object.draw($event);
+  onMove($event: MouseEvent) {
   }
 
  
-  constructor() { }
+  constructor(private object: IObjects, private drawing: DrawingService) { }
 }
