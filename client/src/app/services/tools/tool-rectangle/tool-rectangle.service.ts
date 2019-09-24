@@ -11,21 +11,20 @@ export class ToolRectangleService implements ITools {
 
   name:string = "Rect";
 
-  object:RectangleObject = new RectangleObject(0,0);
+  object: RectangleObject | null;
 
-  onPressed($event:MouseEvent): IObjects {
-    this.object = new RectangleObject($event.offsetX, $event.offsetY)
+  onPressed(event:MouseEvent): IObjects {
+    this.object = new RectangleObject(event.offsetX, event.offsetY)
     return this.object;
   }
 
-  onRelease($event:MouseEvent): string {
-    console.log(this.object.svgLine)
-    return this.object.draw($event);
+  onRelease(event:MouseEvent): void {
+    this.object = null
   }
 
-  onMove($event:MouseEvent): string{
-    return this.object.draw($event);
-    
+  onMove(event:MouseEvent): void{
+    if(this.object)
+      this.object.setSize(event.offsetX, event.offsetY);
   }
 
   constructor() { }

@@ -19,6 +19,8 @@ export class ToolsService {
 
     this.tools.push(new ToolPointerService());
     this.tools.push(new ToolRectangleService());
+
+    this.selectedTools = this.tools[0];
   }
 
   toolSelected(id:number){
@@ -29,7 +31,6 @@ export class ToolsService {
   currentObject: null | IObjects;
   tools: ITools[] = [];
 
-
   onPressed(event: MouseEvent): void {
     this.currentObject = this.selectedTools.onPressed(event);
     if (this.currentObject) {
@@ -37,6 +38,16 @@ export class ToolsService {
       this.currentObject.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
       this.drawing.addObject(this.currentObject);
     }
+  }
+
+  onRelease(event: MouseEvent): void{
+    this.selectedTools.onRelease(event);
+    this.currentObject = null
+  }
+
+  onMove(event: MouseEvent): void{
+    this.selectedTools.onMove(event);
+    this.drawing.draw();
   }
 
   toolSelectedID:number = 0;

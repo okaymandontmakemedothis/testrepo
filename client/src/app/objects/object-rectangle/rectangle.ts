@@ -16,26 +16,29 @@ export class RectangleObject implements IObjects{
 
   strokeWidth:number;
 
-  r:number;
-  g:number;
-  b:number;
+  svgLine:string = "<rect x=\"" + this.x + "\" y=\"" + this.y + "\" width=\"" + this.width + "\" height=\"" + this.height + "\" style=\"fill:rgb(255,0,0);stroke-width:-3;stroke:rgb(0,0,255)\" />";
 
-  svgLine:string = "<rect x=\"" + this.x + "\" y=\"" + this.y + "\" width=\"" + this.width + "\" height=\"" + this.height + "\" style=\"fill:rgb(255,0,0);stroke-width:3;stroke:rgb(0,0,255)\" />";
-
-  draw($event:MouseEvent): string {
-    this.width = $event.offsetX - this.firstX;
-    this.height = $event.offsetY - this.firstY;
+  setSize(x:number, y:number):void{
+    this.width = x - this.firstX;
+    this.height = y - this.firstY;
 
     if(this.width < 0){
-      this.x = $event.offsetX;
+      this.x = x;
       this.width = this.firstX - this.x;
     }
     if(this.height < 0){
-      this.y = $event.offsetY;
+      this.y = y;
       this.height = this.firstY - this.y;
     }
+  }
 
-    return "<rect x=\"" + this.x + "\" y=\"" + this.y + "\" width=\"" + this.width + "\" height=\"" + this.height + "\" style=\"fill:rgb(255,0,0);stroke-width:3;stroke:rgb(0,0,255)\" />"
+  setStroke(width:number):void{
+    this.strokeWidth = width;
+  }
+
+  draw(): string {
+
+    return "<rect x=\"" + this.x + "\" y=\"" + this.y + "\" width=\"" + this.width + "\" height=\"" + this.height + "\" style=\"fill:rgb(" + this.primaryColor.rgb.r + "," + this.primaryColor.rgb.g + "," + this.primaryColor.rgb.b + ");stroke-width:10;stroke-alignment:inner;stroke:rgb(" + this.secondaryColor.rgb.r + "," + this.secondaryColor.rgb.g + "," + this.secondaryColor.rgb.b + ")\" />"
   }
 
   getColor(): void {

@@ -10,6 +10,8 @@ export class DrawingService {
 
   created = false;
 
+  objectId:number = 1
+
   color: RGB = { r: 255, g: 255, b: 255 };
   alpha = 1;
   width = 500;
@@ -28,7 +30,9 @@ export class DrawingService {
   }
 
   addObject(obj: IObjects) {
+    obj.id = this.objectId;
     this.objectList.set(obj.id, obj);
+    this.objectId++;
   }
 
   getObject(id: number) {

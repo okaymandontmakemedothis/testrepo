@@ -4,6 +4,6 @@ export interface ITools {
     id: number;
     name: string;
     onPressed($event: MouseEvent): IObjects;
-    onRelease($event: MouseEvent): string;
-    onMove($event: MouseEvent): string;
+    onRelease($event: MouseEvent): void;
+    onMove($event: MouseEvent): void;
 }
