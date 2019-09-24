@@ -35,7 +35,7 @@ export class RectangleObject implements IObjects {
       this.height = this.firstY - this.y;
     }
 
-    return '<rect x="' + this.x + '" y="' + this.y + '" width="' + this.width + '" height="' + this.height + '" style="fill:rgb(255,0,0);stroke-width:3;stroke:rgb(0,0,255)" />';
+    return '<rect id="1" + x="' + this.x + '" y="' + this.y + '" width="' + this.width + '" height="' + this.height + '" style="fill:rgb(255,0,0);stroke-width:3;stroke:rgb(0,0,255)" />';
   }
 
   getColor(): void {
