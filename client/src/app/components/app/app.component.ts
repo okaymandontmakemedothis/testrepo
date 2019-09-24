@@ -35,5 +35,6 @@ export class AppComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.dialog.open(NewDrawingComponent, {
     });
+
   }
 }

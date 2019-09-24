@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ParameterMenuComponent } from './parameter-menu.component';
 import { MaterialModules } from 'src/app/app.material-modules';
 import { DropdownComponent } from '../dropdown/dropdown.component';
+import { ParameterMenuComponent } from './parameter-menu.component';
 
 describe('ParameterMenuComponent', () => {
   let component: ParameterMenuComponent;

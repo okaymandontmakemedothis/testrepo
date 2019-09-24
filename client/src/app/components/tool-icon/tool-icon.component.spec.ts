@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ToolIconComponent } from './tool-icon.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { ToolIconComponent } from './tool-icon.component';
 
 describe('ToolIconComponent', () => {
   let component: ToolIconComponent;

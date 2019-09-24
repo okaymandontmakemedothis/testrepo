@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MenuComponent } from './menu.component';
 import { ParameterMenuComponent } from '../parameter-menu/parameter-menu.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
+import { MenuComponent } from './menu.component';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -14,7 +14,7 @@ describe('MenuComponent', () => {
         MenuComponent,
         ParameterMenuComponent,
         SidenavComponent,
-      ]
+      ],
     })
     .compileComponents();
   }));
