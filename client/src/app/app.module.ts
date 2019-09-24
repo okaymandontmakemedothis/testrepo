@@ -51,7 +51,7 @@ import { SelectToolService } from './services/tool/select-tool.service';
     SidenavComponent,
     CanvasComponent,
     DropdownComponent,
-  ],
+    ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
