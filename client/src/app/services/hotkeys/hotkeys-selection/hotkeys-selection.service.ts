@@ -16,49 +16,48 @@ export class HotkeysSelectionService {
 
   constructor() { }
 
-  hotkeysSelection(event:KeyboardEvent){
-    event.preventDefault();
-    if(this.canExecute){
+  hotkeysSelection(event: KeyboardEvent) {
+    if (this.canExecute) {
       if (event.ctrlKey && event.code == keyCodes.x) {
-          
-          return 'x';
+        event.preventDefault();
+        return 'x';
       }
 
       if (event.ctrlKey && event.code == keyCodes.c) {
-          
-          return 'c';
+        event.preventDefault();
+        return 'c';
       }
 
       if (event.ctrlKey && event.code == keyCodes.v) {
-          
-          return 'v';
+        event.preventDefault();
+        return 'v';
       }
 
       if (event.ctrlKey && event.code == keyCodes.d) {
-          
-          return 'd';
+        event.preventDefault();
+        return 'd';
       }
 
       if (event.code == keyCodes.delete) {
-        
+        event.preventDefault();
         return 'del';
       }
 
       if (event.ctrlKey && event.code == keyCodes.a) {
-          
-          return 'a';
+        event.preventDefault();
+        return 'a';
       }
 
       if (event.ctrlKey && event.shiftKey && event.code == keyCodes.z) {
-        
+        event.preventDefault();
         return 'shz';
 
         return;
       }
 
       if (event.ctrlKey && event.code == keyCodes.z) {
-          
-          return 'z';
+        event.preventDefault();
+        return 'z';
       }
     }
     return 'false';
