@@ -1,6 +1,7 @@
 <div>
   <mat-drawer-container>
-    <mat-drawer-content class="dessincontainer">
+    <mat-drawer-content class="dessincontainer" [ngStyle]="{'width': width+'px', 'height': height+'px'}"
+      (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp($event)">
       <app-canvas></app-canvas>
     </mat-drawer-content>
   </mat-drawer-container>

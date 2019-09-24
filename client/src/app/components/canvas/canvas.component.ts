@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
+import { ToolsService } from 'src/app/services/tools/tools.service';
 
 @Component({
   selector: 'app-canvas',
@@ -15,7 +16,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   @ViewChild('svg', { static: false })
   svg: ElementRef;
 
-  constructor(private drawing: DrawingService) { }
+  constructor(private drawing: DrawingService, private toolsService: ToolsService) { }
 
   get width(): number { return this.drawing.width; }
 
@@ -31,5 +32,18 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     this.drawing.svgString.subscribe((svgString: string) => {
       this.svg.nativeElement.innerHTML = svgString;
     });
+  }
+
+
+  onMouseDown(event: MouseEvent) {
+    this.toolsService.onPressed(event);
+  }
+
+  onMouseUp(event: MouseEvent) {
+    this.toolsService.onRelease(event);
+  }
+
+  onMouseMove(event: MouseEvent) {
+    this.toolsService.onMove(event);
   }
 }

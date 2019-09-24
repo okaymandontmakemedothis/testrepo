@@ -1,21 +1,37 @@
 import { Injectable } from '@angular/core';
 import { ITools } from '../ITools';
+import { IObjects } from 'src/app/objects/IObjects';
+import { Polyline } from 'src/app/objects/polyline';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PencilToolService implements ITools {
-  id: number;
+  readonly id: number;
+  private object: Polyline | null;
+  parameters: FormGroup;
+  strokeWidth: FormControl;
 
-  constructor() { }
+  constructor() {
+    this.id = 2;
+    this.strokeWidth = new FormControl(1);
+    this.parameters = new FormGroup({
+      strokeWidth: this.strokeWidth,
+    });
+  }
 
-  onPressed($event: MouseEvent): string {
-    throw new Error("Method not implemented.");
+  onPressed(event: MouseEvent): IObjects {
+    this.object = new Polyline({ x: event.offsetX, y: event.offsetY }, this.strokeWidth.value);
+    return this.object;
   }
-  onRelease($event: MouseEvent): string {
-    throw new Error("Method not implemented.");
+  onRelease(event: MouseEvent): void {
+    this.object = null;
   }
-  onMove($event: MouseEvent): string {
-    throw new Error("Method not implemented.");
+
+  onMove(event: MouseEvent): void {
+    if (this.object) {
+      this.object.addPoint({ x: event.movementX, y: event.movementY });
+    }
   }
 }
