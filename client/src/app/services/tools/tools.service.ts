@@ -1,31 +1,14 @@
-<<<<<<< HEAD
-import { Injectable} from '@angular/core';
-import { ITools } from './ITools';
-import { ToolPointerService } from './tool-pointer/tool-pointer.service';
-import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
-import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
-=======
 import { Injectable } from '@angular/core';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../drawing/drawing.service';
 import { ToolsColorService } from '../tools-color/tools-color.service';
 import { ITools } from './ITools';
->>>>>>> master
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToolsService {
 
-<<<<<<< HEAD
-  constructor() {
-    this.toolsList.push(new ToolPointerService());
-    this.toolsList.push(new ToolRectangleService());
-    this.toolsList.push(new ToolsApplierColorsService());
-  }
-
-  toolSelectedID = 0;
-=======
   selectedTools: ITools;
   currentObject: null | IObjects;
   tools: ITools[] = [];
@@ -45,11 +28,13 @@ export class ToolsService {
       this.drawing.addObject(this.currentObject);
     }
   }
->>>>>>> master
 
-  toolsList: ITools[] = [];
+  onRelease(event: MouseEvent): void {
+    this.selectedTools.onRelease(event);
+    this.currentObject = null;
+  }
 
-  toolSelected(id: number) {
-    this.toolSelectedID = id;
+  onMove(event: MouseEvent): void {
+    this.selectedTools.onMove(event);
   }
 }

@@ -22,10 +22,6 @@ import { AideDialogComponent } from './components/welcome-dialog/aide-dialog/aid
 import { DialogComponent } from './components/welcome-dialog/dialog/dialog.component';
 import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.module';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
-<<<<<<< HEAD
-import { DrawerService } from './services/drawer/drawer.service';
-=======
->>>>>>> master
 import { ParameterMenuProviderService } from './services/menu/parameter-menu-provider.service';
 import { SelectToolService } from './services/tool/select-tool.service';
 

@@ -2,16 +2,10 @@
   <mat-sidenav-content fixedInViewport=true disableClose=true>
     <div class="container color">
       <div>
-<<<<<<< HEAD
-        <button (click)="toggle()"></button>
-        <div *ngFor="let tool of menuTopToolsList">
-          <button mat-fab (click)="toolsService.toolSelected(tool.id)"> {{tool.name}}</button>
-=======
         <button mat-raised-button (click)="toggle()"> click </button>
         <app-tools-color></app-tools-color>
         <div *ngFor="let faIcon of menuTopIconList">
           <app-tool-icon [faIcon]="faIcon"></app-tool-icon>
->>>>>>> master
         </div>
       </div>
       <div>
