@@ -33,12 +33,12 @@ import {
 
 export class FaIcons {
 
-  constructor(){
+  constructor() {
     FaIcons.iconParameters = new Map<IconDefinition, string[]>();
-    FaIcons.iconParameters.set(faSquare, [ "Épaisseur du trait" ]);
-    FaIcons.iconParameters.set(faSquare, [ "Épaisseur du trait" ]);
-    FaIcons.iconParameters.set(faPaintBrush, [ "Épaisseur du trait", "Texture du trait" ]);
-    FaIcons.iconParameters.set(faEyeDropper, [ "" ]);
+    FaIcons.iconParameters.set(faSquare, [ 'Épaisseur du trait' ]);
+    FaIcons.iconParameters.set(faSquare, [ 'Épaisseur du trait' ]);
+    FaIcons.iconParameters.set(faPaintBrush, [ 'Épaisseur du trait', 'Texture du trait' ]);
+    FaIcons.iconParameters.set(faEyeDropper, [ '' ]);
   }
 
   static readonly defaultSelectedTool = faPencilAlt;
@@ -72,7 +72,7 @@ export class FaIcons {
 
   static readonly menuBottomIconList = [
     faBars,
-  ]
+  ];
 
   static readonly fileOptions = [
     faPlus,

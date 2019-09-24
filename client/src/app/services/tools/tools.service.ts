@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../drawing/drawing.service';
-import { ITools } from './ITools';
 import { ToolsColorService } from '../tools-color/tools-color.service';
+import { ITools } from './ITools';
 
 @Injectable({
   providedIn: 'root',

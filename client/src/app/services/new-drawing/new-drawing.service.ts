@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { WorkspaceService } from 'src/app/workspace.service';
 import { DrawingSizeValidatorService } from '../drawing-size-validator/drawing-size-validator.service';
 
 @Injectable()
@@ -9,11 +10,11 @@ export class NewDrawingService {
   private isSizeModified = false;
 
   constructor(private drawingSizeValidatorService: DrawingSizeValidatorService, private formBuilder: FormBuilder,
-  ) {
+              private workspaceService: WorkspaceService) {
     this.form = this.formBuilder.group({
       size: this.formBuilder.group({
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: this.workspaceService.width,
+        height: this.workspaceService.height,
       }, {
         validator: this.drawingSizeValidatorService.formValidator(),
       }),
@@ -26,7 +27,7 @@ export class NewDrawingService {
     });
 
     this.sizeGroup.valueChanges.subscribe((size) => {
-      this.isSizeModified = !(size.width === window.innerWidth && size.height === window.innerHeight);
+      this.isSizeModified = !(size.width === this.workspaceService.width && size.height === this.workspaceService.height);
       this.form.updateValueAndValidity();
     });
   }
@@ -45,7 +46,7 @@ export class NewDrawingService {
 
   onResize() {
     if (!this.isSizeModified) {
-      this.sizeGroup.setValue({ width: window.innerWidth, height: window.innerHeight });
+      this.sizeGroup.setValue({ width: this.workspaceService.width, height: this.workspaceService.height });
     }
   }
 }

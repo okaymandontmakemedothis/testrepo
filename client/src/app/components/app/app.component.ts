@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
 
@@ -8,14 +8,13 @@ import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.co
   styleUrls: ['./app.component.scss'],
   templateUrl: './app.component.html',
 })
-export class AppComponent implements OnInit {
-
-  readonly title: string = 'PolyDessin E16';
+export class AppComponent implements AfterViewInit {
 
   constructor(private dialog: MatDialog) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.dialog.open(NewDrawingComponent, {
     });
+
   }
 }
