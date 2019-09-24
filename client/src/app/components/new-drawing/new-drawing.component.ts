@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import { AfterViewInit, Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material';
+=======
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+>>>>>>> master
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ColorPickerComponent } from 'src/app/color-picker/color-picker/color-picker.component';
@@ -23,7 +28,11 @@ export class NewDrawingComponent implements OnInit, AfterViewInit {
   @ViewChild(ColorPickerComponent, { static: false })
   colorPickerComponent: ColorPickerComponent;
 
+<<<<<<< HEAD
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<NewDrawingComponent>, private snackBar: MatSnackBar,
+=======
+  constructor(public dialogRef: MatDialogRef<NewDrawingComponent>, private snackBar: MatSnackBar,
+>>>>>>> master
               private newDrawingService: NewDrawingService, private drawingService: DrawingService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -54,10 +63,9 @@ export class NewDrawingComponent implements OnInit, AfterViewInit {
 
   private newDrawing() {
     this.drawingService.created = true;
-    this.drawingService.setDrawingColor({ rgb: this.colorPickerComponent.rgb, a: this.colorPickerComponent.a });
-    this.drawingService.setDimension(
-      (this.newDrawingService.sizeGroup.get('width') as FormControl).value,
+    this.drawingService.newDrawing((this.newDrawingService.sizeGroup.get('width') as FormControl).value,
       (this.newDrawingService.sizeGroup.get('height') as FormControl).value,
+      { rgb: this.colorPickerComponent.rgb, a: this.colorPickerComponent.a },
     );
     this.snackBar.open('Drawing created', '', { duration: 1000, });
     this.newDrawingService.form.reset();

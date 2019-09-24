@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { DrawerService } from '../../services/drawer/drawer.service';
+=======
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { WorkspaceService } from 'src/app/workspace.service';
+>>>>>>> master
 
 @Component({
   selector: 'app-workspace',
@@ -8,6 +13,7 @@ import { DrawerService } from '../../services/drawer/drawer.service';
 })
 export class WorkspaceComponent implements OnInit {
 
+<<<<<<< HEAD
    width: string;
    height: string;
 
@@ -31,5 +37,11 @@ export class WorkspaceComponent implements OnInit {
     container.style.height =  this.height;
     container.style.backgroundColor = 'violet';
 
+=======
+  constructor(private el: ElementRef, private workspaceService: WorkspaceService) { }
+
+  ngOnInit() {
+    this.workspaceService.el = this.el;
+>>>>>>> master
   }
 }

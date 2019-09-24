@@ -3,9 +3,8 @@
 div{ // c<est le workspace ou on definit la taille de la zone des conteneurs de dessin et du workspace
   display: flex;
   justify-content:flex-start;
-  --background-color:rgb(0, 128, 53);
   --widthdessin:100%;
-  --heightdessin:10%;
+  --heightdessin:100%;
   --heightworkspace:100%;
   --widthworkspace:100%;
   height:(var(--heightworkspace));
@@ -22,10 +21,7 @@ mat-drawer-container { //c'est le conteneur du worspace
   overflow-y:auto;
 }
 
-mat-drawer-content{ //container de  la zone de dessin
-   height:(var(--heightdessin));
-   background-color:(var(--background-color));
-   width:var((--widthdessin));// pour que le contenu du dessin occupe l'espace alloue
+mat-drawer-content{ //container de  la zone de dessin// pour que le contenu du dessin occupe l'espace alloue
    border:2px solid blue;
 
 }

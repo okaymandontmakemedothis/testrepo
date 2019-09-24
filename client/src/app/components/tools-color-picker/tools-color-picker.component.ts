@@ -29,8 +29,8 @@ export class ToolsColorPickerComponent implements AfterViewInit {
     this.colorPickerComponent.setFormColor(rgba.rgb, rgba.a);
   }
 
-  rgba2rgbstring(rgba: RGBA): string {
-    return 'rgb(' + rgba.rgb.r + ',' + rgba.rgb.g + ',' + rgba.rgb.b + ')';
+  rgba2rgbastring(rgba: RGBA): string {
+    return 'rgb(' + rgba.rgb.r + ',' + rgba.rgb.g + ',' + rgba.rgb.b + ',' + rgba.a + ')';
   }
 
   get lastColors(): RGBA[] {

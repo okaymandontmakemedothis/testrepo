@@ -18,7 +18,7 @@ describe('SidenavComponent', () => {
         MaterialModules,
       ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
