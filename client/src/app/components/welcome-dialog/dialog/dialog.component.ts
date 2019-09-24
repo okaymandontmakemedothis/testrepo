@@ -16,7 +16,7 @@ export class DialogComponent {
   messageW = new BehaviorSubject<WelcomeMessage>({ body: '', end: '' });
 
   constructor(public dialog: MatDialog,
-    public dialogRef: MatDialogRef<DialogComponent>, private basicService: IndexService,
+              public dialogRef: MatDialogRef<DialogComponent>, private basicService: IndexService,
   ) {
     this.basicService.welcomeGet()
       .subscribe(this.messageW);

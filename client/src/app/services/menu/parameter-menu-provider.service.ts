@@ -8,7 +8,7 @@ export class ParameterMenuProviderService {
 
   parameters: Subject<string[]>;
 
-  setParameters(data: string[]){
+  setParameters(data: string[]) {
     this.parameters.next(data);
   }
 }

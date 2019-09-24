@@ -19,6 +19,10 @@ export class CanvasComponent implements OnInit, AfterViewInit {
 
   get width(): number { return this.drawing.width; }
 
+  get isDrawingCreated(): boolean {
+    return this.drawing.created;
+  }
+
   ngOnInit() {
     console.log(this.backgroundColor);
   }

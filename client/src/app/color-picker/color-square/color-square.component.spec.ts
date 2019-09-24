@@ -38,7 +38,7 @@ describe('ColorSquareComponent', () => {
   });
 
   it('rgbString after a value update', () => {
-    //component.rgb.setValue({ r: 120, g: 40, b: 180 });
+    // component.rgb.setValue({ r: 120, g: 40, b: 180 });
     expect(component.rgbString).toBe('rgb(120,40,180)');
   });
 });

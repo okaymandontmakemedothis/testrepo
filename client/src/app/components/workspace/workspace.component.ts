@@ -1,27 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { WorkspaceService } from 'src/app/workspace.service';
 
 @Component({
   selector: 'app-workspace',
   templateUrl: './workspace.component.html',
-  styleUrls: ['./workspace.component.scss']
+  styleUrls: ['./workspace.component.scss'],
 })
 export class WorkspaceComponent implements OnInit {
 
-  width: number;
-  height: number;
+  constructor(private el: ElementRef, private workspaceService: WorkspaceService) { }
 
   ngOnInit() {
-
-    this.height = window.innerHeight;
-    this.width = window.innerWidth;
-    this.buildWorkplaceArea();
-
-  }
-
-
-  private buildWorkplaceArea() {
-    const container = document.querySelector('.dessincontainer') as HTMLElement;
-    container.style.width = this.width.toString() + 'px';
-    container.style.height = this.height.toString() + 'px';
+    this.workspaceService.el = this.el;
   }
 }
