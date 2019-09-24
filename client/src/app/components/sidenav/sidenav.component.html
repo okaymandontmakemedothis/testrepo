@@ -1,18 +1,15 @@
-<mat-sidenav-container>
-  <mat-sidenav-content fixedInViewport=true disableClose=true>
+<mat-sidenav-container class="container">
+  <mat-sidenav mode="side" fixedInViewport=true fxFlexFill disableClose=true opened>
     <div class="container color">
-      <div>
-        <button mat-raised-button (click)="toggle()"> click </button>
         <app-tools-color></app-tools-color>
-        <div *ngFor="let faIcon of menuTopIconList">
-          <app-tool-icon [faIcon]="faIcon"></app-tool-icon>
-        </div>
-      </div>
-      <div>
-        <div *ngFor="let faIcon of menuBottomIconList">
-          <app-tool-icon [faIcon]="faIcon"></app-tool-icon>
-        </div>
-      </div>
+        <button mat-fab> allo </button>
+        <!--<div *ngFor="let tool of menuTopToolsList">
+          <button mat-fab (click)="toolSelection(tool.id)"> {{tool.name}}</button>
+        </div>-->
     </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-parameter-menu></app-parameter-menu>
   </mat-sidenav-content>
 </mat-sidenav-container>
