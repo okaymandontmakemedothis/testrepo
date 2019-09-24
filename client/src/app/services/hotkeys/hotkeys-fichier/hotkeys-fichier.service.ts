@@ -18,24 +18,27 @@ export class HotkeysFichierService {
 
   constructor() { }
 
-  hotkeysFichier(event:KeyboardEvent){
-    event.preventDefault();
-    if(this.canExecute){
-        if (event.ctrlKey && event.code == keyCodes.o) {
-            this.dialog.emit();
-        }
+  hotkeysFichier(event: KeyboardEvent) {
+    if (this.canExecute) {
+      if (event.ctrlKey && event.code == keyCodes.o) {
+        event.preventDefault();
+        this.dialog.emit();
+      }
 
-        if (event.ctrlKey && event.code == keyCodes.s) {
-            this.dialog.emit();
-        }
+      if (event.ctrlKey && event.code == keyCodes.s) {
+        event.preventDefault();
+        this.dialog.emit();
+      }
 
-        if (event.ctrlKey && event.code == keyCodes.g) {
-            this.dialog.emit();
-        }
+      if (event.ctrlKey && event.code == keyCodes.g) {
+        event.preventDefault();
+        this.dialog.emit();
+      }
 
-        if (event.ctrlKey && event.code == keyCodes.e) {
-            this.dialog.emit();
-        }
+      if (event.ctrlKey && event.code == keyCodes.e) {
+        event.preventDefault();
+        this.dialog.emit();
+      }
     }
   }
 }

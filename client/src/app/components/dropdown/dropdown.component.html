@@ -1,9 +1,0 @@
-<button mat-button [matMenuTriggerFor]="menu">
-   <!-- <fa-icon [icon]="faIcon"></fa-icon>
-    <span> nice</span>-->
-</button>
-<mat-menu #menu>
-  <ng-container *ngFor="let item of items">
-    <button *ngIf="item.text" mat-menu-item>{{ item.text }}</button>
-  </ng-container>
-</mat-menu>

@@ -9,6 +9,7 @@ import { IconDefinition, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
   providedIn: 'root',
 })
 export class PencilToolService implements ITools {
+  toolName = 'Pencil Tool';
   faIcon: IconDefinition = faPencilAlt;
   readonly id = 0;
   private object: Polyline | null;

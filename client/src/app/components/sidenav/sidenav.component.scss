@@ -1,18 +1,8 @@
-@import "../../../assets/assets.main-view.scss";
-
-mat-sidenav-container {//met la barre lateral a la taille de l'ecran
- height: 100%;
-  //height:200vh on multiplie la barre lateral par deux fois la taille de l'ecran
-  width:100%;
- display:flex;
-}
-
 .container{
   flex:1 1 auto;
   display: flex;
-  justify-content: space-between;
+  //justify-content: space-between;
   flex-direction: column;
   height:100%;
   width:100%;
 }
-
