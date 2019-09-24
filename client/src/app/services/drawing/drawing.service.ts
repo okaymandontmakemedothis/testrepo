@@ -64,7 +64,6 @@ export class DrawingService {
     this.objectList.clear();
     this.setDimension(width, height);
     this.setDrawingColor(rgba);
-    this.draw();
   }
 
   get colorString() {

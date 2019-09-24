@@ -1,38 +1,36 @@
 import { IObjects } from '../IObjects';
-import { RGBA} from  "../../model/rgba.model";
+import { RGBA } from "../../model/rgba.model";
 
-export class RectangleObject implements IObjects{
+export class RectangleObject implements IObjects {
   primaryColor: RGBA;
   secondaryColor: RGBA;
-  id:number = 1;
+  id: number = 1;
 
-  firstX:number = 0
-  firstY:number = 0
+  firstX: number = 0
+  firstY: number = 0
   x: number = 0;
   y: number = 0;
-  
+
   height: number = 0;
   width: number = 0;
 
-  strokeWidth:number;
+  strokeWidth: number;
 
-  svgLine:string = "<rect x=\"" + this.x + "\" y=\"" + this.y + "\" width=\"" + this.width + "\" height=\"" + this.height + "\" style=\"fill:rgb(255,0,0);stroke-width:-3;stroke:rgb(0,0,255)\" />";
-
-  setSize(x:number, y:number):void{
+  setSize(x: number, y: number): void {
     this.width = x - this.firstX;
     this.height = y - this.firstY;
 
-    if(this.width < 0){
+    if (this.width < 0) {
       this.x = x;
       this.width = this.firstX - this.x;
     }
-    if(this.height < 0){
+    if (this.height < 0) {
       this.y = y;
       this.height = this.firstY - this.y;
     }
   }
 
-  setStroke(width:number):void{
+  setStroke(width: number): void {
     this.strokeWidth = width;
   }
 
@@ -45,5 +43,5 @@ export class RectangleObject implements IObjects{
     throw new Error("Method not implemented.");
   }
 
-  constructor(x:number, y:number) { this.firstX = x; this.x = x; this.firstY = y; this.y = y; }
+  constructor(x: number, y: number) { this.firstX = x; this.x = x; this.firstY = y; this.y = y; }
 }
