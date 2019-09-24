@@ -42,26 +42,24 @@ export class Polyline implements IObjects {
 
     draw(): string {
         let polyline = '';
-        polyline += '<circle id="' + this.id + '" cx="' + this.pointsList[0].x +
-            '" cy="' + this.pointsList[0].y +
-            '" r="' + this.strokeWidth / 2 +
-            '" fill="' + this.rgbString +
-            '"/>\n';
-        polyline += '<polyline id="' + this.id +
-            '" fill="none" stroke-width="' + this.strokeWidth +
-            '" stroke="' + this.rgbString +
-            '" points="';
-        for (const point of this.pointsList) {
-            polyline += (point.x + ' ' + point.y + ',');
+        if (this.pointsList.length < 2) {
+            polyline += '<circle id="' + this.id + '" cx="' + this.lastPoint.x +
+                '" cy="' + this.lastPoint.y +
+                '" r="' + this.strokeWidth / 2 +
+                '" fill="' + this.rgbString +
+                '" fill-opacity="' + this.primaryColor.a +
+                '"/>\n';
+        } else {
+            polyline += '<polyline id="' + this.id +
+                '" fill="none" stroke-width="' + this.strokeWidth +
+                '" stroke-opacity="' + this.primaryColor.a +
+                '" stroke="' + this.rgbString +
+                '" stroke-linecap="round" stroke-linejoin="round" points="';
+            for (const point of this.pointsList) {
+                polyline += (point.x + ' ' + point.y + ',');
+            }
+            polyline += '"/>\n';
         }
-        polyline += '"/>\n';
-        polyline += '<circle id="' + this.id +
-            '" cx="' + this.pointsList[this.pointsList.length - 1].x +
-            '" cy="' + this.pointsList[this.pointsList.length - 1].y +
-            '" r="' + this.strokeWidth / 2 +
-            '" fill="' + this.rgbString + '"/>';
         return polyline;
     }
-
-
 }

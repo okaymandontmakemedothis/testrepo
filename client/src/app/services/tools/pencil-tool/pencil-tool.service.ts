@@ -15,7 +15,7 @@ export class PencilToolService implements ITools {
 
   constructor() {
     this.id = 2;
-    this.strokeWidth = new FormControl(1);
+    this.strokeWidth = new FormControl(20);
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,
     });
