@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WorkspaceComponent } from './workspace.component';
 import { MaterialModules } from 'src/app/app.material-modules';
+import { WorkspaceComponent } from './workspace.component';
 
 describe('WorkspaceComponent', () => {
   let component: WorkspaceComponent;

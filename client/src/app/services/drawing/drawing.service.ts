@@ -1,4 +1,4 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { RGB } from 'src/app/model/rgb.model';
 import { RGBA } from 'src/app/model/rgba.model';
 import { IObjects } from 'src/app/objects/IObjects';
@@ -8,14 +8,15 @@ import { IObjects } from 'src/app/objects/IObjects';
 })
 export class DrawingService {
 
-  created = false;
+  lastObjectId = 0;
 
-  objectId:number = 1
+  created = false;
 
   color: RGB = { r: 255, g: 255, b: 255 };
   alpha = 1;
-  width = 500;
-  height = 500;
+  width = 0;
+  height = 0;
+
   @Output()
   svgString = new EventEmitter<string>();
 
@@ -25,14 +26,16 @@ export class DrawingService {
     this.objectList = new Map<number, IObjects>();
   }
 
-  removeObject(id: number): boolean {
-    return this.objectList.delete(id);
+  removeObject(id: number): void {
+    this.objectList.delete(id);
+    this.draw();
   }
 
   addObject(obj: IObjects) {
-    obj.id = this.objectId;
+    this.lastObjectId++;
+    obj.id = this.lastObjectId;
     this.objectList.set(obj.id, obj);
-    this.objectId++;
+    this.draw();
   }
 
   getObject(id: number) {
@@ -55,6 +58,13 @@ export class DrawingService {
   setDrawingColor(rgba: RGBA) {
     this.color = rgba.rgb;
     this.alpha = rgba.a;
+  }
+
+  newDrawing(width: number, height: number, rgba: RGBA) {
+    this.objectList.clear();
+    this.setDimension(width, height);
+    this.setDrawingColor(rgba);
+    this.draw();
   }
 
   get colorString() {
