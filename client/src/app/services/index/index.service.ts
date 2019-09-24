@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {Message} from '../../../../../common/communication/message';
+import {Message, WelcomeMessage} from '../../../../../common/communication/message';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,12 @@ export class IndexService {
 
     return this.http.get<Message>(this.BASE_URL).pipe(
       catchError(this.handleError<Message>('basicGet')),
+    );
+  }
+  welcomeGet(): Observable<WelcomeMessage> {
+
+    return this.http.get<WelcomeMessage>('http://localhost:3000/api/index/text').pipe(
+      catchError(this.handleError<WelcomeMessage>('welcomeGet')),
     );
   }
 

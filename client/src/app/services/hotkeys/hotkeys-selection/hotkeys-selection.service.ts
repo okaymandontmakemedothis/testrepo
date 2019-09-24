@@ -17,46 +17,47 @@ export class HotkeysSelectionService {
   constructor() { }
 
   hotkeysSelection(event:KeyboardEvent){
+    event.preventDefault();
     if(this.canExecute){
       if (event.ctrlKey && event.code == keyCodes.x) {
-          event.preventDefault();
+          
           return 'x';
       }
 
       if (event.ctrlKey && event.code == keyCodes.c) {
-          event.preventDefault();
+          
           return 'c';
       }
 
       if (event.ctrlKey && event.code == keyCodes.v) {
-          event.preventDefault();
+          
           return 'v';
       }
 
       if (event.ctrlKey && event.code == keyCodes.d) {
-          event.preventDefault();
+          
           return 'd';
       }
 
       if (event.code == keyCodes.delete) {
-        event.preventDefault();
+        
         return 'del';
       }
 
       if (event.ctrlKey && event.code == keyCodes.a) {
-          event.preventDefault();
+          
           return 'a';
       }
 
       if (event.ctrlKey && event.shiftKey && event.code == keyCodes.z) {
-        event.preventDefault();
+        
         return 'shz';
 
         return;
       }
 
       if (event.ctrlKey && event.code == keyCodes.z) {
-          event.preventDefault();
+          
           return 'z';
       }
     }

@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewDrawingComponent } from './new-drawing.component';
 
 describe('NewDrawingComponent', () => {
@@ -8,9 +9,10 @@ describe('NewDrawingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewDrawingComponent ]
+      imports: [ReactiveFormsModule, FormsModule],
+      declarations: [NewDrawingComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

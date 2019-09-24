@@ -1,31 +1,19 @@
-import { Component, HostListener } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Message } from '../../../../../common/communication/message';
-import { IndexService } from '../../services/index/index.service';
+import { Component, HostListener, AfterViewInit } from '@angular/core';
 import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
 import { MatDialog } from '@angular/material/dialog';
-
 import { HotkeysFichierService } from '../../services/hotkeys/hotkeys-fichier/hotkeys-fichier.service';
 import { HotkeysSelectionService } from '../../services/hotkeys/hotkeys-selection/hotkeys-selection.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  // templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  templateUrl: './app.component.html',
 })
-export class AppComponent {
-  readonly title: string = 'PolyDessin E16';
-  message = new BehaviorSubject<string>('');
-  animal: string;
+export class AppComponent implements AfterViewInit {
 
-  constructor(private basicService: IndexService, private dialog: MatDialog, private hotkeyFichierService:HotkeysFichierService, private hotkeySelectionService:HotkeysSelectionService) {
-    this.basicService.basicGet()
-      .pipe(
-        map((message: Message) => `${message.title} ${message.body}`),
-      )
-      .subscribe(this.message);
-
+  constructor(private dialog: MatDialog, private hotkeyFichierService:HotkeysFichierService, private hotkeySelectionService:HotkeysSelectionService) {
+    
     this.dialog.afterAllClosed.subscribe(() => {this.hotkeyFichierService.canExecute = true; this.hotkeySelectionService.canExecute = true;})
     this.hotkeyFichierService.dialog.subscribe(() => this.openDialog());
   }
@@ -40,5 +28,12 @@ export class AppComponent {
   hotkey(event:KeyboardEvent){
      this.hotkeyFichierService.hotkeysFichier(event);
      this.hotkeySelectionService.hotkeysSelection(event);
+  }
+
+  readonly title: string = 'PolyDessin E16';
+
+  ngAfterViewInit(): void {
+    this.dialog.open(NewDrawingComponent, {
+    });
   }
 }

@@ -1,0 +1,47 @@
+@import "../../../assets/assets.main-view.scss";
+
+.flex{
+  display: flex;
+  flex: 1;
+}
+
+button{
+  font-size: $sidenav-size;
+  width: 2em;
+  height: 2em;
+}
+
+// mcc-speed-dial{
+//   position: absolute;
+//   left: 0;
+//   top: 0;
+// }
+
+// mcc-speed-dial-actions{
+//   position: absolute;
+//   left: $sidenav-container-size;
+// }
+
+.mat-icon-button{
+  line-height: 0px !important;
+}
+
+::ng-deep .mat-fab .mat-button-wrapper {
+  line-height: 0px !important;
+  padding: 0px !important;
+}
+
+::ng-deep .mat-fab{
+  width: $sidenav-container-size !important;
+  height: $sidenav-container-size !important;
+}
+
+::ng-deep .mat-fab.mat-accent{
+  background-color: $sidenav-background-color !important;
+}
+
+::ng-deep .mat-elevation-z1{
+  box-shadow: none !important;
+}
+
+
