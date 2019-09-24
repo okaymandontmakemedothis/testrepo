@@ -17,7 +17,6 @@ import { ParameterMenuComponent } from './components/parameter-menu/parameter-me
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ToolIconComponent } from './components/tool-icon/tool-icon.component';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
-import { DrawerService } from './services/drawer/drawer.service';
 import { SelectToolService } from './services/tool/select-tool.service';
 import { ParameterMenuProviderService } from './services/menu/parameter-menu-provider.service';
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
@@ -65,7 +64,6 @@ import { CanvasComponent } from './components/canvas/canvas.component';
 
   ],
   providers: [
-    DrawerService,
     SelectToolService,
     ParameterMenuProviderService,
   ],

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { RGB } from 'src/app/model/rgb.model';
 import { RGBA } from 'src/app/model/rgba.model';
 import { IObjects } from 'src/app/objects/IObjects';
@@ -12,8 +12,10 @@ export class DrawingService {
 
   color: RGB = { r: 255, g: 255, b: 255 };
   alpha = 1;
-  width: number;
-  height: number;
+  width = 500;
+  height = 500;
+  @Output()
+  svgString = new EventEmitter<string>();
 
   private objectList: Map<number, IObjects>;
 
@@ -33,12 +35,12 @@ export class DrawingService {
     this.objectList.get(id);
   }
 
-  draw(): string {
+  draw() {
     let drawResult = '';
     for (const obj of this.objectList.values()) {
       drawResult += obj.draw();
     }
-    return drawResult;
+    this.svgString.emit(drawResult);
   }
 
   setDimension(width: number, height: number) {

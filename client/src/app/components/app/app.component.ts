@@ -15,14 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    // this.dialog.open(NewDrawingComponent, {
-    //   data: { drawingPresent: false },
-    // });
-  }
-
-  openDialog() {
     this.dialog.open(NewDrawingComponent, {
-      data: { drawingPresent: true },
     });
   }
 }
