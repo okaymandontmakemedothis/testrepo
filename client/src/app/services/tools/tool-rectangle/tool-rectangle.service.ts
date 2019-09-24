@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ITools } from '../ITools';
 import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
+import { IObjects } from 'src/app/objects/IObjects';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,9 @@ export class ToolRectangleService implements ITools {
 
   object:RectangleObject = new RectangleObject(0,0);
 
-  onPressed($event:MouseEvent): string {
+  onPressed($event:MouseEvent): IObjects {
     this.object = new RectangleObject($event.offsetX, $event.offsetY)
-    return this.object.svgLine;
+    return this.object;
   }
 
   onRelease($event:MouseEvent): string {

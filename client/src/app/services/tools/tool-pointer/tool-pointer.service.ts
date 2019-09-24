@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ITools } from '../ITools';
+import { IObjects } from 'src/app/objects/IObjects';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,8 @@ export class ToolPointerService implements ITools {
 
   name:string = "Point";
 
-  onPressed($event: MouseEvent): string {
-    return "Pressed";
+  onPressed($event: MouseEvent): IObjects {
+    return null;
   }
 
   onRelease($event: MouseEvent): string {

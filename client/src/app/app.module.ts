@@ -20,7 +20,6 @@ import { ToolIconComponent } from './components/tool-icon/tool-icon.component';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { NewDrawingAlertComponent } from './components/new-drawing/new-drawing-alert/new-drawing-alert.component';
 import { NewDrawingFormComponent } from './components/new-drawing/new-drawing-form/new-drawing-form.component';
-import { DrawerService } from './services/drawer/drawer.service';
 import { SelectToolService } from './services/tool/select-tool.service';
 import { ParameterMenuProviderService } from './services/menu/parameter-menu-provider.service';
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
@@ -73,7 +72,6 @@ import { ToolsColorPickerComponent } from './components/tools-color-picker/tools
 
   ],
   providers: [
-    DrawerService,
     SelectToolService,
     ParameterMenuProviderService,
   ],

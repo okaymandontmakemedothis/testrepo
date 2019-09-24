@@ -5,17 +5,17 @@ import { ToolsService } from 'src/app/services/tools/tools.service';
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+  styleUrls: ['./sidenav.component.scss'],
 })
 export class SidenavComponent {
 
   constructor(private toggleDrawerService: ToggleDrawerService, public toolsService: ToolsService){
   }
 
-  menuTopToolsList = this.toolsService.toolsList;
+  menuTopToolsList = this.toolsService.tools;
   menuBottomIconList = [];
 
-  toggle(){
+  toggle() {
     this.toggleDrawerService.toggle();
   }
 }

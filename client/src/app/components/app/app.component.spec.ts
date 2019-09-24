@@ -1,10 +1,10 @@
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WelcomeDialogModule } from '../welcome-dialog/welcome-dialog.module';
 import { MaterialModules } from './../../app.material-modules';
-import {AppComponent} from './app.component';
+import { AppComponent } from './app.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 
