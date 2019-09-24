@@ -4,14 +4,12 @@
       <div>
         <button mat-raised-button (click)="toggle()"> click </button>
         <app-tools-color></app-tools-color>
-        <div *ngFor="let faIcon of menuTopIconList">
-          <app-tool-icon [faIcon]="faIcon"></app-tool-icon>
-        </div>
-      </div>
-      <div>
-        <div *ngFor="let faIcon of menuBottomIconList">
-          <app-tool-icon [faIcon]="faIcon"></app-tool-icon>
-        </div>
+        <mat-button-toggle-group [(value)]="selectedTool" #group="matButtonToggleGroup" [vertical]="true">
+          <mat-button-toggle mat-icon-button *ngFor="let tool of toolList;" [value]="tool.id"
+            (change)="selectionChanged($event)">
+            <fa-icon [icon]="tool.faIcon"></fa-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
       </div>
     </div>
   </mat-sidenav-content>

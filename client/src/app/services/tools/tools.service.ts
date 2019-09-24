@@ -18,11 +18,15 @@ export class ToolsService {
   constructor(private drawing: DrawingService, private colorTool: ToolsColorService, private pencilTool: PencilToolService) {
     this.initTools();
     this.selectedTools = this.tools[0];
-
   }
 
   private initTools(): void {
     this.tools.push(this.pencilTool);
+  }
+
+  selectTool(id: number): void {
+    this.currentObject = null;
+    this.selectedTools = this.tools[id];
   }
 
   onPressed(event: MouseEvent): void {

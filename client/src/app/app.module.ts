@@ -24,6 +24,7 @@ import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { ParameterMenuProviderService } from './services/menu/parameter-menu-provider.service';
 import { SelectToolService } from './services/tool/select-tool.service';
+import { PencilToolParameterComponent } from './components/pencil-tool-parameter/pencil-tool-parameter.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { SelectToolService } from './services/tool/select-tool.service';
     SidenavComponent,
     CanvasComponent,
     DropdownComponent,
+    PencilToolParameterComponent,
   ],
   imports: [
     BrowserModule,

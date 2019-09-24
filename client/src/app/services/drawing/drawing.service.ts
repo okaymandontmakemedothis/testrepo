@@ -38,20 +38,21 @@ export class DrawingService {
     this.draw();
   }
 
-  getObject(id: number) {
-    this.objectList.get(id);
+  getObject(id: number): IObjects | undefined {
+    return this.objectList.get(id);
   }
 
   draw() {
-    let drawResult = '<rect width="' +
-      this.width +
-      '" height="' +
-      this.height +
-      '" fill="' +
-      this.colorString +
-      '" fill-opacity="' +
-      this.alpha +
-      '"></rect>';
+    let drawResult = '';
+    // '<rect width="' +
+    //   this.width +
+    //   '" height="' +
+    //   this.height +
+    //   '" fill="' +
+    //   this.colorString +
+    //   '" fill-opacity="' +
+    //   this.alpha +
+    //   '"></rect>';
     for (const obj of this.objectList.values()) {
       drawResult += obj.draw();
     }
@@ -73,10 +74,13 @@ export class DrawingService {
     this.objectList.clear();
     this.setDimension(width, height);
     this.setDrawingColor(rgba);
-    //this.draw();
   }
 
-  get colorString() {
+  get rgbColorString() {
     return 'rgb(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ')';
+  }
+
+  get rgbaColorString() {
+    return 'rgb(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ',' + this.alpha + ')';
   }
 }

@@ -3,18 +3,19 @@ import { ITools } from '../ITools';
 import { IObjects } from 'src/app/objects/IObjects';
 import { Polyline } from 'src/app/objects/polyline';
 import { FormGroup, FormControl } from '@angular/forms';
+import { IconDefinition, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PencilToolService implements ITools {
-  readonly id: number;
+  faIcon: IconDefinition = faPencilAlt;
+  readonly id = 0;
   private object: Polyline | null;
   parameters: FormGroup;
   strokeWidth: FormControl;
 
   constructor() {
-    this.id = 2;
     this.strokeWidth = new FormControl(20);
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,

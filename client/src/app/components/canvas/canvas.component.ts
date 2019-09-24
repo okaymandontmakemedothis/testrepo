@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
-import { ToolsService } from 'src/app/services/tools/tools.service';
 
 @Component({
   selector: 'app-canvas',
@@ -10,13 +9,13 @@ import { ToolsService } from 'src/app/services/tools/tools.service';
 export class CanvasComponent implements OnInit, AfterViewInit {
 
   get height(): number { return this.drawing.height; }
-  get backgroundColor(): string { return this.drawing.colorString; }
+  get backgroundColor(): string { return this.drawing.rgbaColorString; }
   get backgroundAlpha(): number { return this.drawing.alpha; }
 
   @ViewChild('svg', { static: false })
   svg: ElementRef;
 
-  constructor(private drawing: DrawingService, private toolsService: ToolsService) { }
+  constructor(private drawing: DrawingService) { }
 
   get width(): number { return this.drawing.width; }
 
@@ -34,16 +33,4 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     });
   }
 
-
-  onMouseDown(event: MouseEvent) {
-    this.toolsService.onPressed(event);
-  }
-
-  onMouseUp(event: MouseEvent) {
-    this.toolsService.onRelease(event);
-  }
-
-  onMouseMove(event: MouseEvent) {
-    this.toolsService.onMove(event);
-  }
 }
