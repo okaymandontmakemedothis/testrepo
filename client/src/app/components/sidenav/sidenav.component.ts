@@ -9,13 +9,14 @@ import { ToolsService } from 'src/app/services/tools/tools.service';
 })
 export class SidenavComponent {
 
-  constructor(private toggleDrawerService: ToggleDrawerService, public toolsService: ToolsService){
+  constructor(private toggleDrawerService: ToggleDrawerService, public toolsService: ToolsService) {
   }
 
   menuTopToolsList = this.toolsService.tools;
   menuBottomIconList = [];
 
-  toggle() {
-    this.toggleDrawerService.toggle();
+  toolSelection(id: number) {
+    this.toolsService.toolSelected(id);
+    this.toggleDrawerService.open();
   }
 }

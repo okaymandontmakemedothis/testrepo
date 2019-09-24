@@ -31,7 +31,6 @@ export class ToolsService {
   currentObject: null | IObjects;
   tools: ITools[] = [];
 
-
   onPressed(event: MouseEvent): void {
     this.currentObject = this.selectedTools.onPressed(event);
     if (this.currentObject) {
