@@ -19,7 +19,7 @@ export class ToolsApplierColorsService implements ITools {
   // onMove($event: MouseEvent): void;
   id = 2;
   name = 'Applier';
-
+  object: IObjects;
   onPressed($event: MouseEvent): IObjects {
       const target = $event.target as Element;
       if ($event.button === 0) { // left click so set fill to a color
@@ -35,14 +35,11 @@ export class ToolsApplierColorsService implements ITools {
 
       this.drawing.getObject(Number(target.id)); // this should return an IObjects (but it doesn't yet in the function from drawingService)
       // this.object = this.drawing.getObject()...
-      this.object.draw($event); // function from IObjects
+      this.object.draw(); // function from IObjects
       return this.object;
   }
-  onRelease($event: MouseEvent) {
-  }
-  onMove($event: MouseEvent) {
-  }
+  onRelease($event: MouseEvent) {}
+  onMove($event: MouseEvent) {}
 
- 
-  constructor(private object: IObjects, private drawing: DrawingService) { }
+  constructor(private drawing: DrawingService) { }
 }
