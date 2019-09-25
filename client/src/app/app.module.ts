@@ -12,6 +12,7 @@ import { NewDrawingAlertComponent } from './components/new-drawing/new-drawing-a
 import { NewDrawingFormComponent } from './components/new-drawing/new-drawing-form/new-drawing-form.component';
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
 import { ParameterMenuComponent } from './components/parameter-menu/parameter-menu.component';
+import { PencilToolParameterComponent } from './components/pencil-tool-parameter/pencil-tool-parameter.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ToolIconComponent } from './components/tool-icon/tool-icon.component';
 import { ToolsColorPickerComponent } from './components/tools-color-picker/tools-color-picker.component';
@@ -38,6 +39,7 @@ import { SelectToolService } from './services/tool/select-tool.service';
     ToolIconComponent,
     SidenavComponent,
     CanvasComponent,
+    PencilToolParameterComponent,
   ],
   imports: [
     BrowserModule,

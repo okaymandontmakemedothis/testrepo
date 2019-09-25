@@ -1,13 +1,12 @@
 <mat-drawer-container>
   <mat-drawer mode="side" class="mat-elevation-z4" opened>
-    <button mat-fab (click)="close()"> close</button>
+    <button mat-icon-button (click)="close()">
+      <mat-icon>keyboard_backspace</mat-icon>
+    </button>
+    <app-pencil-tool-parameter></app-pencil-tool-parameter>
   </mat-drawer>
-  
-  <mat-drawer-content >
+
+  <mat-drawer-content>
     <app-workspace></app-workspace>
   </mat-drawer-content>
 </mat-drawer-container>
-
-
-
-

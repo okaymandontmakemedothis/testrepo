@@ -3,6 +3,7 @@ import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../drawing/drawing.service';
 import { ToolsColorService } from '../tools-color/tools-color.service';
 import { ITools } from './ITools';
+import { PencilToolService } from './pencil-tool/pencil-tool.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,17 +12,26 @@ export class ToolsService {
 
   selectedTools: ITools;
   currentObject: null | IObjects;
+  private isPressed = false;
   tools: ITools[] = [];
 
-  constructor(private drawing: DrawingService, private colorTool: ToolsColorService) {
-    // this.selectedTools = this.tools[0];
-    // private initTools(): void {
-    //   this.tools.push(tool1);
-    // }
+  constructor(private drawing: DrawingService, private colorTool: ToolsColorService, private pencilTool: PencilToolService) {
+    this.initTools();
+    this.selectedTools = this.tools[0];
+  }
+
+  private initTools(): void {
+    this.tools.push(this.pencilTool);
+  }
+
+  selectTool(id: number): void {
+    this.currentObject = null;
+    this.selectedTools = this.tools[id];
   }
 
   onPressed(event: MouseEvent): void {
     this.currentObject = this.selectedTools.onPressed(event);
+    this.isPressed = true;
     if (this.currentObject) {
       this.currentObject.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
       this.currentObject.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
@@ -30,11 +40,18 @@ export class ToolsService {
   }
 
   onRelease(event: MouseEvent): void {
-    this.selectedTools.onRelease(event);
-    this.currentObject = null;
+    if (this.isPressed) {
+      this.selectedTools.onRelease(event);
+      this.currentObject = null;
+      this.drawing.draw();
+    }
+    this.isPressed = false;
   }
 
   onMove(event: MouseEvent): void {
-    this.selectedTools.onMove(event);
+    if (this.isPressed) {
+      this.selectedTools.onMove(event);
+      this.drawing.draw();
+    }
   }
 }
