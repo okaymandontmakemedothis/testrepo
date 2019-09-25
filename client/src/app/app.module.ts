@@ -27,14 +27,6 @@ import { SelectToolService } from './services/tool/select-tool.service';
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
-    ParameterMenuComponent,
-    WorkspaceComponent,
-    ToolIconComponent,
-    SidenavComponent,
-    CanvasComponent,
-    DropdownComponent,
-
     DialogComponent,
     AideDialogComponent,
     NewDrawingComponent,

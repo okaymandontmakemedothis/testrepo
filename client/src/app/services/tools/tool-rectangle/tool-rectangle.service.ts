@@ -7,6 +7,9 @@ import { ITools } from '../ITools';
   providedIn: 'root'
 })
 export class ToolRectangleService implements ITools {
+  faIcon: import("@fortawesome/fontawesome-common-types").IconDefinition;
+  toolName: string;
+  parameters: import("@angular/forms").FormGroup;
   id = 1;
 
   name = 'Rect';
