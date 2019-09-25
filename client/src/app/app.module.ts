@@ -8,12 +8,11 @@ import { MaterialModules } from './app.material-modules';
 import { ColorPickerModule } from './color-picker/color-picker.module';
 import { AppComponent } from './components/app/app.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
-import { DropdownComponent } from './components/dropdown/dropdown.component';
-import { MenuComponent } from './components/menu/menu.component';
 import { NewDrawingAlertComponent } from './components/new-drawing/new-drawing-alert/new-drawing-alert.component';
 import { NewDrawingFormComponent } from './components/new-drawing/new-drawing-form/new-drawing-form.component';
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
 import { ParameterMenuComponent } from './components/parameter-menu/parameter-menu.component';
+import { PencilToolParameterComponent } from './components/pencil-tool-parameter/pencil-tool-parameter.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ToolIconComponent } from './components/tool-icon/tool-icon.component';
 import { ToolsColorPickerComponent } from './components/tools-color-picker/tools-color-picker.component';
@@ -43,14 +42,13 @@ import { SelectToolService } from './services/tool/select-tool.service';
     NewDrawingAlertComponent,
     ToolsColorComponent,
     ToolsColorPickerComponent,
-    MenuComponent,
     ParameterMenuComponent,
     WorkspaceComponent,
     ToolIconComponent,
     SidenavComponent,
     CanvasComponent,
-    DropdownComponent,
-    ],
+    PencilToolParameterComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

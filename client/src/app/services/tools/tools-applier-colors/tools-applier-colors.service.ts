@@ -14,13 +14,9 @@ import { ToolsColorService } from '../../tools-color/tools-color.service';
   providedIn: 'root',
 })
 export class ToolsApplierColorsService implements ITools {
-  // id: number;
-  // onPressed($event: MouseEvent): IObjects;
-  // onRelease($event: MouseEvent): void;
-  // onMove($event: MouseEvent): void;
   id = 2;
   name = 'Applier';
-  object: IObjects | undefined; 
+  object: IObjects | undefined;
   onPressed($event: MouseEvent): IObjects | undefined {
       const target = $event.target as Element;
       this.object = this.drawing.getObject(Number(target.id));

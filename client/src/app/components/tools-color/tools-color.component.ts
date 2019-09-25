@@ -102,7 +102,7 @@ export class ToolsColorComponent {
   }
 
   get backgroundColor(): string {
-    return this.drawing.colorString;
+    return this.drawing.rgbColorString;
   }
 
   switchColor(): void {

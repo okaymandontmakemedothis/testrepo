@@ -13,7 +13,7 @@ export class ToolIconComponent implements OnInit {
   @Input() faIcon: IconDefinition;
 
   constructor(// private iconGroupAuthService: IconGroupAuthentificatorService,
-             private toolsService: ToolsService) {
+    private selectService: SelectToolService) {
   }
 
   ngOnInit() {

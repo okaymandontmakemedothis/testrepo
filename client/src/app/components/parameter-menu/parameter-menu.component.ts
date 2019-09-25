@@ -9,16 +9,19 @@ import { ToggleDrawerService } from 'src/app/services/menu/toggle-drawer.service
 })
 export class ParameterMenuComponent implements OnInit {
 
-  constructor(private toggleDrawerService: ToggleDrawerService) {}
-  @ViewChild(MatDrawer, {static: false}) child: MatDrawer;
+  constructor(private toggleDrawerService: ToggleDrawerService) { }
+  @ViewChild(MatDrawer, { static: false }) child: MatDrawer;
 
   toggle() {
     console.log('toggled');
     this.child.toggle();
   }
+  close() {
+    this.child.close();
+  }
   ngOnInit() {
     this.toggleDrawerService.toggled.subscribe(
-      () => {this.toggle(); },
+      () => { this.toggle(); },
     );
   }
 }
