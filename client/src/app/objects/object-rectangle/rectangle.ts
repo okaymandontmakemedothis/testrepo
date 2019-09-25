@@ -36,11 +36,11 @@ export class RectangleObject implements IObjects {
 
   draw(): string {
 
-    return "<rect x=\"" + this.x + "\" y=\"" + this.y + "\" width=\"" + this.width + "\" height=\"" + this.height + "\" style=\"fill:rgb(" + this.primaryColor.rgb.r + "," + this.primaryColor.rgb.g + "," + this.primaryColor.rgb.b + ");stroke-width:10;stroke-alignment:inner;stroke:rgb(" + this.secondaryColor.rgb.r + "," + this.secondaryColor.rgb.g + "," + this.secondaryColor.rgb.b + ")\" />"
+    return "<rect x=\"" + this.x + "\" y=\"" + this.y + "\" width=\"" + this.width + '" height="' + this.height + "\" fill=\"" + "rgb(" + this.primaryColor.rgb.r + "," + this.primaryColor.rgb.g + "," + this.primaryColor.rgb.b + ")" + "\" stroke-width=" + "10" + "\"stroke-alignment=" + "inner" + "\"stroke=" + "rgb(" + this.secondaryColor.rgb.r + "," + this.secondaryColor.rgb.g + "," + this.secondaryColor.rgb.b + ")\" />"
   }
 
   getColor(): void {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
   constructor(x: number, y: number) { this.firstX = x; this.x = x; this.firstY = y; this.y = y; }

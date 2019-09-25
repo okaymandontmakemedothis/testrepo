@@ -23,7 +23,7 @@ export class ToolsService {
   }
 
   selectedTools: ITools;
-  currentObject: null | IObjects;
+  currentObject: undefined | IObjects;
   tools: ITools[] = [];
   toolSelectedID = 0;
 
@@ -41,7 +41,7 @@ export class ToolsService {
 
   onRelease(event: MouseEvent): void {
     this.selectedTools.onRelease(event);
-    this.currentObject = null;
+    this.currentObject = undefined;
   }
 
   onMove(event: MouseEvent): void {

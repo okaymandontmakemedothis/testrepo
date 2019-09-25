@@ -20,11 +20,11 @@ export class ToolsColorService {
     this.lastSelectedColors.push({ rgb: { r: 0, g: 0, b: 0 }, a: 1 });
   }
 
-  get primaryColorString() {
+  getPrimaryColorString(): string {
     return 'rgb(' + this.primaryColor.r + ',' + this.primaryColor.g + ',' + this.primaryColor.b + ')';
   }
 
-  get secondaryColorString() {
+  getSecondaryColorString(): string {
     return 'rgb(' + this.secondaryColor.r + ',' + this.secondaryColor.g + ',' + this.secondaryColor.b + ')';
   }
 

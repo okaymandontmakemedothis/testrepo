@@ -38,8 +38,8 @@ export class DrawingService {
     this.draw();
   }
 
-  getObject(id: number) {
-    this.objectList.get(id);
+  getObject(id: number): IObjects | undefined {
+    return this.objectList.get(id);
   }
 
   draw() {
