@@ -20,31 +20,24 @@ export class ToolsApplierColorsService implements ITools {
   // onMove($event: MouseEvent): void;
   id = 2;
   name = 'Applier';
-  object: IObjects | undefined;
-  color: ToolsColorService;
+  object: IObjects | undefined; 
   onPressed($event: MouseEvent): IObjects | undefined {
-    if(this.object !== undefined) {
       const target = $event.target as Element;
-      if ($event.button === 0) { // left click so set fill to a color
-        target.setAttribute('fill', String(this.color.getPrimaryColorString));
-        // target.setAttribute('style', 'fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,255)');
+      this.object = this.drawing.getObject(Number(target.id));
+      if (this.object) {
+         if ($event.button === 0) { // left click so set fill to a color
+        this.object.primaryColor = {rgb: this.color.primaryColor, a:this.color.primaryAlpha};
       } else {     // right click so set stroke to a color
         document.addEventListener('contextmenu', ($event2) => {
           $event2.preventDefault(); // prevents the context menu of a right click to show
         });
-        target.setAttribute('stroke', String(this.color.getSecondaryColorString));
-        // target.setAttribute('style', 'fill:rgb(255,0,0);stroke-width:3;stroke:rgb(255,0,0)');
-
+        this.object.secondaryColor = { rgb: this.color.secondaryColor, a: this.color.secondaryAlpha };
       }
-      this.object = this.drawing.getObject(Number(target.id));
-      if (this.object !== undefined) {
-        this.object.draw();
-      }
-    }// function from IObjects
-    return this.object;
+    }
+      return this.object;
   }
   onRelease($event: MouseEvent) { }
   onMove($event: MouseEvent) { }
 
-  constructor(private drawing: DrawingService) { }
+  constructor(private drawing: DrawingService, private color: ToolsColorService) { }
 }

@@ -13,7 +13,7 @@ import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 export class ToolsService {
 
   constructor(private drawing: DrawingService, private colorTool: ToolsColorService) {
-    this.tools.push(new ToolsApplierColorsService(drawing));
+    this.tools.push(new ToolsApplierColorsService(drawing, colorTool));
     this.tools.push(new ToolRectangleService());
     this.selectedTools = this.tools[0];
     // this.selectedTools = this.tools[0];
