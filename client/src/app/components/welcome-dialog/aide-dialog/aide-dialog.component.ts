@@ -1,38 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { BehaviorSubject } from 'rxjs';
 import { ShortcutClavier } from '../../../../../../common/communication/message';
+import { IndexService } from '../../../services/index/index.service';
 
 @Component({
   selector: 'app-aide-dialog',
   templateUrl: './aide-dialog.component.html',
   styleUrls: ['./aide-dialog.component.scss'],
 })
-export class AideDialogComponent implements OnInit {
+export class AideDialogComponent {
 
-  shortcut: string[];
-  shortcut2: string[];
-  shortcut3: string[];
-  shortcut4: string[];
+  messageA = new BehaviorSubject<ShortcutClavier>({
+    O: '', S: '', G: '', E: '', X: '', C: '', V: '', D: '',
+    Sup: '', A: '', Z: '', ShiftZ: '', Cray: '', W: '', P: '', Y: '', Aer: '', Rec: '', Ell: '', Poly: '',
+    L: '', T: '', R: '', B: '', Eff: '', I: '', Sel: '', Gri: '', M: '', Aug: '', Dim: ''
+  });
   constructor(
-    public dialogRef: MatDialogRef<AideDialogComponent>, private http: HttpClient,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    public dialogRef: MatDialogRef<AideDialogComponent>, private basicService: IndexService, ) {
+    this.basicService.aideGet()
+      .subscribe(this.messageA);
+  }
 
-  Close(): void {
+  close(): void {
     this.dialogRef.close();
-  }
-  getTextRessource() {
-    this.http.get('http://localhost:3000/api/index/text').subscribe((res: ShortcutClavier) => {
-      this.shortcut = [res.O, res.S, res.G, res.E];
-      this.shortcut2 = [res.X, res.C, res.V, res.D, res.Sup, res.A, res.Z, res.ShiftZ];
-      this.shortcut3 = [res.Cray, res.W, res.P, res.Y, res.Aer, res.Rec, res.Ell, res.Poly,
-      res.L, res.T, res.R, res.B, res.Eff, res.I, res.Sel];
-      this.shortcut4 = [res.Gri, res.M, res.Aug, res.Dim];
-    });
-  }
-
-  ngOnInit(): void {
-    this.getTextRessource();
-
   }
 }
