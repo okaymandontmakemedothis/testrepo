@@ -1,27 +1,42 @@
 import { Injectable } from '@angular/core';
 import { ITools } from '../ITools';
+import { IconDefinition, faPaintBrush } from '@fortawesome/free-solid-svg-icons';
 import { IObjects } from 'src/app/objects/IObjects';
-import { Polyline } from 'src/app/objects/polyline';
 import { FormGroup, FormControl } from '@angular/forms';
-import { IconDefinition, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { Polyline } from 'src/app/objects/polyline';
 import { Point } from 'src/app/model/point.model';
+
+export interface TextureOptions {
+  value: number;
+  viewValue: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
-export class PencilToolService implements ITools {
-  toolName = 'Pencil Tool';
-  faIcon: IconDefinition = faPencilAlt;
-  readonly id = 0;
-  private object: Polyline | null;
+export class BrushToolService implements ITools {
+  readonly id = 1;
+  faIcon: IconDefinition = faPaintBrush;
+  toolName = 'Brush Tool';
   parameters: FormGroup;
+  private object: Polyline | null;
   strokeWidth: FormControl;
-  lastPoint: Point;
+  texture: FormControl;
+  lastPoint: Point = { x: 0, y: 0 };
+  textureList: TextureOptions[] = [
+    { value: 0, viewValue: 'Texture 1' },
+    { value: 1, viewValue: 'Texture 2' },
+    { value: 2, viewValue: 'Texture 3' },
+    { value: 3, viewValue: 'Texture 4' },
+    { value: 4, viewValue: 'Texture 5' },
+  ];
 
   constructor() {
     this.strokeWidth = new FormControl(20);
+    this.texture = new FormControl(this.textureList[0].value);
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,
+      texture: this.texture,
     });
   }
 
@@ -38,7 +53,7 @@ export class PencilToolService implements ITools {
 
   onPressed(event: MouseEvent): IObjects {
     this.lastPoint = { x: event.offsetX, y: event.offsetY };
-    this.object = new Polyline(this.lastPoint, this.strokeWidth.value);
+    this.object = new Polyline(this.lastPoint, this.strokeWidth.value, this.texture.value);
     return this.object;
   }
 

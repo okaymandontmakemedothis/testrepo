@@ -1,11 +1,25 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, OnChanges, SimpleChanges, Output } from '@angular/core';
+import { EventEmitter } from 'events';
 
 @Injectable({
   providedIn: 'root',
 })
-export class WorkspaceService {
+export class WorkspaceService implements OnChanges {
+
 
   el: ElementRef;
+
+  @Output()
+  elReady: EventEmitter = new EventEmitter();
+
+  constructor() {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.el) {
+      this.elReady.emit('ready');
+    }
+  }
 
   get width() {
     if (this.el) {
