@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 // import { IconGroupAuthentificatorService } from 'src/app/services/icons/icon-group-authentificator.service';
-import { SelectToolService } from 'src/app/services/tool/select-tool.service';
+import { SelectToolService } from '../../services/tool/select-tool.service';
 
 @Component({
   selector: 'app-tool-icon',

@@ -5,9 +5,10 @@ import { ToolsColorService } from '../tools-color/tools-color.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
+import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToolsService {
 
@@ -16,7 +17,8 @@ export class ToolsService {
   private isPressed = false;
   tools: ITools[] = [];
 
-  constructor(private drawing: DrawingService, private colorTool: ToolsColorService, private pencilTool: PencilToolService, private rectangleTool: ToolRectangleService) {
+  constructor(private drawing: DrawingService, private colorTool: ToolsColorService, private pencilTool: PencilToolService, private rectangleTool: ToolRectangleService,
+    private colorApplicator: ToolsApplierColorsService) {
     this.initTools();
     this.selectedTools = this.tools[0];
   }
@@ -24,6 +26,7 @@ export class ToolsService {
   private initTools(): void {
     this.tools.push(this.pencilTool);
     this.tools.push(this.rectangleTool);
+    this.tools.push(this.colorApplicator);
   }
 
   selectTool(id: number): void {
@@ -60,6 +63,4 @@ export class ToolsService {
       this.drawing.draw();
     }
   }
-
-  toolSelectedID: number = 0;
 }
