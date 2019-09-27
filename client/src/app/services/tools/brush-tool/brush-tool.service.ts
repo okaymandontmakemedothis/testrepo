@@ -14,7 +14,7 @@ export interface TextureOptions {
   providedIn: 'root',
 })
 export class BrushToolService implements ITools {
-  id = 1;
+  readonly id = 1;
   faIcon: IconDefinition = faPaintBrush;
   toolName = 'Brush Tool';
   parameters: FormGroup;
