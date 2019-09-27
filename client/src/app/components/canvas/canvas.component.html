@@ -1,7 +1,4 @@
-<div class="canvas mat-elevation-z4" *ngIf="isDrawingCreated">
-  <svg #svg [attr.width]="width" [attr.height]="height" version="1.1" xmlns="http://www.w3.org/2000/svg" 
-  (mousedown)="onPressed($event)" (mouseup)="onRelease($event)" (mousemove)="onMove($event)">
-    <rect [attr.width]="width" [attr.height]="height" [attr.fill]="backgroundColor"
-      [attr.fill-opacity]="backgroundAlpha" />
+<div class="mat-elevation-z4" *ngIf="isDrawingCreated">
+  <svg #svg [attr.width]="width" [attr.height]="height" version="1.1" xmlns="http://www.w3.org/2000/svg">
   </svg>
 </div>

@@ -14,7 +14,8 @@ export class RectangleObject implements IObjects {
   height: number = 0;
   width: number = 0;
 
-  strokeWidth: number;
+  strokeWidth: number = 0;
+  style: string = "";
 
   setSize(x: number, y: number): void {
     this.width = x - this.firstX;
@@ -30,18 +31,38 @@ export class RectangleObject implements IObjects {
     }
   }
 
-  setStroke(width: number): void {
-    this.strokeWidth = width;
+  getStyle(): string {
+    switch (this.style) {
+      case "center": {
+        return "\"fill:rgba(" + this.primaryColor.rgb.r + "," + this.primaryColor.rgb.g + "," + this.primaryColor.rgb.b + "," + this.primaryColor.a + ")\"";
+      }
+      case "border": {
+        return "\"fill:rgba(0, 0, 0, 0);stroke-width:" + this.strokeWidth + ";stroke:rgb(" + this.secondaryColor.rgb.r + "," + this.secondaryColor.rgb.g + "," + this.secondaryColor.rgb.b + "," + this.secondaryColor.a + ")\"";
+
+      }
+      case "fill": {
+        return "\"fill:rgb(" + this.primaryColor.rgb.r + "," + this.primaryColor.rgb.g + "," + this.primaryColor.rgb.b + "," + this.primaryColor.a + ");stroke-width:" + this.strokeWidth + ";stroke:rgb(" + this.secondaryColor.rgb.r + "," + this.secondaryColor.rgb.g + "," + this.secondaryColor.rgb.b + "," + this.secondaryColor.a + ")\"";
+      }
+      default: {
+        return "";
+      }
+    }
   }
 
   draw(): string {
 
-    return "<rect x=\"" + this.x + "\" y=\"" + this.y + "\" width=\"" + this.width + "\" height=\"" + this.height + "\" style=\"fill:rgb(" + this.primaryColor.rgb.r + "," + this.primaryColor.rgb.g + "," + this.primaryColor.rgb.b + ");stroke-width:10;stroke-alignment:inner;stroke:rgb(" + this.secondaryColor.rgb.r + "," + this.secondaryColor.rgb.g + "," + this.secondaryColor.rgb.b + ")\" />"
+    return "<rect x=\"" + this.x + "\" y=\"" + this.y + "\" width=\"" + this.width + "\" height=\"" + this.height + "\" style=" + this.getStyle() + " />"
   }
 
   getColor(): void {
     throw new Error("Method not implemented.");
   }
 
-  constructor(x: number, y: number) { this.firstX = x; this.x = x; this.firstY = y; this.y = y; }
+  constructor(x: number, y: number, strokeWidth: number, style: string) {
+    this.firstX = x; this.x = x;
+    this.firstY = y; this.y = y;
+
+    this.strokeWidth = strokeWidth;
+    this.style = style;
+  }
 }

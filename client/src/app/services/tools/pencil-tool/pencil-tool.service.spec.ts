@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ToolPointerService } from './tool-pointer.service';
+import { PencilToolService } from './pencil-tool.service';
 
-describe('ToolPointerService', () => {
+describe('PencilToolService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ToolPointerService = TestBed.get(ToolPointerService);
+    const service: PencilToolService = TestBed.get(PencilToolService);
     expect(service).toBeTruthy();
   });
 });

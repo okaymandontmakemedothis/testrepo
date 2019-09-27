@@ -8,9 +8,8 @@ import { MaterialModules } from './app.material-modules';
 import { ColorPickerModule } from './color-picker/color-picker.module';
 import { AppComponent } from './components/app/app.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
-import { DropdownComponent } from './components/dropdown/dropdown.component';
-import { MenuComponent } from './components/menu/menu.component';
 import { ParameterMenuComponent } from './components/parameter-menu/parameter-menu.component';
+import { PencilToolParameterComponent } from './components/pencil-tool-parameter/pencil-tool-parameter.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ToolIconComponent } from './components/tool-icon/tool-icon.component';
 import { ToolsColorComponent } from './components/tools-color/tools-color.component';
@@ -24,17 +23,16 @@ import { SelectToolService } from './services/tool/select-tool.service';
 import { ParameterMenuProviderService } from './services/menu/parameter-menu-provider.service';
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
 import { ToolsColorPickerComponent } from './components/tools-color-picker/tools-color-picker.component';
+import { RectangleToolParameterComponent } from './components/rectangle-tool-parameter/rectangle-tool-parameter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
     ParameterMenuComponent,
     WorkspaceComponent,
     ToolIconComponent,
     SidenavComponent,
     CanvasComponent,
-    DropdownComponent,
 
     DialogComponent,
     AideDialogComponent,
@@ -43,13 +41,13 @@ import { ToolsColorPickerComponent } from './components/tools-color-picker/tools
     NewDrawingAlertComponent,
     ToolsColorComponent,
     ToolsColorPickerComponent,
-    MenuComponent,
     ParameterMenuComponent,
     WorkspaceComponent,
     ToolIconComponent,
     SidenavComponent,
     CanvasComponent,
-    DropdownComponent,
+    PencilToolParameterComponent,
+    RectangleToolParameterComponent,
   ],
   imports: [
     BrowserModule,

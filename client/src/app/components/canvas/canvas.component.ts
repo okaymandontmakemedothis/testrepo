@@ -10,7 +10,10 @@ import { ToolsService } from 'src/app/services/tools/tools.service';
 export class CanvasComponent implements OnInit, AfterViewInit {
 
   get height(): number { return this.drawing.height; }
-  get backgroundColor(): string { return this.drawing.colorString; }
+  get width(): number {
+    return this.drawing.width;
+  }
+  get backgroundColor(): string { return this.drawing.rgbaColorString; }
   get backgroundAlpha(): number { return this.drawing.alpha; }
 
   @ViewChild('svg', { static: false })
@@ -18,7 +21,6 @@ export class CanvasComponent implements OnInit, AfterViewInit {
 
   constructor(private drawing: DrawingService, private tools: ToolsService) { }
 
-  get width(): number { return this.drawing.width; }
 
   isPressed: boolean = false;
 
@@ -51,4 +53,5 @@ export class CanvasComponent implements OnInit, AfterViewInit {
       this.svg.nativeElement.innerHTML = svgString;
     });
   }
+
 }

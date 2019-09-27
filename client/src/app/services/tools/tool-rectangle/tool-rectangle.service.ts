@@ -2,30 +2,46 @@ import { Injectable } from '@angular/core';
 import { ITools } from '../ITools';
 import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 import { IObjects } from 'src/app/objects/IObjects';
+import { IconDefinition } from "@fortawesome/fontawesome-common-types";
+import { FormGroup, FormControl } from "@angular/forms";
+import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToolRectangleService implements ITools {
-  id:number = 1;
+  faIcon: IconDefinition = faSquareFull;
+  toolName: string = "Rectangle Tool";
+  parameters: FormGroup;
+  strokeWidth: FormControl;
+  rectStyle: FormControl;
 
-  name:string = "Rect";
+  readonly id = 1;
 
   object: RectangleObject | null;
 
-  onPressed(event:MouseEvent): IObjects {
-    this.object = new RectangleObject(event.offsetX, event.offsetY)
+  constructor() {
+    this.strokeWidth = new FormControl(1);
+    this.rectStyle = new FormControl("fill");
+
+    this.parameters = new FormGroup({
+      strokeWidth: this.strokeWidth,
+      rectStyle: this.rectStyle,
+    });
+  }
+
+  onPressed(event: MouseEvent): IObjects {
+    this.object = new RectangleObject(event.offsetX, event.offsetY, this.strokeWidth.value, this.rectStyle.value);
     return this.object;
   }
 
-  onRelease(event:MouseEvent): void {
+  onRelease(event: MouseEvent): void {
     this.object = null
   }
 
-  onMove(event:MouseEvent): void{
-    if(this.object)
+  onMove(event: MouseEvent): void {
+    if (this.object)
       this.object.setSize(event.offsetX, event.offsetY);
   }
 
-  constructor() { }
 }
