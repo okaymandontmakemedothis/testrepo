@@ -7,7 +7,7 @@ export interface ITools {
     faIcon: IconDefinition;
     toolName: string;
     parameters: FormGroup;
-    onPressed(event: MouseEvent): IObjects;
+    onPressed(event: MouseEvent): IObjects | null;
     onRelease(event: MouseEvent): void;
     onMove(event: MouseEvent): void;
 }
