@@ -21,7 +21,7 @@ export class SidenavComponent {
   selectedTool: number;
 
   toggle() {
-    this.toggleDrawerService.toggle();
+    this.toggleDrawerService.open();
   }
 
   ngOnInit(): void {
@@ -29,9 +29,7 @@ export class SidenavComponent {
   }
 
   selectionChanged(selectedItem: MatButtonToggleChange): void {
-    console.log(selectedItem.value);
     this.toolService.selectTool(selectedItem.value);
-    console.log(this.toolService.selectedTools.id);
   }
 
   get toolList(): ITools[] {

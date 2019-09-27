@@ -17,7 +17,6 @@ export class HotkeysTravailService {
   constructor() { }
 
   hotkeysTravail(event: KeyboardEvent) {
-    event.preventDefault();
     if (this.canExecute) {
       if (event.code == keyCodes.g) {
         event.preventDefault();
