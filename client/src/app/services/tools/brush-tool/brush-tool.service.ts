@@ -4,6 +4,7 @@ import { faPaintBrush, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { IObjects } from 'src/app/objects/IObjects';
 import { Polyline } from 'src/app/objects/polyline';
 import { ITools } from '../ITools';
+import { Point } from 'src/app/model/point.model';
 
 export interface TextureOptions {
   value: number;
@@ -21,6 +22,7 @@ export class BrushToolService implements ITools {
   private object: Polyline | null;
   strokeWidth: FormControl;
   texture: FormControl;
+  lastPoint: Point = { x: 0, y: 0 };
   textureList: TextureOptions[] = [
     { value: 0, viewValue: 'Texture 1' },
     { value: 1, viewValue: 'Texture 2' },
@@ -38,17 +40,31 @@ export class BrushToolService implements ITools {
     });
   }
 
+  addPoint(dpoint: Point) {
+    if (this.object) {
+      if (this.lastPoint) {
+        this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
+      } else {
+        this.lastPoint = dpoint;
+      }
+      this.object.addPoint(this.lastPoint);
+    }
+  }
+
   onPressed(event: MouseEvent): IObjects {
-    this.object = new Polyline({ x: event.offsetX, y: event.offsetY }, this.strokeWidth.value, this.texture.value);
+    this.lastPoint = { x: event.offsetX, y: event.offsetY };
+    this.object = new Polyline(this.lastPoint, this.strokeWidth.value, this.texture.value);
     return this.object;
   }
+
   onRelease(event: MouseEvent): void {
     this.object = null;
+    this.lastPoint = { x: 0, y: 0 };
   }
 
   onMove(event: MouseEvent): void {
     if (this.object) {
-      this.object.addPoint({ x: event.movementX, y: event.movementY });
+      this.addPoint({ x: event.movementX, y: event.movementY });
     }
   }
 }

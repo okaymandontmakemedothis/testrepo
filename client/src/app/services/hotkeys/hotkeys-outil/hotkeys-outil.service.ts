@@ -3,13 +3,16 @@
 // Les tests seront a changer selon ce que l'on emet dans les hotkeys //
 ////////////////////////////////////////////////////////////////////////
 
-import { Injectable } from '@angular/core';
+
+import { Injectable, Output, EventEmitter } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HotkeysOutilService {
-  canExecute = true;
+
+  canExecute: boolean = true;
+  @Output() hotkeysOutilEmitter = new EventEmitter();
 
   constructor() { }
 
@@ -17,12 +20,12 @@ export class HotkeysOutilService {
     if (this.canExecute) {
       if (event.code == keyCodes.c) {
         event.preventDefault();
-        return 'c';
+        this.hotkeysOutilEmitter.emit('crayon');
       }
 
       if (event.code == keyCodes.w) {
         event.preventDefault();
-        return 'w';
+        this.hotkeysOutilEmitter.emit('brush');
       }
 
       if (event.code == keyCodes.p) {
@@ -42,7 +45,7 @@ export class HotkeysOutilService {
 
       if (event.code == keyCodes.b1 || event.code == keyCodes.np1) {
         event.preventDefault();
-        return '1';
+        this.hotkeysOutilEmitter.emit('rectangle');
       }
 
       if (event.code == keyCodes.b2 || event.code == keyCodes.np2) {
@@ -67,7 +70,7 @@ export class HotkeysOutilService {
 
       if (event.code == keyCodes.r) {
         event.preventDefault();
-        return 'r';
+        this.hotkeysOutilEmitter.emit('applicateur');
       }
 
       if (event.code == keyCodes.b) {

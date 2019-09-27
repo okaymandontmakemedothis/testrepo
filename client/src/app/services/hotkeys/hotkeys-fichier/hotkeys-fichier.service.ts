@@ -11,8 +11,8 @@ import '../hotkeys-constants';
 })
 export class HotkeysFichierService {
 
-  canExecute = true;
-  @Output() dialog = new EventEmitter();
+  canExecute: boolean = true;
+  @Output() hotkeysFichierEmitter = new EventEmitter();
 
   constructor() { }
 
@@ -20,22 +20,22 @@ export class HotkeysFichierService {
     if (this.canExecute) {
       if (event.ctrlKey && event.code == keyCodes.o) {
         event.preventDefault();
-        this.dialog.emit();
+        this.hotkeysFichierEmitter.emit('newDrawing');
       }
 
       if (event.ctrlKey && event.code == keyCodes.s) {
         event.preventDefault();
-        this.dialog.emit();
+        this.hotkeysFichierEmitter.emit();
       }
 
       if (event.ctrlKey && event.code == keyCodes.g) {
         event.preventDefault();
-        this.dialog.emit();
+        this.hotkeysFichierEmitter.emit();
       }
 
       if (event.ctrlKey && event.code == keyCodes.e) {
         event.preventDefault();
-        this.dialog.emit();
+        this.hotkeysFichierEmitter.emit();
       }
     }
   }

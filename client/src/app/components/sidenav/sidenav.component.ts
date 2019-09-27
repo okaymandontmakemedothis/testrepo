@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material';
-import { ToggleDrawerService } from 'src/app/services/toggle-drawer/toggle-drawer.service';
 import { ITools } from 'src/app/services/tools/ITools';
-import { ToolsService } from 'src/app/services/tools/tools.service';
+import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -14,43 +13,33 @@ export class SidenavComponent {
 
   isControlMenu = false;
 
-  constructor(private toggleDrawerService: ToggleDrawerService, private toolService: ToolsService) { }
+  constructor(private sideNavService: SidenavService) { }
 
   get toolList(): ITools[] {
-    return this.toolService.tools;
-  }
-
-  get currentTool(): ITools {
-    return this.toolService.selectedTools;
+    return this.sideNavService.toolList;
   }
 
   get isOpened(): boolean {
-    return this.toggleDrawerService.isOpened;
+    return this.sideNavService.isOpened;
   }
 
   get selectedTool(): number {
-    if (this.isControlMenu) {
-      return this.toolList.length;
-    }
-    return this.toolService.selectedTools.id;
+    return this.sideNavService.selectedTool;
   }
 
   open(): void {
-    this.toggleDrawerService.open();
+    this.sideNavService.open();
   }
 
   close(): void {
-    this.toggleDrawerService.close();
-    this.isControlMenu = false;
+    this.sideNavService.close();
   }
 
   selectionChanged(selectedItem: MatButtonToggleChange): void {
-    this.toolService.selectTool(selectedItem.value);
-    this.isControlMenu = false;
+    this.sideNavService.selectionChanged(selectedItem);
   }
 
   openControlMenu(): void {
-    this.isControlMenu = true;
-    this.open();
+    this.sideNavService.openControlMenu();
   }
 }
