@@ -24,6 +24,7 @@ import { SelectToolService } from './services/tool/select-tool.service';
 import { ParameterMenuProviderService } from './services/menu/parameter-menu-provider.service';
 import { ToolsColorPickerComponent } from './components/tools-color-picker/tools-color-picker.component';
 import { RectangleToolParameterComponent } from './components/rectangle-tool-parameter/rectangle-tool-parameter.component';
+import { BrushToolParameterComponent } from './components/brush-tool-parameter/brush-tool-parameter.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { RectangleToolParameterComponent } from './components/rectangle-tool-par
     CanvasComponent,
     PencilToolParameterComponent,
     RectangleToolParameterComponent,
+    BrushToolParameterComponent,
   ],
   imports: [
     BrowserModule,

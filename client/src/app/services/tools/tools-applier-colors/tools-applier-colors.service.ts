@@ -11,9 +11,9 @@ import { FormGroup } from '@angular/forms';
   providedIn: 'root',
 })
 export class ToolsApplierColorsService implements ITools {
-  id = 2;
+  readonly id = 2;
   faIcon: IconDefinition = faTint;
-  toolName: 'Applicateur de couleur';
+  toolName = 'Applicateur de couleur';
   parameters: FormGroup;
   object: IObjects | undefined;
 
@@ -29,7 +29,7 @@ export class ToolsApplierColorsService implements ITools {
         });
         this.object.secondaryColor = { rgb: this.color.secondaryColor, a: this.color.secondaryAlpha };
       }
-      return this.object;
+      return null;
     } else {
       return null;
     }

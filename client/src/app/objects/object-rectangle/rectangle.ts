@@ -26,6 +26,7 @@ export class RectangleObject implements IObjects {
 
     this.setSize(this.oldX, this.oldY);
   }
+
   unsetSquare() {
     this.isSquare = false;
 
@@ -80,7 +81,7 @@ export class RectangleObject implements IObjects {
         return "\"fill:rgba(" + this.primaryColor.rgb.r + "," + this.primaryColor.rgb.g + "," + this.primaryColor.rgb.b + "," + this.primaryColor.a + ")\"";
       }
       case "border": {
-        return "\"fill:rgba(0, 0, 0, 0);stroke-width:" + this.strokeWidth + ";stroke:rgb(" + this.secondaryColor.rgb.r + "," + this.secondaryColor.rgb.g + "," + this.secondaryColor.rgb.b + "," + this.secondaryColor.a + ")\"";
+        return "\"fill:none;stroke-width:" + this.strokeWidth + ";stroke:rgb(" + this.secondaryColor.rgb.r + "," + this.secondaryColor.rgb.g + "," + this.secondaryColor.rgb.b + "," + this.secondaryColor.a + ")\"";
 
       }
       case "fill": {

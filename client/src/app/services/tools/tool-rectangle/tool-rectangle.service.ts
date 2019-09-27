@@ -17,7 +17,7 @@ export class ToolRectangleService implements ITools {
   strokeWidth: FormControl;
   rectStyle: FormControl;
 
-  readonly id = 1;
+  readonly id = 3;
 
   object: RectangleObject | null;
 
