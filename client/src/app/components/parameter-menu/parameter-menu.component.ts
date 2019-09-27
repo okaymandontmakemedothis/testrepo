@@ -35,16 +35,17 @@ export class ParameterMenuComponent implements OnInit, OnChanges {
     viewContainerRef.createComponent(componentFactory);
   }
 
-  toggle() {
-    console.log('toggled');
-    this.child.toggle();
+  open() {
+    this.child.open();
   }
+
   close() {
     this.child.close();
   }
+
   ngOnInit() {
-    this.toggleDrawerService.toggled.subscribe(
-      () => { this.toggle(); },
+    this.toggleDrawerService.openningEvent.subscribe(
+      () => { this.open(); },
     );
   }
 }

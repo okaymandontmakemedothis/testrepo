@@ -56,7 +56,6 @@ export class DrawingService {
     for (const obj of this.objectList.values()) {
       drawResult += obj.draw();
     }
-    console.log(drawResult);
     this.svgString.emit(drawResult);
   }
 
