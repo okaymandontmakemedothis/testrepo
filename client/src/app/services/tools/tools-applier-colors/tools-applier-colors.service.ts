@@ -24,9 +24,7 @@ export class ToolsApplierColorsService implements ITools {
       if (event.button === 0) { // left click so set fill to a color
         this.object.primaryColor = { rgb: this.color.primaryColor, a: this.color.primaryAlpha };
       } else {     // right click so set stroke to a color
-        document.addEventListener('contextmenu', (event2) => {
-          event2.preventDefault(); // prevents the context menu of a right click to show
-        });
+        print();
         this.object.secondaryColor = { rgb: this.color.secondaryColor, a: this.color.secondaryAlpha };
       }
       return null;

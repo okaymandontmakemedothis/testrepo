@@ -24,6 +24,7 @@ import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { ParameterMenuProviderService } from './services/menu/parameter-menu-provider.service';
 import { SelectToolService } from './services/tool/select-tool.service';
 import { BrushToolParameterComponent } from './components/brush-tool-parameter/brush-tool-parameter.component';
+import { ParameterDirective } from './components/parameter-menu/parameter.directive';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { BrushToolParameterComponent } from './components/brush-tool-parameter/b
     CanvasComponent,
     PencilToolParameterComponent,
     BrushToolParameterComponent,
+    ParameterDirective,
   ],
   imports: [
     BrowserModule,

@@ -24,7 +24,10 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     });
   }
 
-
+  onRightClick(event: MouseEvent) {
+    this.toolsService.onPressed(event);
+    return false;
+  }
 
   onMouseDown(event: MouseEvent) {
     this.toolsService.onPressed(event);
