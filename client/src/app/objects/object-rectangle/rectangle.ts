@@ -10,8 +10,6 @@ export class RectangleObject implements IObjects {
   firstY: number = 0
   x: number = 0;
   y: number = 0;
-  oldX: number = 0;
-  oldY: number = 0;
 
   height: number = 0;
   width: number = 0;
@@ -19,61 +17,6 @@ export class RectangleObject implements IObjects {
   strokeWidth: number = 0;
   style: string = "";
 
-  private isSquare: boolean = false;
-
-  setSquare() {
-    this.isSquare = true;
-
-    this.setSize(this.oldX, this.oldY);
-  }
-
-  unsetSquare() {
-    this.isSquare = false;
-
-    this.setSize(this.oldX, this.oldY);
-  }
-
-  setSize(x: number, y: number): void {
-    this.oldX = x;
-    this.oldY = y;
-
-    this.width = x - this.firstX;
-    this.height = y - this.firstY;
-
-    if (this.width < 0) {
-      this.x = x;
-      this.width = this.firstX - this.x;
-    }
-    if (this.height < 0) {
-      this.y = y;
-      this.height = this.firstY - this.y;
-    }
-
-    if (this.isSquare) {
-      if (y < this.firstY && x < this.firstX) {
-        if (this.width < this.height) {
-          this.height = this.width;
-          this.y = this.firstY - this.width;
-        }
-        else {
-          this.width = this.height;
-          this.x = this.firstX - this.height;
-        }
-      }
-      else if (this.width < this.height) {
-        this.height = this.width;
-        if (y < this.firstY) {
-          this.y = this.firstX + this.firstY - x;
-        }
-      }
-      else {
-        this.width = this.height;
-        if (x < this.firstX) {
-          this.x = this.firstX + this.firstY - y;
-        }
-      }
-    }
-  }
 
   getStyle(): string {
     switch (this.style) {
@@ -97,10 +40,6 @@ export class RectangleObject implements IObjects {
     if (this.strokeWidth > 0)
       return "<rect id=\"" + this.id + "\" x=\"" + this.x + "\" y=\"" + this.y + "\" width=\"" + this.width + "\" height=\"" + this.height + "\" style=" + this.getStyle() + " />"
     return "";
-  }
-
-  getColor(): void {
-    throw new Error("Method not implemented.");
   }
 
   constructor(x: number, y: number, strokeWidth: number, style: string) {

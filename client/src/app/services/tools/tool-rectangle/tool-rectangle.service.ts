@@ -36,14 +36,14 @@ export class ToolRectangleService implements ITools {
   onShift() {
     window.addEventListener('keydown', (event) => {
       if (event.shiftKey && this.object) {
-        this.object.setSquare();
+        this.setSquare();
         this.drawingService.draw();
       }
     });
 
     window.addEventListener('keyup', () => {
       if (this.object) {
-        this.object.unsetSquare();
+        this.unsetSquare();
         this.drawingService.draw();
       }
     });
@@ -60,15 +60,68 @@ export class ToolRectangleService implements ITools {
 
   onMove(event: MouseEvent): void {
     if (this.object) {
-      this.object.setSize(event.offsetX, event.offsetY);
+      this.setSize(event.offsetX, event.offsetY);
     }
   }
 
-}
 
-/*function lowLimit(limit: number): Validators {
-  return (control: AbstractControl): { [key: string]: boolean } | null => {
-    const forbidden = limit > control.value;
-    return forbidden ? { 'ooo': true } : null;
-  };
-}*/
+  private isSquare: boolean = false;
+  oldX: number = 0;
+  oldY: number = 0;
+
+  setSquare() {
+    this.isSquare = true;
+
+    this.setSize(this.oldX, this.oldY);
+  }
+
+  unsetSquare() {
+    this.isSquare = false;
+
+    this.setSize(this.oldX, this.oldY);
+  }
+
+  setSize(x: number, y: number): void {
+    if (this.object) {
+      this.oldX = x;
+      this.oldY = y;
+
+      this.object.width = x - this.object.firstX;
+      this.object.height = y - this.object.firstY;
+
+      if (this.object.width < 0) {
+        this.object.x = x;
+        this.object.width = this.object.firstX - this.object.x;
+      }
+      if (this.object.height < 0) {
+        this.object.y = y;
+        this.object.height = this.object.firstY - this.object.y;
+      }
+
+      if (this.isSquare) {
+        if (y < this.object.firstY && x < this.object.firstX) {
+          if (this.object.width < this.object.height) {
+            this.object.height = this.object.width;
+            this.object.y = this.object.firstY - this.object.width;
+          }
+          else {
+            this.object.width = this.object.height;
+            this.object.x = this.object.firstX - this.object.height;
+          }
+        }
+        else if (this.object.width < this.object.height) {
+          this.object.height = this.object.width;
+          if (y < this.object.firstY) {
+            this.object.y = this.object.firstX + this.object.firstY - x;
+          }
+        }
+        else {
+          this.object.width = this.object.height;
+          if (x < this.object.firstX) {
+            this.object.x = this.object.firstX + this.object.firstY - y;
+          }
+        }
+      }
+    }
+  }
+}

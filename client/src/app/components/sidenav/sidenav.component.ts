@@ -20,8 +20,7 @@ export class SidenavComponent {
 
   selectedTool: number;
 
-  toolSelection(id: number) {
-    this.toolService.toolSelected(id);
+  toggle() {
     this.toggleDrawerService.open();
   }
 
