@@ -10,11 +10,11 @@ export class NewDrawingService {
   private isSizeModified = false;
 
   constructor(private drawingSizeValidatorService: DrawingSizeValidatorService, private formBuilder: FormBuilder,
-              private workspaceService: WorkspaceService) {
+    private workspaceService: WorkspaceService) {
     this.form = this.formBuilder.group({
       size: this.formBuilder.group({
-        width: this.workspaceService.width,
-        height: this.workspaceService.height,
+        width: 0,
+        height: 0,
       }, {
         validator: this.drawingSizeValidatorService.formValidator(),
       }),
@@ -30,6 +30,7 @@ export class NewDrawingService {
       this.isSizeModified = !(size.width === this.workspaceService.width && size.height === this.workspaceService.height);
       this.form.updateValueAndValidity();
     });
+
   }
 
   get isValid(): boolean {

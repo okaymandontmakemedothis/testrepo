@@ -23,7 +23,7 @@ export class NewDrawingComponent implements OnInit, AfterViewInit {
   colorPickerComponent: ColorPickerComponent;
 
   constructor(public dialogRef: MatDialogRef<NewDrawingComponent>, private snackBar: MatSnackBar,
-              private newDrawingService: NewDrawingService, private drawingService: DrawingService, private dialog: MatDialog) { }
+    private newDrawingService: NewDrawingService, private drawingService: DrawingService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.dialogRef.disableClose = true;

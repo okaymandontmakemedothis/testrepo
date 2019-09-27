@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../drawing/drawing.service';
 import { ToolsColorService } from '../tools-color/tools-color.service';
+import { BrushToolService } from './brush-tool/brush-tool.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
@@ -16,14 +17,14 @@ export class ToolsService {
   private isPressed = false;
   tools: ITools[] = [];
 
-  constructor(private drawing: DrawingService, private colorTool: ToolsColorService, private pencilTool: PencilToolService,
-              private colorApplicator: ToolsApplierColorsService) {
+  constructor(private drawing: DrawingService, private colorTool: ToolsColorService, private pencilTool: PencilToolService, private brushTool: BrushToolService, private colorApplicator: ToolsApplierColorsService) {
     this.initTools();
     this.selectedTools = this.tools[0];
   }
 
   private initTools(): void {
     this.tools.push(this.pencilTool);
+    this.tools.push(this.brushTool);
     this.tools.push(this.colorApplicator);
   }
 
