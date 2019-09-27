@@ -15,12 +15,24 @@ export class PencilToolService implements ITools {
   private object: Polyline | null;
   parameters: FormGroup;
   strokeWidth: FormControl;
+  lastPoint: { x: number, y: number };
 
   constructor() {
     this.strokeWidth = new FormControl(20);
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,
     });
+  }
+
+  addPoint(dpoint: { x: number, y: number }) {
+    if (this.object) {
+      if (this.lastPoint) {
+        this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
+      } else {
+        this.lastPoint = dpoint;
+      }
+      this.object.addpoint(this.lastPoint);
+    }
   }
 
   onPressed(event: MouseEvent): IObjects {
