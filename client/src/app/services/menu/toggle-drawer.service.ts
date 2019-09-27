@@ -5,9 +5,9 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
 })
 export class ToggleDrawerService {
 
-  @Output() toggled = new EventEmitter();
+  @Output() openningEvent = new EventEmitter();
 
-  toggle() {
-    this.toggled.emit();
+  open() {
+    this.openningEvent.emit();
   }
 }

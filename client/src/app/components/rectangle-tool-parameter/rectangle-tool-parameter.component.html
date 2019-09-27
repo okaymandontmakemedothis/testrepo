@@ -1,0 +1,17 @@
+<div [formGroup]='form' >
+<div>
+    <mat-form-field style="width: 100px;">
+      <mat-label>Stroke width</mat-label>
+      <input id="strokeInput" matInput matTextareaAutosize formControlName='strokeWidth' type="number" placeholder="Stroke width" min="1">
+    </mat-form-field>
+</div>
+<div class="container">
+  <mat-label>Style filling</mat-label>
+  <mat-button-toggle-group [(value)]="currentStyle" #group="matButtonToggleGroup" [vertical]="true">
+    <mat-button-toggle mat-icon-button *ngFor="let st of styles;" [matTooltip]="st.tip" [value]="st.id"
+      (click)="selectStyle(st.id)">
+      <fa-icon backgroundcolor="black" [icon]="st.faIcone"></fa-icon>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+</div>
