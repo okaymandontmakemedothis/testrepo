@@ -1,14 +1,14 @@
 import { Component, ElementRef, OnInit, AfterViewInit, HostListener } from '@angular/core';
-import { WorkspaceService } from 'src/app/workspace.service';
-import { ToolsService } from 'src/app/services/tools/tools.service';
-import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
 import { MatDialog } from '@angular/material';
+import { ToolsService } from 'src/app/services/tools/tools.service';
+import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
+import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
 import { HotkeysFichierService } from 'src/app/services/hotkeys/hotkeys-fichier/hotkeys-fichier.service';
 import { HotkeysSelectionService } from 'src/app/services/hotkeys/hotkeys-selection/hotkeys-selection.service';
 import { HotkeysOutilService } from 'src/app/services/hotkeys/hotkeys-outil/hotkeys-outil.service';
 import { HotkeysTravailService } from 'src/app/services/hotkeys/hotkeys-travail/hotkeys-travail.service';
-import { SidenavComponent } from '../sidenav/sidenav.component';
 import { ToolIdConstants } from 'src/app/services/tools/toolIdConstants';
+import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
 
 @Component({
   selector: 'app-workspace',
@@ -17,7 +17,7 @@ import { ToolIdConstants } from 'src/app/services/tools/toolIdConstants';
 })
 export class WorkspaceComponent implements OnInit, AfterViewInit {
 
-  constructor(private el: ElementRef, private workspaceService: WorkspaceService, private sidenavComponent: SidenavComponent,
+  constructor(private el: ElementRef, private workspaceService: WorkspaceService, private sideNavService: SidenavService,
     private toolsService: ToolsService, private dialog: MatDialog, private hotkeysFichierService: HotkeysFichierService, private hotkeysSelectionService: HotkeysSelectionService,
     private hotkeysOutilService: HotkeysOutilService, private hotkeysTravailService: HotkeysTravailService) {
 
@@ -29,25 +29,26 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     });
 
     this.hotkeysFichierService.hotkeysFichierEmitter.subscribe((value: string) => {
-      if (value == 'newDrawing')
+      if (value === 'newDrawing') {
         this.openDialog();
+      }
     });
 
     this.hotkeysOutilService.hotkeysOutilEmitter.subscribe((value: string) => {
-      if (value == 'crayon') {
-        this.sidenavComponent.selectedTool = ToolIdConstants.CRAYON_ID;
+      if (value === 'crayon') {
+        this.sideNavService.open();
         this.toolsService.selectTool(ToolIdConstants.CRAYON_ID);
       }
-      if (value == 'brush') {
-        this.sidenavComponent.selectedTool = ToolIdConstants.BRUSH_ID;
+      if (value === 'brush') {
+        this.sideNavService.open();
         this.toolsService.selectTool(ToolIdConstants.BRUSH_ID);
       }
-      if (value == 'applicateur') {
-        this.sidenavComponent.selectedTool = ToolIdConstants.APPLICATEUR_ID;
+      if (value === 'applicateur') {
+        this.sideNavService.open();
         this.toolsService.selectTool(ToolIdConstants.APPLICATEUR_ID);
       }
-      if (value == 'rectangle') {
-        this.sidenavComponent.selectedTool = ToolIdConstants.RECTANGLE_ID;
+      if (value === 'rectangle') {
+        this.sideNavService.open();
         this.toolsService.selectTool(ToolIdConstants.RECTANGLE_ID);
       }
     });
@@ -73,6 +74,10 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     });
   }
 
+  onRightClick(event: MouseEvent) {
+    this.toolsService.onPressed(event);
+    return false;
+  }
 
   onMouseDown(event: MouseEvent) {
     this.toolsService.onPressed(event);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { WorkspaceService } from 'src/app/workspace.service';
+import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
 import { DrawingSizeValidatorService } from '../drawing-size-validator/drawing-size-validator.service';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class NewDrawingService {
   private isSizeModified = false;
 
   constructor(private drawingSizeValidatorService: DrawingSizeValidatorService, private formBuilder: FormBuilder,
-    private workspaceService: WorkspaceService) {
+              private workspaceService: WorkspaceService) {
     this.form = this.formBuilder.group({
       size: this.formBuilder.group({
         width: 0,

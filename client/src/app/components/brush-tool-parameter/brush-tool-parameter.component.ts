@@ -5,7 +5,7 @@ import { BrushToolService, TextureOptions } from 'src/app/services/tools/brush-t
 @Component({
   selector: 'app-brush-tool-parameter',
   templateUrl: './brush-tool-parameter.component.html',
-  styleUrls: ['./brush-tool-parameter.component.scss']
+  styleUrls: ['./brush-tool-parameter.component.scss'],
 })
 export class BrushToolParameterComponent implements OnInit {
 

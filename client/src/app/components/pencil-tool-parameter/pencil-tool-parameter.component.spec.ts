@@ -8,7 +8,7 @@ describe('PencilToolParameterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PencilToolParameterComponent ]
+      declarations: [ PencilToolParameterComponent ],
     })
     .compileComponents();
   }));

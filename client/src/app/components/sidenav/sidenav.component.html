@@ -1,19 +1,29 @@
 <mat-sidenav-container class="container">
-  <mat-sidenav mode="side" fixedInViewport=true fxFlexFill disableClose=true opened>
-    <div style="text-align: center;">
+  <mat-sidenav mode="side" fixedInViewport=true fxFlexFill disableClose=true style="text-align: center;" opened>
+    <button mat-icon-button (click)="open()" *ngIf="!isOpened">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+    <button mat-icon-button (click)="close()" *ngIf="isOpened">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <div>
       <mat-button-toggle-group class="iconsGroup" [(value)]="selectedTool" #group="matButtonToggleGroup"
         [vertical]="true">
         <mat-button-toggle mat-icon-button *ngFor="let tool of toolList;" [matTooltip]="tool.toolName" [value]="tool.id"
-          (click)="toggle()" (change)="selectionChanged($event)">
+          (click)="open()" (change)="selectionChanged($event)">
           <fa-icon [icon]="tool.faIcon"></fa-icon>
         </mat-button-toggle>
       </mat-button-toggle-group>
       <mat-divider style="margin-top:8px;margin-bottom:8px;"></mat-divider>
       <app-tools-color></app-tools-color>
     </div>
+    <div style="position: absolute; bottom: 0;">
+      <button mat-icon-button (click)="openControlMenu()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
   </mat-sidenav>
-  
   <mat-sidenav-content>
-    <app-parameter-menu></app-parameter-menu>
+    <app-parameter-menu [toolid]="selectedTool"></app-parameter-menu>
   </mat-sidenav-content>
 </mat-sidenav-container>

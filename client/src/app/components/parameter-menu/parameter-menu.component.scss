@@ -3,7 +3,6 @@ mat-drawer-container {
   width:100%;
 
   display:flex;
-  background-color: rgb(161, 22, 154);
   overflow:auto;
 }
 
@@ -17,7 +16,6 @@ mat-drawer-content{
 
 
   flex:0 0 1;
-  background-color:yellow;
   width:100%;// pour que le content occupe tout l'espace
   height: 100%;
 

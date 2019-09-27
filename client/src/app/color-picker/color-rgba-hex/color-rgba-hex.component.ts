@@ -88,4 +88,8 @@ export class ColorRgbaHexComponent implements OnInit, AfterViewInit {
     this.updateHEX({ r: r.value, g: g.value, b: b.value });
     this.subs = this.hsl.valueChanges.subscribe((value) => this.hslChangeUpdate());
   }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
 }

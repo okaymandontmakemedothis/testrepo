@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ToolRectangleService } from 'src/app/services/tools/tool-rectangle/tool-rectangle.service';
-import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
+import { RectangleStyle } from 'src/app/model/reactangle-style.model';
+import { ToolRectangleService } from 'src/app/services/tools/tool-rectangle/tool-rectangle.service';
 
 @Component({
   selector: 'app-rectangle-tool-parameter',
   templateUrl: './rectangle-tool-parameter.component.html',
-  styleUrls: ['./rectangle-tool-parameter.component.scss']
+  styleUrls: ['./rectangle-tool-parameter.component.scss'],
 })
 export class RectangleToolParameterComponent implements OnInit {
 
   form: FormGroup;
 
-  currentStyle: number = 0;
+  currentStyle = 0;
 
-  styles: style[] = [
-    new style(0, "fill", "Fill", faSquareFull),
-    new style(1, "center", "Center", faSquareFull),
-    new style(2, "border", "Border", faSquareFull)
+  styles: RectangleStyle[] = [
+    { id: 0, type: 'fill', tooltip: 'Fill', faIcone: faSquareFull },
+    { id: 1, type: 'center', tooltip: 'Center', faIcone: faSquareFull },
+    { id: 2, type: 'border', tooltip: 'Border', faIcone: faSquareFull },
   ];
 
   selectStyle(id: number) {
@@ -34,19 +34,4 @@ export class RectangleToolParameterComponent implements OnInit {
     this.form = this.rectangleToolService.parameters;
   }
 
-}
-
-class style {
-
-  constructor(id: number, type: string, tip: string, icone: IconDefinition) {
-    this.id = id;
-    this.type = type;
-    this.tip = tip;
-    this.faIcone = icone;
-  }
-
-  id: number;
-  type: string;
-  tip: string;
-  faIcone: IconDefinition;
 }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BrushToolParameterComponent } from './brush-tool-parameter.component';
+import { ControlMenuComponent } from './control-menu.component';
 
-describe('BrushToolParameterComponent', () => {
-  let component: BrushToolParameterComponent;
-  let fixture: ComponentFixture<BrushToolParameterComponent>;
+describe('ControlMenuComponent', () => {
+  let component: ControlMenuComponent;
+  let fixture: ComponentFixture<ControlMenuComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BrushToolParameterComponent ],
+      declarations: [ ControlMenuComponent ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BrushToolParameterComponent);
+    fixture = TestBed.createComponent(ControlMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

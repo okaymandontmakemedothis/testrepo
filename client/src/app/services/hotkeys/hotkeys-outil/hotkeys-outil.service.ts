@@ -1,6 +1,5 @@
 
-
-////////////////////////////--IMPORTANT--///////////////////////////////
+//////////////////////////// --IMPORTANT--///////////////////////////////
 // Les tests seront a changer selon ce que l'on emet dans les hotkeys //
 ////////////////////////////////////////////////////////////////////////
 
@@ -8,7 +7,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HotkeysOutilService {
 

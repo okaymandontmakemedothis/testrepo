@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BrushToolParameterComponent } from './brush-tool-parameter.component';
+import { EmptyParameterComponent } from './empty-parameter.component';
 
-describe('BrushToolParameterComponent', () => {
-  let component: BrushToolParameterComponent;
-  let fixture: ComponentFixture<BrushToolParameterComponent>;
+describe('EmptyParameterComponent', () => {
+  let component: EmptyParameterComponent;
+  let fixture: ComponentFixture<EmptyParameterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BrushToolParameterComponent ],
+      declarations: [ EmptyParameterComponent ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BrushToolParameterComponent);
+    fixture = TestBed.createComponent(EmptyParameterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
