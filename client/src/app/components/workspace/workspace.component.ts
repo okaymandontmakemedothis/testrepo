@@ -1,8 +1,8 @@
-import { Component, ElementRef, OnInit, AfterViewInit } from '@angular/core';
-import { WorkspaceService } from 'src/app/workspace.service';
-import { ToolsService } from 'src/app/services/tools/tools.service';
-import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { ToolsService } from 'src/app/services/tools/tools.service';
+import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
+import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
 
 @Component({
   selector: 'app-workspace',
@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material';
 export class WorkspaceComponent implements OnInit, AfterViewInit {
 
   constructor(private el: ElementRef, private workspaceService: WorkspaceService,
-    private toolsService: ToolsService, private dialog: MatDialog) { }
+              private toolsService: ToolsService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.workspaceService.el = this.el;

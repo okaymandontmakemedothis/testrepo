@@ -1,18 +1,16 @@
 
-
-////////////////////////////--IMPORTANT--///////////////////////////////
+//////////////////////////// --IMPORTANT--///////////////////////////////
 // Les tests seront a changer selon ce que l'on emet dans les hotkeys //
 ////////////////////////////////////////////////////////////////////////
-
 
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HotkeysTravailService {
 
-  canExecute: boolean = true;
+  canExecute = true;
 
   constructor() { }
 

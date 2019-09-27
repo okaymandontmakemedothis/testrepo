@@ -1,19 +1,17 @@
 
-
-////////////////////////////--IMPORTANT--///////////////////////////////
+//////////////////////////// --IMPORTANT--///////////////////////////////
 // Les tests seront a changer selon ce que l'on emet dans les hotkeys //
 ////////////////////////////////////////////////////////////////////////
 
-
-import { Injectable, EventEmitter, Output } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import '../hotkeys-constants';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HotkeysFichierService {
 
-  canExecute: boolean = true;
+  canExecute = true;
   @Output() dialog = new EventEmitter();
 
   constructor() { }

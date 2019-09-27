@@ -8,9 +8,9 @@ describe('RectangleToolParameterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RectangleToolParameterComponent ]
+      declarations: [RectangleToolParameterComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

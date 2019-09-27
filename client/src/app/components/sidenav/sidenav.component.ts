@@ -1,38 +1,56 @@
 import { Component } from '@angular/core';
-import { ToggleDrawerService } from 'src/app/services/menu/toggle-drawer.service';
-// import { FaIcons } from 'src/assets/assets.icons';
-import { ToolsService } from 'src/app/services/tools/tools.service';
-import { ITools } from 'src/app/services/tools/ITools';
 import { MatButtonToggleChange } from '@angular/material';
+import { ToggleDrawerService } from 'src/app/services/toggle-drawer/toggle-drawer.service';
+import { ITools } from 'src/app/services/tools/ITools';
+import { ToolsService } from 'src/app/services/tools/tools.service';
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
 })
+
 export class SidenavComponent {
 
-  constructor(private toggleDrawerService: ToggleDrawerService, private toolService: ToolsService) {
+  isControlMenu = false;
+
+  constructor(private toggleDrawerService: ToggleDrawerService, private toolService: ToolsService) { }
+
+  get toolList(): ITools[] {
+    return this.toolService.tools;
   }
 
-  // menuTopIconList = FaIcons.menuTopIconList;
-  // menuBottomIconList = FaIcons.menuBottomIconList;
+  get currentTool(): ITools {
+    return this.toolService.selectedTools;
+  }
 
-  selectedTool: number;
+  get isOpened(): boolean {
+    return this.toggleDrawerService.isOpened;
+  }
 
-  toggle() {
+  get selectedTool(): number {
+    if (this.isControlMenu) {
+      return this.toolList.length;
+    }
+    return this.toolService.selectedTools.id;
+  }
+
+  open(): void {
     this.toggleDrawerService.open();
   }
 
-  ngOnInit(): void {
-    this.selectedTool = this.toolService.selectedTools.id;
+  close(): void {
+    this.toggleDrawerService.close();
+    this.isControlMenu = false;
   }
 
   selectionChanged(selectedItem: MatButtonToggleChange): void {
     this.toolService.selectTool(selectedItem.value);
+    this.isControlMenu = false;
   }
 
-  get toolList(): ITools[] {
-    return this.toolService.tools;
+  openControlMenu(): void {
+    this.isControlMenu = true;
+    this.open();
   }
 }

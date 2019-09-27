@@ -3,11 +3,8 @@
     <button mat-icon-button (click)="close()">
       <mat-icon>keyboard_backspace</mat-icon>
     </button>
-    <app-pencil-tool-parameter></app-pencil-tool-parameter>
-    <app-brush-tool-parameter></app-brush-tool-parameter>
-    <app-rectangle-tool-parameter> </app-rectangle-tool-parameter>
+    <ng-template appParameter></ng-template>
   </mat-drawer>
-
   <mat-drawer-content>
     <app-workspace></app-workspace>
   </mat-drawer-content>

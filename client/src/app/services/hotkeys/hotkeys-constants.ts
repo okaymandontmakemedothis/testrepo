@@ -1,4 +1,4 @@
-const enum keyCodes{
+const enum keyCodes {
     delete = 'Delete',
     addNP = 'NumpadAdd',
     minusNP = 'NumpadSubtract',
@@ -33,7 +33,7 @@ const enum keyCodes{
     np7 = 'Numpad7',
     np8 = 'Numpad8',
     np9 = 'Numpad9',
-    
+
     a = 'KeyA',
     b = 'KeyB',
     c = 'KeyC',
@@ -59,5 +59,5 @@ const enum keyCodes{
     w = 'KeyW',
     x = 'KeyX',
     y = 'KeyY',
-    z = 'KeyZ'
+    z = 'KeyZ',
 }

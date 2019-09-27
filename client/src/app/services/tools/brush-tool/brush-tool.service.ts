@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ITools } from '../ITools';
-import { IconDefinition, faPaintBrush } from '@fortawesome/free-solid-svg-icons';
+import { FormControl, FormGroup } from '@angular/forms';
+import { faPaintBrush, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { IObjects } from 'src/app/objects/IObjects';
-import { FormGroup, FormControl } from '@angular/forms';
 import { Polyline } from 'src/app/objects/polyline';
+import { ITools } from '../ITools';
 
 export interface TextureOptions {
   value: number;

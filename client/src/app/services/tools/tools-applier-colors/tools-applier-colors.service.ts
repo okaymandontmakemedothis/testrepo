@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { faTint } from '@fortawesome/free-solid-svg-icons';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../../drawing/drawing.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faTint } from '@fortawesome/free-solid-svg-icons';
-import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',

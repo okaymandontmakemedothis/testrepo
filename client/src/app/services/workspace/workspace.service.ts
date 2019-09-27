@@ -1,11 +1,10 @@
-import { ElementRef, Injectable, OnChanges, SimpleChanges, Output } from '@angular/core';
+import { ElementRef, Injectable, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { EventEmitter } from 'events';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WorkspaceService implements OnChanges {
-
 
   el: ElementRef;
 

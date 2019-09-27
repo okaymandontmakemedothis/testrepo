@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ITools } from '../ITools';
+import { FormControl, FormGroup } from '@angular/forms';
+import { faPencilAlt, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { IObjects } from 'src/app/objects/IObjects';
 import { Polyline } from 'src/app/objects/polyline';
-import { FormGroup, FormControl } from '@angular/forms';
-import { IconDefinition, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { ITools } from '../ITools';
 
 @Injectable({
   providedIn: 'root',
