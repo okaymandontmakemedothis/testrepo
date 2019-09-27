@@ -3,8 +3,9 @@ import { ITools } from '../ITools';
 import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 import { IObjects } from 'src/app/objects/IObjects';
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
-import { FormGroup, FormControl } from "@angular/forms";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
+import { DrawingService } from '../../drawing/drawing.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +21,31 @@ export class ToolRectangleService implements ITools {
 
   object: RectangleObject | null;
 
-  constructor() {
-    this.strokeWidth = new FormControl(1);
+  constructor(private drawingService: DrawingService) {
+    this.strokeWidth = new FormControl(1, Validators.min(1));
     this.rectStyle = new FormControl("fill");
 
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,
       rectStyle: this.rectStyle,
+    });
+
+    this.onShift();
+  }
+
+  onShift() {
+    window.addEventListener('keydown', (event) => {
+      if (event.shiftKey && this.object) {
+        this.object.setSquare();
+        this.drawingService.draw();
+      }
+    });
+
+    window.addEventListener('keyup', () => {
+      if (this.object) {
+        this.object.unsetSquare();
+        this.drawingService.draw();
+      }
     });
   }
 
@@ -40,8 +59,16 @@ export class ToolRectangleService implements ITools {
   }
 
   onMove(event: MouseEvent): void {
-    if (this.object)
+    if (this.object) {
       this.object.setSize(event.offsetX, event.offsetY);
+    }
   }
 
 }
+
+/*function lowLimit(limit: number): Validators {
+  return (control: AbstractControl): { [key: string]: boolean } | null => {
+    const forbidden = limit > control.value;
+    return forbidden ? { 'ooo': true } : null;
+  };
+}*/
