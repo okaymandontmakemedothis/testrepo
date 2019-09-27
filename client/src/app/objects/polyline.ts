@@ -1,22 +1,17 @@
 import { RGBA } from '../model/rgba.model';
 import { IObjects } from './IObjects';
-
-export interface Point {
-    x: number;
-    y: number;
-}
+import { Point } from '../model/point.model';
 
 export class Polyline implements IObjects {
     id: number;
     x: number;
     y: number;
-    height: number;
-    width: number;
+    height = 0;
+    width = 0;
     primaryColor: RGBA;
     secondaryColor: RGBA;
     pointsList: Point[] = [];
     strokeWidth: number;
-    lastPoint: Point;
     texture: number;
 
     constructor(point: Point, strokeWidth: number, texture: number = 0) {
@@ -33,15 +28,35 @@ export class Polyline implements IObjects {
             + ')';
     }
 
-    addPoint(dpoint: Point) {
-        if (this.lastPoint) {
-            this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
-        } else {
-            this.lastPoint = dpoint;
-        }
-        this.pointsList.push(this.lastPoint);
+    addPoint(point: Point) {
+        this.pointsList.push(point);
+        this.resetSize();
     }
 
+    /// Vérification de la hauteur et largeur rectangulaire
+    private resetSize() {
+        for (const p of this.pointsList) {
+            if (this.x && this.y) {
+                if (p.x < this.x) {
+                    this.x = p.x;
+                }
+                if (p.y < this.y) {
+                    this.y = p.y;
+                }
+                if (p.y > this.height) {
+                    this.height = this.y;
+                }
+                if (p.x > this.width) {
+                    this.width = this.x;
+                }
+            } else {
+                this.x = p.x;
+                this.y = p.y;
+            }
+        }
+    }
+
+    /// retourne les bon paramêtre svg pour la texture
     private getTextureString(): { fillString: string, strokeString: string, patternString: string } {
         let fillString = '';
         let strokeString = '';
@@ -81,6 +96,7 @@ export class Polyline implements IObjects {
                     '" fill-opacity="' + this.primaryColor.a + '"';
                 strokeString = '" stroke-opacity="' + this.primaryColor.a +
                     '" stroke="url(#pattern-2)" stroke-linecap="round" stroke-linejoin="round"';
+                break;
             default:
                 break;
         }
@@ -93,8 +109,8 @@ export class Polyline implements IObjects {
 
         let polyline = paramStrings.patternString;
         if (this.pointsList.length < 2) {
-            polyline += '<circle id="' + this.id + '" cx="' + this.lastPoint.x +
-                '" cy="' + this.lastPoint.y +
+            polyline += '<circle id="' + this.id + '" cx="' + this.x +
+                '" cy="' + this.y +
                 '" r="' + this.strokeWidth / 2 +
                 paramStrings.fillString +
                 '/>\n';
