@@ -17,7 +17,15 @@ export class RectangleObject implements IObjects {
   strokeWidth: number = 0;
   style: string = "";
 
+  constructor(x: number, y: number, strokeWidth: number, style: string) {
+    this.firstX = x; this.x = x;
+    this.firstY = y; this.y = y;
 
+    this.strokeWidth = strokeWidth;
+    this.style = style;
+  }
+
+  /// Pour definir le style du rectangle (complet, contour, centre)
   getStyle(): string {
     switch (this.style) {
       case "center": {
@@ -36,17 +44,10 @@ export class RectangleObject implements IObjects {
     }
   }
 
+  /// Pour retourner la ligne svg du rectangle pour le dessiner
   draw(): string {
     if (this.strokeWidth > 0)
       return "<rect id=\"" + this.id + "\" x=\"" + this.x + "\" y=\"" + this.y + "\" width=\"" + this.width + "\" height=\"" + this.height + "\" style=" + this.getStyle() + " />"
     return "";
-  }
-
-  constructor(x: number, y: number, strokeWidth: number, style: string) {
-    this.firstX = x; this.x = x;
-    this.firstY = y; this.y = y;
-
-    this.strokeWidth = strokeWidth;
-    this.style = style;
   }
 }

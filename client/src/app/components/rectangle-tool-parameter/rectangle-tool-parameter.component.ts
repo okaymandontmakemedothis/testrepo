@@ -7,7 +7,7 @@ import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-rectangle-tool-parameter',
   templateUrl: './rectangle-tool-parameter.component.html',
-  styleUrls: ['./rectangle-tool-parameter.component.scss']
+  styleUrls: ['./rectangle-tool-parameter.component.scss'],
 })
 export class RectangleToolParameterComponent implements OnInit {
 
