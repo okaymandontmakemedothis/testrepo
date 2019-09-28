@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ITools } from '../tools/ITools';
-import { ToggleDrawerService } from '../toggle-drawer/toggle-drawer.service';
 import { MatButtonToggleChange } from '@angular/material';
+import { ToggleDrawerService } from '../toggle-drawer/toggle-drawer.service';
+import { ITools } from '../tools/ITools';
 import { ToolsService } from '../tools/tools.service';
 
 @Injectable({
@@ -17,19 +17,15 @@ export class SidenavService {
     return this.toolService.tools;
   }
 
-  get currentTool(): ITools {
-    return this.toolService.selectedTools;
-  }
-
   get isOpened(): boolean {
     return this.toggleDrawerService.isOpened;
   }
 
-  get selectedTool(): number {
+  get selectedParameter(): number {
     if (this.isControlMenu) {
       return this.toolList.length;
     }
-    return this.toolService.selectedTools.id;
+    return this.toolService.selectedToolId;
   }
 
   open(): void {

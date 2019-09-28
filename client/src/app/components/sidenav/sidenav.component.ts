@@ -23,8 +23,8 @@ export class SidenavComponent {
     return this.sideNavService.isOpened;
   }
 
-  get selectedTool(): number {
-    return this.sideNavService.selectedTool;
+  get selectedParameter(): number {
+    return this.sideNavService.selectedParameter;
   }
 
   open(): void {

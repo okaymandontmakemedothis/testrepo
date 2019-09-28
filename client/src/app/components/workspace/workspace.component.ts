@@ -94,9 +94,9 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
 
   @HostListener("window:keydown", ["$event"])
   listenHotkey(event: KeyboardEvent) {
-    this.hotkeysFichierService.hotkeysFichier(event);
-    this.hotkeysSelectionService.hotkeysSelection(event);
-    this.hotkeysOutilService.hotkeysOutil(event);
-    this.hotkeysTravailService.hotkeysTravail(event);
+    // this.hotkeysFichierService.hotkeysFichier(event);
+    // this.hotkeysSelectionService.hotkeysSelection(event);
+    // this.hotkeysOutilService.hotkeysOutil(event);
+    // this.hotkeysTravailService.hotkeysTravail(event);
   }
 }

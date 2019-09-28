@@ -7,7 +7,7 @@
       <mat-icon>keyboard_arrow_left</mat-icon>
     </button>
     <div>
-      <mat-button-toggle-group class="iconsGroup" [(value)]="selectedTool" #group="matButtonToggleGroup"
+      <mat-button-toggle-group class="iconsGroup" #group="matButtonToggleGroup" [value]="toolList[0].id"
         [vertical]="true">
         <mat-button-toggle mat-icon-button *ngFor="let tool of toolList;" [matTooltip]="tool.toolName" [value]="tool.id"
           (click)="open()" (change)="selectionChanged($event)">
@@ -24,6 +24,6 @@
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-parameter-menu [toolid]="selectedTool"></app-parameter-menu>
+    <app-parameter-menu [selectId]="selectedParameter"></app-parameter-menu>
   </mat-sidenav-content>
 </mat-sidenav-container>

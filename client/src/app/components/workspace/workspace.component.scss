@@ -15,6 +15,7 @@ div{ // c<est le workspace ou on definit la taille de la zone des conteneurs de 
 mat-drawer-container { //c'est le conteneur du worspace
   height: (var(--heightworkspace));
   width:var((--widthworkspace));
+  background-color: light-grey;
   //border:2px solid blue;
   box-sizing:border-box;
   overflow-x:auto;
