@@ -1,35 +1,33 @@
 import { Injectable } from '@angular/core';
-import { ITools } from '../ITools';
 import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 import { IObjects } from 'src/app/objects/IObjects';
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
 import { DrawingService } from '../../drawing/drawing.service';
+import { ITools } from '../ITools';
+import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToolRectangleService implements ITools {
+  faIcon: IconDefinition = faSquareFull;
+  toolName = 'Rectangle Tool';
 
   readonly id = 3;
 
   object: RectangleObject | null;
 
-  faIcon: IconDefinition = faSquareFull;
-  toolName = 'Rectangle Tool';
-
   parameters: FormGroup;
   strokeWidth: FormControl;
   rectStyle: FormControl;
 
-  private isSquare: boolean = false;
+  private isSquare = false;
+  oldX = 0;
+  oldY = 0;
 
-  oldX: number = 0;
-  oldY: number = 0;
-
-
-  constructor(private drawingService: DrawingService) {
+  constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService) {
     this.strokeWidth = new FormControl(1, Validators.min(1));
     this.rectStyle = new FormControl('fill');
 
@@ -40,6 +38,7 @@ export class ToolRectangleService implements ITools {
 
     this.onShift();
   }
+
 
   /// Quand le bouton shift et peser, le rectangle se transforme en carree et quand on lache le bouton, il redevient rectangle.
   onShift() {
@@ -60,7 +59,8 @@ export class ToolRectangleService implements ITools {
 
   /// Quand le bouton de la sourie est enfoncé, on crée un rectangle et on le retourne en sortie et est inceré dans l'objet courrant de l'outil.
   onPressed(event: MouseEvent): IObjects {
-    this.object = new RectangleObject(event.offsetX, event.offsetY, this.strokeWidth.value, this.rectStyle.value);
+    const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+    this.object = new RectangleObject(offset.x, offset.y, this.strokeWidth.value, this.rectStyle.value);
     return this.object;
   }
 
@@ -72,7 +72,8 @@ export class ToolRectangleService implements ITools {
   /// Quand le bouton de la sourie est apuyé et on bouge celle-ci, l'objet courrant subit des modifications.
   onMove(event: MouseEvent): void {
     if (this.object) {
-      this.setSize(event.offsetX, event.offsetY);
+      const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+      this.setSize(offset.x, offset.y);
     }
   }
 

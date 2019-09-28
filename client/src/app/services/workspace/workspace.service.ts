@@ -7,6 +7,7 @@ import { EventEmitter } from 'events';
 export class WorkspaceService implements OnChanges {
 
   el: ElementRef;
+  scrolledElement: ElementRef;
 
   @Output()
   elReady: EventEmitter = new EventEmitter();

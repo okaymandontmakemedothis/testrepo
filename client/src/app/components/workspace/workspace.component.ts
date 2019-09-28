@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, AfterViewInit, HostListener } from '@angular/core';
+import { Component, ElementRef, OnInit, AfterViewInit, HostListener, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
@@ -16,6 +16,10 @@ import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
   styleUrls: ['./workspace.component.scss'],
 })
 export class WorkspaceComponent implements OnInit, AfterViewInit {
+
+
+  @ViewChild('workspaceEnv', { read: ElementRef, static: false })
+  workspaceEnv: ElementRef;
 
   constructor(private el: ElementRef, private workspaceService: WorkspaceService, private sideNavService: SidenavService,
     private toolsService: ToolsService, private dialog: MatDialog, private hotkeysFichierService: HotkeysFichierService, private hotkeysSelectionService: HotkeysSelectionService,
@@ -64,6 +68,7 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.openDialog();
+    this.workspaceService.scrolledElement = this.workspaceEnv;
   }
 
   openDialog() {
