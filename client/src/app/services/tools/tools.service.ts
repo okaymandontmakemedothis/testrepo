@@ -18,7 +18,8 @@ export class ToolsService {
   private isPressed = false;
   tools: ITools[] = [];
 
-  constructor(private drawing: DrawingService, private colorTool: ToolsColorService, private pencilTool: PencilToolService, private brushTool: BrushToolService, private colorApplicator: ToolsApplierColorsService, private rectangleTool: ToolRectangleService) {
+  constructor(private drawing: DrawingService, private colorTool: ToolsColorService, private pencilTool: PencilToolService, private brushTool: BrushToolService,
+    private colorApplicator: ToolsApplierColorsService, private rectangleTool: ToolRectangleService) {
     this.initTools();
   }
 
