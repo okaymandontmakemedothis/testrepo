@@ -26,6 +26,8 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
       this.hotkeysSelectionService.canExecute = true;
       this.hotkeysOutilService.canExecute = true;
       this.hotkeysTravailService.canExecute = true;
+
+      this.sideNavService.canClick = true;
     });
 
     this.hotkeysFichierService.hotkeysFichierEmitter.subscribe((value: string) => {
@@ -69,6 +71,8 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     this.hotkeysSelectionService.canExecute = false;
     this.hotkeysOutilService.canExecute = false;
     this.hotkeysTravailService.canExecute = false;
+
+    this.sideNavService.canClick = false;
 
     this.dialog.open(NewDrawingComponent, {
     });

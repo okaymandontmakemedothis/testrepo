@@ -49,8 +49,6 @@ export class HotkeysSelectionService {
       if (event.ctrlKey && event.shiftKey && event.code == keyCodes.z) {
         event.preventDefault();
         return 'shz';
-
-        return;
       }
 
       if (event.ctrlKey && event.code == keyCodes.z) {

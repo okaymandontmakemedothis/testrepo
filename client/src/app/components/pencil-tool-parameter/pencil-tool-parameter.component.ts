@@ -16,5 +16,4 @@ export class PencilToolParameterComponent implements OnInit {
   ngOnInit() {
     this.form = this.pencilToolService.parameters;
   }
-
 }

@@ -20,8 +20,8 @@ export class ParameterMenuComponent implements OnInit, OnChanges {
   parameterHost: ParameterDirective;
 
   constructor(private toggleDrawerService: ToggleDrawerService,
-              private componentFactoryResolver: ComponentFactoryResolver,
-              private parameterComponentService: ParameterComponentService) { }
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private parameterComponentService: ParameterComponentService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.toolid) {
