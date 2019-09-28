@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../drawing/drawing.service';
+import { OffsetManagerService } from '../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../tools-color/tools-color.service';
 import { BrushToolService } from './brush-tool/brush-tool.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
-import { OffsetManagerService } from '../offset-manager/offset-manager.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,15 @@ export class ToolsService {
   private isPressed = false;
   tools: ITools[] = [];
 
-  constructor(private drawing: DrawingService, private colorTool: ToolsColorService, private offsetManager: OffsetManagerService, private pencilTool: PencilToolService, private brushTool: BrushToolService, private colorApplicator: ToolsApplierColorsService, private rectangleTool: ToolRectangleService) {
+  constructor(
+    private drawing: DrawingService,
+    private colorTool: ToolsColorService,
+    private offsetManager: OffsetManagerService,
+    private pencilTool: PencilToolService,
+    private brushTool: BrushToolService,
+    private colorApplicator: ToolsApplierColorsService,
+    private rectangleTool: ToolRectangleService,
+  ) {
     this.initTools();
   }
 
