@@ -8,7 +8,7 @@ import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
 import { DrawingService } from '../../drawing/drawing.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToolRectangleService implements ITools {
 
@@ -112,19 +112,16 @@ export class ToolRectangleService implements ITools {
           if (this.object.width < this.object.height) {
             this.object.height = this.object.width;
             this.object.y = this.object.firstY - this.object.width;
-          }
-          else {
+          } else {
             this.object.width = this.object.height;
             this.object.x = this.object.firstX - this.object.height;
           }
-        }
-        else if (this.object.width < this.object.height) {
+        } else if (this.object.width < this.object.height) {
           this.object.height = this.object.width;
           if (y < this.object.firstY) {
             this.object.y = this.object.firstX + this.object.firstY - x;
           }
-        }
-        else {
+        } else {
           this.object.width = this.object.height;
           if (x < this.object.firstX) {
             this.object.x = this.object.firstX + this.object.firstY - y;

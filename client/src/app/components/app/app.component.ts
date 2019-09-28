@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
 import { MatDialog } from '@angular/material/dialog';
+import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
 // import { HotkeysFichierService } from '../../services/hotkeys/hotkeys-fichier/hotkeys-fichier.service';
 // import { HotkeysSelectionService } from '../../services/hotkeys/hotkeys-selection/hotkeys-selection.service';
 
@@ -19,7 +19,4 @@ export class AppComponent {
 
     this.dialog.open(NewDrawingComponent, {});
   }
-
-
-
 }

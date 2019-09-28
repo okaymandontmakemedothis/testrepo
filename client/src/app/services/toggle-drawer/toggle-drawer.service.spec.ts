@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FetcherService } from './fetcher.service';
+import { ToggleDrawerService } from './toggle-drawer.service';
 
-describe('IconFetcherService', () => {
+describe('ToggleDrawerService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: FetcherService = TestBed.get(FetcherService);
+    const service: ToggleDrawerService = TestBed.get(ToggleDrawerService);
     expect(service).toBeTruthy();
   });
+
 });

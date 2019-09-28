@@ -8,7 +8,7 @@ describe('BrushToolParameterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BrushToolParameterComponent ]
+      declarations: [ BrushToolParameterComponent ],
     })
     .compileComponents();
   }));

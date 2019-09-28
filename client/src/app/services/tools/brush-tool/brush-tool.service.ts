@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ITools } from '../ITools';
-import { IconDefinition, faPaintBrush } from '@fortawesome/free-solid-svg-icons';
+import { FormControl, FormGroup } from '@angular/forms';
+import { faPaintBrush, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { IObjects } from 'src/app/objects/IObjects';
-import { FormGroup, FormControl } from '@angular/forms';
 import { Polyline } from 'src/app/objects/polyline';
+import { ITools } from '../ITools';
 import { Point } from 'src/app/model/point.model';
-
-export interface TextureOptions {
-  value: number;
-  viewValue: string;
-}
+import { ITexture } from 'src/app/textures/ITexture';
+import { TexturesService } from 'src/app/services/textures/textures.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,17 +20,10 @@ export class BrushToolService implements ITools {
   strokeWidth: FormControl;
   texture: FormControl;
   lastPoint: Point = { x: 0, y: 0 };
-  textureList: TextureOptions[] = [
-    { value: 0, viewValue: 'Texture 1' },
-    { value: 1, viewValue: 'Texture 2' },
-    { value: 2, viewValue: 'Texture 3' },
-    { value: 3, viewValue: 'Texture 4' },
-    { value: 4, viewValue: 'Texture 5' },
-  ];
 
-  constructor() {
+  constructor(private texturesService: TexturesService) {
     this.strokeWidth = new FormControl(20);
-    this.texture = new FormControl(this.textureList[0].value);
+    this.texture = new FormControl(this.texturesService.firstTexture.value);
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,
       texture: this.texture,
@@ -53,7 +43,8 @@ export class BrushToolService implements ITools {
 
   onPressed(event: MouseEvent): IObjects {
     this.lastPoint = { x: event.offsetX, y: event.offsetY };
-    this.object = new Polyline(this.lastPoint, this.strokeWidth.value, this.texture.value);
+    const texture: ITexture = this.texturesService.returnTexture(this.texture.value);
+    this.object = new Polyline(this.lastPoint, this.strokeWidth.value, texture);
     return this.object;
   }
 

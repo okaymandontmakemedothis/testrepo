@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ToggleDrawerService } from './toggle-drawer.service';
+import { TexturesService } from './textures.service';
 
-describe('ToggleDrawerService', () => {
+describe('TexturesService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ToggleDrawerService = TestBed.get(ToggleDrawerService);
+    const service: TexturesService = TestBed.get(TexturesService);
     expect(service).toBeTruthy();
   });
 });

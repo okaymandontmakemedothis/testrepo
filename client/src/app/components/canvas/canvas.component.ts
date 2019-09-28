@@ -21,11 +21,10 @@ export class CanvasComponent implements OnInit, AfterViewInit {
 
   constructor(private drawing: DrawingService, private tools: ToolsService) { }
 
-
-  isPressed: boolean = false;
+  isPressed = false;
 
   onPressed(event: MouseEvent) {
-    this.isPressed = true
+    this.isPressed = true;
     this.tools.onPressed(event);
   }
   onRelease(event: MouseEvent) {
@@ -33,11 +32,13 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     this.tools.onRelease(event);
   }
   onMove(event: MouseEvent) {
-    if (this.isPressed)
+    if (this.isPressed) {
       this.tools.onMove(event);
+    }
 
-    if (event.offsetX <= 0 || event.offsetX > this.width || event.offsetY <= 0 || event.offsetY > this.height)
+    if (event.offsetX <= 0 || event.offsetX > this.width || event.offsetY <= 0 || event.offsetY > this.height) {
       this.onRelease(event);
+    }
   }
 
   get isDrawingCreated(): boolean {

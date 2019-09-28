@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../drawing/drawing.service';
 import { ToolsColorService } from '../tools-color/tools-color.service';
-import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { BrushToolService } from './brush-tool/brush-tool.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
+import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
 
 @Injectable({
@@ -13,7 +13,7 @@ import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-
 })
 export class ToolsService {
 
-  selectedTools: ITools;
+  selectedToolId = 0;
   currentObject: null | IObjects;
   private isPressed = false;
   tools: ITools[] = [];
@@ -21,7 +21,6 @@ export class ToolsService {
   constructor(private drawing: DrawingService, private colorTool: ToolsColorService, private pencilTool: PencilToolService, private brushTool: BrushToolService,
     private colorApplicator: ToolsApplierColorsService, private rectangleTool: ToolRectangleService) {
     this.initTools();
-    this.selectedTools = this.tools[0];
   }
 
   private initTools(): void {
@@ -33,15 +32,15 @@ export class ToolsService {
 
   selectTool(id: number): void {
     this.currentObject = null;
-    this.selectedTools = this.tools[id];
+    this.selectedToolId = id;
   }
 
-  toolSelected(id: number) {
-    this.selectedTools = this.tools[id];
+  get selectedTool(): ITools {
+    return this.tools[this.selectedToolId];
   }
 
   onPressed(event: MouseEvent): void {
-    this.currentObject = this.selectedTools.onPressed(event);
+    this.currentObject = this.selectedTool.onPressed(event);
     this.isPressed = true;
     if (this.currentObject) {
       this.currentObject.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
@@ -52,7 +51,7 @@ export class ToolsService {
 
   onRelease(event: MouseEvent): void {
     if (this.isPressed) {
-      this.selectedTools.onRelease(event);
+      this.selectedTool.onRelease(event);
       this.currentObject = null;
       this.drawing.draw();
     }
@@ -61,7 +60,7 @@ export class ToolsService {
 
   onMove(event: MouseEvent): void {
     if (this.isPressed) {
-      this.selectedTools.onMove(event);
+      this.selectedTool.onMove(event);
       this.drawing.draw();
     }
   }
