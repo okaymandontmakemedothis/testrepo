@@ -7,6 +7,7 @@ import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
+import { OffsetManagerService } from '../offset-manager/offset-manager.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class ToolsService {
   private isPressed = false;
   tools: ITools[] = [];
 
-  constructor(private drawing: DrawingService, private colorTool: ToolsColorService, private pencilTool: PencilToolService, private brushTool: BrushToolService, private colorApplicator: ToolsApplierColorsService, private rectangleTool: ToolRectangleService) {
+  constructor(private drawing: DrawingService, private colorTool: ToolsColorService, private offsetManager: OffsetManagerService, private pencilTool: PencilToolService, private brushTool: BrushToolService, private colorApplicator: ToolsApplierColorsService, private rectangleTool: ToolRectangleService) {
     this.initTools();
   }
 
@@ -39,6 +40,9 @@ export class ToolsService {
   }
 
   onPressed(event: MouseEvent): void {
+    this.offsetManager.offsetFromMouseEvent(event);
+    console.log(event.offsetX);
+    console.log(event.offsetY);
     this.currentObject = this.selectedTool.onPressed(event);
     this.isPressed = true;
     if (this.currentObject) {

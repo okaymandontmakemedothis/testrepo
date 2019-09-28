@@ -6,23 +6,12 @@ import { IObjects } from 'src/app/objects/IObjects';
 import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 import { DrawingService } from '../../drawing/drawing.service';
 import { ITools } from '../ITools';
+import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToolRectangleService implements ITools {
-
-  constructor(private drawingService: DrawingService) {
-    this.strokeWidth = new FormControl(1, Validators.min(1));
-    this.rectStyle = new FormControl('fill');
-
-    this.parameters = new FormGroup({
-      strokeWidth: this.strokeWidth,
-      rectStyle: this.rectStyle,
-    });
-
-    this.onShift();
-  }
   faIcon: IconDefinition = faSquareFull;
   toolName = 'Rectangle Tool';
   parameters: FormGroup;
@@ -36,6 +25,18 @@ export class ToolRectangleService implements ITools {
   private isSquare = false;
   oldX = 0;
   oldY = 0;
+
+  constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService) {
+    this.strokeWidth = new FormControl(1, Validators.min(1));
+    this.rectStyle = new FormControl('fill');
+
+    this.parameters = new FormGroup({
+      strokeWidth: this.strokeWidth,
+      rectStyle: this.rectStyle,
+    });
+
+    this.onShift();
+  }
 
   onShift() {
     window.addEventListener('keydown', (event) => {
@@ -54,7 +55,8 @@ export class ToolRectangleService implements ITools {
   }
 
   onPressed(event: MouseEvent): IObjects {
-    this.object = new RectangleObject(event.offsetX, event.offsetY, this.strokeWidth.value, this.rectStyle.value);
+    const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+    this.object = new RectangleObject(offset.x, offset.y, this.strokeWidth.value, this.rectStyle.value);
     return this.object;
   }
 
@@ -64,7 +66,8 @@ export class ToolRectangleService implements ITools {
 
   onMove(event: MouseEvent): void {
     if (this.object) {
-      this.setSize(event.offsetX, event.offsetY);
+      const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+      this.setSize(offset.x, offset.y);
     }
   }
 
