@@ -1,7 +1,8 @@
-import { Component, ComponentFactoryResolver, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material';
 import { ParameterComponentService } from 'src/app/services/parameter-component/parameter-component.service';
 import { ToggleDrawerService } from 'src/app/services/toggle-drawer/toggle-drawer.service';
+import { PARAMETER_MENU_CONSTANT } from './parameter-menu-constant';
 import { ParameterDirective } from './parameter.directive';
 
 @Component({
@@ -9,9 +10,11 @@ import { ParameterDirective } from './parameter.directive';
   templateUrl: './parameter-menu.component.html',
   styleUrls: ['./parameter-menu.component.scss'],
 })
-export class ParameterMenuComponent implements OnInit, OnChanges {
+export class ParameterMenuComponent implements OnChanges {
+  readonly width = PARAMETER_MENU_CONSTANT;
+
   @Input()
-  toolid: number;
+  selectId: number;
 
   @ViewChild(MatDrawer, { static: false })
   child: MatDrawer;
@@ -21,36 +24,25 @@ export class ParameterMenuComponent implements OnInit, OnChanges {
 
   constructor(private toggleDrawerService: ToggleDrawerService,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private parameterComponentService: ParameterComponentService) { }
+    private parameterComponentService: ParameterComponentService) {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.toolid) {
+    if (changes.selectId) {
       this.loadComponent();
     }
   }
 
   private loadComponent() {
     const componentFactory = this.componentFactoryResolver.
-      resolveComponentFactory(this.parameterComponentService.getComponent(this.toolid));
+      resolveComponentFactory(this.parameterComponentService.getComponent(this.selectId));
     const viewContainerRef = this.parameterHost.viewContainerRef;
     viewContainerRef.clear();
     viewContainerRef.createComponent(componentFactory);
+
   }
 
-  open() {
-    this.toggleDrawerService.open();
-  }
-
-  close() {
-    this.toggleDrawerService.close();
-  }
-
-  ngOnInit() {
-    this.toggleDrawerService.openningEvent.subscribe(
-      () => { this.child.open(); },
-    );
-    this.toggleDrawerService.closingEvent.subscribe(
-      () => { this.child.close(); },
-    );
+  get isOpened(): boolean {
+    return this.toggleDrawerService.isOpened;
   }
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
 import { RectangleStyle } from 'src/app/model/reactangle-style.model';
 import { ToolRectangleService } from 'src/app/services/tools/tool-rectangle/tool-rectangle.service';
 
@@ -16,12 +15,23 @@ export class RectangleToolParameterComponent implements OnInit {
   currentStyle = 0;
 
   styles: RectangleStyle[] = [
-    { id: 0, type: 'fill', tooltip: 'Fill', faIcone: faSquareFull },
-    { id: 1, type: 'center', tooltip: 'Center', faIcone: faSquareFull },
-    { id: 2, type: 'border', tooltip: 'Border', faIcone: faSquareFull },
+    {
+      id: 0, type: 'fill',
+      tooltip: 'Fill',
+    },
+    {
+      id: 1,
+      type: 'center',
+      tooltip: 'Center',
+    },
+    {
+      id: 2,
+      type: 'border',
+      tooltip: 'Border',
+    },
   ];
 
-  selectStyle(id: number) {
+  selectStyle(id: number): void {
     this.currentStyle = id;
     this.form.patchValue({
       rectStyle: this.styles[id].type,
@@ -30,8 +40,12 @@ export class RectangleToolParameterComponent implements OnInit {
 
   constructor(private rectangleToolService: ToolRectangleService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = this.rectangleToolService.parameters;
+  }
+
+  get toolName(): string {
+    return this.rectangleToolService.toolName;
   }
 
 }

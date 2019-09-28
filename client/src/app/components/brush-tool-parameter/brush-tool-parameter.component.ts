@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { BrushToolService, TextureOptions } from 'src/app/services/tools/brush-tool/brush-tool.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import { TextureOptions } from 'src/app/model/texture-options.model';
+import { TexturesService } from 'src/app/services/textures/textures.service';
+import { BrushToolService } from 'src/app/services/tools/brush-tool/brush-tool.service';
 
 @Component({
   selector: 'app-brush-tool-parameter',
@@ -11,14 +13,26 @@ export class BrushToolParameterComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private brushToolService: BrushToolService) { }
+  constructor(private brushToolService: BrushToolService, private textureService: TexturesService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = this.brushToolService.parameters;
   }
 
+  get toolName(): string {
+    return this.brushToolService.toolName;
+  }
+
   get listTexture(): TextureOptions[] {
-    return this.brushToolService.textureList;
+    return this.textureService.textureOptionList;
+  }
+
+  get selectedTexture() {
+    return (this.form.get('texture') as FormControl).value;
+  }
+
+  get strokeWidthValue() {
+    return (this.form.get('strokeWidth') as FormControl).value;
   }
 
 }
