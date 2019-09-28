@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material';
 import { ITools } from 'src/app/services/tools/ITools';
 import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
+import { ToolsService } from 'src/app/services/tools/tools.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -13,7 +14,11 @@ export class SidenavComponent {
 
   isControlMenu = false;
 
-  constructor(private sideNavService: SidenavService) { }
+  constructor(private sideNavService: SidenavService, private toolService: ToolsService) { }
+
+  get currentToolId(): number {
+    return this.toolService.selectedToolId;
+  }
 
   get toolList(): ITools[] {
     return this.sideNavService.toolList;
