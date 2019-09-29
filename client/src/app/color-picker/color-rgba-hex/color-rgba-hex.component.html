@@ -1,24 +1,21 @@
-<div class="row">
-    <span [formGroup]='rgb'>
+<div class="row" [formGroup]='rgb'>
+    <span>
         <mat-form-field style="width:55px">
-            <input matInput placeholder="R" formControlName="r" (input)='updateHSL()' type="number" min=0 max=255
-                style="width:55px">
+            <input matInput placeholder="R" formControlName="r" type="number" min=0 max=255 style="width:55px">
         </mat-form-field>
         <mat-form-field style="width:55px">
-            <input matInput placeholder="G" formControlName="g" (input)='updateHSL()' type="number" min=0 max=255
-                style="width:55px">
+            <input matInput placeholder="G" formControlName="g" type="number" min=0 max=255 style="width:55px">
         </mat-form-field>
         <mat-form-field style="width:55px">
-            <input matInput placeholder="B" formControlName="b" (input)='updateHSL()' type="number" min=0 max=255
-                style="width:55px">
+            <input matInput placeholder="B" formControlName="b" type="number" min=0 max=255 style="width:55px">
         </mat-form-field>
     </span>
 </div>
-<div class="row">
+<div class="row" [formGroup]='colorForm'>
     <mat-form-field style="width:100px">
-        <input matInput placeholder="HEX" [(ngModel)]='hex' (blur)="changedHEX()" style="width:100px">
+        <input matInput placeholder="HEX" formControlName="hex" style="width:100px" pattern="#([a-fA-F0-9]{1,6})">
     </mat-form-field>
-    <mat-form-field style="width:50px" [formGroup]='colorForm'>
+    <mat-form-field style="width:50px">
         <input matInput placeholder="A" formControlName="a" type="number" min=0 max=1 step=0.1>
     </mat-form-field>
 </div>
