@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faPaintBrush, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { IObjects } from 'src/app/objects/IObjects';
-import { Polyline } from 'src/app/objects/polyline';
+import { Polyline } from 'src/app/objects/object-polyline/polyline';
 import { ITools } from '../ITools';
 import { Point } from 'src/app/model/point.model';
 import { ITexture } from 'src/app/textures/ITexture';
@@ -13,13 +13,13 @@ import { TexturesService } from 'src/app/services/textures/textures.service';
 })
 export class BrushToolService implements ITools {
   readonly id = 1;
-  faIcon: IconDefinition = faPaintBrush;
-  toolName = 'Brush Tool';
-  parameters: FormGroup;
+  readonly faIcon: IconDefinition = faPaintBrush;
+  readonly toolName = 'Brush Tool';
   private object: Polyline | null;
-  strokeWidth: FormControl;
-  texture: FormControl;
-  lastPoint: Point = { x: 0, y: 0 };
+  private strokeWidth: FormControl;
+  private texture: FormControl;
+  private lastPoint: Point = { x: 0, y: 0 };
+  parameters: FormGroup;
 
   constructor(private texturesService: TexturesService) {
     this.strokeWidth = new FormControl(20);
@@ -32,11 +32,7 @@ export class BrushToolService implements ITools {
 
   addPoint(dpoint: Point) {
     if (this.object) {
-      if (this.lastPoint) {
-        this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
-      } else {
-        this.lastPoint = dpoint;
-      }
+      this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
       this.object.addPoint(this.lastPoint);
     }
   }

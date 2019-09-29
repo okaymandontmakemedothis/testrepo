@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MaterialModules } from 'src/app/app.material-modules';
-import { ToolIconComponent } from '../tool-icon/tool-icon.component';
+//import { ToolIconComponent } from '../tool-icon/tool-icon.component';
 import { SidenavComponent } from './sidenav.component';
 
 describe('SidenavComponent', () => {
@@ -12,7 +12,7 @@ describe('SidenavComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         SidenavComponent,
-        ToolIconComponent,
+        //ToolIconComponent,
       ],
       imports: [
         MaterialModules,

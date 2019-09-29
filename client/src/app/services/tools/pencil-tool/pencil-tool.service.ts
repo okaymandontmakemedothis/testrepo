@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IObjects } from 'src/app/objects/IObjects';
-import { Polyline } from 'src/app/objects/polyline';
+import { Polyline } from 'src/app/objects/object-polyline/polyline';
 import { FormGroup, FormControl } from '@angular/forms';
 import { IconDefinition, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { Point } from 'src/app/model/point.model';
@@ -10,13 +10,13 @@ import { ITools } from '../ITools';
   providedIn: 'root',
 })
 export class PencilToolService implements ITools {
-  toolName = 'Pencil Tool';
-  faIcon: IconDefinition = faPencilAlt;
+  readonly toolName = 'Pencil Tool';
+  readonly faIcon: IconDefinition = faPencilAlt;
   readonly id = 0;
   private object: Polyline | null;
+  private strokeWidth: FormControl;
+  private lastPoint: Point;
   parameters: FormGroup;
-  strokeWidth: FormControl;
-  lastPoint: Point;
 
   constructor() {
     this.strokeWidth = new FormControl(20);
@@ -27,11 +27,7 @@ export class PencilToolService implements ITools {
 
   addPoint(dpoint: Point) {
     if (this.object) {
-      if (this.lastPoint) {
-        this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
-      } else {
-        this.lastPoint = dpoint;
-      }
+      this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
       this.object.addPoint(this.lastPoint);
     }
   }
