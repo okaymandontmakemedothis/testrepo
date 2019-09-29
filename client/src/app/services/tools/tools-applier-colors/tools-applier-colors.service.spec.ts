@@ -18,17 +18,18 @@ class MockOject implements IObjects {
   }
 }
 describe('ToolsApplierColorsService', () => {
-  const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
   const colorService: ToolsColorService = new ToolsColorService();
   const drawingService: DrawingService = new DrawingService();
   beforeEach(() => TestBed.configureTestingModule({
     providers: [{ provide: DrawingService, useValue: drawingService }, { provide: ToolsColorService, useValue: colorService }],
   }));
   it('applier service should be created', () => {
+    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
     expect(service).toBeTruthy();
   });
 
   it('should change the primary color of the object on left click', () => {
+    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
     const mouseEvent = new MouseEvent('click', { button: 0 });
     spyOnProperty(mouseEvent, 'target').and.returnValue(1);
     const obj: IObjects = new MockOject();
@@ -42,6 +43,7 @@ describe('ToolsApplierColorsService', () => {
   });
 
   it('should change the secondary color of the object on right click', () => {
+    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
     const mouseEvent = new MouseEvent('click', { button: 2 });
     spyOnProperty(mouseEvent, 'target').and.returnValue(1);
     const obj: IObjects = new MockOject();
@@ -55,6 +57,7 @@ describe('ToolsApplierColorsService', () => {
   });
 
   it('should not change the primary color of the object on left click if not object is clicked', () => {
+    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
     const mouseEvent = new MouseEvent('click', { button: 0 });
     spyOnProperty(mouseEvent, 'target').and.returnValue(1);
     const obj: IObjects = new MockOject();
@@ -68,6 +71,7 @@ describe('ToolsApplierColorsService', () => {
   });
 
   it('should not change the secondary color of the object on right click if not object is clicked', () => {
+    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
     const mouseEvent = new MouseEvent('click', { button: 2 });
     spyOnProperty(mouseEvent, 'target').and.returnValue(1);
     const obj: IObjects = new MockOject();
