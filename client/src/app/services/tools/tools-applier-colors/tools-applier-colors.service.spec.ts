@@ -9,4 +9,10 @@ describe('ToolsApplierColorsService', () => {
     const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
     expect(service).toBeTruthy();
   });
+
+  it('should change primary color of object on left mouse press', () => {
+    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
+    const eventMouseDown = new MouseEvent('click');
+     
+  });
 });
