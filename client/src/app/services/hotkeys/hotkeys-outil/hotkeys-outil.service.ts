@@ -3,20 +3,19 @@
 // Les tests seront a changer selon ce que l'on emet dans les hotkeys //
 ////////////////////////////////////////////////////////////////////////
 
-
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HotkeysOutilService {
 
-  canExecute: boolean = true;
+  canExecute = true;
   @Output() hotkeysOutilEmitter = new EventEmitter();
 
   constructor() { }
 
-  hotkeysOutil(event: KeyboardEvent) {
+  hotkeysOutil(event: KeyboardEvent): string | void {
     if (this.canExecute) {
       if (event.code === keyCodes.c) {
         event.preventDefault();
@@ -53,46 +52,45 @@ export class HotkeysOutilService {
         return '2';
       }
 
-      if (event.code == keyCodes.b3 || event.code == keyCodes.np3) {
+      if (event.code === keyCodes.b3 || event.code === keyCodes.np3) {
         event.preventDefault();
         return '3';
       }
 
-      if (event.code == keyCodes.l) {
+      if (event.code === keyCodes.l) {
         event.preventDefault();
         return 'l';
       }
 
-      if (event.code == keyCodes.t) {
+      if (event.code === keyCodes.t) {
         event.preventDefault();
         return 't';
       }
 
-      if (event.code == keyCodes.r) {
+      if (event.code === keyCodes.r) {
         event.preventDefault();
         this.hotkeysOutilEmitter.emit('applicateur');
       }
 
-      if (event.code == keyCodes.b) {
+      if (event.code === keyCodes.b) {
         event.preventDefault();
         return 'b';
       }
 
-      if (event.code == keyCodes.e) {
+      if (event.code === keyCodes.e) {
         event.preventDefault();
         return 'e';
       }
 
-      if (event.code == keyCodes.i) {
+      if (event.code === keyCodes.i) {
         event.preventDefault();
         return 'i';
       }
 
-      if (event.code == keyCodes.s) {
+      if (event.code === keyCodes.s) {
         event.preventDefault();
         return 's';
       }
     }
-    return 'false';
   }
 }

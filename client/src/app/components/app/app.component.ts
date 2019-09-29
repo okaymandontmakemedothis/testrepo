@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
-// import { HotkeysFichierService } from '../../services/hotkeys/hotkeys-fichier/hotkeys-fichier.service';
-// import { HotkeysSelectionService } from '../../services/hotkeys/hotkeys-selection/hotkeys-selection.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+import { WelcomeDialogService } from 'src/app/services/welcome-dialog.service';
+import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
+import { DialogComponent } from '../welcome-dialog/dialog/dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -10,13 +11,36 @@ import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.co
   styleUrls: ['./app.component.scss'],
   templateUrl: './app.component.html',
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
 
-  constructor(private dialog: MatDialog) {
+  welcomeDialogRef: MatDialogRef<DialogComponent>;
+  welcomeDialogSub: Subscription;
+
+  constructor(public dialog: MatDialog, private welcomeService: WelcomeDialogService) { }
+  // Fonction qui ouvre le mat Dialog de bienvenue
+  openDialog() {
+    this.welcomeDialogRef = this.dialog.open(DialogComponent, {
+      hasBackdrop: true,
+      panelClass: 'filter-popup',
+      autoFocus: false,
+      disableClose: true,
+      maxHeight: 500,
+      maxWidth: 500,
+    });
+    this.welcomeDialogSub = this.welcomeDialogRef.afterClosed().subscribe(() => {
+      this.dialog.open(NewDrawingComponent);
+    });
   }
 
-  openDialog() {
+  // Ouvre le mat dialog lorsque le browser est initialiser si le checkbox est non cocher
+  ngOnInit() {
+    if (this.welcomeService.isMessageNeedsToBeShowed) {
+      this.openDialog();
+    }
+  }
 
-    this.dialog.open(NewDrawingComponent, {});
+  /// Detruit le subscribe du welcomeDialogSub
+  ngOnDestroy(): void {
+    this.welcomeDialogSub.unsubscribe();
   }
 }

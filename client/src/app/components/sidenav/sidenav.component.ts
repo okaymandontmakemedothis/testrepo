@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material';
-import { ITools } from 'src/app/services/tools/ITools';
 import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
+import { ITools } from 'src/app/services/tools/ITools';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 
 @Component({

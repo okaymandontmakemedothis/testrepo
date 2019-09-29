@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../drawing/drawing.service';
-import { OffsetManagerService } from '../offset-manager/offset-manager.service';
-import { ToolsColorService } from '../tools-color/tools-color.service';
 import { BrushToolService } from './brush-tool/brush-tool.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
@@ -21,8 +19,6 @@ export class ToolsService {
 
   constructor(
     private drawing: DrawingService,
-    private colorTool: ToolsColorService,
-    private offsetManager: OffsetManagerService,
     private pencilTool: PencilToolService,
     private brushTool: BrushToolService,
     private colorApplicator: ToolsApplierColorsService,
@@ -48,14 +44,9 @@ export class ToolsService {
   }
 
   onPressed(event: MouseEvent): void {
-    this.offsetManager.offsetFromMouseEvent(event);
-    console.log(event.offsetX);
-    console.log(event.offsetY);
     this.currentObject = this.selectedTool.onPressed(event);
     this.isPressed = true;
     if (this.currentObject) {
-      this.currentObject.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
-      this.currentObject.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
       this.drawing.addObject(this.currentObject);
     }
   }
