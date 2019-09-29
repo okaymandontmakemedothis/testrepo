@@ -33,8 +33,6 @@ import { WorkspaceComponent } from './components/workspace/workspace.component';
     WorkspaceComponent,
     SidenavComponent,
     CanvasComponent,
-    DialogComponent,
-    AideDialogComponent,
     NewDrawingComponent,
     NewDrawingFormComponent,
     NewDrawingAlertComponent,
@@ -66,7 +64,6 @@ import { WorkspaceComponent } from './components/workspace/workspace.component';
   ],
   entryComponents: [
     DialogComponent,
-    AideDialogComponent,
     NewDrawingAlertComponent,
     NewDrawingComponent,
     ToolsColorPickerComponent,

@@ -21,8 +21,8 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
   workspaceEnv: ElementRef;
 
   constructor(private el: ElementRef, private workspaceService: WorkspaceService, private sideNavService: SidenavService,
-              private toolsService: ToolsService, private dialog: MatDialog, private hotkeysFichierService: HotkeysFichierService, private hotkeysSelectionService: HotkeysSelectionService,
-              private hotkeysOutilService: HotkeysOutilService, private hotkeysTravailService: HotkeysTravailService) {
+    private toolsService: ToolsService, private dialog: MatDialog, private hotkeysFichierService: HotkeysFichierService, private hotkeysSelectionService: HotkeysSelectionService,
+    private hotkeysOutilService: HotkeysOutilService, private hotkeysTravailService: HotkeysTravailService) {
 
     this.dialog.afterAllClosed.subscribe(() => {
       this.hotkeysFichierService.canExecute = true;
@@ -77,9 +77,6 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     this.hotkeysTravailService.canExecute = false;
 
     this.sideNavService.canClick = false;
-
-    this.dialog.open(NewDrawingComponent, {
-    });
   }
 
   onRightClick(event: MouseEvent) {
