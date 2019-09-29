@@ -5,7 +5,7 @@ import { Point } from 'src/app/model/point.model';
 import { IObjects } from 'src/app/objects/IObjects';
 import { Polyline } from 'src/app/objects/polyline';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
-import { ITools } from '../ITools';
+import { ToolsColorService } from '../../tools-color/tools-color.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class PencilToolService implements ITools {
   strokeWidth: FormControl;
   lastPoint: Point;
 
-  constructor(private offsetManager: OffsetManagerService) {
+  constructor(private offsetManager: OffsetManagerService, private colorTool: ToolsColorService) {
     this.strokeWidth = new FormControl(20);
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,
@@ -41,6 +41,13 @@ export class PencilToolService implements ITools {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     this.lastPoint = { x: offset.x, y: offset.y };
     this.object = new Polyline(this.lastPoint, this.strokeWidth.value);
+    if (event.button === 0) {
+      this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+      this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
+    } else {
+      this.object.primaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
+      this.object.secondaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+    }
     return this.object;
   }
 
