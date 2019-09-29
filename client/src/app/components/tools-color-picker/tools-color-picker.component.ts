@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { ColorPickerComponent } from '../../color-picker/color-picker/color-picker.component';
+import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 import { RGBA } from '../../model/rgba.model';
 import { ToolsColorService } from '../../services/tools-color/tools-color.service';
 
@@ -9,24 +9,24 @@ import { ToolsColorService } from '../../services/tools-color/tools-color.servic
   templateUrl: './tools-color-picker.component.html',
   styleUrls: ['./tools-color-picker.component.scss'],
 })
-export class ToolsColorPickerComponent implements AfterViewInit {
-  @ViewChild(ColorPickerComponent, { static: false })
-  colorPickerComponent: ColorPickerComponent;
+export class ToolsColorPickerComponent implements OnInit, AfterViewInit {
 
   constructor(public dialogRef: MatDialogRef<ToolsColorPickerComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: RGBA, private toolsColor: ToolsColorService) { }
+              @Inject(MAT_DIALOG_DATA) public data: RGBA, private toolsColor: ToolsColorService, private colorPickerService: ColorPickerService) { }
+
+  ngOnInit(): void {
+    this.colorPickerService.setFormColor(this.data.rgb, this.data.a);
+  }
 
   ngAfterViewInit(): void {
-    // this.colorPickerComponent.resetForm();
-    this.colorPickerComponent.setFormColor(this.data.rgb, this.data.a);
-    this.colorPickerComponent.colorForm.valueChanges.subscribe((value) => {
-      this.data.rgb = this.colorPickerComponent.rgb;
-      this.data.a = this.colorPickerComponent.a;
+    this.colorPickerService.colorForm.valueChanges.subscribe(() => {
+      this.data.rgb = this.colorPickerService.rgb.value;
+      this.data.a = this.colorPickerService.a.value;
     });
   }
 
   selectLastColor(rgba: RGBA): void {
-    this.colorPickerComponent.setFormColor(rgba.rgb, rgba.a);
+    this.colorPickerService.setFormColor(rgba.rgb, rgba.a);
   }
 
   rgba2rgbastring(rgba: RGBA): string {

@@ -14,7 +14,7 @@ describe('HotkeysTravailService', () => {
     const service: HotkeysTravailService = new HotkeysTravailService();
     service.canExecute = false;
 
-    const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyG'});
+    const event = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyG' });
 
     const result = service.hotkeysTravail(event);
 
@@ -23,7 +23,7 @@ describe('HotkeysTravailService', () => {
 
   it('CTRL-G should emit', () => {
     const service: HotkeysTravailService = new HotkeysTravailService();
-    const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyG'});
+    const event = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyG' });
 
     const result = service.hotkeysTravail(event);
 
@@ -32,7 +32,7 @@ describe('HotkeysTravailService', () => {
 
   it('CTRL-M should emit', () => {
     const service: HotkeysTravailService = new HotkeysTravailService();
-    const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyM'});
+    const event = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyM' });
 
     const result = service.hotkeysTravail(event);
 
@@ -41,7 +41,7 @@ describe('HotkeysTravailService', () => {
 
   it('+ (numpad) should emit', () => {
     const service: HotkeysTravailService = new HotkeysTravailService();
-    const event = new KeyboardEvent('keydown', {code: 'NumpadAdd'});
+    const event = new KeyboardEvent('keydown', { code: 'NumpadAdd' });
 
     const result = service.hotkeysTravail(event);
 
@@ -50,7 +50,7 @@ describe('HotkeysTravailService', () => {
 
   it('+ (SHIFT-=) should emit', () => {
     const service: HotkeysTravailService = new HotkeysTravailService();
-    const event = new KeyboardEvent('keydown', {shiftKey: true, code: 'Equal'});
+    const event = new KeyboardEvent('keydown', { shiftKey: true, code: 'Equal' });
 
     const result = service.hotkeysTravail(event);
 
@@ -59,16 +59,16 @@ describe('HotkeysTravailService', () => {
 
   it('- (numpad) should emit', () => {
     const service: HotkeysTravailService = new HotkeysTravailService();
-    const event = new KeyboardEvent('keydown', {code: 'NumpadSubtract'});
+    const event = new KeyboardEvent('keydown', { code: 'NumpadSubtract' });
 
     const result = service.hotkeysTravail(event);
 
     expect(result).toBe('min');
   });
 
-  it('- should emit', () => {
+  it('when "-" is pressed should emit', () => {
     const service: HotkeysTravailService = new HotkeysTravailService();
-    const event = new KeyboardEvent('keydown', {code: 'Minus'});
+    const event = new KeyboardEvent('keydown', { code: 'Minus' });
 
     const result = service.hotkeysTravail(event);
 

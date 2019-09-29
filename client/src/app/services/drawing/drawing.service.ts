@@ -44,15 +44,6 @@ export class DrawingService {
 
   draw() {
     let drawResult = '';
-    // '<rect width="' +
-    //   this.width +
-    //   '" height="' +
-    //   this.height +
-    //   '" fill="' +
-    //   this.colorString +
-    //   '" fill-opacity="' +
-    //   this.alpha +
-    //   '"></rect>';
     for (const obj of this.objectList.values()) {
       drawResult += obj.draw();
     }
@@ -73,6 +64,7 @@ export class DrawingService {
     this.objectList.clear();
     this.setDimension(width, height);
     this.setDrawingColor(rgba);
+    this.draw();
   }
 
   get rgbColorString() {

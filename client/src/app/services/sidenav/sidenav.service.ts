@@ -50,7 +50,6 @@ export class SidenavService {
         this.hotkeyb.canExecute = true;
         this.hotkeyc.canExecute = true;
       }
-      console.log(event);
     });
   }
 

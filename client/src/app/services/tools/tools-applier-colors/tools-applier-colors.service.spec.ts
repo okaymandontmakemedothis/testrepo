@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { ToolsApplierColorsService } from './tools-applier-colors.service';
-import { DrawingService } from '../../drawing/drawing.service';
-import { IObjects } from 'src/app/objects/IObjects';
 import { RGBA } from 'src/app/model/rgba.model';
+import { IObjects } from 'src/app/objects/IObjects';
+import { DrawingService } from '../../drawing/drawing.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
+import { ToolsApplierColorsService } from './tools-applier-colors.service';
+
 class MockOject implements IObjects {
-  id = 1;
+  id: number;
   x: number;
   y: number;
   height: number;
