@@ -18,17 +18,17 @@ class MockOject implements IObjects {
   }
 }
 describe('ToolsApplierColorsService', () => {
+  const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
   const colorService: ToolsColorService = new ToolsColorService();
   const drawingService: DrawingService = new DrawingService();
   beforeEach(() => TestBed.configureTestingModule({
     providers: [{ provide: DrawingService, useValue: drawingService }, { provide: ToolsColorService, useValue: colorService }],
   }));
-  it('should be created', () => {
-    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
+  it('applier service should be created', () => {
     expect(service).toBeTruthy();
   });
-  it('should get object from id', () => {
-    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
+
+  it('should change the primary color of the object on left click', () => {
     const mouseEvent = new MouseEvent('click', { button: 0 });
     spyOnProperty(mouseEvent, 'target').and.returnValue(1);
     const obj: IObjects = new MockOject();
@@ -39,5 +39,44 @@ describe('ToolsApplierColorsService', () => {
     colorService.primaryAlpha = 0.5;
     service.onPressed(mouseEvent);
     expect(obj.primaryColor).toEqual({ rgb: { r: 255, g: 0, b: 0 }, a: 0.5 });
+  });
+
+  it('should change the secondary color of the object on right click', () => {
+    const mouseEvent = new MouseEvent('click', { button: 2 });
+    spyOnProperty(mouseEvent, 'target').and.returnValue(1);
+    const obj: IObjects = new MockOject();
+    obj.id = 1;
+    obj.secondaryColor = { rgb: { r: 255, g: 2, b: 2 }, a: 1 };
+    spyOn(drawingService, 'getObject').and.returnValue(obj);
+    colorService.secondaryColor = { r: 255, g: 0, b: 0 };
+    colorService.secondaryAlpha = 0.5;
+    service.onPressed(mouseEvent);
+    expect(obj.secondaryColor).toEqual({ rgb: { r: 255, g: 0, b: 0 }, a: 0.5 });
+  });
+
+  it('should not change the primary color of the object on left click if not object is clicked', () => {
+    const mouseEvent = new MouseEvent('click', { button: 0 });
+    spyOnProperty(mouseEvent, 'target').and.returnValue(1);
+    const obj: IObjects = new MockOject();
+    obj.id = 1;
+    obj.secondaryColor = { rgb: { r: 255, g: 2, b: 2 }, a: 1 };
+    spyOn(drawingService, 'getObject').and.returnValue(undefined);
+    colorService.secondaryColor = { r: 255, g: 0, b: 0 };
+    colorService.secondaryAlpha = 0.5;
+    service.onPressed(mouseEvent);
+    expect(obj.secondaryColor).toEqual({ rgb: { r: 255, g: 2, b: 2 }, a: 1 });
+  });
+
+  it('should not change the secondary color of the object on right click if not object is clicked', () => {
+    const mouseEvent = new MouseEvent('click', { button: 2 });
+    spyOnProperty(mouseEvent, 'target').and.returnValue(1);
+    const obj: IObjects = new MockOject();
+    obj.id = 1;
+    obj.secondaryColor = { rgb: { r: 255, g: 2, b: 2 }, a: 1 };
+    spyOn(drawingService, 'getObject').and.returnValue(undefined);
+    colorService.secondaryColor = { r: 255, g: 0, b: 0 };
+    colorService.secondaryAlpha = 0.5;
+    service.onPressed(mouseEvent);
+    expect(obj.secondaryColor).toEqual({ rgb: { r: 255, g: 2, b: 2 }, a: 1 });
   });
 });
