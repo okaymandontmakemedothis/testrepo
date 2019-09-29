@@ -6,6 +6,7 @@ import { IObjects } from 'src/app/objects/IObjects';
 import { Polyline } from 'src/app/objects/polyline';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
+import { ITools } from '../ITools';
 
 @Injectable({
   providedIn: 'root',
