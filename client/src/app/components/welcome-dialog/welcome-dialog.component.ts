@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
+import { WelcomeDialogService } from 'src/app/services/welcome-dialog.service';
 import { DialogComponent } from './dialog/dialog.component';
 
 @Component({
@@ -8,10 +10,10 @@ import { DialogComponent } from './dialog/dialog.component';
   styleUrls: ['./welcome-dialog.component.scss'],
 })
 export class WelcomeDialogComponent implements OnInit {
-  constructor(public dialog: MatDialog) { }
-  isChecked: boolean;
+  constructor(public dialog: MatDialog, private welcomeService: WelcomeDialogService) { }
+  // Fonction qui ouvre le mat Dialog de bienvenue
   openDialog() {
-    const dialogRef = this.dialog.open(DialogComponent, {
+    this.dialog.open(DialogComponent, {
       hasBackdrop: true,
       panelClass: 'filter-popup',
       autoFocus: false,
@@ -19,15 +21,10 @@ export class WelcomeDialogComponent implements OnInit {
       maxHeight: 500,
       maxWidth: 500,
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      this.isChecked = result;
-      if (this.isChecked) {
-        sessionStorage.setItem('isChecked', 'true');
-      }
-    });
   }
+  // Ouvre le mat dialog lorsque le browser est initialiser si le checkbox est non cocher
   ngOnInit() {
-    if (sessionStorage.getItem('isChecked') !== 'true') {
+    if (!(this.welcomeService.form.get('messageActivated') as FormControl).value) {
       this.openDialog();
     }
   }
