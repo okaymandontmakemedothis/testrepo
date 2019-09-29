@@ -16,7 +16,7 @@ export class DialogComponent {
   messageW = new BehaviorSubject<WelcomeMessage>({ body: '', end: '' });
 
   constructor(public dialog: MatDialog,
-              public dialogRef: MatDialogRef<DialogComponent>, private basicService: IndexService,
+    public dialogRef: MatDialogRef<DialogComponent>, private basicService: IndexService,
   ) {
     this.basicService.welcomeGet()
       .subscribe(this.messageW);
@@ -24,17 +24,13 @@ export class DialogComponent {
 
   openDialog() {
 
-    const dialogRef = this.dialog.open(AideDialogComponent, {
+    this.dialog.open(AideDialogComponent, {
       hasBackdrop: true,
       panelClass: 'filter-popup',
       autoFocus: false,
       disableClose: true,
       maxWidth: 1000,
       maxHeight: 500,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
     });
   }
 
