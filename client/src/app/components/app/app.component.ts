@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
+// import { HotkeysFichierService } from '../../services/hotkeys/hotkeys-fichier/hotkeys-fichier.service';
+// import { HotkeysSelectionService } from '../../services/hotkeys/hotkeys-selection/hotkeys-selection.service';
 
 @Component({
   selector: 'app-root',
@@ -8,21 +10,13 @@ import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.co
   styleUrls: ['./app.component.scss'],
   templateUrl: './app.component.html',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-  readonly title: string = 'PolyDessin E16';
-
-  constructor(private dialog: MatDialog) { }
-
-  ngOnInit(): void {
-    // this.dialog.open(NewDrawingComponent, {
-    //   data: { drawingPresent: false },
-    // });
+  constructor(private dialog: MatDialog) {
   }
 
   openDialog() {
-    this.dialog.open(NewDrawingComponent, {
-      data: { drawingPresent: true },
-    });
+
+    this.dialog.open(NewDrawingComponent, {});
   }
 }
