@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 
@@ -7,7 +7,7 @@ import { ToolsService } from 'src/app/services/tools/tools.service';
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss'],
 })
-export class CanvasComponent implements OnInit, AfterViewInit {
+export class CanvasComponent implements AfterViewInit {
 
   get height(): number { return this.drawing.height; }
   get width(): number {
@@ -43,10 +43,6 @@ export class CanvasComponent implements OnInit, AfterViewInit {
 
   get isDrawingCreated(): boolean {
     return this.drawing.created;
-  }
-
-  ngOnInit() {
-    console.log(this.backgroundColor);
   }
 
   ngAfterViewInit() {

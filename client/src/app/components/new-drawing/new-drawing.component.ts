@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ColorPickerComponent } from 'src/app/color-picker/color-picker/color-picker.component';
+import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 import { DrawingSizeValidatorService } from 'src/app/services/drawing-size-validator/drawing-size-validator.service';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { NewDrawingService } from 'src/app/services/new-drawing/new-drawing.service';
@@ -17,23 +17,22 @@ import { NewDrawingAlertComponent } from './new-drawing-alert/new-drawing-alert.
     DrawingSizeValidatorService,
   ],
 })
-export class NewDrawingComponent implements OnInit, AfterViewInit {
+export class NewDrawingComponent implements OnInit {
+  form: FormGroup;
 
-  @ViewChild(ColorPickerComponent, { static: false })
-  colorPickerComponent: ColorPickerComponent;
-
-  constructor(public dialogRef: MatDialogRef<NewDrawingComponent>, private snackBar: MatSnackBar,
-              private newDrawingService: NewDrawingService, private drawingService: DrawingService, private dialog: MatDialog) { }
+  constructor(
+    public dialogRef: MatDialogRef<NewDrawingComponent>,
+    private snackBar: MatSnackBar,
+    private newDrawingService: NewDrawingService,
+    private drawingService: DrawingService,
+    private dialog: MatDialog,
+    private colorPickerService: ColorPickerService) { }
 
   ngOnInit(): void {
+    this.form = this.newDrawingService.form;
     this.dialogRef.disableClose = true;
-  }
-  ngAfterViewInit(): void {
-    this.colorPickerComponent.setFormColor({ r: 255, g: 255, b: 255 }, 1);
-  }
-
-  get form(): FormGroup {
-    return this.newDrawingService.form;
+    this.dialogRef.afterOpened().subscribe(() => this.onResize());
+    this.colorPickerService.setFormColor({ r: 255, g: 255, b: 255 }, 1);
   }
 
   onAccept(): void {
@@ -53,9 +52,9 @@ export class NewDrawingComponent implements OnInit, AfterViewInit {
 
   private newDrawing() {
     this.drawingService.created = true;
-    this.drawingService.newDrawing((this.newDrawingService.sizeGroup.get('width') as FormControl).value,
-      (this.newDrawingService.sizeGroup.get('height') as FormControl).value,
-      { rgb: this.colorPickerComponent.rgb, a: this.colorPickerComponent.a },
+    const size: { width: number, height: number } = this.newDrawingService.sizeGroup.value;
+    this.drawingService.newDrawing(size.width, size.height,
+      { rgb: this.colorPickerService.rgb.value, a: this.colorPickerService.a.value },
     );
     this.snackBar.open('Drawing created', '', { duration: 1000, });
     this.newDrawingService.form.reset();

@@ -56,6 +56,26 @@ export class ColorTransformerService {
     return { h, s, l };
   }
 
+  rgb2hex(rgb: RGB): string {
+    let r: string; let g: string; let b: string;
+    if (rgb.r < 16) {
+      r = '0' + rgb.r.toString(16);
+    } else {
+      r = rgb.r.toString(16);
+    }
+    if (rgb.g < 16) {
+      g = '0' + rgb.g.toString(16);
+    } else {
+      g = rgb.g.toString(16);
+    }
+    if (rgb.b < 16) {
+      b = '0' + rgb.b.toString(16);
+    } else {
+      b = rgb.b.toString(16);
+    }
+    return '#' + r + g + b;
+  }
+
   hsl2rgb(hsl: HSL): RGB {
     if (hsl.l > 1) {
       hsl.l = 1;
@@ -100,11 +120,10 @@ export class ColorTransformerService {
     b = Math.round((b + m) * 255);
 
     return { r, g, b };
-
   }
 
-  hue2rgb(hue: number): RGB {
-    return this.hsl2rgb({ h: hue, s: 1, l: 0.5 });
+  hsl2hex(hsl: HSL): string {
+    return this.rgb2hex(this.hsl2rgb(hsl));
   }
 
   hex2rgb(hex: string): RGB {
@@ -119,23 +138,19 @@ export class ColorTransformerService {
     };
   }
 
-  rgb2hex(rgb: RGB): string {
-    let r: string; let g: string; let b: string;
-    if (rgb.r < 16) {
-      r = '0' + rgb.r.toString(16);
-    } else {
-      r = rgb.r.toString(16);
-    }
-    if (rgb.g < 16) {
-      g = '0' + rgb.g.toString(16);
-    } else {
-      g = rgb.g.toString(16);
-    }
-    if (rgb.b < 16) {
-      b = '0' + rgb.b.toString(16);
-    } else {
-      b = rgb.b.toString(16);
-    }
-    return '#' + r + g + b;
+  hex2hsl(hex: string): HSL {
+    return this.rgb2hsl(this.hex2rgb(hex));
+  }
+
+  hue2rgb(hue: number): RGB {
+    return this.hsl2rgb(this.hue2hsl(hue));
+  }
+
+  hue2hex(hue: number): string {
+    return this.hsl2hex(this.hue2hsl(hue));
+  }
+
+  hue2hsl(hue: number): HSL {
+    return { h: hue, s: 1, l: 0.5 };
   }
 }

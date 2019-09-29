@@ -10,7 +10,6 @@ import { AppComponent } from './components/app/app.component';
 import { BrushToolParameterComponent } from './components/brush-tool-parameter/brush-tool-parameter.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { ControlMenuComponent } from './components/control-menu/control-menu.component';
-import { EmptyParameterComponent } from './components/empty-parameter/empty-parameter.component';
 import { NewDrawingAlertComponent } from './components/new-drawing/new-drawing-alert/new-drawing-alert.component';
 import { NewDrawingFormComponent } from './components/new-drawing/new-drawing-form/new-drawing-form.component';
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
@@ -25,6 +24,7 @@ import { AideDialogComponent } from './components/welcome-dialog/aide-dialog/aid
 import { DialogComponent } from './components/welcome-dialog/dialog/dialog.component';
 import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.module';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
+import { ApplierToolParameterComponent } from './components/applier-tool-parameter/applier-tool-parameter.component';
 
 @NgModule({
   declarations: [
@@ -48,8 +48,8 @@ import { WorkspaceComponent } from './components/workspace/workspace.component';
     RectangleToolParameterComponent,
     BrushToolParameterComponent,
     ParameterDirective,
-    EmptyParameterComponent,
     ControlMenuComponent,
+    ApplierToolParameterComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,7 +74,7 @@ import { WorkspaceComponent } from './components/workspace/workspace.component';
     BrushToolParameterComponent,
     PencilToolParameterComponent,
     RectangleToolParameterComponent,
-    EmptyParameterComponent,
+    ApplierToolParameterComponent,
     ControlMenuComponent,
   ],
   providers: [
