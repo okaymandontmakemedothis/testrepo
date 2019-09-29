@@ -7,6 +7,7 @@ import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
+import { ITools } from '../ITools';
 
 @Injectable({
   providedIn: 'root',
