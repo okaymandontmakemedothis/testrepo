@@ -3,11 +3,11 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { IObjects } from 'src/app/objects/IObjects';
 
 export interface ITools {
-    id: number;
+    readonly id: number;
     faIcon: IconDefinition;
     toolName: string;
     parameters: FormGroup;
-    onPressed(event: MouseEvent): IObjects|null;
+    onPressed(event: MouseEvent): IObjects | null;
     onRelease(event: MouseEvent): void;
     onMove(event: MouseEvent): void;
 }

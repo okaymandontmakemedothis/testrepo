@@ -1,23 +1,20 @@
 
-
-////////////////////////////--IMPORTANT--///////////////////////////////
+//////////////////////////// --IMPORTANT--///////////////////////////////
 // Les tests seront a changer selon ce que l'on emet dans les hotkeys //
 ////////////////////////////////////////////////////////////////////////
-
 
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HotkeysTravailService {
 
-  canExecute: boolean = true;
+  canExecute = true;
 
   constructor() { }
 
   hotkeysTravail(event: KeyboardEvent) {
-    event.preventDefault();
     if (this.canExecute) {
       if (event.code == keyCodes.g) {
         event.preventDefault();

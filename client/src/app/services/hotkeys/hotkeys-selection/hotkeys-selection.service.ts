@@ -1,18 +1,16 @@
 
-
-////////////////////////////--IMPORTANT--///////////////////////////////
+//////////////////////////// --IMPORTANT--///////////////////////////////
 // Les tests seront a changer selon ce que l'on emet dans les hotkeys //
 ////////////////////////////////////////////////////////////////////////
-
 
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HotkeysSelectionService {
 
-  canExecute: boolean = true;
+  canExecute = true;
 
   constructor() { }
 
@@ -51,8 +49,6 @@ export class HotkeysSelectionService {
       if (event.ctrlKey && event.shiftKey && event.code == keyCodes.z) {
         event.preventDefault();
         return 'shz';
-
-        return;
       }
 
       if (event.ctrlKey && event.code == keyCodes.z) {

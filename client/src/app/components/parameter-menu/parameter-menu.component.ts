@@ -1,27 +1,48 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material';
-import { ToggleDrawerService } from 'src/app/services/menu/toggle-drawer.service';
+import { ParameterComponentService } from 'src/app/services/parameter-component/parameter-component.service';
+import { ToggleDrawerService } from 'src/app/services/toggle-drawer/toggle-drawer.service';
+import { PARAMETER_MENU_CONSTANT } from './parameter-menu-constant';
+import { ParameterDirective } from './parameter.directive';
 
 @Component({
   selector: 'app-parameter-menu',
   templateUrl: './parameter-menu.component.html',
   styleUrls: ['./parameter-menu.component.scss'],
 })
-export class ParameterMenuComponent implements OnInit {
+export class ParameterMenuComponent implements OnChanges {
+  readonly width = PARAMETER_MENU_CONSTANT;
 
-  constructor(private toggleDrawerService: ToggleDrawerService) { }
-  @ViewChild(MatDrawer, { static: false }) child: MatDrawer;
+  @Input()
+  selectId: number;
 
-  toggle() {
-    console.log('toggled');
-    this.child.toggle();
+  @ViewChild(MatDrawer, { static: false })
+  child: MatDrawer;
+
+  @ViewChild(ParameterDirective, { static: true })
+  parameterHost: ParameterDirective;
+
+  constructor(private toggleDrawerService: ToggleDrawerService,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private parameterComponentService: ParameterComponentService) {
   }
-  close() {
-    this.child.close();
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.selectId) {
+      this.loadComponent();
+    }
   }
-  ngOnInit() {
-    this.toggleDrawerService.toggled.subscribe(
-      () => { this.toggle(); },
-    );
+
+  private loadComponent() {
+    const componentFactory = this.componentFactoryResolver.
+      resolveComponentFactory(this.parameterComponentService.getComponent(this.selectId));
+    const viewContainerRef = this.parameterHost.viewContainerRef;
+    viewContainerRef.clear();
+    viewContainerRef.createComponent(componentFactory);
+
+  }
+
+  get isOpened(): boolean {
+    return this.toggleDrawerService.isOpened;
   }
 }

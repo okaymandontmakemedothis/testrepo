@@ -1,6 +1,6 @@
-import { Component, AfterViewInit } from '@angular/core';
-import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
 // import { HotkeysFichierService } from '../../services/hotkeys/hotkeys-fichier/hotkeys-fichier.service';
 // import { HotkeysSelectionService } from '../../services/hotkeys/hotkeys-selection/hotkeys-selection.service';
 
@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./app.component.scss'],
   templateUrl: './app.component.html',
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
 
   constructor(private dialog: MatDialog) {
   }
@@ -18,11 +18,5 @@ export class AppComponent implements AfterViewInit {
   openDialog() {
 
     this.dialog.open(NewDrawingComponent, {});
-  }
-
-  ngAfterViewInit(): void {
-    this.dialog.open(NewDrawingComponent, {
-    });
-
   }
 }

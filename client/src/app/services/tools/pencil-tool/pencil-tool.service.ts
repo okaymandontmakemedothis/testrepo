@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ITools } from '../ITools';
 import { IObjects } from 'src/app/objects/IObjects';
 import { Polyline } from 'src/app/objects/polyline';
 import { FormGroup, FormControl } from '@angular/forms';
 import { IconDefinition, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { Point } from 'src/app/model/point.model';
+import { ITools } from '../ITools';
+import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,25 +17,41 @@ export class PencilToolService implements ITools {
   private object: Polyline | null;
   parameters: FormGroup;
   strokeWidth: FormControl;
+  lastPoint: Point;
 
-  constructor() {
+  constructor(private offsetManager: OffsetManagerService) {
     this.strokeWidth = new FormControl(20);
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,
     });
   }
 
+  private addPoint(dpoint: Point) {
+    if (this.object) {
+      if (this.lastPoint) {
+        this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
+      } else {
+        this.lastPoint = dpoint;
+      }
+      this.object.addPoint(this.lastPoint);
+    }
+  }
+
   onPressed(event: MouseEvent): IObjects {
-    this.object = new Polyline({ x: event.offsetX, y: event.offsetY }, this.strokeWidth.value);
+    const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+    this.lastPoint = { x: offset.x, y: offset.y };
+    this.object = new Polyline(this.lastPoint, this.strokeWidth.value);
     return this.object;
   }
+
   onRelease(event: MouseEvent): void {
     this.object = null;
+    this.lastPoint = { x: 0, y: 0 };
   }
 
   onMove(event: MouseEvent): void {
     if (this.object) {
-      this.object.addPoint({ x: event.movementX, y: event.movementY });
+      this.addPoint({ x: event.movementX, y: event.movementY });
     }
   }
 }

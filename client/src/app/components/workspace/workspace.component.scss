@@ -1,20 +1,17 @@
 
 
-div{ // c<est le workspace ou on definit la taille de la zone des conteneurs de dessin et du workspace
-  display: flex;
-  justify-content:flex-start;
-  --widthdessin:100%;
-  --heightdessin:100%;
-  --heightworkspace:100%;
-  --widthworkspace:100%;
-  height:(var(--heightworkspace));
-  width:(var(--widthworkspace));
-}
+// div{ // c<est le workspace ou on definit la taille de la zone des conteneurs de dessin et du workspace
+//   display: flex;
+//   justify-content:flex-start;
+//   height:100%;
+//   width:100%;
+// }
 
 
-mat-drawer-container { //c'est le conteneur du worspace
-  height: (var(--heightworkspace));
-  width:var((--widthworkspace));
+.workspace { //c'est le conteneur du worspace
+  height: 100%;
+  width:100%;
+  background-color: light-grey;
   //border:2px solid blue;
   box-sizing:border-box;
   overflow-x:auto;
