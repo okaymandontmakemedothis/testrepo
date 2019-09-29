@@ -9,9 +9,19 @@ import { ToolsService } from 'src/app/services/tools/tools.service';
 })
 export class CanvasComponent implements AfterViewInit {
 
-  get height(): number { return this.drawing.height; }
+  get height(): number {
+    if (this.drawing.created) {
+      return this.drawing.height;
+    } else {
+      return 0;
+    }
+  }
   get width(): number {
-    return this.drawing.width;
+    if (this.drawing.created) {
+      return this.drawing.width;
+    } else {
+      return 0;
+    }
   }
   get backgroundColor(): string { return this.drawing.rgbaColorString; }
   get backgroundAlpha(): number { return this.drawing.alpha; }
@@ -24,20 +34,18 @@ export class CanvasComponent implements AfterViewInit {
   isPressed = false;
 
   onPressed(event: MouseEvent) {
-    this.isPressed = true;
-    this.tools.onPressed(event);
+    if (this.drawing.created) {
+      this.isPressed = true;
+      this.tools.onPressed(event);
+    }
   }
   onRelease(event: MouseEvent) {
     this.isPressed = false;
     this.tools.onRelease(event);
   }
   onMove(event: MouseEvent) {
-    if (this.isPressed) {
+    if (this.isPressed && this.drawing.created) {
       this.tools.onMove(event);
-    }
-
-    if (event.offsetX <= 0 || event.offsetX > this.width || event.offsetY <= 0 || event.offsetY > this.height) {
-      this.onRelease(event);
     }
   }
 
