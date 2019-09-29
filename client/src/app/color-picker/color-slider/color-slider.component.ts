@@ -32,6 +32,7 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
     this.draw();
   }
 
+  /// Cette section de code est inspiré de : https://malcoded.com/posts/angular-color-picker/
   draw(): void {
     if (!this.ctx) {
       this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
