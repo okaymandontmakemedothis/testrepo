@@ -5,6 +5,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { IconDefinition, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { Point } from 'src/app/model/point.model';
 import { ITools } from '../ITools';
+import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,14 +19,14 @@ export class PencilToolService implements ITools {
   private lastPoint: Point;
   parameters: FormGroup;
 
-  constructor() {
+  constructor(private offsetManager: OffsetManagerService) {
     this.strokeWidth = new FormControl(20);
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,
     });
   }
 
-  addPoint(dpoint: Point) {
+  private addPoint(dpoint: Point) {
     if (this.object) {
       this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
       this.object.addPoint(this.lastPoint);
@@ -33,7 +34,8 @@ export class PencilToolService implements ITools {
   }
 
   onPressed(event: MouseEvent): IObjects {
-    this.lastPoint = { x: event.offsetX, y: event.offsetY };
+    const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+    this.lastPoint = { x: offset.x, y: offset.y };
     this.object = new Polyline(this.lastPoint, this.strokeWidth.value);
     return this.object;
   }
