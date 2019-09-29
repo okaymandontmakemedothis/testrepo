@@ -1,7 +1,9 @@
+import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WelcomeDialogComponent } from './welcome-dialog.component';
+import { WelcomeDialogModule } from './welcome-dialog.module';
+
 
 describe('WelcomeDialogComponent', () => {
   let component: WelcomeDialogComponent;
@@ -10,27 +12,24 @@ describe('WelcomeDialogComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatDialog,
-        MatDialogRef,
+        BrowserAnimationsModule, WelcomeDialogModule, HttpClientModule,
       ],
-      declarations: [ WelcomeDialogComponent ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
-  beforeEach(() => {
+  it('should create welcome-dialog', () => {
     fixture = TestBed.createComponent(WelcomeDialogComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call on openDialog when initially opened', () => {
-    spyOn(component, 'openDialog');
+  it(`should call on openDialog when initially opened'`, () => {
+    fixture = TestBed.createComponent(WelcomeDialogComponent);
+    component = fixture.componentInstance;
+    const spy = spyOn(component, 'openDialog').and.callThrough();
     fixture.detectChanges();
-    expect(component.openDialog).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
+
 });
