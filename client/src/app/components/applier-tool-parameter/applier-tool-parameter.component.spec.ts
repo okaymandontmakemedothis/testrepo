@@ -8,7 +8,7 @@ describe('ApplierToolParameterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ApplierToolParameterComponent ]
+      declarations: [ ApplierToolParameterComponent ],
     })
     .compileComponents();
   }));

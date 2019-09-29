@@ -23,8 +23,8 @@ export class BrushToolService implements ITools {
   lastPoint: Point = { x: 0, y: 0 };
 
   constructor(private texturesService: TexturesService,
-    private offsetManager: OffsetManagerService,
-    private colorTool: ToolsColorService) {
+              private offsetManager: OffsetManagerService,
+              private colorTool: ToolsColorService) {
     this.strokeWidth = new FormControl(20);
     this.texture = new FormControl(this.texturesService.firstTexture.value);
     this.parameters = new FormGroup({

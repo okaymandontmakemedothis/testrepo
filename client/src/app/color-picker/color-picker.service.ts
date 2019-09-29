@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { RGB } from 'src/app/model/rgb.model';
-import { ColorTransformerService } from '../services/color-transformer/color-transformer.service';
 import { Subscription } from 'rxjs';
+import { RGB } from 'src/app/model/rgb.model';
 import { HSL } from '../model/hsl.model';
+import { ColorTransformerService } from '../services/color-transformer/color-transformer.service';
 
 @Injectable(
   { providedIn: 'root' },

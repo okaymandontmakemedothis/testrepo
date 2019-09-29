@@ -56,7 +56,7 @@ export class ToolRectangleService implements ITools {
     });
   }
 
-  /// Quand le bouton de la sourie est enfoncé, on crée un rectangle et on le retourne 
+  /// Quand le bouton de la sourie est enfoncé, on crée un rectangle et on le retourne
   /// en sortie et est inceré dans l'objet courrant de l'outil.
   onPressed(event: MouseEvent): IObjects {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
