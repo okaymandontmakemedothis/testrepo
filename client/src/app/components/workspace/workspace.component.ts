@@ -1,14 +1,14 @@
-import { Component, ElementRef, OnInit, AfterViewInit, HostListener, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { HotkeysFichierService } from 'src/app/services/hotkeys/hotkeys-fichier/hotkeys-fichier.service';
+import { HotkeysOutilService } from 'src/app/services/hotkeys/hotkeys-outil/hotkeys-outil.service';
+import { HotkeysSelectionService } from 'src/app/services/hotkeys/hotkeys-selection/hotkeys-selection.service';
+import { HotkeysTravailService } from 'src/app/services/hotkeys/hotkeys-travail/hotkeys-travail.service';
+import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
+import { ToolIdConstants } from 'src/app/services/tools/toolIdConstants';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
 import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
-import { HotkeysFichierService } from 'src/app/services/hotkeys/hotkeys-fichier/hotkeys-fichier.service';
-import { HotkeysSelectionService } from 'src/app/services/hotkeys/hotkeys-selection/hotkeys-selection.service';
-import { HotkeysOutilService } from 'src/app/services/hotkeys/hotkeys-outil/hotkeys-outil.service';
-import { HotkeysTravailService } from 'src/app/services/hotkeys/hotkeys-travail/hotkeys-travail.service';
-import { ToolIdConstants } from 'src/app/services/tools/toolIdConstants';
-import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
 
 @Component({
   selector: 'app-workspace',
@@ -16,7 +16,6 @@ import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
   styleUrls: ['./workspace.component.scss'],
 })
 export class WorkspaceComponent implements OnInit, AfterViewInit {
-
 
   @ViewChild('workspaceEnv', { read: ElementRef, static: false })
   workspaceEnv: ElementRef;
@@ -78,9 +77,6 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     this.hotkeysTravailService.canExecute = false;
 
     this.sideNavService.canClick = false;
-
-    this.dialog.open(NewDrawingComponent, {
-    });
   }
 
   onRightClick(event: MouseEvent) {
@@ -100,8 +96,7 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     this.toolsService.onMove(event);
   }
 
-
-  @HostListener("window:keydown", ["$event"])
+  @HostListener('window:keydown', ['$event'])
   listenHotkey(event: KeyboardEvent) {
     this.hotkeysFichierService.hotkeysFichier(event);
     this.hotkeysSelectionService.hotkeysSelection(event);

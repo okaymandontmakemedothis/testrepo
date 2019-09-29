@@ -16,7 +16,7 @@ describe('HotkeysSelectionService', () => {
 
     const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyX'});
 
-    let result = service.hotkeysSelection(event);
+    const result = service.hotkeysSelection(event);
 
     expect(result).toBe('false');
   });
@@ -25,7 +25,7 @@ describe('HotkeysSelectionService', () => {
     const service: HotkeysSelectionService = new HotkeysSelectionService();
     const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyX'});
 
-    let result = service.hotkeysSelection(event);
+    const result = service.hotkeysSelection(event);
 
     expect(result).toBe('x');
   });
@@ -34,7 +34,7 @@ describe('HotkeysSelectionService', () => {
     const service: HotkeysSelectionService = new HotkeysSelectionService();
     const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyC'});
 
-    let result = service.hotkeysSelection(event);
+    const result = service.hotkeysSelection(event);
 
     expect(result).toBe('c');
   });
@@ -43,7 +43,7 @@ describe('HotkeysSelectionService', () => {
     const service: HotkeysSelectionService = new HotkeysSelectionService();
     const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyV'});
 
-    let result = service.hotkeysSelection(event);
+    const result = service.hotkeysSelection(event);
 
     expect(result).toBe('v');
   });
@@ -52,7 +52,7 @@ describe('HotkeysSelectionService', () => {
     const service: HotkeysSelectionService = new HotkeysSelectionService();
     const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyD'});
 
-    let result = service.hotkeysSelection(event);
+    const result = service.hotkeysSelection(event);
 
     expect(result).toBe('d');
   });
@@ -61,7 +61,7 @@ describe('HotkeysSelectionService', () => {
     const service: HotkeysSelectionService = new HotkeysSelectionService();
     const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'Delete'});
 
-    let result = service.hotkeysSelection(event);
+    const result = service.hotkeysSelection(event);
 
     expect(result).toBe('del');
   });
@@ -70,16 +70,16 @@ describe('HotkeysSelectionService', () => {
     const service: HotkeysSelectionService = new HotkeysSelectionService();
     const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyA'});
 
-    let result = service.hotkeysSelection(event);
+    const result = service.hotkeysSelection(event);
 
     expect(result).toBe('a');
   });
 
   it('CTRL-SHIFT-Z should emit', () => {
     const service: HotkeysSelectionService = new HotkeysSelectionService();
-    const event = new KeyboardEvent('keydown', {ctrlKey: true, shiftKey:true, code: 'KeyZ'});
+    const event = new KeyboardEvent('keydown', {ctrlKey: true, shiftKey: true, code: 'KeyZ'});
 
-    let result = service.hotkeysSelection(event);
+    const result = service.hotkeysSelection(event);
 
     expect(result).toBe('shz');
   });
@@ -88,7 +88,7 @@ describe('HotkeysSelectionService', () => {
     const service: HotkeysSelectionService = new HotkeysSelectionService();
     const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyZ'});
 
-    let result = service.hotkeysSelection(event);
+    const result = service.hotkeysSelection(event);
 
     expect(result).toBe('z');
   });

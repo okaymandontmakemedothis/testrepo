@@ -7,10 +7,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MaterialModules } from './app.material-modules';
 import { ColorPickerModule } from './color-picker/color-picker.module';
 import { AppComponent } from './components/app/app.component';
+import { ApplierToolParameterComponent } from './components/applier-tool-parameter/applier-tool-parameter.component';
 import { BrushToolParameterComponent } from './components/brush-tool-parameter/brush-tool-parameter.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { ControlMenuComponent } from './components/control-menu/control-menu.component';
-import { EmptyParameterComponent } from './components/empty-parameter/empty-parameter.component';
 import { NewDrawingAlertComponent } from './components/new-drawing/new-drawing-alert/new-drawing-alert.component';
 import { NewDrawingFormComponent } from './components/new-drawing/new-drawing-form/new-drawing-form.component';
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
@@ -33,8 +33,6 @@ import { WorkspaceComponent } from './components/workspace/workspace.component';
     WorkspaceComponent,
     SidenavComponent,
     CanvasComponent,
-    DialogComponent,
-    AideDialogComponent,
     NewDrawingComponent,
     NewDrawingFormComponent,
     NewDrawingAlertComponent,
@@ -48,8 +46,8 @@ import { WorkspaceComponent } from './components/workspace/workspace.component';
     RectangleToolParameterComponent,
     BrushToolParameterComponent,
     ParameterDirective,
-    EmptyParameterComponent,
     ControlMenuComponent,
+    ApplierToolParameterComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,7 +64,6 @@ import { WorkspaceComponent } from './components/workspace/workspace.component';
   ],
   entryComponents: [
     DialogComponent,
-    AideDialogComponent,
     NewDrawingAlertComponent,
     NewDrawingComponent,
     ToolsColorPickerComponent,
@@ -74,7 +71,7 @@ import { WorkspaceComponent } from './components/workspace/workspace.component';
     BrushToolParameterComponent,
     PencilToolParameterComponent,
     RectangleToolParameterComponent,
-    EmptyParameterComponent,
+    ApplierToolParameterComponent,
     ControlMenuComponent,
   ],
   providers: [

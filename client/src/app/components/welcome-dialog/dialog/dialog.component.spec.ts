@@ -1,36 +1,41 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MatCheckboxModule, MatDialog, MatDialogRef, MatTabsModule } from '@angular/material';
+import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
+import SpyObj = jasmine.SpyObj;
+import { MaterialModules } from 'src/app/app.material-modules';
+import { WelcomeDialogService } from 'src/app/services/welcome-dialog.service';
 import { IndexService } from '../../../services/index/index.service';
 import { DialogComponent } from './dialog.component';
-import SpyObj = jasmine.SpyObj;
 
 describe('DialogComponent', () => {
   let component: DialogComponent;
   let fixture: ComponentFixture<DialogComponent>;
   let indexServiceSpy: SpyObj<IndexService>;
+  const welcomeDialogService: WelcomeDialogService = new WelcomeDialogService();
+  const mockDialogRef = { close: jasmine.createSpy('close') };
+  const form: FormGroup = new FormGroup({
+    messageActivated: new FormControl(false)
+  });
 
   beforeEach(() => {
     indexServiceSpy = jasmine.createSpyObj('IndexService', ['welcomeGet']);
     indexServiceSpy.welcomeGet.and.returnValue(of({ body: '', end: '' }));
+
   });
 
   beforeEach(async(() => {
+    welcomeDialogService.form = form;
     TestBed.configureTestingModule({
-      imports: [
-        MatDialog,
-        MatDialogRef,
-        MatCheckboxModule,
-        MatTabsModule,
-      ],
-      declarations: [
-        DialogComponent,
-      ],
+      imports: [MaterialModules, BrowserAnimationsModule, ReactiveFormsModule, FormsModule],
+      declarations: [DialogComponent,],
       providers: [
-        DialogComponent,
-        { provide: IndexService, useValue: indexServiceSpy }],
-    });
+        DialogComponent, { provide: MatDialogRef, useValue: mockDialogRef },
+        { provide: IndexService, useValue: indexServiceSpy }, { provide: WelcomeDialogService, useValue: welcomeDialogService }],
+    })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -39,16 +44,23 @@ describe('DialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create the component', () => {
+  it('should create dialog component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call open Dialog when aide button is clicked', fakeAsync(() => {
+  it('should close the dialog', () => {
+    component.closeClick();
+    expect(mockDialogRef.close).toHaveBeenCalled();
+  });
+
+  it('should call openDialog when aide button is clicked', fakeAsync(() => {
     spyOn(component, 'openDialog').and.callThrough();
-    const aideButton = fixture.debugElement.query(By.css('button'));
+    const aideButton = fixture.debugElement.query(By.css('button[id=buttonOpen]'));
     aideButton.triggerEventHandler('click', null);
-    tick();
-    fixture.detectChanges();
     expect(component.openDialog).toHaveBeenCalled();
+  }));
+
+  it('should form equal to my service form', fakeAsync(() => {
+    expect(component.form).toEqual(form);
   }));
 });
