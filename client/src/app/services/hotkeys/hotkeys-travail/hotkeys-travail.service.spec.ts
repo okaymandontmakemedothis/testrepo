@@ -16,7 +16,7 @@ describe('HotkeysTravailService', () => {
 
     const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyG'});
 
-    let result = service.hotkeysTravail(event);
+    const result = service.hotkeysTravail(event);
 
     expect(result).toBe('false');
   });
@@ -25,7 +25,7 @@ describe('HotkeysTravailService', () => {
     const service: HotkeysTravailService = new HotkeysTravailService();
     const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyG'});
 
-    let result = service.hotkeysTravail(event);
+    const result = service.hotkeysTravail(event);
 
     expect(result).toBe('g');
   });
@@ -34,7 +34,7 @@ describe('HotkeysTravailService', () => {
     const service: HotkeysTravailService = new HotkeysTravailService();
     const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyM'});
 
-    let result = service.hotkeysTravail(event);
+    const result = service.hotkeysTravail(event);
 
     expect(result).toBe('m');
   });
@@ -43,7 +43,7 @@ describe('HotkeysTravailService', () => {
     const service: HotkeysTravailService = new HotkeysTravailService();
     const event = new KeyboardEvent('keydown', {code: 'NumpadAdd'});
 
-    let result = service.hotkeysTravail(event);
+    const result = service.hotkeysTravail(event);
 
     expect(result).toBe('add');
   });
@@ -52,7 +52,7 @@ describe('HotkeysTravailService', () => {
     const service: HotkeysTravailService = new HotkeysTravailService();
     const event = new KeyboardEvent('keydown', {shiftKey: true, code: 'Equal'});
 
-    let result = service.hotkeysTravail(event);
+    const result = service.hotkeysTravail(event);
 
     expect(result).toBe('add');
   });
@@ -61,7 +61,7 @@ describe('HotkeysTravailService', () => {
     const service: HotkeysTravailService = new HotkeysTravailService();
     const event = new KeyboardEvent('keydown', {code: 'NumpadSubtract'});
 
-    let result = service.hotkeysTravail(event);
+    const result = service.hotkeysTravail(event);
 
     expect(result).toBe('min');
   });
@@ -70,7 +70,7 @@ describe('HotkeysTravailService', () => {
     const service: HotkeysTravailService = new HotkeysTravailService();
     const event = new KeyboardEvent('keydown', {code: 'Minus'});
 
-    let result = service.hotkeysTravail(event);
+    const result = service.hotkeysTravail(event);
 
     expect(result).toBe('min');
   });

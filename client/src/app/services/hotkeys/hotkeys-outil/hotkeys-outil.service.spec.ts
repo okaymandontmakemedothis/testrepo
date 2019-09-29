@@ -16,7 +16,7 @@ describe('HotkeysOutilService', () => {
 
     const event = new KeyboardEvent('keydown', {code: 'KeyC'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('false');
   });
@@ -25,7 +25,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'KeyC'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('c');
   });
@@ -34,7 +34,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'KeyW'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('w');
   });
@@ -43,7 +43,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'KeyP'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('p');
   });
@@ -52,7 +52,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'KeyY'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('y');
   });
@@ -61,7 +61,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'KeyA'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('a');
   });
@@ -70,7 +70,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'Digit1'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('1');
   });
@@ -79,7 +79,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'Numpad1'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('1');
   });
@@ -88,7 +88,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'Digit2'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('2');
   });
@@ -97,7 +97,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'Numpad2'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('2');
   });
@@ -106,7 +106,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'Digit3'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('3');
   });
@@ -115,7 +115,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'Numpad3'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('3');
   });
@@ -124,7 +124,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'KeyL'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('l');
   });
@@ -133,7 +133,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'KeyT'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('t');
   });
@@ -142,7 +142,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'KeyR'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('r');
   });
@@ -151,7 +151,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'KeyB'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('b');
   });
@@ -160,7 +160,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'KeyE'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('e');
   });
@@ -169,7 +169,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'KeyI'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('i');
   });
@@ -178,7 +178,7 @@ describe('HotkeysOutilService', () => {
     const service: HotkeysOutilService = new HotkeysOutilService();
     const event = new KeyboardEvent('keydown', {code: 'KeyS'});
 
-    let result = service.hotkeysOutil(event);
+    const result = service.hotkeysOutil(event);
 
     expect(result).toBe('s');
   });

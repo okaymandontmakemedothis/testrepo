@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material';
+import { HotkeysFichierService } from 'src/app/services/hotkeys/hotkeys-fichier/hotkeys-fichier.service';
+import { HotkeysOutilService } from 'src/app/services/hotkeys/hotkeys-outil/hotkeys-outil.service';
+import { HotkeysSelectionService } from 'src/app/services/hotkeys/hotkeys-selection/hotkeys-selection.service';
+import { HotkeysTravailService } from 'src/app/services/hotkeys/hotkeys-travail/hotkeys-travail.service';
 import { ToggleDrawerService } from '../toggle-drawer/toggle-drawer.service';
 import { ITools } from '../tools/ITools';
 import { ToolsService } from '../tools/tools.service';
-import { HotkeysOutilService } from 'src/app/services/hotkeys/hotkeys-outil/hotkeys-outil.service';
-import { HotkeysFichierService } from 'src/app/services/hotkeys/hotkeys-fichier/hotkeys-fichier.service';
-import { HotkeysSelectionService } from 'src/app/services/hotkeys/hotkeys-selection/hotkeys-selection.service';
-import { HotkeysTravailService } from 'src/app/services/hotkeys/hotkeys-travail/hotkeys-travail.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +17,10 @@ export class SidenavService {
   canClick = false;
 
   constructor(private toggleDrawerService: ToggleDrawerService, private toolService: ToolsService,
-    private hotkeyOutil: HotkeysOutilService,
-    private hotkeya: HotkeysFichierService,
-    private hotkeyb: HotkeysSelectionService,
-    private hotkeyc: HotkeysTravailService) { this.eventListenerOnInput(); }
+              private hotkeyOutil: HotkeysOutilService,
+              private hotkeya: HotkeysFichierService,
+              private hotkeyb: HotkeysSelectionService,
+              private hotkeyc: HotkeysTravailService) { this.eventListenerOnInput(); }
 
   get toolList(): ITools[] {
     return this.toolService.tools;

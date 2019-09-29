@@ -3,15 +3,14 @@
 // Les tests seront a changer selon ce que l'on emet dans les hotkeys //
 ////////////////////////////////////////////////////////////////////////
 
-
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HotkeysOutilService {
 
-  canExecute: boolean = true;
+  canExecute = true;
   @Output() hotkeysOutilEmitter = new EventEmitter();
 
   constructor() { }

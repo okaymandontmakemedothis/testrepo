@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
-import { IObjects } from 'src/app/objects/IObjects';
-import { IconDefinition } from "@fortawesome/fontawesome-common-types";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
+import { IObjects } from 'src/app/objects/IObjects';
+import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 import { DrawingService } from '../../drawing/drawing.service';
-import { ITools } from '../ITools';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+import { ITools } from '../ITools';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +38,6 @@ export class ToolRectangleService implements ITools {
 
     this.onShift();
   }
-
 
   /// Quand le bouton shift et peser, le rectangle se transforme en carree et quand on lache le bouton, il redevient rectangle.
   onShift() {
@@ -88,7 +87,6 @@ export class ToolRectangleService implements ITools {
     this.isSquare = false;
     this.setSize(this.oldX, this.oldY);
   }
-
 
   /// Transforme le size de l'objet courrant avec un x et un y en entrée
   setSize(x: number, y: number): void {

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { faPencilAlt, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { Point } from 'src/app/model/point.model';
 import { IObjects } from 'src/app/objects/IObjects';
 import { Polyline } from 'src/app/objects/polyline';
-import { FormGroup, FormControl } from '@angular/forms';
-import { IconDefinition, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import { Point } from 'src/app/model/point.model';
-import { ITools } from '../ITools';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+import { ITools } from '../ITools';
 
 @Injectable({
   providedIn: 'root',

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faPaintBrush, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { Point } from 'src/app/model/point.model';
 import { IObjects } from 'src/app/objects/IObjects';
 import { Polyline } from 'src/app/objects/polyline';
-import { ITools } from '../ITools';
-import { Point } from 'src/app/model/point.model';
-import { ITexture } from 'src/app/textures/ITexture';
 import { TexturesService } from 'src/app/services/textures/textures.service';
+import { ITexture } from 'src/app/textures/ITexture';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+import { ITools } from '../ITools';
 
 @Injectable({
   providedIn: 'root',
