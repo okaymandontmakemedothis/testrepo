@@ -11,7 +11,7 @@ import '../hotkeys-constants';
 })
 export class HotkeysFichierService {
 
-  canExecute: boolean = true;
+  canExecute = true;
   @Output() hotkeysFichierEmitter = new EventEmitter();
 
   constructor() { }

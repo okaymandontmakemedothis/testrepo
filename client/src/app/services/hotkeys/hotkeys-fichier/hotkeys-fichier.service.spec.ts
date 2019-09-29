@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HotkeysFichierService } from './hotkeys-fichier.service';
 import '../hotkeys-constants';
+import { HotkeysFichierService } from './hotkeys-fichier.service';
 
 describe('HotkeysFichierService', () => {
 
