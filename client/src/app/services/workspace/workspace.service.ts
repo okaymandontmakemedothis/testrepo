@@ -1,37 +1,26 @@
-import { ElementRef, Injectable, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { EventEmitter } from 'events';
+import { ElementRef, Injectable } from '@angular/core';
+// Offset du workspace pour la hauteur pour remplir l'écran
+export const HEIGHT_OFFSET = 4;
 
 @Injectable({
   providedIn: 'root',
 })
-export class WorkspaceService implements OnChanges {
+export class WorkspaceService {
 
   el: ElementRef;
   scrolledElement: ElementRef;
 
-  @Output()
-  elReady: EventEmitter = new EventEmitter();
-
-  constructor() {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.el) {
-      this.elReady.emit('ready');
-    }
-  }
-
   get width() {
-    if (this.el) {
-      return this.el.nativeElement.offsetWidth;
+    if (this.scrolledElement) {
+      return this.scrolledElement.nativeElement.offsetWidth;
     } else {
       return 0;
     }
   }
 
   get height() {
-    if (this.el) {
-      return this.el.nativeElement.offsetHeight;
+    if (this.scrolledElement) {
+      return this.scrolledElement.nativeElement.offsetHeight - HEIGHT_OFFSET;
     } else {
       return 0;
     }

@@ -6,6 +6,7 @@ import { IconDefinition, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { Point } from 'src/app/model/point.model';
 import { ITools } from '../ITools';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+import { ToolsColorService } from '../../tools-color/tools-color.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class PencilToolService implements ITools {
   private lastPoint: Point;
   parameters: FormGroup;
 
-  constructor(private offsetManager: OffsetManagerService) {
+  constructor(private offsetManager: OffsetManagerService, private colorTool: ToolsColorService) {
     this.strokeWidth = new FormControl(20);
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,
@@ -37,6 +38,13 @@ export class PencilToolService implements ITools {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     this.lastPoint = { x: offset.x, y: offset.y };
     this.object = new Polyline(this.lastPoint, this.strokeWidth.value);
+    if (event.button === 0) {
+      this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+      this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
+    } else {
+      this.object.primaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
+      this.object.secondaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+    }
     return this.object;
   }
 
