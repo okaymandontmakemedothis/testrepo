@@ -7,6 +7,7 @@ import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
 import { DrawingService } from '../../drawing/drawing.service';
 import { ITools } from '../ITools';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+import { ToolsColorService } from '../../tools-color/tools-color.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,7 @@ export class ToolRectangleService implements ITools {
   oldX = 0;
   oldY = 0;
 
-  constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService) {
+  constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService, private colorTool: ToolsColorService) {
     this.strokeWidth = new FormControl(1, Validators.min(1));
     this.rectStyle = new FormControl('fill');
 
@@ -57,10 +58,13 @@ export class ToolRectangleService implements ITools {
     });
   }
 
-  /// Quand le bouton de la sourie est enfoncé, on crée un rectangle et on le retourne en sortie et est inceré dans l'objet courrant de l'outil.
+  /// Quand le bouton de la sourie est enfoncé, on crée un rectangle et on le retourne 
+  /// en sortie et est inceré dans l'objet courrant de l'outil.
   onPressed(event: MouseEvent): IObjects {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     this.object = new RectangleObject(offset.x, offset.y, this.strokeWidth.value, this.rectStyle.value);
+    this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+    this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
     return this.object;
   }
 
@@ -88,7 +92,6 @@ export class ToolRectangleService implements ITools {
     this.isSquare = false;
     this.setSize(this.oldX, this.oldY);
   }
-
 
   /// Transforme le size de l'objet courrant avec un x et un y en entrée
   setSize(x: number, y: number): void {
