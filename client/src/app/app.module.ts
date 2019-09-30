@@ -7,6 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MaterialModules } from './app.material-modules';
 import { ColorPickerModule } from './color-picker/color-picker.module';
 import { AppComponent } from './components/app/app.component';
+import { ApplierToolParameterComponent } from './components/applier-tool-parameter/applier-tool-parameter.component';
 import { BrushToolParameterComponent } from './components/brush-tool-parameter/brush-tool-parameter.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { ControlMenuComponent } from './components/control-menu/control-menu.component';
@@ -24,7 +25,6 @@ import { AideDialogComponent } from './components/welcome-dialog/aide-dialog/aid
 import { DialogComponent } from './components/welcome-dialog/dialog/dialog.component';
 import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.module';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
-import { ApplierToolParameterComponent } from './components/applier-tool-parameter/applier-tool-parameter.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +33,6 @@ import { ApplierToolParameterComponent } from './components/applier-tool-paramet
     WorkspaceComponent,
     SidenavComponent,
     CanvasComponent,
-    DialogComponent,
-    AideDialogComponent,
     NewDrawingComponent,
     NewDrawingFormComponent,
     NewDrawingAlertComponent,
@@ -66,7 +64,6 @@ import { ApplierToolParameterComponent } from './components/applier-tool-paramet
   ],
   entryComponents: [
     DialogComponent,
-    AideDialogComponent,
     NewDrawingAlertComponent,
     NewDrawingComponent,
     ToolsColorPickerComponent,

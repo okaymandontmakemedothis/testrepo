@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faPaintBrush, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { Point } from 'src/app/model/point.model';
 import { IObjects } from 'src/app/objects/IObjects';
 import { Polyline } from 'src/app/objects/polyline';
-import { ITools } from '../ITools';
-import { Point } from 'src/app/model/point.model';
-import { ITexture } from 'src/app/textures/ITexture';
 import { TexturesService } from 'src/app/services/textures/textures.service';
+import { ITexture } from 'src/app/textures/ITexture';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
+import { ITools } from '../ITools';
 
 @Injectable({
   providedIn: 'root',
@@ -24,8 +24,8 @@ export class BrushToolService implements ITools {
   lastPoint: Point = { x: 0, y: 0 };
 
   constructor(private texturesService: TexturesService,
-    private offsetManager: OffsetManagerService,
-    private colorTool: ToolsColorService) {
+              private offsetManager: OffsetManagerService,
+              private colorTool: ToolsColorService) {
     this.strokeWidth = new FormControl(20);
     this.texture = new FormControl(this.texturesService.firstTexture.value);
     this.parameters = new FormGroup({

@@ -12,7 +12,7 @@ import { ToolsColorService } from '../../services/tools-color/tools-color.servic
 export class ToolsColorPickerComponent implements OnInit, AfterViewInit {
 
   constructor(public dialogRef: MatDialogRef<ToolsColorPickerComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RGBA, private toolsColor: ToolsColorService, private colorPickerService: ColorPickerService) { }
+              @Inject(MAT_DIALOG_DATA) public data: RGBA, private toolsColor: ToolsColorService, private colorPickerService: ColorPickerService) { }
 
   ngOnInit(): void {
     this.colorPickerService.setFormColor(this.data.rgb, this.data.a);
