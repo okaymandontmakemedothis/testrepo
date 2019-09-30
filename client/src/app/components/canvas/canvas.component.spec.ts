@@ -1,86 +1,89 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DrawingService } from '../../services/drawing/drawing.service';
 import { CanvasComponent } from './canvas.component';
-import { ToolsService } from '../../services/tools/tools.service';
-let service:DrawingService;
+
+
+let drawingservice:DrawingService;
 
 describe('CanvasComponent', () => {
   let component: CanvasComponent;
   let fixture: ComponentFixture<CanvasComponent>;
 
-  let toolSpy : jasmine.SpyObj<ToolsService>;
-
-
-
-  //let toolservice: ToolsServiceStub;//ToolsService;
-
-  //let spy:any;
- //const spy = jasmine.createSpyObj('ToolsService',['isPressed']);
-
   beforeEach(async(() => {
-     // const spy = jasmine.createSpyObj('ToolsService',['onPressed']);
-    service= new DrawingService();
+
+    drawingservice= new DrawingService();
     TestBed.configureTestingModule({
 
-      providers:[{provide:DrawingService,useValue:service}, {provide: ToolsService, useValue: toolSpy}],//ToolsServiceStub}],
+      providers:[{provide:DrawingService,useValue:drawingservice}],
       declarations: [ CanvasComponent  ],
     })
-    .compileComponents();//toolSpy=TestBed.get(spy);
+    .compileComponents();
 
   }));
 
   beforeEach(() => {
-
-    //toolSpy=TestBed.get(spy);
     fixture = TestBed.createComponent(CanvasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
 
   });
-  it('should return dimension',()=>{
+  it('should return dimension value when service created value is true',()=>{
 
-  service.setDimension(200,98);
-  expect(component.height).toEqual(service.height);
-  expect(component.width).toEqual(service.width);
+    drawingservice.created =true;
+  drawingservice.height=100;
+  drawingservice.width=98;
+  expect(component.height).toEqual(drawingservice.height);
+  expect(component.width).toEqual(drawingservice.width);
 
+
+  })
+  it ('should return 0 when service created value is false ',()=>{
+
+    drawingservice.created=false;
+
+    expect(component.height).toEqual(0);
+    expect(component.width).toEqual(0);
   })
 
 
   it ('should return background alpha',()=>{
-    expect(component.backgroundAlpha).toEqual(service.alpha);
+    drawingservice.alpha =9;
+    expect(component.backgroundAlpha).toEqual(drawingservice.alpha);
   })
 
-  it('should return color',()=>{
-    expect(component.backgroundColor).toEqual(service.rgbaColorString);
+  it('should return drawingServicecolor value',()=>{
+    //service.rgbaColorString ={};
+    drawingservice.color= { r: 200, g: 200, b: 200 };
+    expect(component.backgroundColor).toEqual(drawingservice.rgbaColorString);
   })
 
-  it('should return value isDrawingCreated of component',()=>{
-    expect(component.isDrawingCreated).toEqual(service.created);
-  })
+  it('should return value of isDrawingCreated ',()=>{
+    drawingservice.created =true;
+    expect(component.isDrawingCreated).toEqual(drawingservice.created);
 
-
-  it('should be executed',()=> {
-
-
-
+    drawingservice.created=false;
+    expect(component.isDrawingCreated).toEqual(drawingservice.created);
 
   })
 
 
-  it('mouse return true when pressed ',()=>{
+  it(' view init', () => {
 
-   //component.onPressed(new MouseEvent('mousedown'));
-   //expect(component.isPressed).toEqual(true);
-  //expect(component.onPressed).toHaveBeenCalled();
-  //expect(toolSpy.onPressed).toHaveBeenCalled();
-   //spy=spyOn()
-  })
+component.ngAfterViewInit();
+//    let response:string[];
+    //expect(component.svg.nativeElement).toEqual(response);
+    /*fixture.detectChanges();
+    component.ngAfterViewInit();
+    expect(component.ngAfterViewInit).toBe(false);
+    //drawingservice.svgString.emit("rien");
+    expect(component.svg.nativeElement).toEqual("rien");*/
+    //expect(component.svg.nativeElement).toBe(drawingservice.svgString.emit("rien"));
 });
 
 
+
+});
