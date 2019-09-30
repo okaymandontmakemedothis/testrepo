@@ -49,11 +49,21 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     this.workspaceService.scrolledElement = this.workspaceEnv;
   }
 
+  openDialog() {
+    this.hotkeysFichierService.canExecute = false;
+    this.hotkeysSelectionService.canExecute = false;
+    this.hotkeysOutilService.canExecute = false;
+    this.hotkeysTravailService.canExecute = false;
+    this.sideNavService.canClick = false;
+
+    this.dialog.open(NewDrawingComponent);
+  }
+
   private subscribeToHotkeys(): void {
     this.hotkeysFichierService.hotkeysFichierEmitter.subscribe((value: string) => {
       if (value === emitReturn.NEW_DRAWING) {
         this.disableHotkeys();
-        this.dialog.open(NewDrawingComponent);
+        this.openDialog();
       }
     });
     this.hotkeysOutilService.hotkeysOutilEmitter.subscribe((value: string) => {
