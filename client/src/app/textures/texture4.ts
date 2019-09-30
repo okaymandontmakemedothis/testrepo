@@ -2,18 +2,20 @@ import { RGBA } from 'src/app/model/rgba.model';
 import { ITexture } from './ITexture';
 import { TEXTURE_FOUR } from './texture-id';
 
+/// Classe avec les informations de la texture de texture four
 /// Le pattern provient du site web https://www.heropatterns.com/
 export class TextureFour implements ITexture {
-    readonly id = TEXTURE_FOUR;
+    readonly id: number = TEXTURE_FOUR;
+    readonly name = 'Texture Four';
     readonly randomAngle = Math.round(Math.random() * 360);
 
-    getName(id: number): string {
+    getTextureIDName(id: number): string {
         return `${this.id}-${id}`;
     }
     getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number): string {
 
         return `<defs>
-                <pattern id="${this.getName(id)}" viewBox="0 0 120 120" width="20" height="20" x="${x}" y="${y}"
+                <pattern id="${this.getTextureIDName(id)}" viewBox="0 0 120 120" width="20" height="20" x="${x}" y="${y}"
                 patternTransform="rotate(${this.randomAngle})" patternUnits="userSpaceOnUse">
                 <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g id="line-in-motion" fill="rgb(${primaryColor.rgb.r},${primaryColor.rgb.g},${primaryColor.rgb.b})"

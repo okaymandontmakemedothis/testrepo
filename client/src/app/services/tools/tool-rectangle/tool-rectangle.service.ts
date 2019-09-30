@@ -8,15 +8,15 @@ import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
+import { ToolIdConstants } from '../tool-id-constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToolRectangleService implements ITools {
-  faIcon: IconDefinition = faSquareFull;
-  toolName = 'Rectangle Tool';
-
-  readonly id = 3;
+  readonly faIcon: IconDefinition = faSquareFull;
+  readonly toolName = 'Rectangle Tool';
+  readonly id = ToolIdConstants.RECTANGLE_ID;
 
   object: RectangleObject | null;
 
@@ -27,21 +27,21 @@ export class ToolRectangleService implements ITools {
   private isSquare = false;
   oldX = 0;
   oldY = 0;
+  firstX: number;
+  firstY: number;
 
   constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService, private colorTool: ToolsColorService) {
     this.strokeWidth = new FormControl(1, Validators.min(1));
     this.rectStyle = new FormControl('fill');
-
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,
       rectStyle: this.rectStyle,
     });
-
-    this.onShift();
+    this.registerEventListenerOnShift();
   }
 
   /// Quand le bouton shift et peser, le rectangle se transforme en carree et quand on lache le bouton, il redevient rectangle.
-  onShift() {
+  private registerEventListenerOnShift() {
     window.addEventListener('keydown', (event) => {
       if (event.shiftKey && this.object) {
         this.setSquare();
@@ -49,10 +49,12 @@ export class ToolRectangleService implements ITools {
       }
     });
 
-    window.addEventListener('keyup', () => {
-      if (this.object) {
-        this.unsetSquare();
-        this.drawingService.draw();
+    window.addEventListener('keyup', (event) => {
+      if (event.shiftKey && this.object) {
+        if (this.object) {
+          this.unsetSquare();
+          this.drawingService.draw();
+        }
       }
     });
   }
@@ -61,6 +63,8 @@ export class ToolRectangleService implements ITools {
   /// en sortie et est inceré dans l'objet courrant de l'outil.
   onPressed(event: MouseEvent): IObjects {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+    this.firstX = offset.x;
+    this.firstY = offset.y;
     this.object = new RectangleObject(offset.x, offset.y, this.strokeWidth.value, this.rectStyle.value);
     this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
     this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
@@ -98,36 +102,36 @@ export class ToolRectangleService implements ITools {
       this.oldX = x;
       this.oldY = y;
 
-      this.object.width = x - this.object.firstX;
-      this.object.height = y - this.object.firstY;
+      this.object.width = x - this.firstX;
+      this.object.height = y - this.firstY;
 
       if (this.object.width < 0) {
         this.object.x = x;
-        this.object.width = this.object.firstX - this.object.x;
+        this.object.width = this.firstX - this.object.x;
       }
       if (this.object.height < 0) {
         this.object.y = y;
-        this.object.height = this.object.firstY - this.object.y;
+        this.object.height = this.firstY - this.object.y;
       }
 
       if (this.isSquare) {
-        if (y < this.object.firstY && x < this.object.firstX) {
+        if (y < this.firstY && x < this.firstX) {
           if (this.object.width < this.object.height) {
             this.object.height = this.object.width;
-            this.object.y = this.object.firstY - this.object.width;
+            this.object.y = this.firstY - this.object.width;
           } else {
             this.object.width = this.object.height;
-            this.object.x = this.object.firstX - this.object.height;
+            this.object.x = this.firstX - this.object.height;
           }
         } else if (this.object.width < this.object.height) {
           this.object.height = this.object.width;
-          if (y < this.object.firstY) {
-            this.object.y = this.object.firstX + this.object.firstY - x;
+          if (y < this.firstY) {
+            this.object.y = this.firstX + this.firstY - x;
           }
         } else {
           this.object.width = this.object.height;
-          if (x < this.object.firstX) {
-            this.object.x = this.object.firstX + this.object.firstY - y;
+          if (x < this.firstX) {
+            this.object.x = this.firstX + this.firstY - y;
           }
         }
       }

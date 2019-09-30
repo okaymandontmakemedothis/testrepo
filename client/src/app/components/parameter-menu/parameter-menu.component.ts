@@ -1,4 +1,13 @@
-import { Component, ComponentFactoryResolver, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  ComponentFactory,
+  ComponentFactoryResolver,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import { MatDrawer } from '@angular/material';
 import { ParameterComponentService } from 'src/app/services/parameter-component/parameter-component.service';
 import { ToggleDrawerService } from 'src/app/services/toggle-drawer/toggle-drawer.service';
@@ -22,9 +31,11 @@ export class ParameterMenuComponent implements OnChanges {
   @ViewChild(ParameterDirective, { static: true })
   parameterHost: ParameterDirective;
 
-  constructor(private toggleDrawerService: ToggleDrawerService,
-              private componentFactoryResolver: ComponentFactoryResolver,
-              private parameterComponentService: ParameterComponentService) {
+  constructor(
+    private toggleDrawerService: ToggleDrawerService,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private parameterComponentService: ParameterComponentService,
+  ) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -34,12 +45,12 @@ export class ParameterMenuComponent implements OnChanges {
   }
 
   private loadComponent() {
-    const componentFactory = this.componentFactoryResolver.
-      resolveComponentFactory(this.parameterComponentService.getComponent(this.selectId));
-    const viewContainerRef = this.parameterHost.viewContainerRef;
+    const componentFactory: ComponentFactory<any> =
+      this.componentFactoryResolver.resolveComponentFactory(
+        this.parameterComponentService.getComponent(this.selectId));
+    const viewContainerRef: ViewContainerRef = this.parameterHost.viewContainerRef;
     viewContainerRef.clear();
     viewContainerRef.createComponent(componentFactory);
-
   }
 
   get isOpened(): boolean {

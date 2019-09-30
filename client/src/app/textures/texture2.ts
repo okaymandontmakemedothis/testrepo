@@ -2,17 +2,19 @@ import { RGBA } from 'src/app/model/rgba.model';
 import { ITexture } from './ITexture';
 import { TEXTURE_TWO } from './texture-id';
 
+/// Classe avec les informations de la texture de texture two
 /// Le pattern provient du site web https://www.heropatterns.com/
 export class TextureTwo implements ITexture {
-    readonly id = TEXTURE_TWO;
+    readonly id: number = TEXTURE_TWO;
+    readonly name = 'Texture Two';
     readonly randomAngle = Math.round(Math.random() * 360);
 
-    getName(id: number): string {
+    getTextureIDName(id: number): string {
         return `${this.id}+${id}`;
     }
     getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number): string {
         return `<defs>
-                <pattern id="${this.getName(id)}" width="60px" height="60px" viewBox="0 0 60 60" x="${x}" y="${y}"
+                <pattern id="${this.getTextureIDName(id)}" width="60px" height="60px" viewBox="0 0 60 60" x="${x}" y="${y}"
                 patternTransform="rotate(${this.randomAngle})" patternUnits="userSpaceOnUse">
                 <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g id="morphing-diamonds" fill="rgb(${primaryColor.rgb.r},${primaryColor.rgb.g},${primaryColor.rgb.b})"
