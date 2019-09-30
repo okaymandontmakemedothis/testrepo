@@ -6,13 +6,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import SpyObj = jasmine.SpyObj;
 import { MaterialModules } from 'src/app/app.material-modules';
-import { WelcomeDialogService } from 'src/app/services/welcome-dialog.service';
+import { WelcomeDialogService } from 'src/app/services/welcome-dialog/welcome-dialog.service';
 import { IndexService } from '../../../services/index/index.service';
-import { DialogComponent } from './dialog.component';
+import { WelcomeDialogComponent } from './welcome-dialog.component';
 
 describe('DialogComponent', () => {
-  let component: DialogComponent;
-  let fixture: ComponentFixture<DialogComponent>;
+  let component: WelcomeDialogComponent;
+  let fixture: ComponentFixture<WelcomeDialogComponent>;
   let indexServiceSpy: SpyObj<IndexService>;
   const welcomeDialogService: WelcomeDialogService = new WelcomeDialogService();
   const mockDialogRef = { close: jasmine.createSpy('close') };
@@ -30,16 +30,16 @@ describe('DialogComponent', () => {
     welcomeDialogService.form = form;
     TestBed.configureTestingModule({
       imports: [MaterialModules, BrowserAnimationsModule, ReactiveFormsModule, FormsModule],
-      declarations: [DialogComponent,],
+      declarations: [WelcomeDialogComponent],
       providers: [
-        DialogComponent, { provide: MatDialogRef, useValue: mockDialogRef },
+        WelcomeDialogComponent, { provide: MatDialogRef, useValue: mockDialogRef },
         { provide: IndexService, useValue: indexServiceSpy }, { provide: WelcomeDialogService, useValue: welcomeDialogService }],
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DialogComponent);
+    fixture = TestBed.createComponent(WelcomeDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

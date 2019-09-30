@@ -4,8 +4,8 @@ import { IObjects } from 'src/app/objects/IObjects';
 
 export interface ITools {
     readonly id: number;
-    faIcon: IconDefinition;
-    toolName: string;
+    readonly faIcon: IconDefinition;
+    readonly toolName: string;
     parameters: FormGroup;
     onPressed(event: MouseEvent): IObjects | null;
     onRelease(event: MouseEvent): void;

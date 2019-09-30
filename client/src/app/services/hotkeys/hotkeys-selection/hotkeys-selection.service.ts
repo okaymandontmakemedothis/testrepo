@@ -12,8 +12,6 @@ export class HotkeysSelectionService {
 
   canExecute = true;
 
-  constructor() { }
-
   hotkeysSelection(event: KeyboardEvent): string | void {
     if (this.canExecute) {
       if (event.ctrlKey && event.code === keyCodes.x) {

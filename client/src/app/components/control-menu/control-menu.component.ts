@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
-import { DialogComponent } from '../../components/welcome-dialog/dialog/dialog.component';
+import { DIALOG_PROPERTIES, WelcomeDialogComponent } from '../welcome-dialog/welcome-dialog/welcome-dialog.component';
 
 @Component({
   selector: 'app-control-menu',
@@ -18,14 +18,7 @@ export class ControlMenuComponent {
   }
 
   openWelcomeMessage(): void {
-    this.dialog.open(DialogComponent, {
-      hasBackdrop: true,
-      panelClass: 'filter-popup',
-      autoFocus: false,
-      disableClose: true,
-      maxHeight: 500,
-      maxWidth: 500,
-    });
+    this.dialog.open(WelcomeDialogComponent, DIALOG_PROPERTIES);
   }
 
 }
