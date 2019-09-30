@@ -27,55 +27,67 @@ describe('HotkeysFichierService', () => {
   });
 
   it('CTRL-O should emit', () => {
-    let isCalled = false;
+    let eventEmited = '';
 
     const service: HotkeysFichierService = new HotkeysFichierService();
-    service.hotkeysFichierEmitter.subscribe(() => { isCalled = true; });
+    service.hotkeysFichierEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const event = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyO' });
+    const keyBoardEvent = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyO' });
 
-    service.hotkeysFichier(event);
+    service.hotkeysFichier(keyBoardEvent);
 
-    expect(isCalled).toBeTruthy();
+    expect(eventEmited).toBe(emitReturn.NEW_DRAWING);
   });
 
   it('CTRL-S should emit', () => {
-    let isCalled = false;
+    let eventEmited = '';
 
     const service: HotkeysFichierService = new HotkeysFichierService();
-    service.hotkeysFichierEmitter.subscribe(() => { isCalled = true; });
+    service.hotkeysFichierEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const event = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyS' });
+    const keyBoardEvent = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyS' });
 
-    service.hotkeysFichier(event);
+    service.hotkeysFichier(keyBoardEvent);
 
-    expect(isCalled).toBeTruthy();
+    expect(eventEmited).toBe('CS');
   });
 
   it('CTRL-G should emit', () => {
-    let isCalled = false;
+    let eventEmited = '';
 
     const service: HotkeysFichierService = new HotkeysFichierService();
-    service.hotkeysFichierEmitter.subscribe(() => { isCalled = true; });
+    service.hotkeysFichierEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const event = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyG' });
+    const keyBoardEvent = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyG' });
 
-    service.hotkeysFichier(event);
+    service.hotkeysFichier(keyBoardEvent);
 
-    expect(isCalled).toBeTruthy();
+    expect(eventEmited).toBe('CG');
   });
 
   it('CTRL-E should emit', () => {
-    let isCalled = false;
+    let eventEmited = '';
 
     const service: HotkeysFichierService = new HotkeysFichierService();
-    service.hotkeysFichierEmitter.subscribe(() => { isCalled = true; });
+    service.hotkeysFichierEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const event = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyE' });
+    const keyBoardEvent = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyE' });
+
+    service.hotkeysFichier(keyBoardEvent);
+
+    expect(eventEmited).toBe('CE');
+  });
+
+  it('F should not emit', () => {
+    let isNotCalled = true;
+
+    const service: HotkeysFichierService = new HotkeysFichierService();
+    service.hotkeysFichierEmitter.subscribe(() => { isNotCalled = false; });
+
+    const event = new KeyboardEvent('keydown', { code: 'KeyF' });
 
     service.hotkeysFichier(event);
 
-    expect(isCalled).toBeTruthy();
+    expect(isNotCalled).toBeTruthy();
   });
-
 });
