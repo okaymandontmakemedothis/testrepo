@@ -29,7 +29,7 @@ export class OpenWelcomeService {
 
   // Ouvre le mat dialog lorsque le browser est initialiser si le checkbox est non cocher
   openOnStart() {
-    if (this.welcomeService.messageActivated) {
+    if (this.welcomeService.messageActivated.value) {
       this.openDialog();
       this.welcomeDialogSub = this.welcomeDialogRef.afterClosed().subscribe(() => {
         this.dialog.open(NewDrawingComponent);

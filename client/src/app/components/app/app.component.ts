@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
 
   // Ouvre le mat dialog lorsque le browser est initialiser si le checkbox est non cocher
   ngOnInit() {
-    this.openService.openDialog();
+    this.openService.openOnStart();
   }
 
   /// Detruit le subscribe du welcomeDialogSub

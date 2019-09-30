@@ -1,21 +1,21 @@
 import { TestBed } from '@angular/core/testing';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { WelcomeDialogModule } from 'src/app/components/welcome-dialog/welcome-dialog.module';
 import { WelcomeDialogService } from '../welcome-dialog/welcome-dialog.service';
-// import { of } from 'rxjs';
 import { OpenWelcomeService } from './open-welcome.service';
+import { HttpClientModule } from '@angular/common/http';
+//import { FormGroup, FormControl } from '@angular/forms';
 
 describe('OpenWelcomeService', () => {
-  let openService: OpenWelcomeService;
   const welcomeDialogService: WelcomeDialogService = new WelcomeDialogService();
-  //const mockDialogRef = { open: jasmine.createSpy('open') };
-  // let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of({}), close: null });
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatDialogModule],
+      imports: [MatDialogModule, BrowserAnimationsModule, WelcomeDialogModule, HttpClientModule ],
       providers: [OpenWelcomeService, { provide: MatDialogRef, useValue: {} },
         { provide: WelcomeDialogService, useValue: welcomeDialogService }],
     });
-    openService = TestBed.get(openService);
   });
 
   it('service should be created', () => {
@@ -23,10 +23,28 @@ describe('OpenWelcomeService', () => {
     expect(service).toBeTruthy();
   });
 
-  it(`should call on openDialog when initially opened'`, () => {
-    const dialogSpy =  spyOn(TestBed.get(MatDialog), 'openDialog').and.callThrough();
-    openService.openDialog();
+  it(`should call on openDialog '`, () => {
+    const service: OpenWelcomeService = TestBed.get(OpenWelcomeService);
+    const dialogSpy =  spyOn(service, 'openDialog').and.callThrough();
+    service.openDialog();
     expect(dialogSpy).toHaveBeenCalled();
+  });
+
+  it(`should call on openDialog il message Activated is true'`, () => {
+    const service: OpenWelcomeService = TestBed.get(OpenWelcomeService);
+    //const form: FormGroup = new FormGroup({messageActivated: new FormControl(true) });
+    welcomeDialogService.messageActivated.setValue(true);
+    const dialogSpy = spyOn(service, 'openDialog').and.callThrough();
+    service.openOnStart();
+    expect(dialogSpy).toHaveBeenCalled();
+  });
+
+  it(`should not call on openDialog il message Activated is false'`, () => {
+    const service: OpenWelcomeService = TestBed.get(OpenWelcomeService);
+    //const form: FormGroup = new FormGroup({ messageActivated: new FormControl(false) });
+    const dialogSpy = spyOn(service, 'openDialog').and.callThrough();
+    service.openOnStart();
+    expect(dialogSpy).not.toHaveBeenCalled();
   });
 
 });
