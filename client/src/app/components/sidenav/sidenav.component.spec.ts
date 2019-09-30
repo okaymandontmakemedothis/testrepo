@@ -13,7 +13,6 @@ import { PencilToolParameterComponent } from 'src/app/tool-parameter/pencil-tool
 import { CanvasComponent } from '../canvas/canvas.component';
 import { ControlMenuComponent } from '../control-menu/control-menu.component';
 import { ParameterMenuComponent } from '../parameter-menu/parameter-menu.component';
-//import { ParameterDirective } from '../parameter-menu/parameter.directive';
 import { ToolsColorComponent } from '../tools-color/tools-color.component';
 import { WorkspaceComponent } from '../workspace/workspace.component';
 import { SidenavComponent } from './sidenav.component';
@@ -33,8 +32,7 @@ describe('SidenavComponent', () => {
       declarations: [
         SidenavComponent, ToolsColorComponent, ParameterMenuComponent, WorkspaceComponent, CanvasComponent,
         PencilToolParameterComponent, ControlMenuComponent, BrushToolParameterComponent, ],
-      imports: [
-        MaterialModules, FontAwesomeModule, BrowserAnimationsModule, ReactiveFormsModule, FormsModule,
+      imports: [MaterialModules, FontAwesomeModule, BrowserAnimationsModule, ReactiveFormsModule, FormsModule,
         SidenavModule, ],
       providers: [{ provide: SidenavService, useValue: sidenavSpy }, 
         { provide: ToolsService, useValue: toolSpy}],
