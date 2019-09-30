@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { RGB } from 'src/app/model/rgb.model';
-import { RGBA } from 'src/app/model/rgba.model';
+import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
+import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
 import { IObjects } from 'src/app/objects/IObjects';
 
 @Injectable({
@@ -8,17 +8,16 @@ import { IObjects } from 'src/app/objects/IObjects';
 })
 export class DrawingService {
 
+  @Output()
+  svgString = new EventEmitter<string>();
+
   lastObjectId = 0;
 
   isCreated = false;
-
-  color: RGB = { r: 255, g: 255, b: 255 };
-  alpha = 1;
+  color: RGB = DEFAULT_RGB_COLOR;
+  alpha: number = DEFAULT_ALPHA;
   width = 0;
   height = 0;
-
-  @Output()
-  svgString = new EventEmitter<string>();
 
   private objectList: Map<number, IObjects>;
 
