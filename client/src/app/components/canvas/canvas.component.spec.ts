@@ -11,8 +11,8 @@ describe('CanvasComponent', () => {
 
   beforeEach(async(() => {
 
-    drawingservice= new DrawingService();
-    TestBed.configureTestingModule({
+      drawingservice= new DrawingService();
+      TestBed.configureTestingModule({
 
       providers:[{provide:DrawingService,useValue:drawingservice}],
       declarations: [ CanvasComponent  ],
@@ -34,10 +34,10 @@ describe('CanvasComponent', () => {
   it('should return dimension value when service created value is true',()=>{
 
     drawingservice.created =true;
-  drawingservice.height=100;
-  drawingservice.width=98;
-  expect(component.height).toEqual(drawingservice.height);
-  expect(component.width).toEqual(drawingservice.width);
+    drawingservice.height=100;
+    drawingservice.width=98;
+    expect(component.height).toEqual(drawingservice.height);
+    expect(component.width).toEqual(drawingservice.width);
 
 
   })
@@ -56,7 +56,7 @@ describe('CanvasComponent', () => {
   })
 
   it('should return drawingServicecolor value',()=>{
-    //service.rgbaColorString ={};
+
     drawingservice.color= { r: 200, g: 200, b: 200 };
     expect(component.backgroundColor).toEqual(drawingservice.rgbaColorString);
   })
@@ -69,21 +69,5 @@ describe('CanvasComponent', () => {
     expect(component.isDrawingCreated).toEqual(drawingservice.created);
 
   })
-
-
-  it(' view init', () => {
-
-component.ngAfterViewInit();
-//    let response:string[];
-    //expect(component.svg.nativeElement).toEqual(response);
-    /*fixture.detectChanges();
-    component.ngAfterViewInit();
-    expect(component.ngAfterViewInit).toBe(false);
-    //drawingservice.svgString.emit("rien");
-    expect(component.svg.nativeElement).toEqual("rien");*/
-    //expect(component.svg.nativeElement).toBe(drawingservice.svgString.emit("rien"));
-});
-
-
 
 });
