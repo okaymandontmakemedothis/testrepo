@@ -12,6 +12,8 @@ import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 import { INITIAL_WIDTH } from '../tools-constants';
 
+/// Service de l'outil pinceau, permet de créer des polyline en svg
+/// Il est possible d'ajuster le stroke width et la texture
 @Injectable({
   providedIn: 'root',
 })
@@ -38,6 +40,7 @@ export class BrushToolService implements ITools {
     });
   }
 
+  /// Ajout d'un point dans la liste de point du Polyline
   private addPoint(dpoint: Point) {
     if (this.object) {
       if (this.lastPoint) {
@@ -49,6 +52,8 @@ export class BrushToolService implements ITools {
     }
   }
 
+  /// Création d'un polyline selon la position de l'evenement de souris, choisi les bonnes couleurs selon le clique de souris
+  /// Récupère la bonne texture
   onPressed(event: MouseEvent): IObjects {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     this.lastPoint = { x: offset.x, y: offset.y };
@@ -64,11 +69,13 @@ export class BrushToolService implements ITools {
     return this.object;
   }
 
+  /// Réinitialisation de l'outil après avoir laisser le clique de la souris
   onRelease(event: MouseEvent): void {
     this.object = null;
     this.lastPoint = { x: 0, y: 0 };
   }
 
+  /// Ajout d'un point seulon le déplacement de la souris
   onMove(event: MouseEvent): void {
     if (this.object) {
       this.addPoint({ x: event.movementX, y: event.movementY });

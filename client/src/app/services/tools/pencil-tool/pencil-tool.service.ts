@@ -58,11 +58,13 @@ export class PencilToolService implements ITools {
     return this.object;
   }
 
+  /// Réinitialisation de l'outil après avoir laisser le clique de la souris
   onRelease(event: MouseEvent): void {
     this.object = null;
     this.lastPoint = { x: 0, y: 0 };
   }
 
+  /// Ajout d'un point seulon le déplacement de la souris
   onMove(event: MouseEvent): void {
     if (this.object) {
       this.addPoint({ x: event.movementX, y: event.movementY });
