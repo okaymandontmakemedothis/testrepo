@@ -12,7 +12,6 @@ describe('ParameterComponentService', () => {
 
   it('should getComponent', () => {
     const service: ParameterComponentService = TestBed.get(ParameterComponentService);
-    service.componentList = [];
     spyOn(service, 'getComponent').and.callThrough();
     expect(service.getComponent(0)).toEqual(undefined);
   });

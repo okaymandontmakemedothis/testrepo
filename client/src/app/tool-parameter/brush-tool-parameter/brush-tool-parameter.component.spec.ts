@@ -38,8 +38,8 @@ describe('BrushToolParameterComponent', () => {
   });
 
   it('should get tool name', () => {
-    brushToolService.toolName = 'brush';
-    expect(component.toolName).toEqual('brush');
+    const spy = spyOnProperty(brushToolService, 'toolName').and.returnValue('brush');
+    expect(component.toolName).toEqual(spy);
   });
 
   it('should get list texture', () => {

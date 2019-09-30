@@ -19,11 +19,11 @@ import { ToolRectangleService } from 'src/app/services/tools/tool-rectangle/tool
 import { ToolsApplierColorsService } from 'src/app/services/tools/tools-applier-colors/tools-applier-colors.service';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
-import { BrushToolParameterComponent } from '../brush-tool-parameter/brush-tool-parameter.component';
+import { BrushToolParameterComponent } from 'src/app/tool-parameter/brush-tool-parameter/brush-tool-parameter.component';
+import { PencilToolParameterComponent } from 'src/app/tool-parameter/pencil-tool-parameter/pencil-tool-parameter.component';
 import { CanvasComponent } from '../canvas/canvas.component';
 import { ControlMenuComponent } from '../control-menu/control-menu.component';
 import { ParameterMenuComponent } from '../parameter-menu/parameter-menu.component';
-import { PencilToolParameterComponent } from '../pencil-tool-parameter/pencil-tool-parameter.component';
 import { ToolsColorComponent } from '../tools-color/tools-color.component';
 import { WorkspaceComponent } from '../workspace/workspace.component';
 import { SidenavComponent } from './sidenav.component';
@@ -69,13 +69,13 @@ describe('SidenavComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create sidenav component', () => {
     expect(component).toBeTruthy();
   });
 
   it('should get tool id', () => {
-    const spy = spyOnProperty(toolService, 'selectedToolId').and.returnValue(1);
-    expect(component.currentToolId).toEqual(spy);
+    toolService.selectedToolId = 1;
+    expect(component.currentToolId).toEqual(1);
   });
 
   it('should get tool list', () => {
@@ -83,8 +83,8 @@ describe('SidenavComponent', () => {
   });
 
   it('should get isOpen', () => {
-    const spy = spyOnProperty(toggleDrawerService , 'isOpened').and.returnValue(true);
-    expect(component.isOpened).toEqual(spy);
+    toggleDrawerService.isOpened = true;
+    expect(component.isOpened).toEqual(true);
   });
 
   it('should get selectedParameter', () => {
@@ -92,16 +92,19 @@ describe('SidenavComponent', () => {
   });
 
   it('should open', () => {
+    spyOn(sideNavService, 'open').and.callThrough();
     component.open();
     expect(sideNavService.open).toHaveBeenCalled();
   });
 
   it('should close', () => {
+    spyOn(sideNavService, 'close').and.callThrough();
     component.close();
     expect(sideNavService.close).toHaveBeenCalled();
   });
 
   it('should openControlMenu', () => {
+    spyOn(sideNavService, 'openControlMenu').and.callThrough();
     component.openControlMenu();
     expect(sideNavService.openControlMenu).toHaveBeenCalled();
   });

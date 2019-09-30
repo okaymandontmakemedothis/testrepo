@@ -31,7 +31,7 @@ describe('ApplierToolParameterComponent', () => {
   });
 
   it('should get tool name', () => {
-    applierService.toolName = 'applier';
-    expect(component.toolName).toEqual('applier');
+    const spy = spyOnProperty(applierService, 'toolName').and.returnValue('applier');
+    expect(component.toolName).toEqual(spy);
   });
 });

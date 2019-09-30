@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { WelcomeDialogService } from '../welcome-dialog/welcome-dialog.service';
 // import { of } from 'rxjs';
-import { WelcomeDialogService } from '../welcome-dialog.service';
 import { OpenWelcomeService } from './open-welcome.service';
 
 describe('OpenWelcomeService', () => {
