@@ -1,24 +1,35 @@
-import { RGBA } from 'src/app/model/rgba.model';
-import { ITexture } from './ITexture';
+import { RGBA } from '../model/rgba.model';
 import { TEXTURE_TWO } from './texture-id';
+import { TextureTwo } from './texture2';
 
-/// Classe avec les informations de la texture de texture two
-/// Le pattern provient du site web https://www.heropatterns.com/
-export class TextureTwo implements ITexture {
-    readonly id: number = TEXTURE_TWO;
-    readonly name = 'Texture Two';
-    readonly randomAngle = Math.round(Math.random() * 360);
+describe('BrushToolService', () => {
+    let textureTwo: TextureTwo;
+    const id = 2;
+    beforeEach(() => {
+        textureTwo = new TextureTwo();
+    });
 
-    getTextureIDName(id: number): string {
-        return `${this.id}-${id}`;
-    }
-    getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number): string {
-        return `<defs>
-<pattern id="${this.getTextureIDName(id)}" width="60px" height="60px" viewBox="0 0 60 60" x="${x}" y="${y}"
- patternTransform="rotate(${this.randomAngle})" patternUnits="userSpaceOnUse">
+    it('should be created', () => {
+        expect(textureTwo).toBeTruthy();
+    });
+
+    it('should return it id', () => {
+        const idName: string = textureTwo.getTextureIDName(2);
+        expect(idName).toBe(TEXTURE_TWO + '-2');
+    });
+
+    it('should return the patern', () => {
+
+        const idName: string = textureTwo.getTextureIDName(id);
+        const rgba: RGBA = { rgb: { r: 200, g: 123, b: 200 }, a: 1 };
+        const x = 20;
+        const y = 25;
+        const patternString = `<defs>
+<pattern id="${idName}" width="60px" height="60px" viewBox="0 0 60 60" x="${x}" y="${y}"
+ patternTransform="rotate(${textureTwo.randomAngle})" patternUnits="userSpaceOnUse">
 <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-<g id="morphing-diamonds" fill="rgb(${primaryColor.rgb.r},${primaryColor.rgb.g},${primaryColor.rgb.b})"
- fill-opacity="${primaryColor.a}">
+<g id="morphing-diamonds" fill="rgb(${rgba.rgb.r},${rgba.rgb.g},${rgba.rgb.b})"
+ fill-opacity="${rgba.a}">
 <path d="M54.627417,1.33226763e-15 L55.4558441,0.828427125 L54.0416306,2.24264069 L51.7989899,-1.44328993e-15
     L54.627417,7.10542736e-15 L54.627417,1.33226763e-15 Z M5.372583,-5.55111512e-16 L4.54415588,0.828427125
     L5.95836944,2.24264069 L8.20101013,-1.44328993e-15 L5.372583,-7.77156117e-16 L5.372583,-5.55111512e-16
@@ -76,8 +87,10 @@ export class TextureTwo implements ITexture {
 </g>
 </pattern>
 </defs>`;
-    }
-    getFilter(id: number): string | null {
-        return null;
-    }
-}
+        expect(textureTwo.getPattern(rgba, rgba, id, x, y)).toBe(patternString);
+    });
+
+    it('should return null for the filter', () => {
+        expect(textureTwo.getFilter(id)).toBeNull();
+    });
+});
