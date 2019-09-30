@@ -8,7 +8,6 @@ import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
 import { ToolIdConstants } from 'src/app/services/tools/toolIdConstants';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
-import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
 
 @Component({
   selector: 'app-workspace',
@@ -20,9 +19,17 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
   @ViewChild('workspaceEnv', { read: ElementRef, static: false })
   workspaceEnv: ElementRef;
 
-  constructor(private el: ElementRef, private workspaceService: WorkspaceService, private sideNavService: SidenavService,
-    private toolsService: ToolsService, private dialog: MatDialog, private hotkeysFichierService: HotkeysFichierService, private hotkeysSelectionService: HotkeysSelectionService,
-    private hotkeysOutilService: HotkeysOutilService, private hotkeysTravailService: HotkeysTravailService) {
+  constructor(
+    private el: ElementRef,
+    private workspaceService: WorkspaceService,
+    private sideNavService: SidenavService,
+    private toolsService: ToolsService,
+    private dialog: MatDialog,
+    private hotkeysFichierService: HotkeysFichierService,
+    private hotkeysSelectionService: HotkeysSelectionService,
+    private hotkeysOutilService: HotkeysOutilService,
+    private hotkeysTravailService: HotkeysTravailService,
+  ) {
 
     this.dialog.afterAllClosed.subscribe(() => {
       this.hotkeysFichierService.canExecute = true;

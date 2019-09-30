@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
-import { DialogComponent } from '../welcome-dialog/dialog/dialog.component';
+import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
+import { DialogComponent } from '../../components/welcome-dialog/dialog/dialog.component';
 
 @Component({
   selector: 'app-control-menu',

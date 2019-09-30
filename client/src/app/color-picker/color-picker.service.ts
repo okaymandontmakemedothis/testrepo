@@ -11,15 +11,15 @@ import { ColorTransformerService } from '../services/color-transformer/color-tra
 export class ColorPickerService {
 
   colorForm: FormGroup;
-  private formBuilder: FormBuilder;
-  rgbString: string;
   rgb: FormGroup;
   hsl: FormGroup;
   a: FormControl;
   hex: FormControl;
-  rgbValueChangeSub: Subscription;
-  hslValueChangeSub: Subscription;
-  hexValueChangeSub: Subscription;
+
+  private formBuilder: FormBuilder;
+  private rgbValueChangeSub: Subscription;
+  private hslValueChangeSub: Subscription;
+  private hexValueChangeSub: Subscription;
 
   constructor(private colorTransformerService: ColorTransformerService) {
     this.formBuilder = new FormBuilder();
@@ -41,13 +41,12 @@ export class ColorPickerService {
       a: this.a,
       hex: this.hex,
     });
-    this.setRGBString();
     this.setHSLSubscribe();
     this.setRGBSubscribe();
     this.setHEXSubscribe();
   }
 
-  setHSLSubscribe(): void {
+  private setHSLSubscribe(): void {
     this.hslValueChangeSub = this.hsl.valueChanges.subscribe((hsl: HSL) => {
       this.rgbValueChangeSub.unsubscribe();
       this.hexValueChangeSub.unsubscribe();
@@ -58,19 +57,18 @@ export class ColorPickerService {
     });
   }
 
-  setRGBSubscribe(): void {
+  private setRGBSubscribe(): void {
     this.rgbValueChangeSub = this.rgb.valueChanges.subscribe((rgb: RGB) => {
       this.hslValueChangeSub.unsubscribe();
       this.hexValueChangeSub.unsubscribe();
       this.hsl.setValue(this.colorTransformerService.rgb2hsl(rgb));
       this.hex.setValue(this.colorTransformerService.rgb2hex(rgb));
-      this.setRGBString();
       this.setHSLSubscribe();
       this.setHEXSubscribe();
     });
   }
 
-  setHEXSubscribe(): void {
+  private setHEXSubscribe(): void {
     this.hexValueChangeSub = this.hex.valueChanges.subscribe((hex: string) => {
       this.rgbValueChangeSub.unsubscribe();
       this.hslValueChangeSub.unsubscribe();
@@ -85,12 +83,4 @@ export class ColorPickerService {
     this.rgb.setValue(rgb);
     this.a.setValue(a);
   }
-
-  private setRGBString(): void {
-    const r = this.rgb.get('r') as FormControl;
-    const g = this.rgb.get('g') as FormControl;
-    const b = this.rgb.get('b') as FormControl;
-    this.rgbString = 'rgb(' + r.value + ',' + g.value + ',' + b.value + ')';
-  }
-
 }
