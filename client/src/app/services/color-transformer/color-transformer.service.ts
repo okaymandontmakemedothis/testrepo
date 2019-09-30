@@ -138,7 +138,7 @@ export class ColorTransformerService {
 
   /// Transforme une valeur HEX en valeur RGB
   hex2rgb(hex: string): RGB {
-    const result = /^#?([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})$/i.exec(hex);
+    const result: RegExpExecArray | null = /^#?([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})$/i.exec(hex);
     if (result == null) {
       return { r: RGB_MAX_VALUE, g: RGB_MAX_VALUE, b: RGB_MAX_VALUE };
     }

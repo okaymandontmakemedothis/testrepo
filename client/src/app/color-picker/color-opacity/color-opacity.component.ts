@@ -153,7 +153,7 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
 
   /// Assure que lorsqu'on relâche la souris, on arrêtte la prise d'information des évenements de souris
   @HostListener('window:mouseup', ['$event'])
-  onMouseUp(evt: MouseEvent): void {
+  onMouseUp(event: MouseEvent): void {
     this.isMouseDown = false;
   }
 }
