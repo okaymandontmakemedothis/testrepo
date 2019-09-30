@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 import { RGBA } from '../../model/rgba.model';
 import { ToolsColorService } from '../../services/tools-color/tools-color.service';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-tools-color-picker',
@@ -10,6 +11,8 @@ import { ToolsColorService } from '../../services/tools-color/tools-color.servic
   styleUrls: ['./tools-color-picker.component.scss'],
 })
 export class ToolsColorPickerComponent implements OnInit, AfterViewInit {
+
+  form: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<ToolsColorPickerComponent>,
@@ -19,6 +22,7 @@ export class ToolsColorPickerComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.colorPickerService.setFormColor(this.data.rgb, this.data.a);
+    this.form = this.colorPickerService.colorForm;
   }
 
   ngAfterViewInit(): void {

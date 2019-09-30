@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MaterialModules } from 'src/app/app.material-modules';
+import { MaterialModules } from 'src/app/app-material.module';
 import { WorkspaceComponent } from './workspace.component';
 
 describe('WorkspaceComponent', () => {
@@ -9,10 +9,10 @@ describe('WorkspaceComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WorkspaceComponent ],
-      imports: [ MaterialModules ],
+      declarations: [WorkspaceComponent],
+      imports: [MaterialModules],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

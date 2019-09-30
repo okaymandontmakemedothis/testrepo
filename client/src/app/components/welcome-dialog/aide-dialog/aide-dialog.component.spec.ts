@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import SpyObj = jasmine.SpyObj;
 import { of } from 'rxjs';
-import { MaterialModules } from 'src/app/app.material-modules';
+import { MaterialModules } from 'src/app/app-material.module';
 import { IndexService } from 'src/app/services/index/index.service';
 import { AideDialogComponent } from './aide-dialog.component';
 
@@ -18,7 +18,7 @@ describe('AideDialogComponent', () => {
     indexServiceSpy.aideGet.and.returnValue(of({
       O: '', S: '', G: '', E: '', X: '', C: '', V: '', D: '',
       Sup: '', A: '', Z: '', ShiftZ: '', Cray: '', W: '', P: '', Y: '', Aer: '', Rec: '', Ell: '', Poly: '',
-      L: '', T: '', R: '', B: '', Eff: '', I: '', Sel: '', Gri: '', M: '', Aug: '', Dim: ''
+      L: '', T: '', R: '', B: '', Eff: '', I: '', Sel: '', Gri: '', M: '', Aug: '', Dim: '',
     }));
   });
 
