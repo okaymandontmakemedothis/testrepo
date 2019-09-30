@@ -50,11 +50,9 @@ export class ToolRectangleService implements ITools {
     });
 
     window.addEventListener('keyup', (event) => {
-      if (event.shiftKey && this.object) {
-        if (this.object) {
-          this.unsetSquare();
-          this.drawingService.draw();
-        }
+      if (!event.shiftKey && this.object) {
+        this.unsetSquare();
+        this.drawingService.draw();
       }
     });
   }

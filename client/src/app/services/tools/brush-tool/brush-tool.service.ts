@@ -23,8 +23,8 @@ export class BrushToolService implements ITools {
   readonly toolName = 'Brush Tool';
   parameters: FormGroup;
   private object: Polyline | null;
-  private strokeWidth: FormControl;
-  private texture: FormControl;
+  strokeWidth: FormControl;
+  texture: FormControl;
   private lastPoint: Point = { x: 0, y: 0 };
 
   constructor(

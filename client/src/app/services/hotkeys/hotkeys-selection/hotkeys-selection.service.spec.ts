@@ -11,85 +11,120 @@ describe('HotkeysSelectionService', () => {
   });
 
   it('CTRL-X should NOT emit', () => {
+    let isNotCalled = true;
+
     const service: HotkeysSelectionService = new HotkeysSelectionService();
+    service.hotkeysSelectionEmitter.subscribe(() => { isNotCalled = false; });
     service.canExecute = false;
 
-    const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyX'});
+    const event = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyX' });
 
-    const result = service.hotkeysSelection(event);
+    service.hotkeysSelection(event);
 
-    expect(result).toBe('false');
+    expect(isNotCalled).toBeTruthy();
   });
 
   it('CTRL-X should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysSelectionService = new HotkeysSelectionService();
-    const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyX'});
+    service.hotkeysSelectionEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysSelection(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyX' });
 
-    expect(result).toBe('x');
+    service.hotkeysSelection(keyBoardEvent);
+
+    expect(eventEmited).toBe('CX');
   });
 
   it('CTRL-C should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysSelectionService = new HotkeysSelectionService();
-    const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyC'});
+    service.hotkeysSelectionEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysSelection(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyC' });
 
-    expect(result).toBe('c');
+    service.hotkeysSelection(keyBoardEvent);
+
+    expect(eventEmited).toBe('CC');
   });
 
   it('CTRL-V should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysSelectionService = new HotkeysSelectionService();
-    const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyV'});
+    service.hotkeysSelectionEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysSelection(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyV' });
 
-    expect(result).toBe('v');
+    service.hotkeysSelection(keyBoardEvent);
+
+    expect(eventEmited).toBe('CV');
   });
 
   it('CTRL-D should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysSelectionService = new HotkeysSelectionService();
-    const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyD'});
+    service.hotkeysSelectionEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysSelection(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyD' });
 
-    expect(result).toBe('d');
+    service.hotkeysSelection(keyBoardEvent);
+
+    expect(eventEmited).toBe('CD');
   });
 
   it('DELETE should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysSelectionService = new HotkeysSelectionService();
-    const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'Delete'});
+    service.hotkeysSelectionEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysSelection(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { ctrlKey: true, code: 'Delete' });
 
-    expect(result).toBe('del');
+    service.hotkeysSelection(keyBoardEvent);
+
+    expect(eventEmited).toBe('DEL');
   });
 
   it('CTRL-A should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysSelectionService = new HotkeysSelectionService();
-    const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyA'});
+    service.hotkeysSelectionEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysSelection(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyA' });
 
-    expect(result).toBe('a');
+    service.hotkeysSelection(keyBoardEvent);
+
+    expect(eventEmited).toBe('CA');
   });
 
   it('CTRL-SHIFT-Z should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysSelectionService = new HotkeysSelectionService();
-    const event = new KeyboardEvent('keydown', {ctrlKey: true, shiftKey: true, code: 'KeyZ'});
+    service.hotkeysSelectionEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysSelection(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { ctrlKey: true, shiftKey: true, code: 'KeyZ' });
 
-    expect(result).toBe('shz');
+    service.hotkeysSelection(keyBoardEvent);
+
+    expect(eventEmited).toBe('CSZ');
   });
 
   it('CTRL-Z should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysSelectionService = new HotkeysSelectionService();
-    const event = new KeyboardEvent('keydown', {ctrlKey: true, code: 'KeyZ'});
+    service.hotkeysSelectionEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysSelection(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyZ' });
 
-    expect(result).toBe('z');
+    service.hotkeysSelection(keyBoardEvent);
+
+    expect(eventEmited).toBe('CZ');
   });
 });

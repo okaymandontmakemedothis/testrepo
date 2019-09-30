@@ -11,175 +11,250 @@ describe('HotkeysOutilService', () => {
   });
 
   it('C should NOT emit', () => {
+    let isNotCalled = true;
+
     const service: HotkeysOutilService = new HotkeysOutilService();
+    service.hotkeysOutilEmitter.subscribe(() => { isNotCalled = false; });
     service.canExecute = false;
 
-    const event = new KeyboardEvent('keydown', {code: 'KeyC'});
+    const event = new KeyboardEvent('keydown', { code: 'KeyC' });
 
-    const result = service.hotkeysOutil(event);
+    service.hotkeysOutil(event);
 
-    expect(result).toBe('false');
+    expect(isNotCalled).toBeTruthy();
   });
 
   it('C should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'KeyC'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyC' });
 
-    expect(result).toBe('c');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe(emitReturn.PENCIL);
   });
 
   it('W should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'KeyW'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyW' });
 
-    expect(result).toBe('w');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe(emitReturn.BRUSH);
   });
 
   it('P should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'KeyP'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyP' });
 
-    expect(result).toBe('p');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe('P');
   });
 
   it('Y should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'KeyY'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyY' });
 
-    expect(result).toBe('y');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe('Y');
   });
 
   it('A should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'KeyA'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyA' });
 
-    expect(result).toBe('a');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe('A');
   });
 
   it('1 should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'Digit1'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'Digit1' });
 
-    expect(result).toBe('1');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe(emitReturn.RECTANGLE);
   });
 
   it('1 (numpad) should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'Numpad1'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'Numpad1' });
 
-    expect(result).toBe('1');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe(emitReturn.RECTANGLE);
   });
 
   it('2 should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'Digit2'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'Digit2' });
 
-    expect(result).toBe('2');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe('2');
   });
 
   it('2 (numpad) should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'Numpad2'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'Numpad2' });
 
-    expect(result).toBe('2');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe('2');
   });
 
   it('3 should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'Digit3'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'Digit3' });
 
-    expect(result).toBe('3');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe('3');
   });
 
   it('3 (numpad) should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'Numpad3'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'Numpad3' });
 
-    expect(result).toBe('3');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe('3');
   });
 
   it('L should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'KeyL'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyL' });
 
-    expect(result).toBe('l');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe('L');
   });
 
   it('T should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'KeyT'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyT' });
 
-    expect(result).toBe('t');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe('T');
   });
 
   it('R should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'KeyR'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyR' });
 
-    expect(result).toBe('r');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe(emitReturn.APPLICATEUR);
   });
 
   it('B should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'KeyB'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyB' });
 
-    expect(result).toBe('b');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe('B');
   });
 
   it('E should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'KeyE'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyE' });
 
-    expect(result).toBe('e');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe('E');
   });
 
   it('I should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'KeyI'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyI' });
 
-    expect(result).toBe('i');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe('I');
   });
 
   it('S should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysOutilService = new HotkeysOutilService();
-    const event = new KeyboardEvent('keydown', {code: 'KeyS'});
+    service.hotkeysOutilEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysOutil(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyS' });
 
-    expect(result).toBe('s');
+    service.hotkeysOutil(keyBoardEvent);
+
+    expect(eventEmited).toBe('S');
   });
 });

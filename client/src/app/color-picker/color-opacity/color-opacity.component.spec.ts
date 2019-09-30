@@ -45,20 +45,15 @@ describe('ColorOpacityComponent', () => {
   });
 
   it('should get the % of the opacity at the position x and return 0', () => {
-    const pourc = component.getOpacityAtPosition(-1);
+    component.onMouseDown(new MouseEvent('mousedown', { clientX: -1 }));
 
-    expect(pourc).toEqual(0);
+    expect(component.a.value).toEqual(0);
   });
 
   it('should get the % of the opacity at the position x and return 1', () => {
-    component.canvas.nativeElement.width = 50;
-    const x = 60;
-    const pourc = component.getOpacityAtPosition(x);
+    component.opacityCanvas.nativeElement.width = 50;
+    component.onMouseDown(new MouseEvent('mousedown', { clientX: 100 }));
 
-    expect(pourc).toEqual(1);
-  });
-
-  it('should draw', () => {
-    component.draw();
+    expect(component.a.value).toEqual(1);
   });
 });

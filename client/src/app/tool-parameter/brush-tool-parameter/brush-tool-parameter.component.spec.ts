@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TexturesService } from 'src/app/services/textures/textures.service';
 import { BrushToolService } from 'src/app/services/tools/brush-tool/brush-tool.service';
 import { BrushToolParameterComponent } from './brush-tool-parameter.component';
@@ -60,10 +60,10 @@ describe('BrushToolParameterComponent', () => {
   });
 
   it('should return the selected texture', () => {
-    expect(component.selectedTexture).toEqual((brushToolServiceSpy.parameters.get('texture') as FormControl).value);
+    expect(component.selectedTexture).toEqual(brushToolServiceSpy.texture.value);
   });
 
   it('should return the stroke width value', () => {
-    expect(component.strokeWidthValue).toEqual((brushToolServiceSpy.parameters.get('strokeWidth') as FormControl).value);
+    expect(component.strokeWidthValue).toEqual(brushToolServiceSpy.strokeWidth.value);
   });
 });

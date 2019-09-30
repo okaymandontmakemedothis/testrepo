@@ -60,6 +60,26 @@ describe('ToolRectangleService', () => {
     expect(object.width).toEqual(50);
   });
 
+  it('should not unset square with one unshift of two shift', () => {
+    const service: ToolRectangleService = TestBed.get(ToolRectangleService);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+
+    const object = service.onPressed(new MouseEvent('mousedown')) as RectangleObject;
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
+
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    window.dispatchEvent(eventKeyDown);
+
+    expect(object.height).toEqual(object.width);
+
+    const eventKeyUp = new KeyboardEvent('keyup', { shiftKey: true });
+    window.dispatchEvent(eventKeyUp);
+
+    expect(object.height).toEqual(object.width);
+  });
+
   it('should create un object on mouse press with good color', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });

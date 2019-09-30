@@ -66,7 +66,7 @@ describe('BrushToolService', () => {
     const result = texture.getPattern({ rgb: { r: 255, g: 255, b: 255 }, a: 1 }, { rgb: { r: 0, g: 0, b: 0 }, a: 0 },
       1, 0, 0);
 
-    expect(polyline.draw()).toEqual(result + texture.getFilter(1) + `<circle id="1" cx="0" cy="0" r="${3 / 2}" fill="url(#0-1)" filter="url(#0-1-filter)"/>\n`);
+    expect(polyline.draw()).toEqual(result + `<circle id="1" cx="0" cy="0" r="${3 / 2}" fill="url(#0-1)" />\n`);
   });
 
   it('should draw well with 1 point and NO filter and a texture', () => {
