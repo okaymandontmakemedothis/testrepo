@@ -4,7 +4,5 @@ import { Directive, ViewContainerRef } from '@angular/core';
   selector: '[appParameter]',
 })
 export class ParameterDirective {
-
   constructor(public viewContainerRef: ViewContainerRef) { }
-
 }

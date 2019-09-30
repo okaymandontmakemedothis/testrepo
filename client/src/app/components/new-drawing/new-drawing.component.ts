@@ -3,11 +3,14 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
+import { DEFAULT_RGB_COLOR } from 'src/app/model/rgb.model';
+import { DEFAULT_ALPHA } from 'src/app/model/rgba.model';
 import { DrawingSizeValidatorService } from 'src/app/services/drawing-size-validator/drawing-size-validator.service';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { NewDrawingService } from 'src/app/services/new-drawing/new-drawing.service';
 import { NewDrawingAlertComponent } from './new-drawing-alert/new-drawing-alert.component';
 
+const ONE_SECOND = 1000;
 @Component({
   selector: 'app-new-drawing',
   templateUrl: './new-drawing.component.html',
@@ -32,11 +35,11 @@ export class NewDrawingComponent implements OnInit {
     this.form = this.newDrawingService.form;
     this.dialogRef.disableClose = true;
     this.dialogRef.afterOpened().subscribe(() => this.onResize());
-    this.colorPickerService.setFormColor({ r: 255, g: 255, b: 255 }, 1);
+    this.colorPickerService.setFormColor(DEFAULT_RGB_COLOR, DEFAULT_ALPHA);
   }
 
   onAccept(): void {
-    if (this.drawingService.created) {
+    if (this.drawingService.isCreated) {
       const alert = this.dialog.open(NewDrawingAlertComponent, {
         role: 'alertdialog',
       });
@@ -51,12 +54,17 @@ export class NewDrawingComponent implements OnInit {
   }
 
   private newDrawing() {
-    this.drawingService.created = true;
+    this.drawingService.isCreated = true;
     const size: { width: number, height: number } = this.newDrawingService.sizeGroup.value;
-    this.drawingService.newDrawing(size.width, size.height,
-      { rgb: this.colorPickerService.rgb.value, a: this.colorPickerService.a.value },
+    this.drawingService.newDrawing(
+      size.width,
+      size.height,
+      {
+        rgb: this.colorPickerService.rgb.value,
+        a: this.colorPickerService.a.value,
+      },
     );
-    this.snackBar.open('Drawing created', '', { duration: 1000, });
+    this.snackBar.open('Drawing created', '', { duration: ONE_SECOND, });
     this.newDrawingService.form.reset();
     this.dialogRef.close();
   }

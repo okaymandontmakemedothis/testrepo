@@ -8,6 +8,7 @@ import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
 import { ToolIdConstants } from 'src/app/services/tools/toolIdConstants';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
+import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
 
 @Component({
   selector: 'app-workspace',
@@ -30,22 +31,31 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     private hotkeysOutilService: HotkeysOutilService,
     private hotkeysTravailService: HotkeysTravailService,
   ) {
-
     this.dialog.afterAllClosed.subscribe(() => {
       this.hotkeysFichierService.canExecute = true;
       this.hotkeysSelectionService.canExecute = true;
       this.hotkeysOutilService.canExecute = true;
       this.hotkeysTravailService.canExecute = true;
-
       this.sideNavService.canClick = true;
     });
+    this.subscribeToHotkeys();
+  }
 
+  ngOnInit() {
+    this.workspaceService.el = this.el;
+  }
+
+  ngAfterViewInit(): void {
+    this.workspaceService.scrolledElement = this.workspaceEnv;
+  }
+
+  private subscribeToHotkeys(): void {
     this.hotkeysFichierService.hotkeysFichierEmitter.subscribe((value: string) => {
       if (value === 'newDrawing') {
-        this.openDialog();
+        this.disableHotkeys();
+        this.dialog.open(NewDrawingComponent);
       }
     });
-
     this.hotkeysOutilService.hotkeysOutilEmitter.subscribe((value: string) => {
       if (value === 'crayon') {
         this.sideNavService.open();
@@ -64,25 +74,13 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
         this.toolsService.selectTool(ToolIdConstants.RECTANGLE_ID);
       }
     });
-
   }
 
-  ngOnInit() {
-    this.workspaceService.el = this.el;
-
-  }
-
-  ngAfterViewInit(): void {
-    this.openDialog();
-    this.workspaceService.scrolledElement = this.workspaceEnv;
-  }
-
-  openDialog() {
+  private disableHotkeys() {
     this.hotkeysFichierService.canExecute = false;
     this.hotkeysSelectionService.canExecute = false;
     this.hotkeysOutilService.canExecute = false;
     this.hotkeysTravailService.canExecute = false;
-
     this.sideNavService.canClick = false;
   }
 

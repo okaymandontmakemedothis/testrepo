@@ -19,14 +19,14 @@ export class CanvasComponent implements AfterViewInit {
   }
 
   get height(): number {
-    if (this.drawingService.created) {
+    if (this.drawingService.isCreated) {
       return this.drawingService.height;
     } else {
       return 0;
     }
   }
   get width(): number {
-    if (this.drawingService.created) {
+    if (this.drawingService.isCreated) {
       return this.drawingService.width;
     } else {
       return 0;
@@ -36,7 +36,7 @@ export class CanvasComponent implements AfterViewInit {
   get backgroundAlpha(): number { return this.drawingService.alpha; }
 
   get isDrawingCreated(): boolean {
-    return this.drawingService.created;
+    return this.drawingService.isCreated;
   }
 
 }

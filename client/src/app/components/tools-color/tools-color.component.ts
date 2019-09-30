@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { RGB } from 'src/app/model/rgb.model';
 import { RGBA } from '../../model/rgba.model';
 import { DrawingService } from '../../services/drawing/drawing.service';
 import { ToolsColorService } from '../../services/tools-color/tools-color.service';
 import { ToolsColorPickerComponent } from '../tools-color-picker/tools-color-picker.component';
-
-enum ColorType {
-  primary,
-  secondary,
-  background,
-}
+import {
+  TOOLS_COLOR_PICKER_LEFT,
+  TOOLS_COLOR_PICKER_TOP,
+  TOOLS_COLOR_PICKER_WIDTH
+} from '../tools-color-picker/tools-color-picker.constant';
+import { BACKGROUND_SIZE, ColorType, PRIMARY_AND_SECONDARY_SIZE, PRIMARY_SIZE, SECONDARY_SIZE } from './tools-color.constant';
 
 @Component({
   selector: 'app-tools-color',
@@ -18,68 +19,14 @@ enum ColorType {
 })
 export class ToolsColorComponent {
 
-  width = 50;
-  height = 50;
+  width = PRIMARY_AND_SECONDARY_SIZE.width;
+  height = PRIMARY_AND_SECONDARY_SIZE.height;
 
-  primarySize = {
-    x: 20,
-    y: 20,
-    width: 30,
-    height: 30,
-  };
+  readonly primarySize: { x: number, y: number, width: number, height: number } = PRIMARY_SIZE;
+  readonly secondarySize: { x: number, y: number, width: number, height: number } = SECONDARY_SIZE;
+  readonly backgroundSize: { x: number, y: number, width: number, height: number } = BACKGROUND_SIZE;
 
-  secondarySize = {
-    x: 0,
-    y: 0,
-    width: 30,
-    height: 30,
-  };
-
-  constructor(private toolsColor: ToolsColorService, public dialog: MatDialog, private drawing: DrawingService) { }
-
-  openDialog(colorType: ColorType): void {
-    let dialogRef: MatDialogRef<ToolsColorPickerComponent>;
-    switch (colorType) {
-      case ColorType.primary:
-        dialogRef = this.dialog.open(ToolsColorPickerComponent, {
-          width: '250px',
-          data: { rgb: this.toolsColor.primaryColor, a: this.toolsColor.primaryAlpha },
-        });
-        dialogRef.updatePosition({ top: '50px', left: '25px' });
-        dialogRef.afterClosed().subscribe((result: RGBA) => {
-          if (result) {
-            this.toolsColor.setPrimaryColor(result.rgb, result.a);
-          }
-        });
-        break;
-      case ColorType.secondary:
-        dialogRef = this.dialog.open(ToolsColorPickerComponent, {
-          width: '250px',
-          data: { rgb: this.toolsColor.secondaryColor, a: this.toolsColor.secondaryAlpha },
-        });
-        dialogRef.updatePosition({ top: '50px', left: '25px' });
-        dialogRef.afterClosed().subscribe((result: RGBA) => {
-          if (result) {
-            this.toolsColor.setSecondaryColor(result.rgb, result.a);
-          }
-        });
-        break;
-      case ColorType.background:
-        dialogRef = this.dialog.open(ToolsColorPickerComponent, {
-          width: '250px',
-          data: { rgb: this.drawing.color, a: this.drawing.alpha },
-        });
-        dialogRef.updatePosition({ top: '50px', left: '25px' });
-        dialogRef.afterClosed().subscribe((result: RGBA) => {
-          if (result) {
-            this.drawing.setDrawingColor(result);
-          }
-        });
-        break;
-      default:
-        break;
-    }
-  }
+  constructor(private toolsColor: ToolsColorService, public dialog: MatDialog, private drawingService: DrawingService) { }
 
   get primaryColor(): string {
     return this.toolsColor.primaryColorString;
@@ -98,26 +45,68 @@ export class ToolsColorComponent {
   }
 
   get backgroundAlpha(): number {
-    return this.drawing.alpha;
+    return this.drawingService.alpha;
   }
 
   get backgroundColor(): string {
-    return this.drawing.rgbColorString;
+    return this.drawingService.rgbColorString;
+  }
+
+  openDialog(colorType: ColorType): void {
+    let dialogRef: MatDialogRef<ToolsColorPickerComponent>;
+    switch (colorType) {
+      case ColorType.primary:
+        dialogRef = this.colorPickerOpen(this.toolsColor.primaryColor, this.toolsColor.primaryAlpha);
+        dialogRef.afterClosed().subscribe((result: RGBA) => {
+          if (result) {
+            this.toolsColor.setPrimaryColor(result.rgb, result.a);
+          }
+        });
+        break;
+      case ColorType.secondary:
+        dialogRef = this.colorPickerOpen(this.toolsColor.secondaryColor, this.toolsColor.secondaryAlpha);
+        dialogRef.afterClosed().subscribe((result: RGBA) => {
+          if (result) {
+            this.toolsColor.setSecondaryColor(result.rgb, result.a);
+          }
+        });
+        break;
+      case ColorType.background:
+        dialogRef = this.colorPickerOpen(this.drawingService.color, this.drawingService.alpha);
+        dialogRef.afterClosed().subscribe((result: RGBA) => {
+          if (result) {
+            this.drawingService.setDrawingColor(result);
+          }
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
+  private colorPickerOpen(rgb: RGB, a: number): MatDialogRef<ToolsColorPickerComponent> {
+    let dialogRef: MatDialogRef<ToolsColorPickerComponent>;
+    dialogRef = this.dialog.open(ToolsColorPickerComponent, {
+      width: TOOLS_COLOR_PICKER_WIDTH,
+      data: { rgb, a },
+    });
+    dialogRef.updatePosition({ top: TOOLS_COLOR_PICKER_TOP, left: TOOLS_COLOR_PICKER_LEFT });
+    return dialogRef;
   }
 
   switchColor(): void {
     this.toolsColor.switchColor();
   }
 
-  onMouseClickPrimary(event: MouseEvent): void {
+  clickPrimary(event: MouseEvent): void {
     this.openDialog(ColorType.primary);
   }
 
-  onMouseClickSecondary(event: MouseEvent): void {
+  clickSecondary(event: MouseEvent): void {
     this.openDialog(ColorType.secondary);
   }
 
-  onMouseClickBackground(event: MouseEvent): void {
+  clickBackground(event: MouseEvent): void {
     this.openDialog(ColorType.background);
   }
 

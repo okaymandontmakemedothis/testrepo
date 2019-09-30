@@ -61,7 +61,6 @@ export class Polyline implements IObjects {
             stroke = `stroke="rgb(${this.primaryColor.rgb.r},${this.primaryColor.rgb.g},${this.primaryColor.rgb.b})"`;
             fill = `fill="rgb(${this.primaryColor.rgb.r},${this.primaryColor.rgb.g},${this.primaryColor.rgb.b})"`;
         }
-
         if (!filter) {
             filter = '';
         }
