@@ -20,10 +20,6 @@ getTestBed().initTestEnvironment(
 );
 // Then we find all the tests.
 // const context = require.context('./', true, /\.spec\.ts$/);
-<<<<<<< HEAD
 const context = require.context('./', true, /canvas.component.spec\.ts$/);
-=======
-const context = require.context('./', true, /toggle-drawer.service.spec\.ts$/);
->>>>>>> master
 // And load the modules.
 context.keys().map(context);

@@ -32,16 +32,8 @@ export class CanvasComponent implements AfterViewInit {
       return 0;
     }
   }
-  get backgroundColor(): string { return this.drawing.rgbaColorString; }
-  get backgroundAlpha(): number { return this.drawing.alpha; }
-
-  @ViewChild('svg', { static: false })
-  svg: ElementRef;
-
-  constructor(private drawing: DrawingService) { }
-
-  isPressed = false;
-
+  get backgroundColor(): string { return this.drawingService.rgbaColorString; }
+  get backgroundAlpha(): number { return this.drawingService.alpha; }
 
   get isDrawingCreated(): boolean {
     return this.drawingService.isCreated;

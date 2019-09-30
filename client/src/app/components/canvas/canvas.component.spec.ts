@@ -33,7 +33,7 @@ describe('CanvasComponent', () => {
   });
   it('should return dimension value when service created value is true',()=>{
 
-    drawingservice.created =true;
+    drawingservice.isCreated =true;
     drawingservice.height=100;
     drawingservice.width=98;
     expect(component.height).toEqual(drawingservice.height);
@@ -43,7 +43,7 @@ describe('CanvasComponent', () => {
   })
   it ('should return 0 when service created value is false ',()=>{
 
-    drawingservice.created=false;
+    drawingservice.isCreated=false;
 
     expect(component.height).toEqual(0);
     expect(component.width).toEqual(0);
@@ -62,11 +62,11 @@ describe('CanvasComponent', () => {
   })
 
   it('should return value of isDrawingCreated ',()=>{
-    drawingservice.created =true;
-    expect(component.isDrawingCreated).toEqual(drawingservice.created);
+    drawingservice.isCreated =true;
+    expect(component.isDrawingCreated).toEqual(drawingservice.isCreated);
 
-    drawingservice.created=false;
-    expect(component.isDrawingCreated).toEqual(drawingservice.created);
+    drawingservice.isCreated=false;
+    expect(component.isDrawingCreated).toEqual(drawingservice.isCreated);
 
   })
 
