@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ColorOpacityComponent } from './color-opacity.component';
+import { FormControl, FormGroup } from '@angular/forms';
+import { RGB, RGB_MAX_VALUE } from 'src/app/model/rgb.model';
 import { ColorTransformerService } from 'src/app/services/color-transformer/color-transformer.service';
-import { RGB_MAX_VALUE, RGB } from 'src/app/model/rgb.model';
 import { ColorPickerService } from '../color-picker.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { ColorOpacityComponent } from './color-opacity.component';
 
 describe('ColorOpacityComponent', () => {
   let component: ColorOpacityComponent;
@@ -110,9 +110,9 @@ describe('ColorOpacityComponent', () => {
     const mouseEvent1 = new MouseEvent('mousedown');
     let mouseOffset = component.opacityCanvas.nativeElement.width / 2;
     spyOnProperty(mouseEvent1, 'offsetX').and.returnValue(mouseOffset);
-    const drawSpy: jasmine.Spy<() => void> = spyOn(component, 'draw');
     component.onMouseDown(mouseEvent1);
     const mouseEvent2 = new MouseEvent('mousemove');
+    const drawSpy: jasmine.Spy<() => void> = spyOn(component, 'draw');
     mouseOffset = component.opacityCanvas.nativeElement.width / 4;
     spyOnProperty(mouseEvent2, 'offsetX').and.returnValue(mouseOffset);
     component.onMouseMove(mouseEvent2);
@@ -127,6 +127,24 @@ describe('ColorOpacityComponent', () => {
     const drawSpy: jasmine.Spy<() => void> = spyOn(component, 'draw');
     component.onMouseMove(mouseEvent);
     expect(component.a.value).toBe(aInitialValue);
+    expect(drawSpy).not.toHaveBeenCalled();
+  });
+
+  it('should disabled mouse move input on mouse event up', () => {
+    const mouseEvent1 = new MouseEvent('mousedown');
+    let mouseOffset = component.opacityCanvas.nativeElement.width / 2;
+    spyOnProperty(mouseEvent1, 'offsetX').and.returnValue(mouseOffset);
+    component.onMouseDown(mouseEvent1);
+    const mouseEvent = new MouseEvent('mouseup');
+    const spy = spyOn(component, 'onMouseUp').and.callThrough();
+    window.dispatchEvent(mouseEvent);
+    expect(spy).toHaveBeenCalled();
+    const mouseEvent2 = new MouseEvent('mousemove');
+    mouseOffset = component.opacityCanvas.nativeElement.width / 4;
+    spyOnProperty(mouseEvent2, 'offsetX').and.returnValue(mouseOffset);
+    const drawSpy: jasmine.Spy<() => void> = spyOn(component, 'draw');
+    component.onMouseMove(mouseEvent2);
+    expect(component.a.value).toBe(0.5);
     expect(drawSpy).not.toHaveBeenCalled();
   });
 
