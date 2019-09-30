@@ -257,4 +257,17 @@ describe('HotkeysOutilService', () => {
 
     expect(eventEmited).toBe('S');
   });
+
+  it('F should not emit', () => {
+    let isNotCalled = true;
+
+    const service: HotkeysOutilService = new HotkeysOutilService();
+    service.hotkeysOutilEmitter.subscribe(() => { isNotCalled = false; });
+
+    const event = new KeyboardEvent('keydown', { code: 'KeyF' });
+
+    service.hotkeysOutil(event);
+
+    expect(isNotCalled).toBeTruthy();
+  });
 });

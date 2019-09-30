@@ -78,4 +78,16 @@ describe('HotkeysFichierService', () => {
     expect(eventEmited).toBe('CE');
   });
 
+  it('F should not emit', () => {
+    let isNotCalled = true;
+
+    const service: HotkeysFichierService = new HotkeysFichierService();
+    service.hotkeysFichierEmitter.subscribe(() => { isNotCalled = false; });
+
+    const event = new KeyboardEvent('keydown', { code: 'KeyF' });
+
+    service.hotkeysFichier(event);
+
+    expect(isNotCalled).toBeTruthy();
+  });
 });

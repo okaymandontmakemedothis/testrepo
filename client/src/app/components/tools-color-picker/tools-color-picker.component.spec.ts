@@ -17,7 +17,7 @@ describe('ToolsColorPickerComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [MatDialogModule],
       providers: [
-        { provide: MatDialogRef, useValue: {} },
+        { provide: MatDialogRef, useClass: class { close() { return null; } } },
         { provide: MAT_DIALOG_DATA, useValue: [] },
       ],
     })
@@ -62,8 +62,9 @@ describe('ToolsColorPickerComponent', () => {
     expect(colorPickerServiceSpy.rgb.value).toEqual({ r: 55, g: 55, b: 55 });
   });
 
-  /*it('should close dialogRef', () => {
+  it('should close dialogRef', () => {
+    const spy = spyOn(component.dialogRef, 'close');
     component.close();
-    expect(component.dialogRef.getState).toEqual(MatDialogState.CLOSED);
-  });*/
+    expect(spy).toHaveBeenCalled();
+  });
 });

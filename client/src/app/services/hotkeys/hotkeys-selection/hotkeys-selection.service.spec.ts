@@ -127,4 +127,17 @@ describe('HotkeysSelectionService', () => {
 
     expect(eventEmited).toBe('CZ');
   });
+
+  it('F should not emit', () => {
+    let isNotCalled = true;
+
+    const service: HotkeysSelectionService = new HotkeysSelectionService();
+    service.hotkeysSelectionEmitter.subscribe(() => { isNotCalled = false; });
+
+    const event = new KeyboardEvent('keydown', { code: 'KeyF' });
+
+    service.hotkeysSelection(event);
+
+    expect(isNotCalled).toBeTruthy();
+  });
 });

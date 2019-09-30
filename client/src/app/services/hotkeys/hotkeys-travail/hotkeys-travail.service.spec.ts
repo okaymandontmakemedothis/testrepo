@@ -101,4 +101,17 @@ describe('HotkeysTravailService', () => {
 
     expect(eventEmited).toBe('-');
   });
+
+  it('F should not emit', () => {
+    let isNotCalled = true;
+
+    const service: HotkeysTravailService = new HotkeysTravailService();
+    service.hotkeysTravailEmitter.subscribe(() => { isNotCalled = false; });
+
+    const event = new KeyboardEvent('keydown', { code: 'KeyF' });
+
+    service.hotkeysTravail(event);
+
+    expect(isNotCalled).toBeTruthy();
+  });
 });
