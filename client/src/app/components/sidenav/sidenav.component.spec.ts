@@ -1,29 +1,19 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonToggleChange } from '@angular/material';
+import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MaterialModules } from 'src/app/app.material-modules';
-import { DrawingService } from 'src/app/services/drawing/drawing.service';
-import { HotkeysFichierService } from 'src/app/services/hotkeys/hotkeys-fichier/hotkeys-fichier.service';
-import { HotkeysOutilService } from 'src/app/services/hotkeys/hotkeys-outil/hotkeys-outil.service';
-import { HotkeysSelectionService } from 'src/app/services/hotkeys/hotkeys-selection/hotkeys-selection.service';
-import { HotkeysTravailService } from 'src/app/services/hotkeys/hotkeys-travail/hotkeys-travail.service';
-import { OffsetManagerService } from 'src/app/services/offset-manager/offset-manager.service';
 import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
-import { TexturesService } from 'src/app/services/textures/textures.service';
-import { ToggleDrawerService } from 'src/app/services/toggle-drawer/toggle-drawer.service';
-import { ToolsColorService } from 'src/app/services/tools-color/tools-color.service';
-import { BrushToolService } from 'src/app/services/tools/brush-tool/brush-tool.service';
-import { PencilToolService } from 'src/app/services/tools/pencil-tool/pencil-tool.service';
-import { ToolRectangleService } from 'src/app/services/tools/tool-rectangle/tool-rectangle.service';
-import { ToolsApplierColorsService } from 'src/app/services/tools/tools-applier-colors/tools-applier-colors.service';
 import { ToolsService } from 'src/app/services/tools/tools.service';
-import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
 import { BrushToolParameterComponent } from 'src/app/tool-parameter/brush-tool-parameter/brush-tool-parameter.component';
 import { PencilToolParameterComponent } from 'src/app/tool-parameter/pencil-tool-parameter/pencil-tool-parameter.component';
 import { CanvasComponent } from '../canvas/canvas.component';
 import { ControlMenuComponent } from '../control-menu/control-menu.component';
 import { ParameterMenuComponent } from '../parameter-menu/parameter-menu.component';
+//import { ParameterDirective } from '../parameter-menu/parameter.directive';
 import { ToolsColorComponent } from '../tools-color/tools-color.component';
 import { WorkspaceComponent } from '../workspace/workspace.component';
 import { SidenavComponent } from './sidenav.component';
@@ -32,35 +22,27 @@ import { SidenavModule } from './sidenav.module';
 describe('SidenavComponent', () => {
   let component: SidenavComponent;
   let fixture: ComponentFixture<SidenavComponent>;
-  const toggleDrawerService: ToggleDrawerService = new ToggleDrawerService();
-  const hotkeyOutil: HotkeysOutilService = new HotkeysOutilService();
-  const hotkeya: HotkeysFichierService = new HotkeysFichierService();
-  const hotkeyb: HotkeysSelectionService = new HotkeysSelectionService();
-  const hotkeyc: HotkeysTravailService = new HotkeysTravailService();
-  const drawing: DrawingService = new DrawingService();
-  const workspaceService: WorkspaceService = new WorkspaceService();
-  const offsetManager: OffsetManagerService = new OffsetManagerService(workspaceService);
-  const colorTool: ToolsColorService = new ToolsColorService();
-  const texturesService: TexturesService = new TexturesService();
-  const pencilTool: PencilToolService = new PencilToolService(offsetManager, colorTool);
-  const brushTool: BrushToolService = new BrushToolService(texturesService, offsetManager, colorTool);
-  const colorApplicator: ToolsApplierColorsService =  new ToolsApplierColorsService(drawing, colorTool);
-  const rectangleTool: ToolRectangleService = new ToolRectangleService(drawing, offsetManager, colorTool);
-  const toolService: ToolsService = new ToolsService(drawing, pencilTool, brushTool, colorApplicator, rectangleTool);
-  const sideNavService: SidenavService = new SidenavService(toggleDrawerService, toolService, hotkeyOutil, hotkeya, hotkeyb, hotkeyc );
+  let toolServiceSpy: jasmine.SpyObj<ToolsService>;
+  let sidenavServiceSpy: jasmine.SpyObj<SidenavService>;
 
   beforeEach(async(() => {
+    const sidenavSpy = jasmine.createSpyObj('SidenavService', ['']);
+    const toolSpy = jasmine.createSpyObj('ToolsService', ['']);
+
     TestBed.configureTestingModule({
       declarations: [
         SidenavComponent, ToolsColorComponent, ParameterMenuComponent, WorkspaceComponent, CanvasComponent,
-        PencilToolParameterComponent, ControlMenuComponent, BrushToolParameterComponent ],
+        PencilToolParameterComponent, ControlMenuComponent, BrushToolParameterComponent, ],
       imports: [
         MaterialModules, FontAwesomeModule, BrowserAnimationsModule, ReactiveFormsModule, FormsModule,
         SidenavModule, ],
-      providers: [ { provide: SidenavService, useValue: sideNavService }, 
-        { provide: ToolsService, useValue: toolService}],
+      providers: [{ provide: SidenavService, useValue: sidenavSpy }, 
+        { provide: ToolsService, useValue: toolSpy}],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
       .compileComponents();
+    toolServiceSpy = TestBed.get(ToolsService);
+    sidenavServiceSpy = TestBed.get(SidenavService);
   }));
 
   beforeEach(() => {
@@ -74,45 +56,47 @@ describe('SidenavComponent', () => {
   });
 
   it('should get tool id', () => {
-    toolService.selectedToolId = 1;
+    toolServiceSpy.selectedToolId = 1;
     expect(component.currentToolId).toEqual(1);
   });
 
   it('should get tool list', () => {
-    expect(component.toolList).toEqual(sideNavService.toolList);
+    expect(component.toolList).toEqual(sidenavServiceSpy.toolList);
   });
 
   it('should get isOpen', () => {
-    toggleDrawerService.isOpened = true;
-    expect(component.isOpened).toEqual(true);
+    const spy = spyOnProperty(sidenavServiceSpy, 'isOpened').and.returnValue(true);
+    expect(component.isOpened).toEqual(spy);
   });
 
   it('should get selectedParameter', () => {
-    expect(component.selectedParameter).toEqual(sideNavService.selectedParameter);
+    expect(component.selectedParameter).toEqual(sidenavServiceSpy.selectedParameter);
   });
 
   it('should open', () => {
-    spyOn(sideNavService, 'open').and.callThrough();
+    spyOn(sidenavServiceSpy, 'open').and.callThrough();
     component.open();
-    expect(sideNavService.open).toHaveBeenCalled();
+    expect(sidenavServiceSpy.open).toHaveBeenCalled();
   });
 
   it('should close', () => {
-    spyOn(sideNavService, 'close').and.callThrough();
+    spyOn(sidenavServiceSpy, 'close').and.callThrough();
     component.close();
-    expect(sideNavService.close).toHaveBeenCalled();
+    expect(sidenavServiceSpy.close).toHaveBeenCalled();
   });
 
   it('should openControlMenu', () => {
-    spyOn(sideNavService, 'openControlMenu').and.callThrough();
+    spyOn(sidenavServiceSpy, 'openControlMenu').and.callThrough();
     component.openControlMenu();
-    expect(sideNavService.openControlMenu).toHaveBeenCalled();
+    expect(sidenavServiceSpy.openControlMenu).toHaveBeenCalled();
   });
 
-  /*it('should change the selection', () => {
-    const selectedItem: MatButtonToggleChange = new MatButtonToggleChange(MatButtonToggle, 3);
-    component.selectionChanged(selectedItem)
-    expect(sideNavService.selectionChanged(selectedItem)).toHaveBeenCalled();
-  });*/
+  it('should change the selection', () => {
+    const componentDebug = fixture.debugElement;
+    const button = componentDebug.query(By.directive(MatButtonToggleChange));
+    spyOn(component, 'selectionChanged');
+    button.triggerEventHandler('change', null);
+    expect(sidenavServiceSpy.selectionChanged).toHaveBeenCalled();
+  });
 
 });
