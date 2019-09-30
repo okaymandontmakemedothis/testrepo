@@ -11,8 +11,8 @@ describe('CanvasComponent', () => {
 
   beforeEach(async(() => {
 
-      drawingservice= new DrawingService();
-      TestBed.configureTestingModule({
+    drawingservice= new DrawingService();
+    TestBed.configureTestingModule({
 
       providers:[{provide:DrawingService,useValue:drawingservice}],
       declarations: [ CanvasComponent  ],
@@ -56,7 +56,7 @@ describe('CanvasComponent', () => {
   })
 
   it('should return drawingServicecolor value',()=>{
-
+    //service.rgbaColorString ={};
     drawingservice.color= { r: 200, g: 200, b: 200 };
     expect(component.backgroundColor).toEqual(drawingservice.rgbaColorString);
   })
@@ -70,4 +70,9 @@ describe('CanvasComponent', () => {
 
   })
 
+
+
+
+
 });
+
