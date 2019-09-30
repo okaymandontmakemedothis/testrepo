@@ -1,13 +1,23 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
+import { MAX_HUE } from 'src/app/model/hsl.model';
+import { HSL_GRADIENT_HEIGHT, HUE_WIDTH } from '../color-picker.constant';
 
+const ONE_SIXT_GRADIENT = 1 / 6;
+const GRADIENT_START = 0;
+const GRADIENT_END = 1;
+const SELECTOR_WIDTH = 3;
 @Component({
   selector: 'app-color-slider',
   templateUrl: './color-slider.component.html',
   styleUrls: ['./color-slider.component.scss'],
 })
 export class ColorSliderComponent implements AfterViewInit, OnInit {
+  /// Valeur pour l'affichage
+  readonly height = HSL_GRADIENT_HEIGHT;
+  readonly width = HUE_WIDTH;
+
   @ViewChild('canvas', { static: false })
   canvas: ElementRef<HTMLCanvasElement>;
 
@@ -22,7 +32,7 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
     this.hue = this.colorPickerService.hsl.get('h') as FormControl;
     this.hue.valueChanges.subscribe((value) => {
-      this.selectedHeight = value / 360 * this.canvas.nativeElement.height;
+      this.selectedHeight = value / MAX_HUE * this.canvas.nativeElement.height;
       this.draw();
     });
   }
@@ -41,13 +51,13 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
     const height = this.canvas.nativeElement.height;
     this.ctx.clearRect(0, 0, width, height);
     const gradient = this.ctx.createLinearGradient(0, 0, 0, height);
-    gradient.addColorStop(0, 'rgba(255, 0, 0, 1)');
-    gradient.addColorStop(0.17, 'rgba(255, 255, 0, 1)');
-    gradient.addColorStop(0.34, 'rgba(0, 255, 0, 1)');
-    gradient.addColorStop(0.51, 'rgba(0, 255, 255, 1)');
-    gradient.addColorStop(0.66, 'rgba(0, 0, 255, 1)');
-    gradient.addColorStop(0.84, 'rgba(255, 0, 255, 1)');
-    gradient.addColorStop(1, 'rgba(255, 0, 0, 1)');
+    gradient.addColorStop(GRADIENT_START, 'rgba(255, 0, 0, 1)');
+    gradient.addColorStop(ONE_SIXT_GRADIENT, 'rgba(255, 255, 0, 1)');
+    gradient.addColorStop(ONE_SIXT_GRADIENT * 2, 'rgba(0, 255, 0, 1)');
+    gradient.addColorStop(ONE_SIXT_GRADIENT * 3, 'rgba(0, 255, 255, 1)');
+    gradient.addColorStop(ONE_SIXT_GRADIENT * 4, 'rgba(0, 0, 255, 1)');
+    gradient.addColorStop(ONE_SIXT_GRADIENT * 5, 'rgba(255, 0, 255, 1)');
+    gradient.addColorStop(GRADIENT_END, 'rgba(255, 0, 0, 1)');
     this.ctx.beginPath();
     this.ctx.rect(0, 0, width, height);
     this.ctx.fillStyle = gradient;
@@ -57,14 +67,14 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
     if (this.selectedHeight) {
       this.ctx.beginPath();
       this.ctx.strokeStyle = 'white';
-      this.ctx.lineWidth = 3;
-      this.ctx.rect(0, this.selectedHeight - 3, width, 3 * 2);
+      this.ctx.lineWidth = SELECTOR_WIDTH;
+      this.ctx.rect(0, this.selectedHeight - SELECTOR_WIDTH, width, SELECTOR_WIDTH * 2);
       this.ctx.stroke();
       this.ctx.closePath();
     }
   }
 
-  getHueAtPosition(y: number): number {
+  private getHueAtPosition(y: number): number {
     if (y > this.canvas.nativeElement.height) {
       y = this.canvas.nativeElement.height;
     }
@@ -72,10 +82,10 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
       y = 0;
     }
     const heightPercentage = y / this.canvas.nativeElement.height;
-    return 360 * heightPercentage;
+    return MAX_HUE * heightPercentage;
   }
 
-  updateHue(y: number): void {
+  private updateHue(y: number): void {
     this.selectedHeight = y;
     const h = this.getHueAtPosition(y);
     this.hue.setValue(h);
@@ -94,7 +104,7 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
   }
 
   @HostListener('window:mouseup', ['$event'])
-  onMouseUp(evt: MouseEvent): void {
+  onMouseUp(event: MouseEvent): void {
     this.isMouseDown = false;
   }
 }

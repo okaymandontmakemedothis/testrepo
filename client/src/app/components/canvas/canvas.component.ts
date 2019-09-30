@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
-import { ToolsService } from 'src/app/services/tools/tools.service';
 
 @Component({
   selector: 'app-canvas',
