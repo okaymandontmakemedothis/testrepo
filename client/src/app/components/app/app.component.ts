@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { WelcomeDialogService } from 'src/app/services/welcome-dialog.service';
 import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
-import { DialogComponent } from '../welcome-dialog/dialog/dialog.component';
+import { WelcomeDialogComponent } from '../welcome-dialog/welcome-dialog/welcome-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -13,13 +13,13 @@ import { DialogComponent } from '../welcome-dialog/dialog/dialog.component';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  welcomeDialogRef: MatDialogRef<DialogComponent>;
+  welcomeDialogRef: MatDialogRef<WelcomeDialogComponent>;
   welcomeDialogSub: Subscription;
 
   constructor(public dialog: MatDialog, private welcomeService: WelcomeDialogService) { }
   // Fonction qui ouvre le mat Dialog de bienvenue
   openDialog() {
-    this.welcomeDialogRef = this.dialog.open(DialogComponent, {
+    this.welcomeDialogRef = this.dialog.open(WelcomeDialogComponent, {
       hasBackdrop: true,
       panelClass: 'filter-popup',
       autoFocus: false,

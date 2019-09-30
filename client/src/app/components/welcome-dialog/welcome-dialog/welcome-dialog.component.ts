@@ -7,20 +7,32 @@ import { WelcomeMessage } from '../../../../../../common/communication/message';
 import { IndexService } from '../../../services/index/index.service';
 import { AideDialogComponent } from '../aide-dialog/aide-dialog.component';
 
+export const DIALOG_PROPERTIES = {
+  hasBackdrop: true,
+  panelClass: 'filter-popup',
+  autoFocus: false,
+  disableClose: true,
+  maxHeight: 500,
+  maxWidth: 500,
+};
+
 @Component({
-  selector: 'app-dialog',
-  templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.scss'],
+  selector: 'app-welcome-dialog',
+  templateUrl: './welcome-dialog.component.html',
+  styleUrls: ['./welcome-dialog.component.scss'],
 })
-export class DialogComponent implements OnInit {
-  messageW = new BehaviorSubject<WelcomeMessage>({ body: '', end: '' });
+export class WelcomeDialogComponent implements OnInit {
+  welcomeMessage = new BehaviorSubject<WelcomeMessage>({ body: '', end: '' });
   form: FormGroup;
-  constructor(public dialog: MatDialog, private welcomeService: WelcomeDialogService,
-    public dialogRef: MatDialogRef<DialogComponent>, private basicService: IndexService,
+  constructor(
+    public dialog: MatDialog,
+    private welcomeService: WelcomeDialogService,
+    public dialogRef: MatDialogRef<WelcomeDialogComponent>,
+    private basicService: IndexService,
   ) {
     // recevoir text de bienvenue de index service grace a la fonction welcomeGet qui va chercher le JSON file text du cote du serveur
     this.basicService.welcomeGet()
-      .subscribe(this.messageW);
+      .subscribe(this.welcomeMessage);
   }
 
   // Fonction pour ouvrir le dialog d'aide
