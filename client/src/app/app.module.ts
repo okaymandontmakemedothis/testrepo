@@ -21,7 +21,6 @@ import { RectangleToolParameterComponent } from './components/rectangle-tool-par
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ToolsColorPickerComponent } from './components/tools-color-picker/tools-color-picker.component';
 import { ToolsColorComponent } from './components/tools-color/tools-color.component';
-import { AideDialogComponent } from './components/welcome-dialog/aide-dialog/aide-dialog.component';
 import { DialogComponent } from './components/welcome-dialog/dialog/dialog.component';
 import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.module';
 import { WorkspaceComponent } from './components/workspace/workspace.component';

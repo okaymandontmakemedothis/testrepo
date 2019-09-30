@@ -8,7 +8,6 @@ import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
 import { ToolIdConstants } from 'src/app/services/tools/toolIdConstants';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
-import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
 
 @Component({
   selector: 'app-workspace',

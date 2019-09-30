@@ -5,8 +5,15 @@ import { ParameterComponentService } from './parameter-component.service';
 describe('ParameterComponentService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
-  it('should be created', () => {
+  it('parameter-component service should be created', () => {
     const service: ParameterComponentService = TestBed.get(ParameterComponentService);
     expect(service).toBeTruthy();
+  });
+
+  it('should getComponent', () => {
+    const service: ParameterComponentService = TestBed.get(ParameterComponentService);
+    service.componentList = [];
+    spyOn(service, 'getComponent').and.callThrough();
+    expect(service.getComponent(0)).toEqual(undefined);
   });
 });
