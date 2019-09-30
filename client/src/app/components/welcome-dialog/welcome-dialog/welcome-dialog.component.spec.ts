@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import SpyObj = jasmine.SpyObj;
-import { MaterialModules } from 'src/app/app.material-modules';
+import { MaterialModules } from 'src/app/app-material.module';
 import { WelcomeDialogService } from 'src/app/services/welcome-dialog/welcome-dialog.service';
 import { IndexService } from '../../../services/index/index.service';
 import { WelcomeDialogComponent } from './welcome-dialog.component';
@@ -17,7 +17,7 @@ describe('DialogComponent', () => {
   const welcomeDialogService: WelcomeDialogService = new WelcomeDialogService();
   const mockDialogRef = { close: jasmine.createSpy('close') };
   const form: FormGroup = new FormGroup({
-    messageActivated: new FormControl(false)
+    messageActivated: new FormControl(false),
   });
 
   beforeEach(() => {

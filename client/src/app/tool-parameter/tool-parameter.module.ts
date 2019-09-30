@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialModules } from '../app.material-modules';
+import { MaterialModules } from '../app-material.module';
 import { ApplierToolParameterComponent } from './applier-tool-parameter/applier-tool-parameter.component';
 import { BrushToolParameterComponent } from './brush-tool-parameter/brush-tool-parameter.component';
 import { PencilToolParameterComponent } from './pencil-tool-parameter/pencil-tool-parameter.component';
