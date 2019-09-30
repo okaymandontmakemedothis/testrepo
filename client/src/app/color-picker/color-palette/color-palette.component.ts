@@ -32,7 +32,6 @@ export class ColorPaletteComponent implements AfterViewInit, OnInit {
   canvas: ElementRef<HTMLCanvasElement>;
 
   private ctx: CanvasRenderingContext2D;
-  private selectedPosition: Point;
   private isMouseDown = false;
 
   constructor(
@@ -47,7 +46,6 @@ export class ColorPaletteComponent implements AfterViewInit, OnInit {
 
   /// Définir la position actuel comme la position maximum
   ngAfterViewInit(): void {
-    this.selectedPosition = { x: this.canvas.nativeElement.width, y: this.canvas.nativeElement.height };
     this.draw();
   }
 
@@ -62,7 +60,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnInit {
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
     const rbg = this.colorTransformer.hue2rgb(hsl.h);
-    this.ctx.fillStyle = 'rgba(' + rbg.r + ',' + rbg.g + ',' + rbg.b + ',1)' || 'rgba(255,255,255,1)';
+    this.ctx.fillStyle = 'rgba(' + rbg.r + ',' + rbg.g + ',' + rbg.b + ',1)';
     this.ctx.fillRect(0, 0, width, height);
 
     const greyGradient = this.ctx.createLinearGradient(0, 0, width, 0);
@@ -87,21 +85,18 @@ export class ColorPaletteComponent implements AfterViewInit, OnInit {
     this.ctx.fillRect(0, 0, width, height);
 
     // Déssiner le selecteur de sl
-
-    if (this.selectedPosition) {
-      this.ctx.strokeStyle = 'white';
-      this.ctx.fillStyle = 'white';
-      this.ctx.beginPath();
-      this.ctx.arc(
-        hsl.s * this.canvas.nativeElement.width,
-        hsl.l * this.canvas.nativeElement.height,
-        SELECTION_CIRCLE_RADIUS,
-        0,
-        2 * Math.PI,
-      );
-      this.ctx.lineWidth = 3;
-      this.ctx.stroke();
-    }
+    this.ctx.strokeStyle = 'white';
+    this.ctx.fillStyle = 'white';
+    this.ctx.beginPath();
+    this.ctx.arc(
+      hsl.s * this.canvas.nativeElement.width,
+      hsl.l * this.canvas.nativeElement.height,
+      SELECTION_CIRCLE_RADIUS,
+      0,
+      2 * Math.PI,
+    );
+    this.ctx.lineWidth = 3;
+    this.ctx.stroke();
   }
 
   /// Met à jour les valeur s et l du hsl dans le form selon la position x,y dans le gradient
