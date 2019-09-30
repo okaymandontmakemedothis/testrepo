@@ -13,20 +13,20 @@ import { ToolsColorService } from '../../tools-color/tools-color.service';
   providedIn: 'root',
 })
 export class ToolRectangleService implements ITools {
-  faIcon: IconDefinition = faSquareFull;
-  toolName = 'Rectangle Tool';
+  readonly faIcon: IconDefinition = faSquareFull;
+  readonly toolName = 'Rectangle Tool';
 
   readonly id = 3;
 
-  object: RectangleObject | null;
+  private object: RectangleObject | null;
 
   parameters: FormGroup;
-  strokeWidth: FormControl;
-  rectStyle: FormControl;
+  private strokeWidth: FormControl;
+  private rectStyle: FormControl;
 
   private isSquare = false;
-  oldX = 0;
-  oldY = 0;
+  private oldX = 0;
+  private oldY = 0;
 
   constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService, private colorTool: ToolsColorService) {
     this.strokeWidth = new FormControl(1, Validators.min(1));
@@ -42,7 +42,7 @@ export class ToolRectangleService implements ITools {
 
 
   /// Quand le bouton shift et peser, le rectangle se transforme en carree et quand on lache le bouton, il redevient rectangle.
-  onShift() {
+  private onShift() {
     window.addEventListener('keydown', (event) => {
       if (event.shiftKey && this.object) {
         this.setSquare();
@@ -63,8 +63,13 @@ export class ToolRectangleService implements ITools {
   onPressed(event: MouseEvent): IObjects {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     this.object = new RectangleObject(offset.x, offset.y, this.strokeWidth.value, this.rectStyle.value);
-    this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
-    this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
+    if (event.button === 0) {
+      this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+      this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
+    } else {
+      this.object.primaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
+      this.object.secondaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+    }
     return this.object;
   }
 
@@ -75,26 +80,24 @@ export class ToolRectangleService implements ITools {
 
   /// Quand le bouton de la sourie est apuyé et on bouge celle-ci, l'objet courrant subit des modifications.
   onMove(event: MouseEvent): void {
-    if (this.object) {
-      const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
-      this.setSize(offset.x, offset.y);
-    }
+    const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+    this.setSize(offset.x, offset.y);
   }
 
   /// Active le mode carré et assigne le size.
-  setSquare() {
+  private setSquare() {
     this.isSquare = true;
     this.setSize(this.oldX, this.oldY);
   }
 
   /// Désactive le mode carré et assigne le size.
-  unsetSquare() {
+  private unsetSquare() {
     this.isSquare = false;
     this.setSize(this.oldX, this.oldY);
   }
 
   /// Transforme le size de l'objet courrant avec un x et un y en entrée
-  setSize(x: number, y: number): void {
+  private setSize(x: number, y: number): void {
     if (this.object) {
       this.oldX = x;
       this.oldY = y;

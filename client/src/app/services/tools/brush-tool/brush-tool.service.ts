@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faPaintBrush, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { Point } from 'src/app/model/point.model';
 import { IObjects } from 'src/app/objects/IObjects';
 import { Polyline } from 'src/app/objects/object-polyline/polyline';
-import { ITools } from '../ITools';
-import { Point } from 'src/app/model/point.model';
-import { ITexture } from 'src/app/textures/ITexture';
 import { TexturesService } from 'src/app/services/textures/textures.service';
+import { ITexture } from 'src/app/textures/ITexture';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
+import { ITools } from '../ITools';
 
 @Injectable({
   providedIn: 'root',
@@ -62,8 +62,6 @@ export class BrushToolService implements ITools {
   }
 
   onMove(event: MouseEvent): void {
-    if (this.object) {
-      this.addPoint({ x: event.movementX, y: event.movementY });
-    }
+    this.addPoint({ x: event.movementX, y: event.movementY });
   }
 }
