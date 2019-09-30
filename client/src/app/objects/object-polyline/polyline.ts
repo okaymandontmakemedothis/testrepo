@@ -1,7 +1,7 @@
-import { RGBA } from '../../model/rgba.model';
-import { IObjects } from '../IObjects';
 import { Point } from '../../model/point.model';
+import { RGBA } from '../../model/rgba.model';
 import { ITexture } from '../../textures/ITexture';
+import { IObjects } from '../IObjects';
 
 export class Polyline implements IObjects {
     id: number;
