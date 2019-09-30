@@ -5,9 +5,6 @@ export class RectangleObject implements IObjects {
   primaryColor: RGBA;
   secondaryColor: RGBA;
   id = 1;
-
-  firstX = 0;
-  firstY = 0;
   x = 0;
   y = 0;
 
@@ -18,9 +15,8 @@ export class RectangleObject implements IObjects {
   style = '';
 
   constructor(x: number, y: number, strokeWidth: number, style: string) {
-    this.firstX = x; this.x = x;
-    this.firstY = y; this.y = y;
-
+    this.x = x;
+    this.y = y;
     this.strokeWidth = strokeWidth;
     this.style = style;
   }

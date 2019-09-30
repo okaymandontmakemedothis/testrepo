@@ -8,6 +8,7 @@ import { TextureThree } from '../../textures/texture3';
 import { TextureFour } from '../../textures/texture4';
 import { TextureFive } from '../../textures/texture5';
 
+/// Classe service qui permet de retourner une texture selon un indexe
 @Injectable({
   providedIn: 'root',
 })
@@ -25,6 +26,7 @@ export class TexturesService {
     this.initTexureMap();
   }
 
+  /// Initialise la liste de tous les textures par défault
   private initTexureMap(): void {
     let texture: ITexture;
     texture = new TextureOne();
@@ -39,10 +41,12 @@ export class TexturesService {
     this.textureList.set(texture.id, texture);
   }
 
+  /// Retourne la première texture
   get firstTexture(): TextureOptions {
     return this.textureOptionList[0];
   }
 
+  /// Retourne la texture de l'index voulue
   returnTexture(textureNumber: number): ITexture {
     const texture: ITexture | undefined = this.textureList.get(textureNumber);
     if (texture) {

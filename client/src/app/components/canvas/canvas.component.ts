@@ -10,34 +10,33 @@ export class CanvasComponent implements AfterViewInit {
   @ViewChild('svg', { static: false })
   svg: ElementRef;
 
-  constructor(private drawing: DrawingService) { }
+  constructor(private drawingService: DrawingService) { }
+
+  ngAfterViewInit() {
+    this.drawingService.svgString.subscribe((svgString: string) => {
+      this.svg.nativeElement.innerHTML = svgString;
+    });
+  }
 
   get height(): number {
-    if (this.drawing.created) {
-      return this.drawing.height;
+    if (this.drawingService.isCreated) {
+      return this.drawingService.height;
     } else {
       return 0;
     }
   }
   get width(): number {
-    if (this.drawing.created) {
-      return this.drawing.width;
+    if (this.drawingService.isCreated) {
+      return this.drawingService.width;
     } else {
       return 0;
     }
   }
-  get backgroundColor(): string { return this.drawing.rgbaColorString; }
-  get backgroundAlpha(): number { return this.drawing.alpha; }
-
+  get backgroundColor(): string { return this.drawingService.rgbaColorString; }
+  get backgroundAlpha(): number { return this.drawingService.alpha; }
 
   get isDrawingCreated(): boolean {
-    return this.drawing.created;
-  }
-
-  ngAfterViewInit() {
-    this.drawing.svgString.subscribe((svgString: string) => {
-      this.svg.nativeElement.innerHTML = svgString;
-    });
+    return this.drawingService.isCreated;
   }
 
 }

@@ -50,18 +50,17 @@ export class Polyline implements IObjects {
         let polyline = ''; let stroke: string; let fill: string; let filter: string | null = null;
         if (this.texture) {
             polyline = this.texture.getPattern(this.primaryColor, this.secondaryColor, this.id, this.pointsList[0].x, this.pointsList[0].y);
-            stroke = `stroke="url(#${this.texture.getName(this.id)})"`;
-            fill = `fill="url(#${this.texture.getName(this.id)})"`;
+            stroke = `stroke="url(#${this.texture.getTextureIDName(this.id)})"`;
+            fill = `fill="url(#${this.texture.getTextureIDName(this.id)})"`;
             filter = this.texture.getFilter(this.id);
             if (filter) {
                 polyline += filter;
-                filter = `filter="url(#${this.texture.getName(this.id)}-filter)"`;
+                filter = `filter="url(#${this.texture.getTextureIDName(this.id)}-filter)"`;
             }
         } else {
             stroke = `stroke="rgb(${this.primaryColor.rgb.r},${this.primaryColor.rgb.g},${this.primaryColor.rgb.b})"`;
             fill = `fill="rgb(${this.primaryColor.rgb.r},${this.primaryColor.rgb.g},${this.primaryColor.rgb.b})"`;
         }
-
         if (!filter) {
             filter = '';
         }
