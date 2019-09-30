@@ -55,7 +55,7 @@ describe('ColorOpacityComponent', () => {
     const x = 60;
     const pourc = component.getOpacityAtPosition(x);
 
-    expect(pourc).toEqual(Math.round(50 / 50 * 100) / 100);
+    expect(pourc).toEqual(1);
   });
 
   it('should draw', () => {
