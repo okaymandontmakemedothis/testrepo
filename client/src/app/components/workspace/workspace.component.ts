@@ -5,7 +5,7 @@ import { HotkeysOutilService } from 'src/app/services/hotkeys/hotkeys-outil/hotk
 import { HotkeysSelectionService } from 'src/app/services/hotkeys/hotkeys-selection/hotkeys-selection.service';
 import { HotkeysTravailService } from 'src/app/services/hotkeys/hotkeys-travail/hotkeys-travail.service';
 import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
-import { ToolIdConstants } from 'src/app/services/tools/toolIdConstants';
+import { ToolIdConstants } from 'src/app/services/tools/tool-id-constants';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
 import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
@@ -59,7 +59,7 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     this.hotkeysOutilService.hotkeysOutilEmitter.subscribe((value: string) => {
       if (value === 'crayon') {
         this.sideNavService.open();
-        this.toolsService.selectTool(ToolIdConstants.CRAYON_ID);
+        this.toolsService.selectTool(ToolIdConstants.PENCIL_ID);
       }
       if (value === 'brush') {
         this.sideNavService.open();
@@ -67,7 +67,7 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
       }
       if (value === 'applicateur') {
         this.sideNavService.open();
-        this.toolsService.selectTool(ToolIdConstants.APPLICATEUR_ID);
+        this.toolsService.selectTool(ToolIdConstants.APPLIER_ID);
       }
       if (value === 'rectangle') {
         this.sideNavService.open();

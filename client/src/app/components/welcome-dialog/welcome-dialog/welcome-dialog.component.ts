@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { WelcomeDialogService } from 'src/app/services/welcome-dialog.service';
+import { WelcomeDialogService } from 'src/app/services/welcome-dialog/welcome-dialog.service';
 import { WelcomeMessage } from '../../../../../../common/communication/message';
 import { IndexService } from '../../../services/index/index.service';
 import { AideDialogComponent } from '../aide-dialog/aide-dialog.component';

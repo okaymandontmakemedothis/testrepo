@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import SpyObj = jasmine.SpyObj;
 import { MaterialModules } from 'src/app/app.material-modules';
-import { WelcomeDialogService } from 'src/app/services/welcome-dialog.service';
+import { WelcomeDialogService } from 'src/app/services/welcome-dialog/welcome-dialog.service';
 import { IndexService } from '../../../services/index/index.service';
 import { WelcomeDialogComponent } from './welcome-dialog.component';
 

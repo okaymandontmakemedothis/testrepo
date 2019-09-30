@@ -5,23 +5,26 @@ import { BrushToolParameterComponent } from 'src/app/tool-parameter/brush-tool-p
 import { PencilToolParameterComponent } from 'src/app/tool-parameter/pencil-tool-parameter/pencil-tool-parameter.component';
 import { RectangleToolParameterComponent } from 'src/app/tool-parameter/rectangle-tool-parameter/rectangle-tool-parameter.component';
 
+/// Classe permettant d'offrir dyamiquement des component selon un index
 @Injectable({
   providedIn: 'root',
 })
 export class ParameterComponentService {
 
-  componentList: Type<any>[] = [];
+  private parameterComponentList: Type<any>[] = [];
   constructor() {
-    this.componentList.push(
+    this.parameterComponentList.push(
       PencilToolParameterComponent,
       BrushToolParameterComponent,
       ApplierToolParameterComponent,
       RectangleToolParameterComponent,
-      ControlMenuComponent,
     );
+    // Le push ce fait par la suite pour s'assurer qu'il s'agit de la derniere classe
+    this.parameterComponentList.push(ControlMenuComponent);
   }
 
+  /// Retourne le parameterComponent de l'index donner
   getComponent(index: number): Type<any> {
-    return this.componentList[index];
+    return this.parameterComponentList[index];
   }
 }

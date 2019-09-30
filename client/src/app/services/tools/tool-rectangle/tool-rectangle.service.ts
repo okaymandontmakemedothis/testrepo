@@ -8,7 +8,7 @@ import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
-import { ToolIdConstants } from '../toolIdConstants';
+import { ToolIdConstants } from '../tool-id-constants';
 
 @Injectable({
   providedIn: 'root',

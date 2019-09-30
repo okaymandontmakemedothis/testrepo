@@ -6,14 +6,15 @@ import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../../drawing/drawing.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
+import { ToolIdConstants } from '../tool-id-constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToolsApplierColorsService implements ITools {
-  readonly id = 2;
-  faIcon: IconDefinition = faTint;
-  toolName = 'Applicateur de couleur';
+  readonly id = ToolIdConstants.APPLIER_ID;
+  readonly faIcon: IconDefinition = faTint;
+  readonly toolName = 'Applicateur de couleur';
   parameters: FormGroup;
   object: IObjects | undefined;
 
@@ -31,8 +32,12 @@ export class ToolsApplierColorsService implements ITools {
       return null;
     }
   }
-  onRelease(event: MouseEvent) { }
-  onMove(event: MouseEvent) { }
+  onRelease(event: MouseEvent) {
+    return null;
+  }
+  onMove(event: MouseEvent) {
+    return null;
+  }
 
   constructor(private drawing: DrawingService, private color: ToolsColorService) { }
 }

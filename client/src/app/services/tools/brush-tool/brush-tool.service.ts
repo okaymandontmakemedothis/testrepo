@@ -9,24 +9,28 @@ import { ITexture } from 'src/app/textures/ITexture';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
+import { ToolIdConstants } from '../tool-id-constants';
+import { INITIAL_WIDTH } from '../tools-constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BrushToolService implements ITools {
-  readonly id = 1;
-  faIcon: IconDefinition = faPaintBrush;
-  toolName = 'Brush Tool';
+  readonly id = ToolIdConstants.BRUSH_ID;
+  readonly faIcon: IconDefinition = faPaintBrush;
+  readonly toolName = 'Brush Tool';
   parameters: FormGroup;
   private object: Polyline | null;
   strokeWidth: FormControl;
   texture: FormControl;
   lastPoint: Point = { x: 0, y: 0 };
 
-  constructor(private texturesService: TexturesService,
-              private offsetManager: OffsetManagerService,
-              private colorTool: ToolsColorService) {
-    this.strokeWidth = new FormControl(20);
+  constructor(
+    private texturesService: TexturesService,
+    private offsetManager: OffsetManagerService,
+    private colorTool: ToolsColorService,
+  ) {
+    this.strokeWidth = new FormControl(INITIAL_WIDTH);
     this.texture = new FormControl(this.texturesService.firstTexture.value);
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,
