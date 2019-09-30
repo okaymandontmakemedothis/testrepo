@@ -7,14 +7,17 @@ import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
 
+/// Service permettant de gérer l'outil présent selon son ID
+/// Appelle les bonnes fonctions d'évenement souris selon l'outil selectionner
+
 @Injectable({
   providedIn: 'root',
 })
 export class ToolsService {
 
+  private isPressed = false;
   selectedToolId = 0;
   currentObject: null | IObjects;
-  private isPressed = false;
   tools: ITools[] = [];
 
   constructor(
@@ -27,6 +30,7 @@ export class ToolsService {
     this.initTools();
   }
 
+  /// Initialiser la liste d'outil
   private initTools(): void {
     this.tools.push(this.pencilTool);
     this.tools.push(this.brushTool);
@@ -34,15 +38,18 @@ export class ToolsService {
     this.tools.push(this.rectangleTool);
   }
 
+  /// Selectionner un outil avec son id
   selectTool(id: number): void {
     this.currentObject = null;
     this.selectedToolId = id;
   }
 
+  /// Retourner l'outil presentement selectionné
   get selectedTool(): ITools {
     return this.tools[this.selectedToolId];
   }
 
+  /// Appeller la fonction onPressed du bon outil et ajoute un objet au dessin si nécéssaire
   onPressed(event: MouseEvent): void {
     this.currentObject = this.selectedTool.onPressed(event);
     this.isPressed = true;
@@ -51,6 +58,7 @@ export class ToolsService {
     }
   }
 
+  /// Appelle la fonction onRelease du bon outil et annule les entrée d'évenement souris
   onRelease(event: MouseEvent): void {
     if (this.isPressed) {
       this.selectedTool.onRelease(event);
@@ -60,6 +68,7 @@ export class ToolsService {
     this.isPressed = false;
   }
 
+  /// Appelle la fonction onMove du bon outil si les entrée d'évenement souris son activé
   onMove(event: MouseEvent): void {
     if (this.isPressed) {
       this.selectedTool.onMove(event);

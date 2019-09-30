@@ -11,7 +11,7 @@ import { IndexService } from '../../../services/index/index.service';
 })
 export class AideDialogComponent {
 
-  messageA = new BehaviorSubject<ShortcutClavier>({
+  messageShortcut = new BehaviorSubject<ShortcutClavier>({
     O: '', S: '', G: '', E: '', X: '', C: '', V: '', D: '',
     Sup: '', A: '', Z: '', ShiftZ: '', Cray: '', W: '', P: '', Y: '', Aer: '', Rec: '', Ell: '', Poly: '',
     L: '', T: '', R: '', B: '', Eff: '', I: '', Sel: '', Gri: '', M: '', Aug: '', Dim: ''
@@ -21,7 +21,7 @@ export class AideDialogComponent {
     public dialogRef: MatDialogRef<AideDialogComponent>, private basicService: IndexService, ) {
     // recevoir text de shortcut de index service grace a la fonction aideGet qui va chercher le JSON file text du cote du serveur
     this.basicService.aideGet()
-      .subscribe(this.messageA);
+      .subscribe(this.messageShortcut);
   }
   // fonction close qui permet de fermer le mat dialog d'aide
   close(): void {

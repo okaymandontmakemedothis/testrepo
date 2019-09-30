@@ -13,8 +13,6 @@ export class HotkeysOutilService {
   canExecute = true;
   @Output() hotkeysOutilEmitter = new EventEmitter();
 
-  constructor() { }
-
   hotkeysOutil(event: KeyboardEvent): string | void {
     if (this.canExecute) {
       if (event.code === keyCodes.c) {

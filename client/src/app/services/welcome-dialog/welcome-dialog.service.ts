@@ -9,17 +9,17 @@ export class WelcomeDialogService {
   messageActivated: FormControl;
   form: FormGroup;
   constructor() {
-    this.messageActivated = new FormControl(!this.isMessageNeedsToBeShowed);
+    this.messageActivated = new FormControl(!this.shouldWelcomeMessageBeShown);
     this.form = new FormGroup({
       messageActivated: this.messageActivated,
     });
-
     this.form.valueChanges.subscribe(() => {
       sessionStorage.setItem('showWelcomeMessage', String(!this.messageActivated.value));
     });
   }
 
-  get isMessageNeedsToBeShowed(): boolean {
+  /// Retourne si le message devrait etre montrer automatiquement
+  get shouldWelcomeMessageBeShown(): boolean {
     const showMessage: string | null = sessionStorage.getItem('showWelcomeMessage');
     if (showMessage) {
       return showMessage === 'true';
