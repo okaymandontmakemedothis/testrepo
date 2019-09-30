@@ -1,11 +1,10 @@
 <div class="row">
     <svg [attr.width]="width" [attr.height]="height">
         <rect [attr.width]="secondarySize.width" [attr.height]="secondarySize.height" [attr.fill]="secondaryColor"
-            [attr.fill-opacity]="secondaryAlpha" style="stroke-width:1;stroke:rgb(0,0,0)"
-            (click)="onMouseClickSecondary($event)" />
+            [attr.fill-opacity]="secondaryAlpha" class="color-selector" (click)="clickSecondary($event)" />
         <rect [attr.x]="primarySize.x" [attr.y]="primarySize.y" [attr.width]="primarySize.width"
             [attr.height]="primarySize.height" [attr.fill]="primaryColor" [attr.fill-opacity]="primaryAlpha"
-            style="stroke-width:1;stroke:rgb(0,0,0)" (click)="onMouseClickPrimary($event)" />
+            class="color-selector" (click)="clickPrimary($event)" />
     </svg>
 </div>
 <div class="row">
@@ -15,8 +14,9 @@
 </div>
 <div class="row">
     <h4>BG:</h4>
-    <svg [attr.width]="30" [attr.height]="30">
-        <rect [attr.width]="30" [attr.height]="30" [attr.fill]="backgroundColor" [attr.fill-opacity]="backgroundAlpha"
-            style="stroke-width:1;stroke:rgb(0,0,0)" (click)="onMouseClickBackground($event)" />
+    <svg [attr.width]="backgroundSize.width" [attr.height]="backgroundSize.height">
+        <rect [attr.x]="1" [attr.y]="1" [attr.width]="backgroundSize.width-2" [attr.height]="backgroundSize.height-2"
+            [attr.fill]="backgroundColor" [attr.fill-opacity]="backgroundAlpha" class="color-selector"
+            (click)="clickBackground($event)" />
     </svg>
 </div>

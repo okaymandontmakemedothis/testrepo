@@ -5,7 +5,7 @@ import { HotkeysOutilService } from 'src/app/services/hotkeys/hotkeys-outil/hotk
 import { HotkeysSelectionService } from 'src/app/services/hotkeys/hotkeys-selection/hotkeys-selection.service';
 import { HotkeysTravailService } from 'src/app/services/hotkeys/hotkeys-travail/hotkeys-travail.service';
 import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
-import { ToolIdConstants } from 'src/app/services/tools/toolIdConstants';
+import { ToolIdConstants } from 'src/app/services/tools/tool-id-constants';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
 import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
@@ -20,29 +20,46 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
   @ViewChild('workspaceEnv', { read: ElementRef, static: false })
   workspaceEnv: ElementRef;
 
-  constructor(private el: ElementRef, private workspaceService: WorkspaceService, private sideNavService: SidenavService,
-    private toolsService: ToolsService, private dialog: MatDialog, private hotkeysFichierService: HotkeysFichierService, private hotkeysSelectionService: HotkeysSelectionService,
-    private hotkeysOutilService: HotkeysOutilService, private hotkeysTravailService: HotkeysTravailService) {
-
+  constructor(
+    private el: ElementRef,
+    private workspaceService: WorkspaceService,
+    private sideNavService: SidenavService,
+    private toolsService: ToolsService,
+    private dialog: MatDialog,
+    private hotkeysFichierService: HotkeysFichierService,
+    private hotkeysSelectionService: HotkeysSelectionService,
+    private hotkeysOutilService: HotkeysOutilService,
+    private hotkeysTravailService: HotkeysTravailService,
+  ) {
     this.dialog.afterAllClosed.subscribe(() => {
       this.hotkeysFichierService.canExecute = true;
       this.hotkeysSelectionService.canExecute = true;
       this.hotkeysOutilService.canExecute = true;
       this.hotkeysTravailService.canExecute = true;
-
       this.sideNavService.canClick = true;
     });
+    this.subscribeToHotkeys();
+  }
 
+  ngOnInit() {
+    this.workspaceService.el = this.el;
+  }
+
+  ngAfterViewInit(): void {
+    this.workspaceService.scrolledElement = this.workspaceEnv;
+  }
+
+  private subscribeToHotkeys(): void {
     this.hotkeysFichierService.hotkeysFichierEmitter.subscribe((value: string) => {
       if (value === 'newDrawing') {
-        this.openDialog();
+        this.disableHotkeys();
+        this.dialog.open(NewDrawingComponent);
       }
     });
-
     this.hotkeysOutilService.hotkeysOutilEmitter.subscribe((value: string) => {
       if (value === 'crayon') {
         this.sideNavService.open();
-        this.toolsService.selectTool(ToolIdConstants.CRAYON_ID);
+        this.toolsService.selectTool(ToolIdConstants.PENCIL_ID);
       }
       if (value === 'brush') {
         this.sideNavService.open();
@@ -50,32 +67,20 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
       }
       if (value === 'applicateur') {
         this.sideNavService.open();
-        this.toolsService.selectTool(ToolIdConstants.APPLICATEUR_ID);
+        this.toolsService.selectTool(ToolIdConstants.APPLIER_ID);
       }
       if (value === 'rectangle') {
         this.sideNavService.open();
         this.toolsService.selectTool(ToolIdConstants.RECTANGLE_ID);
       }
     });
-
   }
 
-  ngOnInit() {
-    this.workspaceService.el = this.el;
-
-  }
-
-  ngAfterViewInit(): void {
-    this.openDialog();
-    this.workspaceService.scrolledElement = this.workspaceEnv;
-  }
-
-  openDialog() {
+  private disableHotkeys() {
     this.hotkeysFichierService.canExecute = false;
     this.hotkeysSelectionService.canExecute = false;
     this.hotkeysOutilService.canExecute = false;
     this.hotkeysTravailService.canExecute = false;
-
     this.sideNavService.canClick = false;
   }
 
