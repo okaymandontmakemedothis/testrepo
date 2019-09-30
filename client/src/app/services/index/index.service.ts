@@ -15,26 +15,24 @@ export class IndexService {
   }
 
   basicGet(): Observable<Message> {
-
     return this.http.get<Message>(this.BASE_URL).pipe(
       catchError(this.handleError<Message>('basicGet')),
     );
   }
-  welcomeGet(): Observable<WelcomeMessage> {
 
+  welcomeGet(): Observable<WelcomeMessage> {
     return this.http.get<WelcomeMessage>('http://localhost:3000/api/index/text').pipe(
       catchError(this.handleError<WelcomeMessage>('welcomeGet')),
     );
   }
-  aideGet(): Observable<ShortcutClavier> {
 
+  aideGet(): Observable<ShortcutClavier> {
     return this.http.get<ShortcutClavier>('http://localhost:3000/api/index/text').pipe(
       catchError(this.handleError<ShortcutClavier>('aideGet')),
     );
   }
 
   private handleError<T>(request: string, result?: T): (error: Error) => Observable<T> {
-
     return (error: Error): Observable<T> => {
       return of(result as T);
     };

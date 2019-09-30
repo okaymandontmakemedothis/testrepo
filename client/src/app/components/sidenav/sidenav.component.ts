@@ -11,9 +11,6 @@ import { ToolsService } from 'src/app/services/tools/tools.service';
 })
 
 export class SidenavComponent {
-
-  isControlMenu = false;
-
   constructor(private sideNavService: SidenavService, private toolService: ToolsService) { }
 
   get currentToolId(): number {

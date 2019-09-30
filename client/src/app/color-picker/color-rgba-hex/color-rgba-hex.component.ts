@@ -10,18 +10,12 @@ import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 export class ColorRgbaHexComponent implements OnInit {
 
   colorForm: FormGroup;
+  rgb: FormGroup;
 
   constructor(private colorPickerService: ColorPickerService) { }
 
   ngOnInit(): void {
     this.colorForm = this.colorPickerService.colorForm;
-  }
-
-  get rgb(): FormGroup {
-    return this.colorPickerService.rgb;
-  }
-
-  get hsl(): FormGroup {
-    return this.colorPickerService.hsl;
+    this.rgb = this.colorPickerService.rgb;
   }
 }

@@ -1,19 +1,8 @@
-
-
-// div{ // c<est le workspace ou on definit la taille de la zone des conteneurs de dessin et du workspace
-//   display: flex;
-//   justify-content:flex-start;
-//   height:100%;
-//   width:100%;
-// }
-
-
-.workspace { //c'est le conteneur du worspace
+.workspace {
   height: 100%;
-  width:100%;
+  width: 100%;
   background-color: light-grey;
-  //border:2px solid blue;
-  box-sizing:border-box;
-  overflow-x:auto;
-  overflow-y:auto;
+  box-sizing: border-box;
+  overflow-x: auto;
+  overflow-y: auto;
 }
