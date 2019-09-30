@@ -2,10 +2,14 @@ import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ColorSquareComponent } from './color-square.component';
+import { ColorPickerService } from '../color-picker.service';
+import { RGB } from 'src/app/model/rgb.model';
 
 describe('ColorSquareComponent', () => {
   let component: ColorSquareComponent;
   let fixture: ComponentFixture<ColorSquareComponent>;
+  const a = 0.7;
+  const rgb: RGB = { r: 20, g: 255, b: 160 };
 
   const formBuilder: FormBuilder = new FormBuilder();
 
@@ -18,6 +22,12 @@ describe('ColorSquareComponent', () => {
       ],
       providers: [
         { provide: FormBuilder, useValue: formBuilder },
+        {
+          provide: ColorPickerService, useClass: class {
+            a = { value: a };
+            rgb = { value: rgb };
+          },
+        },
       ],
     })
       .compileComponents();
@@ -33,12 +43,11 @@ describe('ColorSquareComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('rgbString with default value', () => {
-    expect(component.rgbString).toBe('rgb(0,0,0)');
+  it('rgbString should come from service', () => {
+    expect(component.rgbString).toBe('rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')');
   });
 
-  it('rgbString after a value update', () => {
-    // component.rgb.setValue({ r: 120, g: 40, b: 180 });
-    expect(component.rgbString).toBe('rgb(120,40,180)');
+  it('a should come from service', () => {
+    expect(component.a).toBe(a);
   });
 });
