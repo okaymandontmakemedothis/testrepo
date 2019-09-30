@@ -18,11 +18,11 @@ export class ToolRectangleService implements ITools {
   readonly toolName = 'Rectangle Tool';
   readonly id = ToolIdConstants.RECTANGLE_ID;
 
-  object: RectangleObject | null;
+  private object: RectangleObject | null;
 
   parameters: FormGroup;
-  strokeWidth: FormControl;
-  rectStyle: FormControl;
+  private strokeWidth: FormControl;
+  private rectStyle: FormControl;
 
   private isSquare = false;
   oldX = 0;
@@ -50,11 +50,9 @@ export class ToolRectangleService implements ITools {
     });
 
     window.addEventListener('keyup', (event) => {
-      if (event.shiftKey && this.object) {
-        if (this.object) {
-          this.unsetSquare();
-          this.drawingService.draw();
-        }
+      if (!event.shiftKey && this.object) {
+        this.unsetSquare();
+        this.drawingService.draw();
       }
     });
   }
@@ -66,8 +64,13 @@ export class ToolRectangleService implements ITools {
     this.firstX = offset.x;
     this.firstY = offset.y;
     this.object = new RectangleObject(offset.x, offset.y, this.strokeWidth.value, this.rectStyle.value);
-    this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
-    this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
+    if (event.button === 0) {
+      this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+      this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
+    } else {
+      this.object.primaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
+      this.object.secondaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+    }
     return this.object;
   }
 
@@ -78,26 +81,24 @@ export class ToolRectangleService implements ITools {
 
   /// Quand le bouton de la sourie est apuyé et on bouge celle-ci, l'objet courrant subit des modifications.
   onMove(event: MouseEvent): void {
-    if (this.object) {
-      const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
-      this.setSize(offset.x, offset.y);
-    }
+    const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+    this.setSize(offset.x, offset.y);
   }
 
   /// Active le mode carré et assigne le size.
-  setSquare() {
+  private setSquare() {
     this.isSquare = true;
     this.setSize(this.oldX, this.oldY);
   }
 
   /// Désactive le mode carré et assigne le size.
-  unsetSquare() {
+  private unsetSquare() {
     this.isSquare = false;
     this.setSize(this.oldX, this.oldY);
   }
 
   /// Transforme le size de l'objet courrant avec un x et un y en entrée
-  setSize(x: number, y: number): void {
+  private setSize(x: number, y: number): void {
     if (this.object) {
       this.oldX = x;
       this.oldY = y;

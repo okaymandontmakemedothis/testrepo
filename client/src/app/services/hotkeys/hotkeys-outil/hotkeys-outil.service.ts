@@ -13,81 +13,81 @@ export class HotkeysOutilService {
   canExecute = true;
   @Output() hotkeysOutilEmitter = new EventEmitter();
 
-  hotkeysOutil(event: KeyboardEvent): string | void {
+  hotkeysOutil(event: KeyboardEvent): void {
     if (this.canExecute) {
       if (event.code === keyCodes.c) {
         event.preventDefault();
-        this.hotkeysOutilEmitter.emit('crayon');
+        this.hotkeysOutilEmitter.emit(emitReturn.PENCIL);
       }
 
       if (event.code === keyCodes.w) {
         event.preventDefault();
-        this.hotkeysOutilEmitter.emit('brush');
+        this.hotkeysOutilEmitter.emit(emitReturn.BRUSH);
       }
 
       if (event.code === keyCodes.p) {
         event.preventDefault();
-        return 'p';
+        this.hotkeysOutilEmitter.emit('P');
       }
 
       if (event.code === keyCodes.y) {
         event.preventDefault();
-        return 'y';
+        this.hotkeysOutilEmitter.emit('Y');
       }
 
       if (event.code === keyCodes.a) {
         event.preventDefault();
-        return 'a';
+        this.hotkeysOutilEmitter.emit('A');
       }
 
       if (event.code === keyCodes.b1 || event.code === keyCodes.np1) {
         event.preventDefault();
-        this.hotkeysOutilEmitter.emit('rectangle');
+        this.hotkeysOutilEmitter.emit(emitReturn.RECTANGLE);
       }
 
       if (event.code === keyCodes.b2 || event.code === keyCodes.np2) {
         event.preventDefault();
-        return '2';
+        this.hotkeysOutilEmitter.emit('2');
       }
 
       if (event.code === keyCodes.b3 || event.code === keyCodes.np3) {
         event.preventDefault();
-        return '3';
+        this.hotkeysOutilEmitter.emit('3');
       }
 
       if (event.code === keyCodes.l) {
         event.preventDefault();
-        return 'l';
+        this.hotkeysOutilEmitter.emit('L');
       }
 
       if (event.code === keyCodes.t) {
         event.preventDefault();
-        return 't';
+        this.hotkeysOutilEmitter.emit('T');
       }
 
       if (event.code === keyCodes.r) {
         event.preventDefault();
-        this.hotkeysOutilEmitter.emit('applicateur');
+        this.hotkeysOutilEmitter.emit(emitReturn.APPLICATEUR);
       }
 
       if (event.code === keyCodes.b) {
         event.preventDefault();
-        return 'b';
+        this.hotkeysOutilEmitter.emit('B');
       }
 
       if (event.code === keyCodes.e) {
         event.preventDefault();
-        return 'e';
+        this.hotkeysOutilEmitter.emit('E');
       }
 
       if (event.code === keyCodes.i) {
         event.preventDefault();
-        return 'i';
+        this.hotkeysOutilEmitter.emit('I');
       }
 
       if (event.code === keyCodes.s) {
         event.preventDefault();
-        return 's';
+        this.hotkeysOutilEmitter.emit('S');
       }
     }
   }

@@ -1,7 +1,7 @@
-import { Point } from '../model/point.model';
-import { RGBA } from '../model/rgba.model';
-import { ITexture } from '../textures/ITexture';
-import { IObjects } from './IObjects';
+import { Point } from '../../model/point.model';
+import { RGBA } from '../../model/rgba.model';
+import { ITexture } from '../../textures/ITexture';
+import { IObjects } from '../IObjects';
 
 export class Polyline implements IObjects {
     id: number;
@@ -68,7 +68,7 @@ export class Polyline implements IObjects {
             polyline += `<circle id="${this.id}" cx="${this.x}" cy="${this.y}" r="${this.strokeWidth / 2}" ${fill} ${filter}/>\n`;
         } else {
             polyline += `<polyline id="${this.id}" fill="none" stroke-width="${this.strokeWidth}"
-         ${stroke} ${filter} stroke-linecap="round" stroke-linejoin="round" points="`;
+ ${stroke} ${filter} stroke-linecap="round" stroke-linejoin="round" points="`;
             for (const point of this.pointsList) {
                 polyline += `${point.x} ${point.y},`;
             }
