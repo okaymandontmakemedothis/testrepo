@@ -28,7 +28,7 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
   private selectedHeight = 0;
 
   constructor(private colorPickerService: ColorPickerService) { }
-
+/// Defini le hue puis subscribe lorsque ça valeur change
   ngOnInit(): void {
     this.hue = this.colorPickerService.hsl.get('h') as FormControl;
     this.hue.valueChanges.subscribe((value) => {

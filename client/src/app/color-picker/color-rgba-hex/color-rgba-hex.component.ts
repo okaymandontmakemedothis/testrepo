@@ -13,7 +13,7 @@ export class ColorRgbaHexComponent implements OnInit {
   rgb: FormGroup;
 
   constructor(private colorPickerService: ColorPickerService) { }
-
+/// Defini le colorForm étant le form dans le colorPickerService de même avec les couleur
   ngOnInit(): void {
     this.colorForm = this.colorPickerService.colorForm;
     this.rgb = this.colorPickerService.rgb;
