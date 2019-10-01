@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MaterialModules } from 'src/app/app-material.module';
 import { WorkspaceComponent } from './workspace.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('WorkspaceComponent', () => {
   let component: WorkspaceComponent;
@@ -11,6 +12,7 @@ describe('WorkspaceComponent', () => {
     TestBed.configureTestingModule({
       declarations: [WorkspaceComponent],
       imports: [MaterialModules],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
       .compileComponents();
   }));
