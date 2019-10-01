@@ -4,23 +4,6 @@ Projet généré avec [Angular CLI](https://github.com/angular/angular-cli) vers
 # Important
 Les commandes commençant par `npm` ou `yarn` devront être exécutées dans les dossiers `client` et `server`.
 
-## Installation des dépendances de l'application
-- Installer `npm` (non recommandé) ou `yarn` (très recommandé). `npm` viens avec `Node` que vous pouvez télecharger [ici](https://nodejs.org/en/download/)
-
-- Lancer `npm install` ou `yarn`
-
-## Développement de l'application
-Pour lancer l'application, il suffit d'exécuter: `npm start` ou `yarn start`. Vous devez lancer cette commande dans le dossier `client` et `server`
-
-Pour le client : 
-    Une page menant vers `http://localhost:4200/` s'ouvrira automatiquement.
-
-Pour le serveur :
-    Votre serveur est accessible sur `http://localhost:3000`. Par défaut, votre client fait une requête `GET` vers le serveur pour obtenir un message.
-
-
-L'application se relancera automatiquement si vous modifiez le code source de celle-ci.
-
 ## Génération de composants du client
 Pour créer de nouveaux composants, nous vous recommandons l'utilisation d'angular CLI. Il suffit d'exécuter `ng generate component component-name` pour créer un nouveau composant. 
 

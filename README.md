@@ -56,8 +56,6 @@
 <!-- ABOUT THE PROJECT -->
 ## Description du projet
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 Le rendu visuel de reference de l'application pourrait etre similaire a celui de Sketch pad.
 
 
@@ -84,19 +82,20 @@ npm install npm@latest -g
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-```sh
-git clone https:://github.com/your_username_/Project-Name.git
-```
-3. Install NPM packages
-```sh
-npm install
-```
-4. Enter your API in `config.js`
-```JS
-const API_KEY = 'ENTER YOUR API';
-```
+- Installer `npm` (non recommandé) ou `yarn` (très recommandé). `npm` viens avec `Node` que vous pouvez télecharger [ici](https://nodejs.org/en/download/)
+
+- Lancer `npm install` ou `yarn`
+
+Pour lancer l'application, il suffit d'exécuter: `npm start` ou `yarn start`. Vous devez lancer cette commande dans le dossier `client` et `server`
+
+Pour le client : 
+    Une page menant vers `http://localhost:4200/` s'ouvrira automatiquement.
+
+Pour le serveur :
+    Votre serveur est accessible sur `http://localhost:3000`. Par défaut, votre client fait une requête `GET` vers le serveur pour obtenir un message.
+
+
+L'application se relancera automatiquement si vous modifiez le code source de celle-ci.
 
 
 
