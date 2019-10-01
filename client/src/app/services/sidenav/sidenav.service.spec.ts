@@ -36,12 +36,12 @@ describe('SidenavService', () => {
         { provide: HotkeysFichierService, useValue: hotkeyaSpy }, { provide: HotkeysSelectionService, useValue: hotkeybSpy },
       { provide: HotkeysTravailService, useValue: hotkeycSpy }],
       });
-    toggleDrawerServiceServiceSpy = TestBed.get(toggleDrawerServiceServiceSpy);
-    hotkeyOutilServiceSpy = TestBed.get(hotkeyOutilServiceSpy);
-    hotkeyaServiceSpy = TestBed.get(hotkeyaServiceSpy);
-    hotkeybServiceSpy = TestBed.get(hotkeybServiceSpy);
-    hotkeycServiceSpy = TestBed.get(hotkeycServiceSpy);
-    toolServiceSpy = TestBed.get(toolServiceSpy);
+    toggleDrawerServiceServiceSpy = TestBed.get(ToggleDrawerService);
+    hotkeyOutilServiceSpy = TestBed.get(HotkeysOutilService);
+    hotkeyaServiceSpy = TestBed.get(HotkeysFichierService);
+    hotkeybServiceSpy = TestBed.get(HotkeysSelectionService);
+    hotkeycServiceSpy = TestBed.get(HotkeysTravailService);
+    toolServiceSpy = TestBed.get(ToolsService);
     });
 
   it('sidenav service should be created', () => {

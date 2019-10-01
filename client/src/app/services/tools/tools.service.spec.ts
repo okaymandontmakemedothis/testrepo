@@ -5,7 +5,11 @@ import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../drawing/drawing.service';
 import { ITools } from './ITools';
 import { ToolsService } from './tools.service';
-
+import { PencilToolService } from './pencil-tool/pencil-tool.service';
+import { BrushToolService } from './brush-tool/brush-tool.service';
+import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
+import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
+import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 
 class MockItool implements ITools{
   readonly id: 5;
@@ -13,7 +17,10 @@ class MockItool implements ITools{
   readonly toolName: 'brush';
   parameters: FormGroup;
   onPressed(event: MouseEvent): IObjects | null{
-    return null;
+    if (event.button === 0) {
+      return null;
+    }
+    return new RectangleObject(0,0,0,'');
   }
   onRelease(event: MouseEvent): void {}
   onMove(event: MouseEvent): void {}
@@ -22,12 +29,12 @@ describe('ToolsListService', () => {
   let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
 
   beforeEach(() => {
-    const drawingSpy = jasmine.createSpyObj('DrawingService', ['']);
+    const drawingSpy = jasmine.createSpyObj('DrawingService', ['addObject','draw']);
     TestBed.configureTestingModule({
-      providers: [
+      providers: [PencilToolService, BrushToolService, ToolsApplierColorsService, ToolRectangleService,
         { provide: DrawingService, useValue: drawingSpy }],
       });
-    drawingServiceSpy = TestBed.get(drawingServiceSpy);
+    drawingServiceSpy = TestBed.get(DrawingService);
     });
 
   it('should be created', () => {
@@ -42,17 +49,20 @@ describe('ToolsListService', () => {
 
   it('call on selectedTool', () => {
     const service: ToolsService = TestBed.get(ToolsService);
-    const tool: ITools = new MockItool();
-    service.selectedToolId = 5;
-    const spy = spyOnProperty(service, 'selectedTool').and.returnValue(tool);
-    expect(service.tools[service.selectedToolId]).toEqual(spy);
+    const tool = new MockItool();
+    service.tools.push(tool);
+    service.selectTool(service.tools.length - 1);
+    expect(service.selectedTool).toBe(tool);
   });
 
   it('onPressed calls add object if object is not null', () => {
     const service: ToolsService = TestBed.get(ToolsService);
-    const mouseEvent = new MouseEvent('mousedown');
+    service.tools.push(new MockItool());
+    service.selectTool(service.tools.length - 1);
+
+    const mouseEvent = new MouseEvent('mousedown',{button:2});
     service.onPressed(mouseEvent);
-    spyOn(drawingServiceSpy, 'addObject').and.callThrough();
+
     expect(drawingServiceSpy.addObject).toHaveBeenCalled();
     expect(service.currentObject).not.toBeNull();
   });
@@ -62,35 +72,63 @@ describe('ToolsListService', () => {
     service.tools.push(new MockItool());
     service.selectTool(service.tools.length - 1);
 
-    const mouseEvent = new MouseEvent('mousedown');
+    const mouseEvent = new MouseEvent('mousedown', {button:0});
     service.onPressed(mouseEvent);
 
-    spyOn(drawingServiceSpy, 'addObject').and.callThrough();
     expect(drawingServiceSpy.addObject).not.toHaveBeenCalled();
     expect(service.currentObject).toBeNull();
   });
 
   it('onRelease calls draw', () => {
     const service: ToolsService = TestBed.get(ToolsService);
-    const mouseEvent = new MouseEvent('mousedown');
+    service.tools.push(new MockItool());
+    service.selectTool(service.tools.length - 1);
+
+    const mouseEvent = new MouseEvent('mousedown', {button:2});
     service.onPressed(mouseEvent);
     expect(service.currentObject).not.toBeNull();
 
     service.onRelease(mouseEvent);
-    spyOn(drawingServiceSpy, 'draw').and.callThrough();
     expect(drawingServiceSpy.draw).toHaveBeenCalled();
     expect(service.currentObject).toBeNull();
   });
 
   it('onMove calls service.selectedTool on Move', () => {
     const service: ToolsService = TestBed.get(ToolsService);
-    const mouseEvent = new MouseEvent('mousedown');
+    service.tools.push(new MockItool());
+    service.selectTool(service.tools.length - 1);
+
+    const mouseEvent = new MouseEvent('mousedown', {button:2});
     service.onPressed(mouseEvent);
     expect(service.currentObject).not.toBeNull();
 
-    service.onMove(mouseEvent);
     spyOn(service.selectedTool, 'onMove').and.callThrough();
+    service.onMove(mouseEvent);
     expect(service.selectedTool.onMove).toHaveBeenCalled();
   });
 
+  it('onMove calls service.selectedTool on Move', () => {
+    const service: ToolsService = TestBed.get(ToolsService);
+    service.tools.push(new MockItool());
+    service.selectTool(service.tools.length - 1);
+
+    const mouseEvent = new MouseEvent('mousedown', { button: 2 });
+    expect(service.currentObject).toBeNull();
+
+    spyOn(service.selectedTool, 'onMove').and.callThrough();
+    service.onMove(mouseEvent);
+    expect(service.selectedTool.onMove).not.toHaveBeenCalled();
+  });
+
+  it('onMove calls service.selectedTool on Move', () => {
+    const service: ToolsService = TestBed.get(ToolsService);
+    service.tools.push(new MockItool());
+    service.selectTool(service.tools.length - 1);
+
+    const mouseEvent = new MouseEvent('mousedown', { button: 2 });
+    expect(service.currentObject).toBeNull();
+
+    service.onRelease(mouseEvent);
+    expect(drawingServiceSpy.draw).not.toHaveBeenCalled();
+  });
 });
