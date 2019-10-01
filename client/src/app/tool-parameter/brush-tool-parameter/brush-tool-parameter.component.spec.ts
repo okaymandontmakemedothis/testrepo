@@ -26,7 +26,6 @@ describe('BrushToolParameterComponent', () => {
     fixture = TestBed.createComponent(BrushToolParameterComponent);
     component = fixture.componentInstance;
 
-
     fixture.detectChanges();
 
     const spyBrush = jasmine.createSpyObj('BrushToolService', ['']);
