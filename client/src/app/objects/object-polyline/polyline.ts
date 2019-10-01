@@ -23,6 +23,7 @@ export class Polyline implements IObjects {
         this.addPoint(point);
     }
 
+    /// Ajout d'un point pour définir la ligne
     addPoint(point: Point) {
         this.pointsList.push(point);
         this.resetSize();
@@ -46,6 +47,7 @@ export class Polyline implements IObjects {
         }
     }
 
+    /// Retourne l'élément svg selon les paramètre défini
     draw(): string {
         let polyline = ''; let stroke: string; let fill: string; let filter: string | null = null;
         if (this.texture) {
@@ -71,6 +73,9 @@ export class Polyline implements IObjects {
  ${stroke} ${filter} stroke-linecap="round" stroke-linejoin="round" points="`;
             for (const point of this.pointsList) {
                 polyline += `${point.x} ${point.y},`;
+            }
+            if (this.pointsList.length > 0) {
+                polyline = polyline.substring(0, polyline.length - 1);
             }
             polyline += '"/>\n';
         }
