@@ -1,9 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ParameterMenuComponent } from './parameter-menu.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ParameterDirective } from './parameter.directive';
-import { MaterialModules } from 'src/app/app-material.module';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModules } from 'src/app/app-material.module';
+import { ParameterMenuComponent } from './parameter-menu.component';
+import { ParameterDirective } from './parameter.directive';
 
 describe('ParameterMenuComponent', () => {
   let component: ParameterMenuComponent;

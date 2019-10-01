@@ -1,10 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ToolsColorComponent } from './tools-color.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialogModule, MatDialog } from '@angular/material';
-import { ToolsColorService } from 'src/app/services/tools-color/tools-color.service';
-import { of } from 'rxjs';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog, MatDialogModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
+import { ToolsColorService } from 'src/app/services/tools-color/tools-color.service';
+import { ToolsColorComponent } from './tools-color.component';
 
 describe('ToolsColorComponent', () => {
   let component: ToolsColorComponent;
@@ -63,12 +63,10 @@ describe('ToolsColorComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-
   it('should open PrimaryColorDialog', () => {
     component.openDialog(0);
     expect(toolsColorServiceSpy.setPrimaryColor).toHaveBeenCalled();
   });
-
 
   it('should open SecondaryColorDialog', () => {
     component.openDialog(1);

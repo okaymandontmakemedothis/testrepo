@@ -25,14 +25,22 @@ export class RectangleObject implements IObjects {
   getStyle(): string {
     switch (this.style) {
       case 'center': {
-        return '"fill:rgba(' + this.primaryColor.rgb.r + ',' + this.primaryColor.rgb.g + ',' + this.primaryColor.rgb.b + ',' + this.primaryColor.a + ')"';
+        return '"fill:rgba('
+          + this.primaryColor.rgb.r + ',' + this.primaryColor.rgb.g + ',' + this.primaryColor.rgb.b + ',' + this.primaryColor.a + ')"';
       }
       case 'border': {
-        return '"fill:none;stroke-width:' + this.strokeWidth + ';stroke:rgb(' + this.secondaryColor.rgb.r + ',' + this.secondaryColor.rgb.g + ',' + this.secondaryColor.rgb.b + ',' + this.secondaryColor.a + ')"';
+        return '"fill:none;stroke-width:' + this.strokeWidth +
+          ';stroke:rgb(' +
+          this.secondaryColor.rgb.r +
+          ',' + this.secondaryColor.rgb.g + ',' + this.secondaryColor.rgb.b + ',' + this.secondaryColor.a + ')"';
 
       }
       case 'fill': {
-        return '"fill:rgb(' + this.primaryColor.rgb.r + ',' + this.primaryColor.rgb.g + ',' + this.primaryColor.rgb.b + ',' + this.primaryColor.a + ');stroke-width:' + this.strokeWidth + ';stroke:rgb(' + this.secondaryColor.rgb.r + ',' + this.secondaryColor.rgb.g + ',' + this.secondaryColor.rgb.b + ',' + this.secondaryColor.a + ')"';
+        return '"fill:rgb(' +
+          this.primaryColor.rgb.r + ',' + this.primaryColor.rgb.g + ',' + this.primaryColor.rgb.b +
+          ',' + this.primaryColor.a + ');stroke-width:' + this.strokeWidth + ';stroke:rgb('
+          + this.secondaryColor.rgb.r + ',' + this.secondaryColor.rgb.g + ',' + this.secondaryColor.rgb.b +
+          ',' + this.secondaryColor.a + ')"';
       }
       default: {
         return '';

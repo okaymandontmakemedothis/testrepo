@@ -35,7 +35,7 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
     private colorPickerService: ColorPickerService,
   ) { }
 
-  /// Défini le
+  /// Défini les subscription lors des changements de valeurs pour changer son affichage
   ngOnInit(): void {
     this.hsl.valueChanges.subscribe((): void => this.draw());
     this.a.valueChanges.subscribe((alpha: number): void => {

@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -7,7 +7,6 @@ import { MaterialModules } from 'src/app/app-material.module';
 import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 import { SidenavComponent } from './sidenav.component';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('SidenavComponent', () => {
   let component: SidenavComponent;
@@ -30,7 +29,7 @@ describe('SidenavComponent', () => {
       {
         provide: ToolsService, useClass: class {
           selectedToolId = 1;
-        }
+        },
       }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     })

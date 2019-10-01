@@ -22,12 +22,12 @@ export class AppComponent implements OnInit, OnDestroy {
   welcomeDialogSub: Subscription;
 
   constructor(public dialog: MatDialog,
-    private welcomeService: WelcomeDialogService,
-    private hotkeysFichierService: HotkeysFichierService,
-    private hotkeysSelectionService: HotkeysSelectionService,
-    private hotkeysOutilService: HotkeysOutilService,
-    private hotkeysTravailService: HotkeysTravailService,
-    private sideNavService: SidenavService) {
+              private welcomeService: WelcomeDialogService,
+              private hotkeysFichierService: HotkeysFichierService,
+              private hotkeysSelectionService: HotkeysSelectionService,
+              private hotkeysOutilService: HotkeysOutilService,
+              private hotkeysTravailService: HotkeysTravailService,
+              private sideNavService: SidenavService) {
     this.dialog.afterAllClosed.subscribe(() => {
       this.hotkeysFichierService.canExecute = true;
       this.hotkeysSelectionService.canExecute = true;

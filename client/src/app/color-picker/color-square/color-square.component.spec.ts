@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { ColorSquareComponent } from './color-square.component';
-import { ColorPickerService } from '../color-picker.service';
 import { RGB } from 'src/app/model/rgb.model';
+import { ColorPickerService } from '../color-picker.service';
+import { ColorSquareComponent } from './color-square.component';
 
 describe('ColorSquareComponent', () => {
   let component: ColorSquareComponent;

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
@@ -23,7 +23,7 @@ describe('DialogComponent', () => {
     afterClosed: of({}),
     close: null,
   });
-  dialogRefSpyObj.componentInstance = { body: "" };
+  dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(() => {
     indexServiceSpy = jasmine.createSpyObj('IndexService', ['welcomeGet']);

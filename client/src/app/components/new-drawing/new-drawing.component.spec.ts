@@ -3,9 +3,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
-import { NewDrawingComponent } from './new-drawing.component';
 import { of } from 'rxjs';
 import { MaterialModules } from 'src/app/app-material.module';
+import { NewDrawingComponent } from './new-drawing.component';
 
 describe('NewDrawingComponent', () => {
   let component: NewDrawingComponent;
@@ -15,7 +15,7 @@ describe('NewDrawingComponent', () => {
     afterOpened: of({}),
     close: null,
   });
-  dialogRefSpyObj.componentInstance = { body: "" };
+  dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

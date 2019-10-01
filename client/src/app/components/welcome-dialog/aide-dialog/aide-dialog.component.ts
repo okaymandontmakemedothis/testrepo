@@ -14,7 +14,7 @@ export class AideDialogComponent {
   messageShortcut = new BehaviorSubject<ShortcutClavier>({
     O: '', S: '', G: '', E: '', X: '', C: '', V: '', D: '',
     Sup: '', A: '', Z: '', ShiftZ: '', Cray: '', W: '', P: '', Y: '', Aer: '', Rec: '', Ell: '', Poly: '',
-    L: '', T: '', R: '', B: '', Eff: '', I: '', Sel: '', Gri: '', M: '', Aug: '', Dim: ''
+    L: '', T: '', R: '', B: '', Eff: '', I: '', Sel: '', Gri: '', M: '', Aug: '', Dim: '',
   });
 
   constructor(

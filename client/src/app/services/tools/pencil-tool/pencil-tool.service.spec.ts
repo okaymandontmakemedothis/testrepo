@@ -4,7 +4,6 @@ import { OffsetManagerService } from '../../offset-manager/offset-manager.servic
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { PencilToolService } from './pencil-tool.service';
 
-
 describe('PencilToolService', () => {
   let offsetManagerServiceSpy: jasmine.SpyObj<OffsetManagerService>;
   let colorToolServiceSpy: jasmine.SpyObj<ToolsColorService>;
