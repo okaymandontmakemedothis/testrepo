@@ -40,19 +40,16 @@
 
 
 <!-- TABLE OF CONTENTS -->
-## Table of Contents
+## Table des matières
 
-* [About the Project](#about-the-project)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
+* [Description du projet](#about-the-project)
+  * [Technologies utilisées](#built-with)
+* [Démarrer le projet](#getting-started)
+  * [Prérequis](#prerequisites)
   * [Installation](#installation)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
+* [Utilisation](#usage)
 * [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
+* [Remerciements](#acknowledgements)
 
 
 
