@@ -1,10 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModules } from 'src/app/app-material.module';
 import { ColorPickerService } from '../color-picker.service';
 import { ColorRgbaHexComponent } from './color-rgba-hex.component';
-import { MaterialModules } from 'src/app/app-material.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ColorRgbaHexComponent', () => {
   let component: ColorRgbaHexComponent;

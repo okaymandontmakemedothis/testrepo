@@ -6,7 +6,6 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 import { ToolsColorPickerComponent } from './tools-color-picker.component';
 
-
 describe('ToolsColorPickerComponent', () => {
   let component: ToolsColorPickerComponent;
   let fixture: ComponentFixture<ToolsColorPickerComponent>;

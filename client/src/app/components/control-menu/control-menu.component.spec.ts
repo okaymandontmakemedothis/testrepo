@@ -1,10 +1,10 @@
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
 import { MaterialModules } from 'src/app/app-material.module';
 import { ControlMenuComponent } from './control-menu.component';
-import { of } from 'rxjs';
 
 describe('ControlMenuComponent', () => {
   let component: ControlMenuComponent;
@@ -15,12 +15,12 @@ describe('ControlMenuComponent', () => {
     afterClosed: of({}),
     close: null,
   });
-  dialogRefSpyObj.componentInstance = { body: "" };
+  dialogRefSpyObj.componentInstance = { body: '' };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ControlMenuComponent],
-      imports: [MaterialModules, BrowserAnimationsModule,],
-      providers: [ControlMenuComponent, { provide: MatDialogRef, useValue: {} },],
+      imports: [MaterialModules, BrowserAnimationsModule],
+      providers: [ControlMenuComponent, { provide: MatDialogRef, useValue: {} }, ],
     });
     spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
     TestBed.compileComponents();

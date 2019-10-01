@@ -30,7 +30,7 @@ describe('BrushToolService', () => {
 <g fill="none" fill-rule="evenodd">
 <g fill="rgb(${rgba.rgb.r},${rgba.rgb.g},${rgba.rgb.b})"
  fill-opacity="${rgba.a}">
-<path d="M2 0h2v12H2V0zm1 20c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM9 8c1.105 
+<path d="M2 0h2v12H2V0zm1 20c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM9 8c1.105
  0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-1 4h2v12H8V12z"/>
 </g>
 </g>

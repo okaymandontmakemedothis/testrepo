@@ -1,22 +1,22 @@
-import { TestBed } from "@angular/core/testing";
-import { FormControl } from "@angular/forms";
-import { MatDialog, MatDialogModule } from "@angular/material";
+import { TestBed } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
+import { MatDialog, MatDialogModule } from '@angular/material';
 import { of } from 'rxjs';
-import { WelcomeDialogService } from "../welcome-dialog/welcome-dialog.service";
-import { OpenWelcomeService } from "./open-welcome.service";
+import { WelcomeDialogService } from '../welcome-dialog/welcome-dialog.service';
+import { OpenWelcomeService } from './open-welcome.service';
 
-describe("OpenWelcomeService", () => {
+describe('OpenWelcomeService', () => {
   let messageActivated: FormControl;
   let dialogSpy: jasmine.Spy;
   const dialogRefSpyObj = jasmine.createSpyObj({
     afterClosed: of({}),
     close: null,
   });
-  dialogRefSpyObj.componentInstance = { body: "" };
+  dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(() => {
     messageActivated = new FormControl(true);
-    let welcomeSpy = jasmine.createSpyObj("WelcomeDialogService", [""]);
+    let welcomeSpy = jasmine.createSpyObj('WelcomeDialogService', ['']);
     welcomeSpy = {
       ...welcomeSpy,
       messageActivated,
@@ -29,7 +29,7 @@ describe("OpenWelcomeService", () => {
     dialogSpy = spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
   });
 
-  it("service should be created", () => {
+  it('service should be created', () => {
     const service: OpenWelcomeService = TestBed.get(OpenWelcomeService);
     expect(service).toBeTruthy();
   });

@@ -1,8 +1,9 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModules } from 'src/app/app-material.module';
 import { ParameterMenuComponent } from './parameter-menu.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ParameterDirective } from './parameter.directive';
 
 describe('ParameterMenuComponent', () => {
   let component: ParameterMenuComponent;
@@ -11,9 +12,9 @@ describe('ParameterMenuComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ParameterMenuComponent,
+        ParameterMenuComponent, ParameterDirective,
       ],
-      imports: [MaterialModules],
+      imports: [MaterialModules, BrowserAnimationsModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
       .compileComponents();

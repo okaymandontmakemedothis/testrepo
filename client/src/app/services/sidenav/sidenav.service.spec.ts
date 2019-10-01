@@ -1,22 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 
 import { HttpClientModule } from '@angular/common/http';
-import { MatButtonToggleModule, MatButtonToggleChange } from '@angular/material';
+import { FormGroup } from '@angular/forms';
+import { MatButtonToggleChange, MatButtonToggleModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { WelcomeDialogModule } from 'src/app/components/welcome-dialog/welcome-dialog.module';
+import { IObjects } from 'src/app/objects/IObjects';
+import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 import { HotkeysFichierService } from '../hotkeys/hotkeys-fichier/hotkeys-fichier.service';
 import { HotkeysOutilService } from '../hotkeys/hotkeys-outil/hotkeys-outil.service';
 import { HotkeysSelectionService } from '../hotkeys/hotkeys-selection/hotkeys-selection.service';
 import { HotkeysTravailService } from '../hotkeys/hotkeys-travail/hotkeys-travail.service';
 import { ToggleDrawerService } from '../toggle-drawer/toggle-drawer.service';
+import { ITools } from '../tools/ITools';
 import { ToolsService } from '../tools/tools.service';
 import { SidenavService } from './sidenav.service';
-import { ITools } from '../tools/ITools';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { FormGroup } from '@angular/forms';
-import { IObjects } from 'src/app/objects/IObjects';
-import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 
 describe('SidenavService', () => {
   let toggleDrawerServiceSpy: jasmine.SpyObj<ToggleDrawerService>;
@@ -146,6 +146,8 @@ class MockItool implements ITools {
     }
     return new RectangleObject(0, 0, 0, '');
   }
-  onRelease(event: MouseEvent): void { }
-  onMove(event: MouseEvent): void { }
+  onRelease(event: MouseEvent): void {
+  }
+  onMove(event: MouseEvent): void {
+  }
 }

@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
+import { DEFAULT_ALPHA } from 'src/app/model/rgba.model';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from './drawing.service';
-import { DEFAULT_ALPHA } from 'src/app/model/rgba.model';
 
 class MockObject implements IObjects {
   id: number;

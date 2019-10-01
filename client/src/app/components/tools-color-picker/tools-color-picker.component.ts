@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 import { RGBA } from '../../model/rgba.model';
 import { ToolsColorService } from '../../services/tools-color/tools-color.service';
-import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-tools-color-picker',

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { OffsetManagerService } from './offset-manager.service';
 import { WorkspaceService } from '../workspace/workspace.service';
+import { OffsetManagerService } from './offset-manager.service';
 
 class MockNativeElement {
   getBoundingClientRect(): { x: number, y: number } {
@@ -39,5 +39,5 @@ describe('OffsetManagerService', () => {
     const offset: { x: number, y: number } = service.offsetFromMouseEvent(mouseEvent);
     expect(offset.x).toBe(40 - 10 + 5);
     expect(offset.y).toBe(50 - 15 + 10);
-  })
+  });
 });
