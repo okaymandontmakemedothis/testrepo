@@ -56,7 +56,7 @@
 ## description-projet
 
 Le rendu visuel de reference de l'application pourrait etre similaire a celui de Sketch pad.
-Outils de tracage
+* Outils de tracage
 * Crayon :Il s'agit de l'outil de base du logiciel de dessin.Il est de forme ronde
 * Pinceau :Cet outil differe du crayon par la texture du trait
 * Plume:Outil de tracage qui differe du crayon par la forme mince de sa pointe
