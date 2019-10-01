@@ -57,6 +57,7 @@ describe('BrushToolService', () => {
 
   it('should draw with 1 point and a filter and a texture', () => {
     const texture = new TextureOne();
+    spyOn(texture, 'getFilter').and.returnValue('filter');
     const polyline: Polyline = new Polyline({ x: 0, y: 0 }, 3, texture);
 
     polyline.id = 1;

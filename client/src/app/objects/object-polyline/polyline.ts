@@ -74,9 +74,7 @@ export class Polyline implements IObjects {
             for (const point of this.pointsList) {
                 polyline += `${point.x} ${point.y},`;
             }
-            if (this.pointsList.length > 0) {
-                polyline = polyline.substring(0, polyline.length - 1);
-            }
+            polyline = polyline.substring(0, polyline.length - 1);
             polyline += '"/>\n';
         }
         return polyline;
