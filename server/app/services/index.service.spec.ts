@@ -16,7 +16,7 @@ describe('Testing index.service',()=>{
     beforeEach=()=>{
     }
     it('should return about content',(done)=>{
-        const mockDateService = sinon.mock(IndexService)
+        const mockDateService = sinon.mock(DateService)
 
         const indexService = new IndexService(mockDateService)
 
@@ -26,11 +26,11 @@ describe('Testing index.service',()=>{
         done()
     })
     it('should return text resources',(done)=>{
-        const mockDateService = sinon.mock(IndexService)
-        const indexService = new IndexService(mockDateService)
-        let result = indexService.about()
-        expect(result.body).eqls("Lorem ipsum........")
-        expect(result.title).eqls("This is merely a test")
+        const mockDateService = sinon.mock(IndexService);
+        const indexService = new IndexService(mockDateService);
+        const pathText="/../res/text/welcome_text2.json"
+        let result = indexService.getTextRessource(pathText);
+        expect(result.body).exist;
         done()
     })
 
