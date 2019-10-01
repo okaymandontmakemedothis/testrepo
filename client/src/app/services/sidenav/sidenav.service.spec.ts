@@ -15,7 +15,7 @@ import { SidenavService } from './sidenav.service';
 //import { EventEmitter } from '@angular/core';
 
 describe('SidenavService', () => {
-  let toggleDrawerServiceServiceSpy: jasmine.SpyObj<ToggleDrawerService>;
+  let toggleDrawerServiceSpy: jasmine.SpyObj<ToggleDrawerService>;
   let hotkeyOutilServiceSpy: jasmine.SpyObj<HotkeysOutilService>;
   let hotkeyaServiceSpy: jasmine.SpyObj<HotkeysFichierService>;
   let hotkeybServiceSpy: jasmine.SpyObj<HotkeysSelectionService>;
@@ -23,11 +23,11 @@ describe('SidenavService', () => {
   let toolServiceSpy: jasmine.SpyObj<ToolsService>;
 
   beforeEach(() => {
-    const toogleSpy = jasmine.createSpyObj('ToggleDrawerService', ['']);
+    const toogleSpy = jasmine.createSpyObj('ToggleDrawerService', ['open', 'close']);
     const hotkeyOutilSpy = jasmine.createSpyObj('HotkeysOutilService', ['']);
     const hotkeyaSpy = jasmine.createSpyObj('HotkeysFichierService', ['']);
     const hotkeybSpy = jasmine.createSpyObj('HotkeysSelectionService', ['']);
-    const hotkeycSpy = jasmine.createSpyObj('SidenavHotkeysTravailServiceService', ['']);
+    const hotkeycSpy = jasmine.createSpyObj('HotkeysTravailService', ['']);
     const toolSpy = jasmine.createSpyObj('ToolsService', ['']);
     TestBed.configureTestingModule({
       imports: [MatDialogModule, BrowserAnimationsModule, WelcomeDialogModule, HttpClientModule, MatButtonToggleModule],
@@ -36,7 +36,7 @@ describe('SidenavService', () => {
         { provide: HotkeysFichierService, useValue: hotkeyaSpy }, { provide: HotkeysSelectionService, useValue: hotkeybSpy },
       { provide: HotkeysTravailService, useValue: hotkeycSpy }],
       });
-    toggleDrawerServiceServiceSpy = TestBed.get(ToggleDrawerService);
+    toggleDrawerServiceSpy = TestBed.get(ToggleDrawerService);
     hotkeyOutilServiceSpy = TestBed.get(HotkeysOutilService);
     hotkeyaServiceSpy = TestBed.get(HotkeysFichierService);
     hotkeybServiceSpy = TestBed.get(HotkeysSelectionService);
@@ -56,7 +56,7 @@ describe('SidenavService', () => {
 
   it('should get isOpened', () => {
     const service: SidenavService = TestBed.get(SidenavService);
-    const spy = spyOnProperty(toggleDrawerServiceServiceSpy, 'isOpened').and.returnValue(true);
+    const spy = spyOnProperty(toggleDrawerServiceSpy, 'isOpened').and.returnValue(true);
     expect(service.isOpened).toEqual(spy);
   });
 
@@ -76,16 +76,14 @@ describe('SidenavService', () => {
 
   it('should open', () => {
     const service: SidenavService = TestBed.get(SidenavService);
-    spyOn(toggleDrawerServiceServiceSpy, 'open').and.callThrough();
     service.open();
-    expect(toggleDrawerServiceServiceSpy.open).toHaveBeenCalled();
+    expect(toggleDrawerServiceSpy.open).toHaveBeenCalled();
   });
 
   it('should close', () => {
     const service: SidenavService = TestBed.get(SidenavService);
-    spyOn(toggleDrawerServiceServiceSpy, 'close').and.callThrough();
     service.close();
-    expect(toggleDrawerServiceServiceSpy.close).toHaveBeenCalled();
+    expect(toggleDrawerServiceSpy.close).toHaveBeenCalled();
   });
 
   it('should openControlMenu', () => {
@@ -107,15 +105,15 @@ describe('SidenavService', () => {
     expect(hotkeycServiceSpy.canExecute).toEqual(true);
   });
 
-  /*it('should call eventListenerOnInput and not execute hotkeys if target is not undefined', () => {
+  it('should call eventListenerOnInput and not execute hotkeys if target is not undefined', () => {
     const service: SidenavService = TestBed.get(SidenavService);
     const mouseEvent = new MouseEvent('mousedown');
-    spyOnProperty(mouseEvent, 'target').and.returnValue( as HTMLInputElement);
-    mouseEvent.target: HTMLInputElement
+    service.canClick = true;
+    spyOnProperty(mouseEvent, 'target').and.returnValue( new HTMLInputElement());
     window.dispatchEvent(mouseEvent);
-    expect(hotkeyOutil.canExecute).toEqual(false);
-    expect(hotkeya.canExecute).toEqual(false);
-    expect(hotkeyb.canExecute).toEqual(false);
-    expect(hotkeyc.canExecute).toEqual(false);
-  });*/
+    expect(hotkeyOutilServiceSpy.canExecute).toEqual(false);
+    expect(hotkeyaServiceSpy.canExecute).toEqual(false);
+    expect(hotkeybServiceSpy.canExecute).toEqual(false);
+    expect(hotkeycServiceSpy.canExecute).toEqual(false);
+  });
 });
