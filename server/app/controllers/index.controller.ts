@@ -37,7 +37,7 @@ export class IndexController {
         (req: Request, res: Response, next: NextFunction) => {
             // Returns the JSON file for text
             //const obj = this.indexService.getTextRessource();
-            res.json(this.indexService.getTextRessource());
+            res.json(this.indexService.getTextRessource("/../../../../app/res/text/welcome_text2.json"));
 
         });
     }
