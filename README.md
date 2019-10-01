@@ -62,6 +62,8 @@ Outils de tracage
 * Plume:Outil de tracage qui differe du crayon par la forme mince de sa pointe
 * Stylo:Cet outil differe du crayon par le fait que la surface de dessin s'amincit en fonction de la vitesse de deplacement de la souris
 * Aerosol: cete outil simule un effet de peinture en aerosol
+* Forme: On dispose de differentes formes geometriques (Rectangle,Ellipse,Polygone,Ligne,Texte) pour effectuer un dessin composee. Ces dernieres sont apposes sur la zone de dessin en faisant un glisser-deposer.
+
 
 ### technologies-utilisees
 Cette section énumère les technologies principales utilisées afin de construire l'application
