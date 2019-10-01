@@ -1,23 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DrawingService } from 'src/app/services/drawing/drawing.service';
-import { ToolsColorService } from 'src/app/services/tools-color/tools-color.service';
 import { ToolsApplierColorsService } from 'src/app/services/tools/tools-applier-colors/tools-applier-colors.service';
 import { ApplierToolParameterComponent } from './applier-tool-parameter.component';
 
 describe('ApplierToolParameterComponent', () => {
   let component: ApplierToolParameterComponent;
   let fixture: ComponentFixture<ApplierToolParameterComponent>;
-  const colorService: ToolsColorService = new ToolsColorService();
-  const drawingService: DrawingService = new DrawingService();
-  const applierService: ToolsApplierColorsService = new ToolsApplierColorsService(drawingService, colorService);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ApplierToolParameterComponent ],
-      providers: [{ provide: ToolsApplierColorsService, useValue: applierService }, { provide: DrawingService, useValue: drawingService },
-        {provide: ToolsColorService, useValue: drawingService}]
+      providers: [
+        {
+          provide: ToolsApplierColorsService, useClass: class {
+            toolName = 'ToolTest';
+        }}],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -31,7 +29,6 @@ describe('ApplierToolParameterComponent', () => {
   });
 
   it('should get tool name', () => {
-    const spy = spyOnProperty(applierService, 'toolName').and.returnValue('applier');
-    expect(component.toolName).toEqual(spy);
+    expect(component.toolName).toEqual('ToolTest');
   });
 });

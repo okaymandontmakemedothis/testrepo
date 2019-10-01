@@ -6,7 +6,7 @@ import { WelcomeDialogComponent } from 'src/app/components/welcome-dialog/welcom
 import { WelcomeDialogService } from '../welcome-dialog/welcome-dialog.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OpenWelcomeService {
 
