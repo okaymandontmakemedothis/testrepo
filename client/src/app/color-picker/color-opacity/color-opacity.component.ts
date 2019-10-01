@@ -28,7 +28,7 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
 
   private ctx: CanvasRenderingContext2D;
   private isMouseDown = false;
-  private selectedWidth: number;
+  private selectedWidth = 0;
 
   constructor(
     private colorTransformer: ColorTransformerService,
@@ -75,24 +75,22 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
 
     const gradient = this.ctx.createLinearGradient(0, 0, width, 0);
     const rgb = this.colorTransformer.hsl2rgb(this.hsl.value);
-    gradient.addColorStop(GRADIENT_START, 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', 0)' || 'rgba(0,0,0,0)');
-    gradient.addColorStop(GRADIENT_END, 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', 1)' || 'rgba(0,0,0,0)');
+    gradient.addColorStop(GRADIENT_START, 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', 0)');
+    gradient.addColorStop(GRADIENT_END, 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', 1)');
     this.ctx.beginPath();
     this.ctx.rect(0, 0, width, height);
     this.ctx.fillStyle = gradient;
     this.ctx.fill();
     this.ctx.closePath();
 
-    if (this.selectedWidth) {
-      this.ctx.beginPath();
-      const selectedPercentageOfWidth = (1 - (this.selectedWidth / width));
-      const colorValue = (RGB_MAX_VALUE - Math.floor(RGB_MAX_VALUE * selectedPercentageOfWidth * 0.9));
-      this.ctx.strokeStyle = 'rgba(' + colorValue + ', ' + colorValue + ',' + colorValue + ', 1) ';
-      this.ctx.lineWidth = SELECTOR_WIDTH;
-      this.ctx.rect(this.selectedWidth - SELECTOR_WIDTH, 0, SELECTOR_WIDTH * 2, height);
-      this.ctx.stroke();
-      this.ctx.closePath();
-    }
+    this.ctx.beginPath();
+    const selectedPercentageOfWidth = (1 - (this.selectedWidth / width));
+    const colorValue = (RGB_MAX_VALUE - Math.floor(RGB_MAX_VALUE * selectedPercentageOfWidth * 0.9));
+    this.ctx.strokeStyle = 'rgba(' + colorValue + ', ' + colorValue + ',' + colorValue + ', 1) ';
+    this.ctx.lineWidth = SELECTOR_WIDTH;
+    this.ctx.rect(this.selectedWidth - SELECTOR_WIDTH, 0, SELECTOR_WIDTH * 2, height);
+    this.ctx.stroke();
+    this.ctx.closePath();
   }
 
   // Création de la grille pour voir la différence d'opacité
@@ -153,7 +151,7 @@ export class ColorOpacityComponent implements AfterViewInit, OnInit {
 
   /// Assure que lorsqu'on relâche la souris, on arrêtte la prise d'information des évenements de souris
   @HostListener('window:mouseup', ['$event'])
-  onMouseUp(evt: MouseEvent): void {
+  onMouseUp(event: MouseEvent): void {
     this.isMouseDown = false;
   }
 }

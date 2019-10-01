@@ -1,170 +1,222 @@
 import { TestBed } from '@angular/core/testing';
-
 import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
+import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ToolRectangleService } from './tool-rectangle.service';
 
 describe('ToolRectangleService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let offsetManagerServiceSpy: jasmine.SpyObj<OffsetManagerService>;
+  let colorToolServiceSpy: jasmine.SpyObj<ToolsColorService>;
 
-  it('should be created', () => {
-    const service: ToolRectangleService = TestBed.get(ToolRectangleService);
-    expect(service).toBeTruthy();
+  beforeEach(() => {
+    const spyOffset = jasmine.createSpyObj('OffsetManagerService', ['offsetFromMouseEvent']);
+    const spyColor = jasmine.createSpyObj('ToolsColorService', ['']);
+
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: OffsetManagerService, useValue: spyOffset },
+        { provide: ToolsColorService, useValue: spyColor },
+      ],
+    });
+
+    offsetManagerServiceSpy = TestBed.get(OffsetManagerService);
+    colorToolServiceSpy = TestBed.get(ToolsColorService);
   });
 
   it('should set square with shift', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
-    service.object = new RectangleObject(0, 0, 0, '');
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
 
-    const spyKeyDown = spyOn(service, 'setSquare').and.callThrough();
+    const object = service.onPressed(new MouseEvent('mousedown')) as RectangleObject;
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
 
     const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
 
     window.dispatchEvent(eventKeyDown);
 
-    expect(spyKeyDown).toHaveBeenCalled();
+    expect(object.height).toEqual(object.width);
   });
 
   it('should unset square with unshift', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
-    service.object = new RectangleObject(0, 0, 0, '');
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
 
-    const spyKeyUp = spyOn(service, 'unsetSquare').and.callThrough();
+    const object = service.onPressed(new MouseEvent('mousedown')) as RectangleObject;
 
-    const eventKeyUp = new KeyboardEvent('keyup', { shiftKey: true });
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
 
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    window.dispatchEvent(eventKeyDown);
+
+    expect(object.height).toEqual(object.width);
+
+    const eventKeyUp = new KeyboardEvent('keyup', { shiftKey: false });
     window.dispatchEvent(eventKeyUp);
 
-    expect(spyKeyUp).toHaveBeenCalled();
+    expect(object.height).toEqual(40);
+    expect(object.width).toEqual(50);
   });
 
-  it('should create un object on mouse press', () => {
+  it('should not unset square with one unshift of two shift', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
-    const eventMouseDown = new MouseEvent('mousedown');
-    if (!service.object) {
-      service.onPressed(eventMouseDown);
-    } else {
-      service.object = null;
-    }
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
 
-    expect(service.object).not.toBeNull();
+    const object = service.onPressed(new MouseEvent('mousedown')) as RectangleObject;
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
+
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    window.dispatchEvent(eventKeyDown);
+
+    expect(object.height).toEqual(object.width);
+
+    const eventKeyUp = new KeyboardEvent('keyup', { shiftKey: true });
+    window.dispatchEvent(eventKeyUp);
+
+    expect(object.height).toEqual(object.width);
   });
 
-  it('should put object to null on mouse up', () => {
+  it('should create un object on mouse press with good color', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
 
-    service.object = new RectangleObject(0, 0, 0, '');
+    colorToolServiceSpy.primaryColor = { r: 0, g: 0, b: 0 };
+    colorToolServiceSpy.primaryAlpha = 0;
+    colorToolServiceSpy.secondaryColor = { r: 255, g: 255, b: 255 };
+    colorToolServiceSpy.secondaryAlpha = 1;
 
-    const eventMouseUp = new MouseEvent('mouseup');
+    let object: RectangleObject | null = null;
 
-    if (service.object) {
-      service.onRelease(eventMouseUp);
-    }
+    object = service.onPressed(new MouseEvent('mousedown', { button: 0 })) as RectangleObject;
 
-    expect(service.object).toBeNull();
+    expect(object).not.toBeNull();
+    expect(object.primaryColor).toEqual({ rgb: { r: 0, g: 0, b: 0 }, a: 0 });
+    expect(object.secondaryColor).toEqual({ rgb: { r: 255, g: 255, b: 255 }, a: 1 });
+  });
+
+  it('should create un object on mouse press with switched color', () => {
+    const service: ToolRectangleService = TestBed.get(ToolRectangleService);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+
+    colorToolServiceSpy.primaryColor = { r: 0, g: 0, b: 0 };
+    colorToolServiceSpy.primaryAlpha = 0;
+    colorToolServiceSpy.secondaryColor = { r: 255, g: 255, b: 255 };
+    colorToolServiceSpy.secondaryAlpha = 1;
+
+    let object: RectangleObject | null = null;
+
+    object = service.onPressed(new MouseEvent('mousedown', { button: 2 })) as RectangleObject;
+
+    expect(object).not.toBeNull();
+    expect(object.secondaryColor).toEqual({ rgb: { r: 0, g: 0, b: 0 }, a: 0 });
+    expect(object.primaryColor).toEqual({ rgb: { r: 255, g: 255, b: 255 }, a: 1 });
   });
 
   it('should set size of object on mouse move', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
 
-    service.object = new RectangleObject(0, 0, 0, '');
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as RectangleObject;
 
-    const spyMouseMove = spyOn(service, 'setSize').and.callThrough();
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
 
-    const eventMouseMove = new MouseEvent('mouseup');
-
-    service.onMove(eventMouseMove);
-
-    expect(spyMouseMove).toHaveBeenCalled();
+    expect(object.height).toEqual(40);
+    expect(object.width).toEqual(50);
   });
 
   it('should NOT set size of object on mouse move', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
 
-    const spyMouseMove = spyOn(service, 'setSize').and.callThrough();
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as RectangleObject;
+    service.onRelease(new MouseEvent('mouseup'));
 
-    const eventMouseMove = new MouseEvent('mouseup');
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
 
-    service.onMove(eventMouseMove);
-
-    expect(spyMouseMove).not.toHaveBeenCalled();
-  });
-
-  it('should set square', () => {
-    const service: ToolRectangleService = TestBed.get(ToolRectangleService);
-
-    const spySetSquare = spyOn(service, 'setSize').and.callThrough();
-
-    service.setSquare();
-
-    expect(spySetSquare).toHaveBeenCalled();
-  });
-
-  it('should unset square', () => {
-    const service: ToolRectangleService = TestBed.get(ToolRectangleService);
-
-    const spyUnsetSquare = spyOn(service, 'setSize').and.callThrough();
-
-    service.unsetSquare();
-
-    expect(spyUnsetSquare).toHaveBeenCalled();
+    expect(object.width).toBe(0);
+    expect(object.height).toBe(0);
   });
 
   it('should put width and height positive when they are negative', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
 
-    service.object = new RectangleObject(100, 100, 0, '');
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as RectangleObject;
 
-    service.setSize(50, 50);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
 
-    expect(service.object.height).toBeGreaterThanOrEqual(0);
-    expect(service.object.width).toBeGreaterThanOrEqual(0);
+    expect(object.height).toBeGreaterThan(0);
+    expect(object.width).toBeGreaterThan(0);
   });
 
   it('should put width and height equal and positive when they are negative on square mode', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
 
-    service.object = new RectangleObject(100, 100, 0, '');
-    service.setSquare();
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as RectangleObject;
 
-    service.setSize(50, 30);
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    window.dispatchEvent(eventKeyDown);
 
-    expect(service.object.height).toEqual(service.object.width);
-    expect(service.object.height).toBeGreaterThanOrEqual(0);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
 
-    service.setSize(30, 50);
-
-    expect(service.object.height).toEqual(service.object.width);
-    expect(service.object.height).toBeGreaterThanOrEqual(0);
+    expect(object.height).toEqual(object.width);
+    expect(object.height).toBeGreaterThanOrEqual(0);
   });
 
-  it('should put width and height equal and positive on square mode for Y', () => {
+  it('should put width and height equal and positive on square mode for Y smaller than first y', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
 
-    service.object = new RectangleObject(100, 100, 0, '');
-    service.setSquare();
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as RectangleObject;
 
-    service.setSize(110, 150);
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    window.dispatchEvent(eventKeyDown);
 
-    expect(service.object.height).toEqual(service.object.width);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 60, y: 0 });
+    service.onMove(new MouseEvent('mousemove'));
 
-    service.setSize(110, 50);
+    expect(object.height).toEqual(object.width);
+    expect(object.height).toBeGreaterThanOrEqual(0);
+  });
 
-    expect(service.object.height).toBeGreaterThanOrEqual(0);
+  it('should put width and height equal and positive on square mode for Y bigger than first y', () => {
+    const service: ToolRectangleService = TestBed.get(ToolRectangleService);
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as RectangleObject;
+
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    window.dispatchEvent(eventKeyDown);
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 60, y: 100 });
+    service.onMove(new MouseEvent('mousemove'));
+
+    expect(object.height).toEqual(object.width);
+    expect(object.height).toBeGreaterThanOrEqual(0);
   });
 
   it('should put width and height equal and positive on square mode for X', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
 
-    service.object = new RectangleObject(100, 100, 0, '');
-    service.setSquare();
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as RectangleObject;
 
-    service.setSize(150, 110);
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    window.dispatchEvent(eventKeyDown);
 
-    expect(service.object.height).toEqual(service.object.width);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 100 });
+    service.onMove(new MouseEvent('mousemove'));
 
-    service.setSize(50, 110);
-
-    expect(service.object.width).toBeGreaterThanOrEqual(0);
+    expect(object.height).toEqual(object.width);
+    expect(object.width).toBeGreaterThanOrEqual(0);
   });
-
 });

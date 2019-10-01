@@ -1,24 +1,35 @@
-import { RGBA } from 'src/app/model/rgba.model';
-import { ITexture } from './ITexture';
+import { RGBA } from '../model/rgba.model';
 import { TEXTURE_FOUR } from './texture-id';
+import { TextureFour } from './texture4';
 
-/// Classe avec les informations de la texture de texture four
-/// Le pattern provient du site web https://www.heropatterns.com/
-export class TextureFour implements ITexture {
-    readonly id: number = TEXTURE_FOUR;
-    readonly name = 'Texture Four';
-    readonly randomAngle = Math.round(Math.random() * 360);
+describe('BrushToolService', () => {
+    let textureFour: TextureFour;
+    const id = 2;
+    beforeEach(() => {
+        textureFour = new TextureFour();
+    });
 
-    getTextureIDName(id: number): string {
-        return `${this.id}-${id}`;
-    }
-    getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number): string {
-        return `<defs>
-<pattern id="${this.getTextureIDName(id)}" viewBox="0 0 120 120" width="20" height="20" x="${x}" y="${y}"
- patternTransform="rotate(${this.randomAngle})" patternUnits="userSpaceOnUse">
+    it('should be created', () => {
+        expect(textureFour).toBeTruthy();
+    });
+
+    it('should return it id', () => {
+        const idName: string = textureFour.getTextureIDName(2);
+        expect(idName).toBe(TEXTURE_FOUR + '-2');
+    });
+
+    it('should return the patern', () => {
+
+        const idName: string = textureFour.getTextureIDName(id);
+        const rgba: RGBA = { rgb: { r: 200, g: 123, b: 200 }, a: 1 };
+        const x = 20;
+        const y = 25;
+        const patternString = `<defs>
+<pattern id="${idName}" viewBox="0 0 120 120" width="20" height="20" x="${x}" y="${y}"
+ patternTransform="rotate(${textureFour.randomAngle})" patternUnits="userSpaceOnUse">
 <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-<g id="line-in-motion" fill="rgb(${primaryColor.rgb.r},${primaryColor.rgb.g},${primaryColor.rgb.b})"
- fill-opacity="${primaryColor.a}">
+<g id="line-in-motion" fill="rgb(${rgba.rgb.r},${rgba.rgb.g},${rgba.rgb.b})"
+ fill-opacity="${rgba.a}">
     <path d="M9,0 L11,0 L11,20 L9,20 L9,0 Z M34.1339746,0.839745962 L35.8660254,1.83974596
     L25.8660254,19.160254 L24.1339746,18.160254 L34.1339746,0.839745962 Z M14.1339746,20.839746
     L15.8660254,21.839746 L5.8660254,39.160254 L4.1339746,38.160254 L14.1339746,20.839746
@@ -59,9 +70,10 @@ export class TextureFour implements ITexture {
 </g>
 </pattern>
 </defs>`;
-    }
+        expect(textureFour.getPattern(rgba, rgba, id, x, y)).toBe(patternString);
+    });
 
-    getFilter(id: number): string | null {
-        return null;
-    }
-}
+    it('should return null for the filter', () => {
+        expect(textureFour.getFilter(id)).toBeNull();
+    });
+});

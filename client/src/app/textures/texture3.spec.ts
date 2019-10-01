@@ -1,23 +1,35 @@
-import { RGBA } from 'src/app/model/rgba.model';
-import { ITexture } from './ITexture';
+import { RGBA } from '../model/rgba.model';
 import { TEXTURE_THREE } from './texture-id';
+import { TextureThree } from './texture3';
 
-/// Classe avec les informations de la texture de texture three
-/// Le pattern provient du site web https://www.heropatterns.com/
-export class TextureThree implements ITexture {
-    readonly id: number = TEXTURE_THREE;
-    readonly name = 'Texture Three';
-    readonly randomAngle = Math.round(Math.random() * 360);
-    getTextureIDName(id: number): string {
-        return `${this.id}-${id}`;
-    }
-    getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number): string {
-        return `<defs>
-<pattern id="${this.getTextureIDName(id)}" width="15px" height="8px" viewBox="0 0 20 12" x="${x}" y="${y}"
- patternTransform="rotate(${this.randomAngle})" patternUnits="userSpaceOnUse">
+describe('BrushToolService', () => {
+    let textureThree: TextureThree;
+    const id = 2;
+    beforeEach(() => {
+        textureThree = new TextureThree();
+    });
+
+    it('should be created', () => {
+        expect(textureThree).toBeTruthy();
+    });
+
+    it('should return it id', () => {
+        const idName: string = textureThree.getTextureIDName(2);
+        expect(idName).toBe(TEXTURE_THREE + '-2');
+    });
+
+    it('should return the patern', () => {
+
+        const idName: string = textureThree.getTextureIDName(id);
+        const rgba: RGBA = { rgb: { r: 200, g: 123, b: 200 }, a: 1 };
+        const x = 20;
+        const y = 25;
+        const patternString = `<defs>
+<pattern id="${idName}" width="15px" height="8px" viewBox="0 0 20 12" x="${x}" y="${y}"
+ patternTransform="rotate(${textureThree.randomAngle})" patternUnits="userSpaceOnUse">
 <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-<g id="eyes" fill="rgb(${primaryColor.rgb.r},${primaryColor.rgb.g},${primaryColor.rgb.b})"
- fill-opacity="${primaryColor.a}">
+<g id="eyes" fill="rgb(${rgba.rgb.r},${rgba.rgb.g},${rgba.rgb.b})"
+ fill-opacity="${rgba.a}">
 <path d="M6,12 C6,11.3784524 5.90549098,10.7789786 5.73005951,10.2151652 C6.81793291,11.3170865
     8.32921496,12 10,12 C11.670785,12 13.1820671,11.3170865 14.2699405,10.2151652 C14.094509,10.7789786
     14,11.3784524 14,12 L16,12 C16,9.790861 17.790861,8 20,8 L20,6 C18.329215,6 16.8179329,6.68291349
@@ -37,8 +49,10 @@ export class TextureThree implements ITexture {
 </g>
 </pattern>
 </defs>`;
-    }
-    getFilter(id: number): string | null {
-        return null;
-    }
-}
+        expect(textureThree.getPattern(rgba, rgba, id, x, y)).toBe(patternString);
+    });
+
+    it('should return null for the filter', () => {
+        expect(textureThree.getFilter(id)).toBeNull();
+    });
+});

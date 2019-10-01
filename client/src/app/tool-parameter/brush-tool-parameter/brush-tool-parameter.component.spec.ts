@@ -1,57 +1,69 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BrushToolParameterComponent } from './brush-tool-parameter.component';
-import { BrushToolService } from 'src/app/services/tools/brush-tool/brush-tool.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TexturesService } from 'src/app/services/textures/textures.service';
-import { OffsetManagerService } from 'src/app/services/offset-manager/offset-manager.service';
-import { ToolsColorService } from 'src/app/services/tools-color/tools-color.service';
-import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
+import { BrushToolService } from 'src/app/services/tools/brush-tool/brush-tool.service';
+import { BrushToolParameterComponent } from './brush-tool-parameter.component';
 
 describe('BrushToolParameterComponent', () => {
   let component: BrushToolParameterComponent;
   let fixture: ComponentFixture<BrushToolParameterComponent>;
-  const textureService: TexturesService = new TexturesService(); 
-  const workspaceService: WorkspaceService = new WorkspaceService();
-  const offsetService: OffsetManagerService = new OffsetManagerService(workspaceService);
-  const colorService: ToolsColorService = new ToolsColorService();
-  const brushToolService: BrushToolService = new BrushToolService(textureService, offsetService, colorService);
- 
+  let brushToolServiceSpy: jasmine.SpyObj<BrushToolService>;
+  let textureServiceSpy: jasmine.SpyObj<TexturesService>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BrushToolParameterComponent ],
-      providers: [{ provide: TexturesService, useValue: textureService }, { provide: WorkspaceService, useValue: workspaceService },
-        { provide: OffsetManagerService, useValue: offsetService }, { provide: ToolsColorService, useValue: colorService },
-        { provide: BrushToolService, useValue: brushToolService }]
+      declarations: [BrushToolParameterComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ReactiveFormsModule,
+        FormsModule],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BrushToolParameterComponent);
     component = fixture.componentInstance;
+
+
     fixture.detectChanges();
+
+    const spyBrush = jasmine.createSpyObj('BrushToolService', ['']);
+    const spyTexture = jasmine.createSpyObj('TexturesService', ['']);
+
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: BrushToolService, useValue: spyBrush },
+        { provide: TexturesService, useValue: spyTexture },
+      ],
+    });
+
+    brushToolServiceSpy = TestBed.get(BrushToolService);
+    textureServiceSpy = TestBed.get(TexturesService);
+
+    brushToolServiceSpy.parameters.patchValue({ texture: 1 });
+
+    component.ngOnInit();
   });
 
-  it('should create brush tool parameters', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get tool name', () => {
-    const spy = spyOnProperty(brushToolService, 'toolName').and.returnValue('brush');
-    expect(component.toolName).toEqual(spy);
+  it('should return the tool name', () => {
+    expect(component.toolName).toEqual(brushToolServiceSpy.toolName);
   });
 
-  it('should get list texture', () => {
-    textureService.textureOptionList = [];
-    expect(textureService.textureOptionList).toEqual(component.listTexture);
+  it('should return the list of texture', () => {
+    expect(component.listTexture).toEqual(textureServiceSpy.textureOptionList);
   });
 
-  it('should get selected texture', () => {
-    expect(component.form.get('texture')).toEqual(component.selectedTexture);
+  it('should return the selected texture', () => {
+    expect(component.selectedTexture).toEqual(brushToolServiceSpy.texture.value);
   });
 
-  it('should get stroke width value', () => {
-    expect(component.form.get('strokeWidth')).toEqual(component.strokeWidthValue);
+  it('should return the stroke width value', () => {
+    expect(component.strokeWidthValue).toEqual(brushToolServiceSpy.strokeWidth.value);
   });
 });

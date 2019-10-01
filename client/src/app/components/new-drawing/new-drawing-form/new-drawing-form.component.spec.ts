@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModules } from 'src/app/app.material-modules';
+import { MaterialModules } from 'src/app/app-material.module';
 import { NewDrawingFormComponent } from './new-drawing-form.component';
 
 describe('NewDrawingFormComponent', () => {
@@ -13,7 +13,7 @@ describe('NewDrawingFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, MaterialModules, BrowserAnimationsModule],
       declarations: [NewDrawingFormComponent],
-      providers: [{provide: FormBuilder, useValue: formBuilder}],
+      providers: [{ provide: FormBuilder, useValue: formBuilder }],
     })
       .compileComponents();
   }));

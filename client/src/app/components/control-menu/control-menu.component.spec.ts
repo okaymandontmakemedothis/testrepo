@@ -2,7 +2,7 @@ import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testi
 import { MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModules } from 'src/app/app.material-modules';
+import { MaterialModules } from 'src/app/app-material.module';
 import { ControlMenuComponent } from './control-menu.component';
 
 describe('ControlMenuComponent', () => {
@@ -11,11 +11,11 @@ describe('ControlMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ControlMenuComponent ],
-      imports: [MaterialModules, BrowserAnimationsModule, ],
-      providers: [ControlMenuComponent, { provide: MatDialogRef, useValue: {} }, ],
+      declarations: [ControlMenuComponent],
+      imports: [MaterialModules, BrowserAnimationsModule,],
+      providers: [ControlMenuComponent, { provide: MatDialogRef, useValue: {} },],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

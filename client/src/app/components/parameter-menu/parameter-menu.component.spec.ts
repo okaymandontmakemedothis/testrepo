@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MaterialModules } from 'src/app/app.material-modules';
+import { MaterialModules } from 'src/app/app-material.module';
 import { ParameterMenuComponent } from './parameter-menu.component';
 
 describe('ParameterMenuComponent', () => {
@@ -11,10 +11,10 @@ describe('ParameterMenuComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         ParameterMenuComponent,
-       ],
-      imports: [ MaterialModules ],
+      ],
+      imports: [MaterialModules],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

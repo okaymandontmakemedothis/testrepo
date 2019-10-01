@@ -1,36 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { ColorTransformerService } from 'src/app/services/color-transformer/color-transformer.service';
+import { FormBuilder, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { ColorPickerService } from '../color-picker.service';
 import { ColorRgbaHexComponent } from './color-rgba-hex.component';
+import { MaterialModules } from 'src/app/app-material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ColorRgbaHexComponent', () => {
   let component: ColorRgbaHexComponent;
   let fixture: ComponentFixture<ColorRgbaHexComponent>;
+  let form: FormGroup;
 
   const formBuilder: FormBuilder = new FormBuilder();
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ColorRgbaHexComponent],
-      imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        ColorTransformerService,
-      ],
-      providers: [
-        { provide: ColorTransformerService, useClass: ColorTransformerService },
-        { provide: FormBuilder, useValue: formBuilder },
-      ],
-    })
-      .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ColorRgbaHexComponent);
-    component = fixture.componentInstance;
-    component.colorForm = formBuilder.group({
+    form = formBuilder.group({
       hsl: formBuilder.group({
         h: 180,
         s: 1,
@@ -42,11 +26,43 @@ describe('ColorRgbaHexComponent', () => {
         b: 0,
       }),
       a: 1,
+      hex: '#ffffff',
     });
+    TestBed.configureTestingModule({
+      declarations: [ColorRgbaHexComponent],
+      imports: [
+        CommonModule,
+        MaterialModules,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+      ],
+      providers: [
+        {
+          provide: ColorPickerService, useClass: class {
+            colorForm: FormGroup = form;
+            get rgb(): FormGroup {
+              return (this.colorForm.get('rgb') as FormGroup);
+            }
+          },
+        },
+        { provide: FormBuilder, useValue: formBuilder },
+      ],
+    })
+      .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ColorRgbaHexComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should init with the form from the service', () => {
+    expect(component.colorForm).toEqual(form);
+    expect(component.rgb).toEqual(form.get('rgb') as FormGroup);
   });
 });

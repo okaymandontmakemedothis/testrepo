@@ -4,8 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModules } from '../../app-material.module';
 import { WelcomeDialogModule } from '../welcome-dialog/welcome-dialog.module';
-import { MaterialModules } from './../../app.material-modules';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {

@@ -5,7 +5,7 @@ import { MatButtonToggleChange } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { MaterialModules } from 'src/app/app.material-modules';
+import { MaterialModules } from 'src/app/app-material.module';
 import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 import { BrushToolParameterComponent } from 'src/app/tool-parameter/brush-tool-parameter/brush-tool-parameter.component';
@@ -31,12 +31,12 @@ describe('SidenavComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         SidenavComponent, ToolsColorComponent, ParameterMenuComponent, WorkspaceComponent, CanvasComponent,
-        PencilToolParameterComponent, ControlMenuComponent, BrushToolParameterComponent, ],
+        PencilToolParameterComponent, ControlMenuComponent, BrushToolParameterComponent],
       imports: [MaterialModules, FontAwesomeModule, BrowserAnimationsModule, ReactiveFormsModule, FormsModule,
-        SidenavModule, ],
-      providers: [{ provide: SidenavService, useValue: sidenavSpy }, 
-        { provide: ToolsService, useValue: toolSpy}],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        SidenavModule],
+      providers: [{ provide: SidenavService, useValue: sidenavSpy },
+      { provide: ToolsService, useValue: toolSpy }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
       .compileComponents();
     toolServiceSpy = TestBed.get(ToolsService);

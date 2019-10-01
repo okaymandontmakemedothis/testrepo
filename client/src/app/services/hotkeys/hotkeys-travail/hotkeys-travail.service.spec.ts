@@ -11,67 +11,107 @@ describe('HotkeysTravailService', () => {
   });
 
   it('CTRL-G should NOT emit', () => {
+    let isNotCalled = true;
+
     const service: HotkeysTravailService = new HotkeysTravailService();
+    service.hotkeysTravailEmitter.subscribe(() => { isNotCalled = false; });
     service.canExecute = false;
 
-    const event = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyG' });
+    const event = new KeyboardEvent('keydown', { code: 'KeyG' });
 
-    const result = service.hotkeysTravail(event);
+    service.hotkeysTravail(event);
 
-    expect(result).toBe('false');
+    expect(isNotCalled).toBeTruthy();
   });
 
   it('CTRL-G should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysTravailService = new HotkeysTravailService();
-    const event = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyG' });
+    service.hotkeysTravailEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysTravail(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyG' });
 
-    expect(result).toBe('g');
+    service.hotkeysTravail(keyBoardEvent);
+
+    expect(eventEmited).toBe('G');
   });
 
   it('CTRL-M should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysTravailService = new HotkeysTravailService();
-    const event = new KeyboardEvent('keydown', { ctrlKey: true, code: 'KeyM' });
+    service.hotkeysTravailEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysTravail(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'KeyM' });
 
-    expect(result).toBe('m');
+    service.hotkeysTravail(keyBoardEvent);
+
+    expect(eventEmited).toBe('M');
   });
 
   it('+ (numpad) should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysTravailService = new HotkeysTravailService();
-    const event = new KeyboardEvent('keydown', { code: 'NumpadAdd' });
+    service.hotkeysTravailEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysTravail(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'NumpadAdd' });
 
-    expect(result).toBe('add');
+    service.hotkeysTravail(keyBoardEvent);
+
+    expect(eventEmited).toBe('+');
   });
 
   it('+ (SHIFT-=) should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysTravailService = new HotkeysTravailService();
-    const event = new KeyboardEvent('keydown', { shiftKey: true, code: 'Equal' });
+    service.hotkeysTravailEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysTravail(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { shiftKey: true, code: 'Equal' });
 
-    expect(result).toBe('add');
+    service.hotkeysTravail(keyBoardEvent);
+
+    expect(eventEmited).toBe('+');
   });
 
   it('- (numpad) should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysTravailService = new HotkeysTravailService();
-    const event = new KeyboardEvent('keydown', { code: 'NumpadSubtract' });
+    service.hotkeysTravailEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysTravail(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'NumpadSubtract' });
 
-    expect(result).toBe('min');
+    service.hotkeysTravail(keyBoardEvent);
+
+    expect(eventEmited).toBe('-');
   });
 
   it('when "-" is pressed should emit', () => {
+    let eventEmited = '';
+
     const service: HotkeysTravailService = new HotkeysTravailService();
-    const event = new KeyboardEvent('keydown', { code: 'Minus' });
+    service.hotkeysTravailEmitter.subscribe((event: string) => { eventEmited = event; });
 
-    const result = service.hotkeysTravail(event);
+    const keyBoardEvent = new KeyboardEvent('keydown', { code: 'Minus' });
 
-    expect(result).toBe('min');
+    service.hotkeysTravail(keyBoardEvent);
+
+    expect(eventEmited).toBe('-');
+  });
+
+  it('F should not emit', () => {
+    let isNotCalled = true;
+
+    const service: HotkeysTravailService = new HotkeysTravailService();
+    service.hotkeysTravailEmitter.subscribe(() => { isNotCalled = false; });
+
+    const event = new KeyboardEvent('keydown', { code: 'KeyF' });
+
+    service.hotkeysTravail(event);
+
+    expect(isNotCalled).toBeTruthy();
   });
 });
