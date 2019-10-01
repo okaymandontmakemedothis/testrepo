@@ -42,10 +42,10 @@
 <!-- TABLE OF CONTENTS -->
 ## Table des matières
 
-* [Description du projet](#about-the-project)
-  * [Technologies utilisées](#built-with)
-* [Démarrer le projet](#getting-started)
-  * [Prérequis](#prerequisites)
+* [Description du projet](#description-projet)
+  * [Technologies utilisées](#technologies-utilisees)
+* [Démarrer le projet](#demarrer-le-projet)
+  * [Prérequis](#prerequis)
   * [Installation](#installation)
 * [Utilisation](#usage)
 * [Contact](#contact)
@@ -54,12 +54,17 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## Description du projet
+## description-projet
 
 Le rendu visuel de reference de l'application pourrait etre similaire a celui de Sketch pad.
+Outils de tracage
+Crayon :Il s'agit de l'outil de base du logiciel de dessin.Il est de forme ronde
+Pinceau :Cet outil differe du crayon par la texture du trait
+Plume:Outil de tracage qui differe du crayon par la forme mince de sa pointe
+Stylo:Cet outil differe du crayon par le fait que la surface de dessin s'amincit en fonction de la vitesse de deplacement de la souris
+Aerosol: cete outil simule un effet de peinture en aerosol
 
-
-### Technologies utilisées
+### technologies-utilisees
 Cette section énumère les technologies principales utilisées afin de construire l'application
 * [Angular](https://angular.io)
 * [NodeJs](https://nodejs.org/)
@@ -67,18 +72,15 @@ Cette section énumère les technologies principales utilisées afin de construi
 
 
 <!-- GETTING STARTED -->
-## getting-started
+## demarrer-le-projet
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-### Prérequis
+### prerequis
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-```sh
-npm install npm@latest -g
-```
+*npm
+*Nodemon
 
 ### Installation
 
