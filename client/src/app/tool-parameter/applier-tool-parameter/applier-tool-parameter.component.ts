@@ -6,6 +6,8 @@ import { ToolsApplierColorsService } from '../../services/tools/tools-applier-co
   templateUrl: './applier-tool-parameter.component.html',
   styleUrls: ['./applier-tool-parameter.component.scss'],
 })
+
+/// Le component d'affichage des paramètres du applicateur de couleur
 export class ApplierToolParameterComponent {
 
   constructor(private applierToolService: ToolsApplierColorsService) { }

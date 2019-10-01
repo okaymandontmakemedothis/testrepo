@@ -11,13 +11,17 @@ class MockRef extends ViewContainerRef {
   get(index: number): import('@angular/core').ViewRef | null {
     throw new Error('Method not implemented.');
   }
-  createEmbeddedView<C>(templateRef: import('@angular/core').TemplateRef<C>,
-    context?: C | undefined, index?: number | undefined): import('@angular/core').EmbeddedViewRef<C> {
+  createEmbeddedView<C>(
+    templateRef: import('@angular/core').TemplateRef<C>,
+    context?: C | undefined, index?: number | undefined,
+  ): import('@angular/core').EmbeddedViewRef<C> {
     throw new Error('Method not implemented.');
   }
-  createComponent<C>(componentFactory: import('@angular/core').ComponentFactory<C>,
+  createComponent<C>(
+    componentFactory: import('@angular/core').ComponentFactory<C>,
     index?: number | undefined, injector?: import('@angular/core').Injector | undefined,
-    projectableNodes?: any[][] | undefined, ngModule?: import('@angular/core').NgModuleRef<any> | undefined):
+    projectableNodes?: any[][] | undefined, ngModule?: import('@angular/core').NgModuleRef<any> | undefined,
+  ):
     import('@angular/core').ComponentRef<C> {
     throw new Error('Method not implemented.');
   }

@@ -3,6 +3,7 @@ import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 import { RGB } from 'src/app/model/rgb.model';
 import { COLOR_SQUARE_HEIGHT, COLOR_SQUARE_STROKE_WIDTH, COLOR_SQUARE_WIDTH } from '../color-picker.constant';
 
+/// Classe permettant d'offrire d'aficher un carré avec une couleur choisie
 @Component({
   selector: 'app-color-square',
   templateUrl: './color-square.component.html',

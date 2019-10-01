@@ -20,7 +20,7 @@ import { INITIAL_WIDTH } from '../tools-constants';
 export class BrushToolService implements ITools {
   readonly id = ToolIdConstants.BRUSH_ID;
   readonly faIcon: IconDefinition = faPaintBrush;
-  readonly toolName = 'Brush Tool';
+  readonly toolName = 'Outil Pinceau';
   parameters: FormGroup;
   private object: Polyline | null;
   strokeWidth: FormControl;
@@ -50,19 +50,23 @@ export class BrushToolService implements ITools {
 
   /// Création d'un polyline selon la position de l'evenement de souris, choisi les bonnes couleurs selon le clique de souris
   /// Récupère la bonne texture
-  onPressed(event: MouseEvent): IObjects {
-    const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
-    this.lastPoint = { x: offset.x, y: offset.y };
-    const texture: ITexture = this.texturesService.returnTexture(this.texture.value);
-    this.object = new Polyline(this.lastPoint, this.strokeWidth.value, texture);
-    if (event.button === 0) {
-      this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
-      this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
+  onPressed(event: MouseEvent): IObjects | null {
+    if (this.strokeWidth.value && this.strokeWidth.value > 0) {
+      const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+      this.lastPoint = { x: offset.x, y: offset.y };
+      const texture: ITexture = this.texturesService.returnTexture(this.texture.value);
+      this.object = new Polyline(this.lastPoint, this.strokeWidth.value, texture);
+      if (event.button === 0) {
+        this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+        this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
+      } else {
+        this.object.primaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
+        this.object.secondaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+      }
+      return this.object;
     } else {
-      this.object.primaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
-      this.object.secondaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+      return null;
     }
-    return this.object;
   }
 
   /// Réinitialisation de l'outil après avoir laisser le clique de la souris

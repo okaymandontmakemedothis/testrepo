@@ -12,7 +12,6 @@ import { WelcomeDialogComponent } from '../welcome-dialog/welcome-dialog/welcome
 
 @Component({
   selector: 'app-root',
-  // templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   templateUrl: './app.component.html',
 })
@@ -21,13 +20,15 @@ export class AppComponent implements OnInit, OnDestroy {
   welcomeDialogRef: MatDialogRef<WelcomeDialogComponent>;
   welcomeDialogSub: Subscription;
 
-  constructor(public dialog: MatDialog,
-              private welcomeService: WelcomeDialogService,
-              private hotkeysFichierService: HotkeysFichierService,
-              private hotkeysSelectionService: HotkeysSelectionService,
-              private hotkeysOutilService: HotkeysOutilService,
-              private hotkeysTravailService: HotkeysTravailService,
-              private sideNavService: SidenavService) {
+  constructor(
+    public dialog: MatDialog,
+    private welcomeService: WelcomeDialogService,
+    private hotkeysFichierService: HotkeysFichierService,
+    private hotkeysSelectionService: HotkeysSelectionService,
+    private hotkeysOutilService: HotkeysOutilService,
+    private hotkeysTravailService: HotkeysTravailService,
+    private sideNavService: SidenavService,
+  ) {
     this.dialog.afterAllClosed.subscribe(() => {
       this.hotkeysFichierService.canExecute = true;
       this.hotkeysSelectionService.canExecute = true;

@@ -30,12 +30,12 @@ export class WelcomeDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<WelcomeDialogComponent>,
     private basicService: IndexService,
   ) {
-    // recevoir text de bienvenue de index service grace a la fonction welcomeGet qui va chercher le JSON file text du cote du serveur
+    /// recevoir text de bienvenue de index service grace a la fonction welcomeGet qui va chercher le JSON file text du cote du serveur
     this.basicService.welcomeGet()
       .subscribe(this.welcomeMessage);
   }
 
-  // Fonction pour ouvrir le dialog d'aide
+  /// Fonction pour ouvrir le dialog d'aide
   openDialog() {
     this.dialog.open(AideDialogComponent, {
       hasBackdrop: true,
@@ -49,7 +49,7 @@ export class WelcomeDialogComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.welcomeService.form;
   }
-  // fonction closeClick qui permet de fermer le premier mat dialog du message de bienvenue
+  /// fonction closeClick qui permet de fermer le premier mat dialog du message de bienvenue
   closeClick(): void {
     this.dialogRef.close();
   }

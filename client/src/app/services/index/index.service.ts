@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Message, ShortcutClavier, WelcomeMessage } from '../../../../../common/communication/message';
 
+/// Service qui rassembler les getter des serveurs
 @Injectable({
   providedIn: 'root',
 })
@@ -20,12 +21,14 @@ export class IndexService {
     );
   }
 
+  /// Transmet le message contenue dans le JSON file pour le message de bienvenue
   welcomeGet(): Observable<WelcomeMessage> {
     return this.http.get<WelcomeMessage>('http://localhost:3000/api/index/text').pipe(
       catchError(this.handleError<WelcomeMessage>('welcomeGet')),
     );
   }
 
+  /// Transmet le message contenue dans le JSON file pour le message de shortcut clavier
   aideGet(): Observable<ShortcutClavier> {
     return this.http.get<ShortcutClavier>('http://localhost:3000/api/index/text').pipe(
       catchError(this.handleError<ShortcutClavier>('aideGet')),

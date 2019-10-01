@@ -5,6 +5,7 @@ import { NewDrawingComponent } from 'src/app/components/new-drawing/new-drawing.
 import { WelcomeDialogComponent } from 'src/app/components/welcome-dialog/welcome-dialog/welcome-dialog.component';
 import { WelcomeDialogService } from '../welcome-dialog/welcome-dialog.service';
 
+/// Service qui ouvre la page de démarage a l'ouverture de polydessin
 @Injectable({
   providedIn: 'root',
 })

@@ -146,8 +146,10 @@ class MockItool implements ITools {
     }
     return new RectangleObject(0, 0, 0, '');
   }
+  // tslint:disable-next-line: no-empty
   onRelease(event: MouseEvent): void {
   }
+  // tslint:disable-next-line: no-empty
   onMove(event: MouseEvent): void {
   }
 }
