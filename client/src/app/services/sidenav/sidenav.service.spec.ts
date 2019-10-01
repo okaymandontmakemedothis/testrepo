@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { HttpClientModule } from '@angular/common/http';
-import { MatButtonToggleModule, } from '@angular/material';
+import { MatButtonToggleModule, MatButtonToggleChange } from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WelcomeDialogModule } from 'src/app/components/welcome-dialog/welcome-dialog.module';
@@ -12,7 +12,11 @@ import { HotkeysTravailService } from '../hotkeys/hotkeys-travail/hotkeys-travai
 import { ToggleDrawerService } from '../toggle-drawer/toggle-drawer.service';
 import { ToolsService } from '../tools/tools.service';
 import { SidenavService } from './sidenav.service';
-//import { EventEmitter } from '@angular/core';
+import { ITools } from '../tools/ITools';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { FormGroup } from '@angular/forms';
+import { IObjects } from 'src/app/objects/IObjects';
+import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 
 describe('SidenavService', () => {
   let toggleDrawerServiceSpy: jasmine.SpyObj<ToggleDrawerService>;
@@ -28,21 +32,21 @@ describe('SidenavService', () => {
     const hotkeyaSpy = jasmine.createSpyObj('HotkeysFichierService', ['']);
     const hotkeybSpy = jasmine.createSpyObj('HotkeysSelectionService', ['']);
     const hotkeycSpy = jasmine.createSpyObj('HotkeysTravailService', ['']);
-    const toolSpy = jasmine.createSpyObj('ToolsService', ['']);
+    const toolSpy = jasmine.createSpyObj('ToolsService', ['selectTool']);
     TestBed.configureTestingModule({
       imports: [MatDialogModule, BrowserAnimationsModule, WelcomeDialogModule, HttpClientModule, MatButtonToggleModule],
-      providers: [ {provide: SidenavService, useValue: {}}, { provide: ToggleDrawerService, useValue: toogleSpy },
-        { provide: ToolsService, useValue: toolSpy }, { provide: HotkeysOutilService, useValue: hotkeyOutilSpy },
-        { provide: HotkeysFichierService, useValue: hotkeyaSpy }, { provide: HotkeysSelectionService, useValue: hotkeybSpy },
+      providers: [{ provide: ToggleDrawerService, useValue: toogleSpy },
+      { provide: ToolsService, useValue: toolSpy }, { provide: HotkeysOutilService, useValue: hotkeyOutilSpy },
+      { provide: HotkeysFichierService, useValue: hotkeyaSpy }, { provide: HotkeysSelectionService, useValue: hotkeybSpy },
       { provide: HotkeysTravailService, useValue: hotkeycSpy }],
-      });
+    });
     toggleDrawerServiceSpy = TestBed.get(ToggleDrawerService);
     hotkeyOutilServiceSpy = TestBed.get(HotkeysOutilService);
     hotkeyaServiceSpy = TestBed.get(HotkeysFichierService);
     hotkeybServiceSpy = TestBed.get(HotkeysSelectionService);
     hotkeycServiceSpy = TestBed.get(HotkeysTravailService);
     toolServiceSpy = TestBed.get(ToolsService);
-    });
+  });
 
   it('sidenav service should be created', () => {
     const service: SidenavService = TestBed.get(SidenavService);
@@ -56,15 +60,17 @@ describe('SidenavService', () => {
 
   it('should get isOpened', () => {
     const service: SidenavService = TestBed.get(SidenavService);
-    const spy = spyOnProperty(toggleDrawerServiceSpy, 'isOpened').and.returnValue(true);
-    expect(service.isOpened).toEqual(spy);
+    toggleDrawerServiceSpy.isOpened = false;
+    expect(service.isOpened).toEqual(false);
+    toggleDrawerServiceSpy.isOpened = true;
+    expect(service.isOpened).toEqual(true);
   });
 
   it('should get tool list length when selectedParameter is called and isControlMenu is true', () => {
     const service: SidenavService = TestBed.get(SidenavService);
     service.isControlMenu = true;
-    service.toolList.length = 4;
-    expect(service.selectedParameter).toEqual(4);
+    toolServiceSpy.tools = [new MockItool()];
+    expect(service.selectedParameter).toEqual(1);
   });
 
   it('should get tool list selected tools id when selectedParameter is called and isControlMenu is false', () => {
@@ -109,11 +115,37 @@ describe('SidenavService', () => {
     const service: SidenavService = TestBed.get(SidenavService);
     const mouseEvent = new MouseEvent('mousedown');
     service.canClick = true;
-    spyOnProperty(mouseEvent, 'target').and.returnValue( new HTMLInputElement());
+    const input = document.createElement('input');
+    input.value = '2';
+    spyOnProperty(mouseEvent, 'target').and.returnValue(input);
     window.dispatchEvent(mouseEvent);
     expect(hotkeyOutilServiceSpy.canExecute).toEqual(false);
     expect(hotkeyaServiceSpy.canExecute).toEqual(false);
     expect(hotkeybServiceSpy.canExecute).toEqual(false);
     expect(hotkeycServiceSpy.canExecute).toEqual(false);
   });
+
+  it('should get tool list', () => {
+    const service: SidenavService = TestBed.get(SidenavService);
+    service.isControlMenu = true;
+
+    service.selectionChanged(MatButtonToggleChange.prototype);
+
+    expect(toolServiceSpy.selectTool).toHaveBeenCalled();
+  });
 });
+
+class MockItool implements ITools {
+  readonly id: 5;
+  readonly faIcon: IconDefinition;
+  readonly toolName: 'brush';
+  parameters: FormGroup;
+  onPressed(event: MouseEvent): IObjects | null {
+    if (event.button === 0) {
+      return null;
+    }
+    return new RectangleObject(0, 0, 0, '');
+  }
+  onRelease(event: MouseEvent): void { }
+  onMove(event: MouseEvent): void { }
+}

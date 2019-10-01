@@ -2,40 +2,41 @@ import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { IObjects } from 'src/app/objects/IObjects';
-import { DrawingService } from '../drawing/drawing.service';
-import { ITools } from './ITools';
-import { ToolsService } from './tools.service';
-import { PencilToolService } from './pencil-tool/pencil-tool.service';
-import { BrushToolService } from './brush-tool/brush-tool.service';
-import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
-import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
+import { DrawingService } from '../drawing/drawing.service';
+import { BrushToolService } from './brush-tool/brush-tool.service';
+import { ITools } from './ITools';
+import { PencilToolService } from './pencil-tool/pencil-tool.service';
+import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
+import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
+import { ToolsService } from './tools.service';
 
-class MockItool implements ITools{
+class MockItool implements ITools {
   readonly id: 5;
   readonly faIcon: IconDefinition;
   readonly toolName: 'brush';
   parameters: FormGroup;
-  onPressed(event: MouseEvent): IObjects | null{
+  onPressed(event: MouseEvent): IObjects | null {
     if (event.button === 0) {
       return null;
     }
-    return new RectangleObject(0,0,0,'');
+    return new RectangleObject(0, 0, 0, '');
   }
-  onRelease(event: MouseEvent): void {}
-  onMove(event: MouseEvent): void {}
+  onRelease(event: MouseEvent): void { }
+  onMove(event: MouseEvent): void { }
 }
+
 describe('ToolsListService', () => {
   let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
 
   beforeEach(() => {
-    const drawingSpy = jasmine.createSpyObj('DrawingService', ['addObject','draw']);
+    const drawingSpy = jasmine.createSpyObj('DrawingService', ['addObject', 'draw']);
     TestBed.configureTestingModule({
       providers: [PencilToolService, BrushToolService, ToolsApplierColorsService, ToolRectangleService,
         { provide: DrawingService, useValue: drawingSpy }],
-      });
-    drawingServiceSpy = TestBed.get(DrawingService);
     });
+    drawingServiceSpy = TestBed.get(DrawingService);
+  });
 
   it('should be created', () => {
     const service: ToolsService = TestBed.get(ToolsService);
@@ -60,7 +61,7 @@ describe('ToolsListService', () => {
     service.tools.push(new MockItool());
     service.selectTool(service.tools.length - 1);
 
-    const mouseEvent = new MouseEvent('mousedown',{button:2});
+    const mouseEvent = new MouseEvent('mousedown', { button: 2 });
     service.onPressed(mouseEvent);
 
     expect(drawingServiceSpy.addObject).toHaveBeenCalled();
@@ -72,7 +73,7 @@ describe('ToolsListService', () => {
     service.tools.push(new MockItool());
     service.selectTool(service.tools.length - 1);
 
-    const mouseEvent = new MouseEvent('mousedown', {button:0});
+    const mouseEvent = new MouseEvent('mousedown', { button: 0 });
     service.onPressed(mouseEvent);
 
     expect(drawingServiceSpy.addObject).not.toHaveBeenCalled();
@@ -84,7 +85,7 @@ describe('ToolsListService', () => {
     service.tools.push(new MockItool());
     service.selectTool(service.tools.length - 1);
 
-    const mouseEvent = new MouseEvent('mousedown', {button:2});
+    const mouseEvent = new MouseEvent('mousedown', { button: 2 });
     service.onPressed(mouseEvent);
     expect(service.currentObject).not.toBeNull();
 
@@ -98,7 +99,7 @@ describe('ToolsListService', () => {
     service.tools.push(new MockItool());
     service.selectTool(service.tools.length - 1);
 
-    const mouseEvent = new MouseEvent('mousedown', {button:2});
+    const mouseEvent = new MouseEvent('mousedown', { button: 2 });
     service.onPressed(mouseEvent);
     expect(service.currentObject).not.toBeNull();
 
