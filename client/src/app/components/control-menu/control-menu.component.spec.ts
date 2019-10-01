@@ -1,7 +1,6 @@
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModules } from 'src/app/app-material.module';
 import { ControlMenuComponent } from './control-menu.component';
 
@@ -12,8 +11,8 @@ describe('ControlMenuComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ControlMenuComponent],
-      imports: [MaterialModules, BrowserAnimationsModule,],
-      providers: [ControlMenuComponent, { provide: MatDialogRef, useValue: {} },],
+      imports: [MaterialModules],
+      providers: [ControlMenuComponent, { provide: MatDialogRef, useValue: {} }],
     })
       .compileComponents();
   }));
