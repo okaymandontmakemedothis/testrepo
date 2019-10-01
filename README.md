@@ -33,19 +33,13 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">PolyDessin LOG2990</h3>
+  <h3 align="center">PolyDessin LOG2990  - Projet de logiciel d’application Web</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    Le projet consiste à créer une application Web de dessin vectoriel. L’application souhaitée devra être
+relativement simple d’utilisation. On ne souhaite pas un équivalent d’Adobe Illustrator, mais plutôt de
+quoi de semblable à Sketchpad (sketch.io).
+
   </p>
 </p>
 
