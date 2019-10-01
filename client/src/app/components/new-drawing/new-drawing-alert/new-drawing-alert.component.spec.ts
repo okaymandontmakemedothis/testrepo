@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatDialogModule } from '@angular/material';
 import { NewDrawingAlertComponent } from './new-drawing-alert.component';
 
 describe('NewDrawingAlertComponent', () => {
@@ -8,9 +8,10 @@ describe('NewDrawingAlertComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewDrawingAlertComponent ],
+      declarations: [NewDrawingAlertComponent],
+      imports: [MatDialogModule],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
