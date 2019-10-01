@@ -19,8 +19,8 @@ export class IndexService {
             body: 'Lorem ipsum........',
         };
     }
-    getTextRessource(): WelcomeMessage {
-        const file = fs.readFileSync(__dirname + '/../../../../app/res/text/welcome_text2.json');
+    getTextRessource(pathName:string): WelcomeMessage {
+        const file = fs.readFileSync(__dirname + pathName);
         const obj = JSON.parse(file.toString());
         return obj;
     }
