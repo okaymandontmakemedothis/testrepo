@@ -3,6 +3,7 @@ import { RGBA } from '../../model/rgba.model';
 import { ITexture } from '../../textures/ITexture';
 import { IObjects } from '../IObjects';
 
+/// Classe pour créer les objets de lignes
 export class Polyline implements IObjects {
     id: number;
     x: number;

@@ -37,13 +37,14 @@ export class ParameterMenuComponent implements OnChanges {
     private parameterComponentService: ParameterComponentService,
   ) {
   }
-
+  /// Fait appel a loadComponent si le id selectionner change
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.selectId) {
       this.loadComponent();
     }
   }
 
+  /// Charger le component pour l'outil en question
   private loadComponent() {
     const componentFactory: ComponentFactory<any> =
       this.componentFactoryResolver.resolveComponentFactory(
@@ -53,6 +54,7 @@ export class ParameterMenuComponent implements OnChanges {
     viewContainerRef.createComponent(componentFactory);
   }
 
+  /// Recoit si le service de toggle drawer est ouvert
   get isOpened(): boolean {
     return this.toggleDrawerService.isOpened;
   }

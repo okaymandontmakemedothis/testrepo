@@ -7,6 +7,8 @@ import { PencilToolService } from 'src/app/services/tools/pencil-tool/pencil-too
   templateUrl: './pencil-tool-parameter.component.html',
   styleUrls: ['./pencil-tool-parameter.component.scss'],
 })
+
+/// Le component d'affichage des paramètres du crayon
 export class PencilToolParameterComponent implements OnInit {
 
   form: FormGroup;

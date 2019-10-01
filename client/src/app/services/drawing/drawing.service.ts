@@ -3,6 +3,7 @@ import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
 import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
 import { IObjects } from 'src/app/objects/IObjects';
 
+/// Service qui contient les fonction pour dessiner a l'écran
 @Injectable({
   providedIn: 'root',
 })

@@ -36,7 +36,7 @@ describe('HotkeysFichierService', () => {
 
     service.hotkeysFichier(keyBoardEvent);
 
-    expect(eventEmited).toBe(emitReturn.NEW_DRAWING);
+    expect(eventEmited).toBe(EmitReturn.NEW_DRAWING);
   });
 
   it('CTRL-S should emit', () => {

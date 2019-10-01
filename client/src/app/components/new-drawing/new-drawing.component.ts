@@ -29,6 +29,7 @@ export class NewDrawingComponent implements OnInit {
     private dialog: MatDialog,
     private colorPickerService: ColorPickerService) { }
 
+  /// Créer un nouveau form avec les dimension et la couleur
   ngOnInit(): void {
     this.form = new FormGroup(
       {
@@ -45,6 +46,7 @@ export class NewDrawingComponent implements OnInit {
     return (this.form.get('dimension') as FormGroup).get('size') as FormGroup;
   }
 
+  /// Ouvre le dialog pour l'alerte lorsque le service est creer
   onAccept(): void {
     if (this.drawingService.isCreated) {
       const alert = this.dialog.open(NewDrawingAlertComponent, {
@@ -60,6 +62,7 @@ export class NewDrawingComponent implements OnInit {
     }
   }
 
+  /// Cre un nouveau dessin
   private newDrawing() {
     this.drawingService.isCreated = true;
     const size: { width: number, height: number } = this.newDrawingService.sizeGroup.value;
@@ -76,10 +79,12 @@ export class NewDrawingComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  /// Ferme le dialog
   onCancel(): void {
     this.dialogRef.close();
   }
 
+  /// Ecoute pour un changement de la grandeur du window
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.newDrawingService.onResize();

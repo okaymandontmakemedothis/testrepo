@@ -8,6 +8,7 @@ import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
 import { ToolIdConstants } from 'src/app/services/tools/tool-id-constants';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
+import '../../services/hotkeys/hotkeys-constants';
 import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
 
 @Component({
@@ -48,7 +49,7 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.workspaceService.scrolledElement = this.workspaceEnv;
   }
-
+  /// Met les canExacute des hotkeys a false et ouvre un NewDrawingComponent
   openDialog() {
     this.hotkeysFichierService.canExecute = false;
     this.hotkeysSelectionService.canExecute = false;
@@ -59,33 +60,35 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     this.dialog.open(NewDrawingComponent);
   }
 
+  /// Subscribe au hotkeys pour effectuer l'action associé
   private subscribeToHotkeys(): void {
     this.hotkeysFichierService.hotkeysFichierEmitter.subscribe((value: string) => {
-      if (value === emitReturn.NEW_DRAWING) {
+      if (value === EmitReturn.NEW_DRAWING) {
         this.disableHotkeys();
         this.openDialog();
       }
     });
     this.hotkeysOutilService.hotkeysOutilEmitter.subscribe((value: string) => {
-      if (value === emitReturn.PENCIL) {
+      if (value === EmitReturn.PENCIL) {
         this.sideNavService.open();
         this.toolsService.selectTool(ToolIdConstants.PENCIL_ID);
       }
-      if (value === emitReturn.BRUSH) {
+      if (value === EmitReturn.BRUSH) {
         this.sideNavService.open();
         this.toolsService.selectTool(ToolIdConstants.BRUSH_ID);
       }
-      if (value === emitReturn.APPLICATEUR) {
+      if (value === EmitReturn.APPLICATEUR) {
         this.sideNavService.open();
         this.toolsService.selectTool(ToolIdConstants.APPLIER_ID);
       }
-      if (value === emitReturn.RECTANGLE) {
+      if (value === EmitReturn.RECTANGLE) {
         this.sideNavService.open();
         this.toolsService.selectTool(ToolIdConstants.RECTANGLE_ID);
       }
     });
   }
 
+  /// Met les canExecutes des hotkeys a false
   private disableHotkeys() {
     this.hotkeysFichierService.canExecute = false;
     this.hotkeysSelectionService.canExecute = false;
@@ -94,23 +97,28 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     this.sideNavService.canClick = false;
   }
 
+  /// Effectue un onPress sur le clique droit de la sourie
   onRightClick(event: MouseEvent) {
     this.toolsService.onPressed(event);
     return false;
   }
 
+  /// Effectue un onPress sur le clique gauche de la sourie
   onMouseDown(event: MouseEvent) {
     this.toolsService.onPressed(event);
   }
 
+  /// Effectue un onRelease quand le clique de la sourie est relaché
   onMouseUp(event: MouseEvent) {
     this.toolsService.onRelease(event);
   }
 
+  /// Effectue un onMove quand la sourie bouge
   onMouseMove(event: MouseEvent) {
     this.toolsService.onMove(event);
   }
 
+  /// Écoute le clavier pour envoyer l'évenement a la sourie
   @HostListener('window:keydown', ['$event'])
   listenHotkey(event: KeyboardEvent) {
     this.hotkeysFichierService.hotkeysFichier(event);

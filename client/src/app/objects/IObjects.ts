@@ -1,5 +1,6 @@
 import { RGBA } from '../model/rgba.model';
 
+/// Interface pour tous les objets
 export interface IObjects {
     id: number;
     x: number;

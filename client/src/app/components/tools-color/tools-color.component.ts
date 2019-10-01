@@ -52,6 +52,7 @@ export class ToolsColorComponent {
     return this.drawingService.rgbColorString;
   }
 
+  /// Ouvre un dialog qui fait appel a colorPickerOpen
   openDialog(colorType: ColorType): void {
     let dialogRef: MatDialogRef<ToolsColorPickerComponent>;
     switch (colorType) {
@@ -84,6 +85,7 @@ export class ToolsColorComponent {
     }
   }
 
+  /// Ouvre le dialog pour le choix de couleur
   private colorPickerOpen(rgb: RGB, a: number): MatDialogRef<ToolsColorPickerComponent> {
     let dialogRef: MatDialogRef<ToolsColorPickerComponent>;
     dialogRef = this.dialog.open(ToolsColorPickerComponent, {
@@ -98,14 +100,15 @@ export class ToolsColorComponent {
     this.toolsColor.switchColor();
   }
 
+  /// click de souris ouvre le dialog pour la couleur primaire
   clickPrimary(event: MouseEvent): void {
     this.openDialog(ColorType.primary);
   }
-
+  /// click de souris ouvre le dialog pour la couleur secondaire
   clickSecondary(event: MouseEvent): void {
     this.openDialog(ColorType.secondary);
   }
-
+  /// click de souris ouvre le dialog pour la couleur de l'arriere plan
   clickBackground(event: MouseEvent): void {
     this.openDialog(ColorType.background);
   }

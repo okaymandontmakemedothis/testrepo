@@ -12,6 +12,8 @@ const BORDER_ID = 2;
   templateUrl: './rectangle-tool-parameter.component.html',
   styleUrls: ['./rectangle-tool-parameter.component.scss'],
 })
+
+/// Le component d'affichage des paramètres du rectangle
 export class RectangleToolParameterComponent implements OnInit {
 
   form: FormGroup;
@@ -20,21 +22,23 @@ export class RectangleToolParameterComponent implements OnInit {
 
   styles: RectangleStyle[] = [
     {
-      id: FILL_ID, type: 'fill',
-      tooltip: 'Fill',
+      id: FILL_ID,
+      type: 'fill',
+      tooltip: 'Rempli',
     },
     {
       id: CENTER_ID,
       type: 'center',
-      tooltip: 'Center',
+      tooltip: 'Centre',
     },
     {
       id: BORDER_ID,
       type: 'border',
-      tooltip: 'Border',
+      tooltip: 'Bordure',
     },
   ];
 
+  /// Selection du style selon le numero de id
   selectStyle(id: number): void {
     this.currentStyle = id;
     this.form.patchValue({
@@ -43,7 +47,7 @@ export class RectangleToolParameterComponent implements OnInit {
   }
 
   constructor(private rectangleToolService: ToolRectangleService) { }
-
+  /// Assignation des parametre du service de rectangle au form
   ngOnInit(): void {
     this.form = this.rectangleToolService.parameters;
   }

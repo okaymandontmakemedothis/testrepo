@@ -20,11 +20,12 @@ export class ToolsColorPickerComponent implements OnInit, AfterViewInit {
     private toolsColor: ToolsColorService,
     private colorPickerService: ColorPickerService) { }
 
+  /// Appliquer la couleur au form
   ngOnInit(): void {
     this.colorPickerService.setFormColor(this.data.rgb, this.data.a);
     this.form = this.colorPickerService.colorForm;
   }
-
+  /// Assigne au au component le valeur de la couleur la couleur dans le form change
   ngAfterViewInit(): void {
     this.colorPickerService.colorForm.valueChanges.subscribe(() => {
       this.data.rgb = this.colorPickerService.rgb.value;

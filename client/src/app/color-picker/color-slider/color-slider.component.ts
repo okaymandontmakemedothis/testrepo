@@ -8,6 +8,8 @@ const ONE_SIXT_GRADIENT = 1 / 6;
 const GRADIENT_START = 0;
 const GRADIENT_END = 1;
 const SELECTOR_WIDTH = 3;
+
+/// Cette classe permet de choisir le hue de la couleur sur un gradient de hue (0,360)
 @Component({
   selector: 'app-color-slider',
   templateUrl: './color-slider.component.html',
@@ -29,6 +31,7 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
 
   constructor(private colorPickerService: ColorPickerService) { }
 
+  /// Defini le hue puis subscribe lorsque ça valeur change
   ngOnInit(): void {
     this.hue = this.colorPickerService.hsl.get('h') as FormControl;
     this.hue.valueChanges.subscribe((value) => {
@@ -82,6 +85,7 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
     return MAX_HUE * heightPercentage;
   }
 
+  /// Met à jour la valeur hue selon la position en y
   private updateHue(y: number): void {
     this.selectedHeight = y;
     const h = this.getHueAtPosition(y);
@@ -89,17 +93,20 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
     this.draw();
   }
 
+  /// Met à jour le hue selon la position de la souris après avoir activé un entrée de souris
   onMouseMove(event: MouseEvent): void {
     if (this.isMouseDown) {
       this.updateHue(event.offsetY);
     }
   }
 
+  /// Met à jour le hue selon la position de la souris et active un entrée de souris
   onMouseDown(event: MouseEvent): void {
     this.isMouseDown = true;
     this.updateHue(event.offsetY);
   }
 
+  /// Désactive un entrée de souris
   @HostListener('window:mouseup', ['$event'])
   onMouseUp(event: MouseEvent): void {
     this.isMouseDown = false;

@@ -62,6 +62,7 @@ export class ToolsColorService {
     }
   }
 
+  /// Échange les couleurs entre la principale et secondaire
   switchColor() {
     const tempColor = this.primaryColor;
     const tempAlpha = this.primaryAlpha;

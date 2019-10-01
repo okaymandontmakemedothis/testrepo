@@ -19,11 +19,11 @@ export class AideDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<AideDialogComponent>, private basicService: IndexService, ) {
-    // recevoir text de shortcut de index service grace a la fonction aideGet qui va chercher le JSON file text du cote du serveur
+    /// recevoir text de shortcut de index service grace a la fonction aideGet qui va chercher le JSON file text du cote du serveur
     this.basicService.aideGet()
       .subscribe(this.messageShortcut);
   }
-  // fonction close qui permet de fermer le mat dialog d'aide
+  /// fonction close qui permet de fermer le mat dialog d'aide
   close(): void {
     this.dialogRef.close();
   }

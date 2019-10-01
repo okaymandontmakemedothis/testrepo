@@ -9,19 +9,22 @@
       </mat-form-field>
     </div>
     <div>
-      <mat-label>Style filling</mat-label>
+      <mat-label>Style de remplissage</mat-label>
       <mat-button-toggle-group [(value)]="currentStyle" #group="matButtonToggleGroup">
-        <mat-button-toggle mat-icon-button [matTooltip]="styles[0].tooltip" [value]="styles[0].id" (click)="selectStyle(styles[0].id)">
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[0].tooltip" [value]="styles[0].id"
+          (click)="selectStyle(styles[0].id)">
           <svg width=26 height=26>
             <rect x=3 y=3 width=20 height=20 fill="grey" stroke="black" stroke-width="3"></rect>
           </svg>
         </mat-button-toggle>
-        <mat-button-toggle mat-icon-button [matTooltip]="styles[1].tooltip" [value]="styles[1].id" (click)="selectStyle(styles[1].id)">
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[1].tooltip" [value]="styles[1].id"
+          (click)="selectStyle(styles[1].id)">
           <svg width=26 height=26>
             <rect x=3 y=3 width=20 height=20 fill="grey" stroke="transparent" stroke-width="3"></rect>
           </svg>
         </mat-button-toggle>
-        <mat-button-toggle mat-icon-button [matTooltip]="styles[2].tooltip" [value]="styles[2].id" (click)="selectStyle(styles[2].id)">
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[2].tooltip" [value]="styles[2].id"
+          (click)="selectStyle(styles[2].id)">
           <svg width=26 height=26>
             <rect x=3 y=3 width=20 height=20 fill="transparent" stroke="black" stroke-width="3"></rect>
           </svg>
