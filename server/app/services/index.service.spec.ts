@@ -33,6 +33,20 @@ describe('Testing index.service',()=>{
         expect(result.body).exist;
         done()
     })
+    it('should return hello world message',async (done) =>{
+        const mockDateService = sinon.mock(DateService);
+        const indexService = new IndexService(mockDateService);
+        // mockDateService.expects('currentTime').returns(0)
+        let result
+        try{
+            result = await indexService.helloWorld()
+        }
+        catch{
+
+        }
+        expect(result).exist
+        done()
+    })
 
 
 })
