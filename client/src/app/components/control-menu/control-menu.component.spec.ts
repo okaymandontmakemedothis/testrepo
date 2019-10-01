@@ -19,7 +19,7 @@ describe('ControlMenuComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ControlMenuComponent],
-      imports: [MaterialModules, BrowserAnimationsModule,],
+      imports: [MaterialModules, BrowserAnimationsModule],
       providers: [ControlMenuComponent, { provide: MatDialogRef, useValue: {} },],
     });
     spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);

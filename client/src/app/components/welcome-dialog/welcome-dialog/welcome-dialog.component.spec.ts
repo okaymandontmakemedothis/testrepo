@@ -1,6 +1,6 @@
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MatDialog } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
@@ -19,6 +19,11 @@ describe('DialogComponent', () => {
   const form: FormGroup = new FormGroup({
     messageActivated: new FormControl(false),
   });
+  const dialogRefSpyObj = jasmine.createSpyObj({
+    afterClosed: of({}),
+    close: null,
+  });
+  dialogRefSpyObj.componentInstance = { body: "" };
 
   beforeEach(() => {
     indexServiceSpy = jasmine.createSpyObj('IndexService', ['welcomeGet']);
@@ -34,8 +39,9 @@ describe('DialogComponent', () => {
       providers: [
         WelcomeDialogComponent, { provide: MatDialogRef, useValue: mockDialogRef },
         { provide: IndexService, useValue: indexServiceSpy }, { provide: WelcomeDialogService, useValue: welcomeDialogService }],
-    })
-      .compileComponents();
+    });
+    spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
+    TestBed.compileComponents();
   }));
 
   beforeEach(() => {
