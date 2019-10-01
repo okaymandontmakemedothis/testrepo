@@ -1,37 +1,42 @@
-import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog } from '@angular/material';
-import { BrowserModule } from '@angular/platform-browser';
+import { MatDialog, MatDialogModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModules } from '../../app-material.module';
-import { WelcomeDialogModule } from '../welcome-dialog/welcome-dialog.module';
 import { AppComponent } from './app.component';
+
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
+  // let dialogSpy: jasmine.Spy;
+  const dialogRefSpyObj = jasmine.createSpyObj({
+    afterClosed: of({}),
+    close: null,
+  });
+  dialogRefSpyObj.componentInstance = { body: '' };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
-        BrowserModule,
+        MatDialogModule,
         BrowserAnimationsModule,
         FormsModule,
-        HttpClientModule,
         ReactiveFormsModule,
         MaterialModules,
-        WelcomeDialogModule,
+
       ],
 
       providers: [
-        { provide: MatDialog, useValue: MatDialog },
-
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+    });
+    spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
+    TestBed.compileComponents();
   }));
 
   beforeEach(() => {
