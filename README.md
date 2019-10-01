@@ -58,11 +58,11 @@
 
 Le rendu visuel de reference de l'application pourrait etre similaire a celui de Sketch pad.
 Outils de tracage
-Crayon :Il s'agit de l'outil de base du logiciel de dessin.Il est de forme ronde
-Pinceau :Cet outil differe du crayon par la texture du trait
-Plume:Outil de tracage qui differe du crayon par la forme mince de sa pointe
-Stylo:Cet outil differe du crayon par le fait que la surface de dessin s'amincit en fonction de la vitesse de deplacement de la souris
-Aerosol: cete outil simule un effet de peinture en aerosol
+* Crayon :Il s'agit de l'outil de base du logiciel de dessin.Il est de forme ronde
+* Pinceau :Cet outil differe du crayon par la texture du trait
+* Plume:Outil de tracage qui differe du crayon par la forme mince de sa pointe
+* Stylo:Cet outil differe du crayon par le fait que la surface de dessin s'amincit en fonction de la vitesse de deplacement de la souris
+* Aerosol: cete outil simule un effet de peinture en aerosol
 
 ### technologies-utilisees
 Cette section énumère les technologies principales utilisées afin de construire l'application
