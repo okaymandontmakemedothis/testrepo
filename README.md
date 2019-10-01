@@ -48,8 +48,7 @@
   * [Prérequis](#prerequis)
   * [Installation](#installation)
 * [Utilisation](#usage)
-* [Contact](#contact)
-* [Remerciements](#acknowledgements)
+* [Dépendances](#dependences)
 
 
 
@@ -79,8 +78,8 @@ To get a local copy up and running follow these simple example steps.
 
 ### prerequis
 
-*npm
-*Nodemon
+* npm
+* Nodemon
 
 ### Installation
 
@@ -113,29 +112,14 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
-
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Voir sur trello les issues [open issues](https://trello.com/b/wCeGjPCQ/log2990-a2019-equipe-16) 
 
 
 
 <!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
+## dependences
+* font-awesome
+* material module
 
 
 
