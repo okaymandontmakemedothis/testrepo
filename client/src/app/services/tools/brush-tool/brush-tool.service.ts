@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { faPaintBrush, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Point } from 'src/app/model/point.model';
 import { IObjects } from 'src/app/objects/IObjects';
-import { Polyline } from 'src/app/objects/polyline';
+import { Polyline } from 'src/app/objects/object-polyline/polyline';
 import { TexturesService } from 'src/app/services/textures/textures.service';
 import { ITexture } from 'src/app/textures/ITexture';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
@@ -25,7 +25,7 @@ export class BrushToolService implements ITools {
   private object: Polyline | null;
   strokeWidth: FormControl;
   texture: FormControl;
-  lastPoint: Point = { x: 0, y: 0 };
+  private lastPoint: Point = { x: 0, y: 0 };
 
   constructor(
     private texturesService: TexturesService,
@@ -43,11 +43,7 @@ export class BrushToolService implements ITools {
   /// Ajout d'un point dans la liste de point du Polyline
   private addPoint(dpoint: Point) {
     if (this.object) {
-      if (this.lastPoint) {
-        this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
-      } else {
-        this.lastPoint = dpoint;
-      }
+      this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
       this.object.addPoint(this.lastPoint);
     }
   }
@@ -77,8 +73,6 @@ export class BrushToolService implements ITools {
 
   /// Ajout d'un point seulon le déplacement de la souris
   onMove(event: MouseEvent): void {
-    if (this.object) {
-      this.addPoint({ x: event.movementX, y: event.movementY });
-    }
+    this.addPoint({ x: event.movementX, y: event.movementY });
   }
 }

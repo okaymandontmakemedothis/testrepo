@@ -61,3 +61,11 @@ const enum keyCodes {
     y = 'KeyY',
     z = 'KeyZ',
 }
+
+const enum emitReturn {
+    NEW_DRAWING = 'newDrawing',
+    PENCIL = 'pencil',
+    BRUSH = 'brush',
+    APPLICATEUR = 'applicateur',
+    RECTANGLE = 'rectangle',
+}

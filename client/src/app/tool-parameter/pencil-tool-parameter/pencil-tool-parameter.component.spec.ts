@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PencilToolParameterComponent } from './pencil-tool-parameter.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material';
 
 describe('PencilToolParameterComponent', () => {
   let component: PencilToolParameterComponent;
@@ -8,9 +11,12 @@ describe('PencilToolParameterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PencilToolParameterComponent ],
+      declarations: [PencilToolParameterComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ReactiveFormsModule,
+        MatButtonToggleModule],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

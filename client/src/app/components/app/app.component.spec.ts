@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModules } from '../../app-material.module';
 import { WelcomeDialogModule } from '../welcome-dialog/welcome-dialog.module';
 import { AppComponent } from './app.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -29,6 +30,7 @@ describe('AppComponent', () => {
         { provide: MatDialog, useValue: MatDialog },
 
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

@@ -1,13 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ElementRef } from '@angular/core';
-import { WorkspaceService } from './workspace.service';
+import { WorkspaceService, HEIGHT_OFFSET } from './workspace.service';
+
+class MockElementRef {
+  nativeElement = { offsetWidth: 20, offsetHeight: 40 };
+}
 
 describe('WorkspaceService', () => {
-
+  let elRef: ElementRef;
   let service: WorkspaceService;
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [{provide: ElementRef, useValue: new MockElementRef()}],
+    });
+    elRef = TestBed.get(ElementRef);
     service = TestBed.get(WorkspaceService);
   });
 
@@ -20,11 +27,10 @@ describe('WorkspaceService', () => {
     expect(service.height).toBe(0);
   });
 
-  it('should return 0 for width and height if el is not defined', () => {
-    const el: ElementRef = new ElementRef(0);
-    el.nativeElement.offsetHeight = 15;
-    el.nativeElement.offsetWidth = 20;
+  it('should return el width and height for width and height if scrolledElement is defined', () => {
+    service.scrolledElement = elRef;
+    // spyOnProperty(service, 'scrolledElement', 'get').and.returnValue({ nativeElement: { offsetWidth: 20, offsetHeight: 40 }});
     expect(service.width).toBe(20);
-    expect(service.height).toBe(15);
+    expect(service.height).toBe(40 - HEIGHT_OFFSET);
   });
 });

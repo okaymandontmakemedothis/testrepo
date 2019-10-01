@@ -49,27 +49,37 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     this.workspaceService.scrolledElement = this.workspaceEnv;
   }
 
+  openDialog() {
+    this.hotkeysFichierService.canExecute = false;
+    this.hotkeysSelectionService.canExecute = false;
+    this.hotkeysOutilService.canExecute = false;
+    this.hotkeysTravailService.canExecute = false;
+    this.sideNavService.canClick = false;
+
+    this.dialog.open(NewDrawingComponent);
+  }
+
   private subscribeToHotkeys(): void {
     this.hotkeysFichierService.hotkeysFichierEmitter.subscribe((value: string) => {
-      if (value === 'newDrawing') {
+      if (value === emitReturn.NEW_DRAWING) {
         this.disableHotkeys();
-        this.dialog.open(NewDrawingComponent);
+        this.openDialog();
       }
     });
     this.hotkeysOutilService.hotkeysOutilEmitter.subscribe((value: string) => {
-      if (value === 'crayon') {
+      if (value === emitReturn.PENCIL) {
         this.sideNavService.open();
         this.toolsService.selectTool(ToolIdConstants.PENCIL_ID);
       }
-      if (value === 'brush') {
+      if (value === emitReturn.BRUSH) {
         this.sideNavService.open();
         this.toolsService.selectTool(ToolIdConstants.BRUSH_ID);
       }
-      if (value === 'applicateur') {
+      if (value === emitReturn.APPLICATEUR) {
         this.sideNavService.open();
         this.toolsService.selectTool(ToolIdConstants.APPLIER_ID);
       }
-      if (value === 'rectangle') {
+      if (value === emitReturn.RECTANGLE) {
         this.sideNavService.open();
         this.toolsService.selectTool(ToolIdConstants.RECTANGLE_ID);
       }

@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { faPencilAlt, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Point } from 'src/app/model/point.model';
 import { IObjects } from 'src/app/objects/IObjects';
-import { Polyline } from 'src/app/objects/polyline';
+import { Polyline } from 'src/app/objects/object-polyline/polyline';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
@@ -20,9 +20,9 @@ export class PencilToolService implements ITools {
   readonly faIcon: IconDefinition = faPencilAlt;
   readonly id = ToolIdConstants.PENCIL_ID;
   private object: Polyline | null;
+  private strokeWidth: FormControl;
+  private lastPoint: Point;
   parameters: FormGroup;
-  strokeWidth: FormControl;
-  lastPoint: Point;
 
   constructor(private offsetManager: OffsetManagerService, private colorTool: ToolsColorService) {
     this.strokeWidth = new FormControl(INITIAL_WIDTH);
@@ -34,11 +34,7 @@ export class PencilToolService implements ITools {
   /// Ajout d'un point dans la liste de point du Polyline
   private addPoint(dpoint: Point) {
     if (this.object) {
-      if (this.lastPoint) {
-        this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
-      } else {
-        this.lastPoint = dpoint;
-      }
+      this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
       this.object.addPoint(this.lastPoint);
     }
   }
@@ -66,8 +62,6 @@ export class PencilToolService implements ITools {
 
   /// Ajout d'un point seulon le déplacement de la souris
   onMove(event: MouseEvent): void {
-    if (this.object) {
-      this.addPoint({ x: event.movementX, y: event.movementY });
-    }
+    this.addPoint({ x: event.movementX, y: event.movementY });
   }
 }

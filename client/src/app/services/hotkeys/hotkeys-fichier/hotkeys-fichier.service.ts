@@ -18,22 +18,22 @@ export class HotkeysFichierService {
     if (this.canExecute) {
       if (event.ctrlKey && event.code === keyCodes.o) {
         event.preventDefault();
-        this.hotkeysFichierEmitter.emit('newDrawing');
+        this.hotkeysFichierEmitter.emit(emitReturn.NEW_DRAWING);
       }
 
       if (event.ctrlKey && event.code === keyCodes.s) {
         event.preventDefault();
-        this.hotkeysFichierEmitter.emit();
+        this.hotkeysFichierEmitter.emit('CS');
       }
 
       if (event.ctrlKey && event.code === keyCodes.g) {
         event.preventDefault();
-        this.hotkeysFichierEmitter.emit();
+        this.hotkeysFichierEmitter.emit('CG');
       }
 
       if (event.ctrlKey && event.code === keyCodes.e) {
         event.preventDefault();
-        this.hotkeysFichierEmitter.emit();
+        this.hotkeysFichierEmitter.emit('CE');
       }
     }
   }

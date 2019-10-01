@@ -2,26 +2,25 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DrawingService } from '../../services/drawing/drawing.service';
 import { CanvasComponent } from './canvas.component';
 
-
-let drawingservice:DrawingService;
-
 describe('CanvasComponent', () => {
   let component: CanvasComponent;
   let fixture: ComponentFixture<CanvasComponent>;
+  let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
 
   beforeEach(async(() => {
-
-    drawingservice= new DrawingService();
     TestBed.configureTestingModule({
-
-      providers:[{provide:DrawingService,useValue:drawingservice}],
-      declarations: [ CanvasComponent  ],
+      declarations: [CanvasComponent],
     })
-    .compileComponents();
-
+      .compileComponents();
   }));
 
   beforeEach(() => {
+    const spyDrawing = jasmine.createSpyObj('DrawingService', ['']);
+    TestBed.configureTestingModule({
+      providers: [{ provide: DrawingService, useValue: spyDrawing }],
+      declarations: [CanvasComponent],
+    });
+    drawingServiceSpy = TestBed.get(DrawingService);
     fixture = TestBed.createComponent(CanvasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -29,50 +28,45 @@ describe('CanvasComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-
   });
-  it('should return dimension value when service created value is true',()=>{
 
-    drawingservice.isCreated =true;
-    drawingservice.height=100;
-    drawingservice.width=98;
-    expect(component.height).toEqual(drawingservice.height);
-    expect(component.width).toEqual(drawingservice.width);
-
-
-  })
-  it ('should return 0 when service created value is false ',()=>{
-
-    drawingservice.isCreated=false;
-
+  it('should return dimension value when service created value is true', () => {
+    drawingServiceSpy.isCreated = true;
+    drawingServiceSpy.height = 100;
+    drawingServiceSpy.width = 100;
+    expect(component.height).toEqual(100);
+    expect(component.width).toEqual(100);
+  });
+  it('should return 0 when service created value is false ', () => {
+    drawingServiceSpy.isCreated = false;
     expect(component.height).toEqual(0);
     expect(component.width).toEqual(0);
-  })
+  });
 
+  it('should return background alpha value', () => {
+    drawingServiceSpy.alpha = 9;
+    expect(component.backgroundAlpha).toEqual(9);
+  });
 
-  it ('should return background alpha',()=>{
-    drawingservice.alpha =9;
-    expect(component.backgroundAlpha).toEqual(drawingservice.alpha);
-  })
+  it('should return drawingServicecolor value', () => {
+    spyOnProperty(drawingServiceSpy, 'rgbaColorString').and.returnValue('rgba(255,0,0,1)');
+    expect(component.backgroundColor).toEqual('rgba(255,0,0,1)');
+  });
 
-  it('should return drawingServicecolor value',()=>{
-    //service.rgbaColorString ={};
-    drawingservice.color= { r: 200, g: 200, b: 200 };
-    expect(component.backgroundColor).toEqual(drawingservice.rgbaColorString);
-  })
+  it('should return value of isDrawingCreated ', () => {
+    drawingServiceSpy.isCreated = true;
+    expect(component.isDrawingCreated).toEqual(true);
 
-  it('should return value of isDrawingCreated ',()=>{
-    drawingservice.isCreated =true;
-    expect(component.isDrawingCreated).toEqual(drawingservice.isCreated);
+    drawingServiceSpy.isCreated = false;
+    expect(component.isDrawingCreated).toEqual(false);
+  });
 
-    drawingservice.isCreated=false;
-    expect(component.isDrawingCreated).toEqual(drawingservice.isCreated);
+  it(' ngAfterView should be called ', () => {
+    expect((component.svg.nativeElement as Element).innerHTML).toEqual('');
 
-  })
+    drawingServiceSpy.svgString.emit('chaine');
 
-
-
-
+    expect((component.svg.nativeElement as Element).innerHTML).toEqual('chaine');
+  });
 
 });
-

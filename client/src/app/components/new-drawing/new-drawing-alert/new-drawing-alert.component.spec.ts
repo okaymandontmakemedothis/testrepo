@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatDialogRef } from '@angular/material';
+import { MaterialModules } from 'src/app/app-material.module';
 import { NewDrawingAlertComponent } from './new-drawing-alert.component';
 
 describe('NewDrawingAlertComponent', () => {
@@ -8,9 +9,11 @@ describe('NewDrawingAlertComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewDrawingAlertComponent ],
+      imports: [MaterialModules],
+      declarations: [NewDrawingAlertComponent],
+      providers: [{ provide: MatDialogRef, useValue: {} }],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +22,7 @@ describe('NewDrawingAlertComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create new alert component', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -63,15 +63,12 @@ export class ColorSliderComponent implements AfterViewInit, OnInit {
     this.ctx.fillStyle = gradient;
     this.ctx.fill();
     this.ctx.closePath();
-
-    if (this.selectedHeight) {
-      this.ctx.beginPath();
-      this.ctx.strokeStyle = 'white';
-      this.ctx.lineWidth = SELECTOR_WIDTH;
-      this.ctx.rect(0, this.selectedHeight - SELECTOR_WIDTH, width, SELECTOR_WIDTH * 2);
-      this.ctx.stroke();
-      this.ctx.closePath();
-    }
+    this.ctx.beginPath();
+    this.ctx.strokeStyle = 'white';
+    this.ctx.lineWidth = SELECTOR_WIDTH;
+    this.ctx.rect(0, this.selectedHeight - SELECTOR_WIDTH, width, SELECTOR_WIDTH * 2);
+    this.ctx.stroke();
+    this.ctx.closePath();
   }
 
   private getHueAtPosition(y: number): number {
