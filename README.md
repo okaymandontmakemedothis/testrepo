@@ -29,17 +29,11 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
 
   <h3 align="center">PolyDessin LOG2990  - Projet de logiciel d’application Web</h3>
 
   <p align="center">
-    Le projet consiste à créer une application Web de dessin vectoriel. L’application souhaitée devra être
-relativement simple d’utilisation. On ne souhaite pas un équivalent d’Adobe Illustrator, mais plutôt de
-quoi de semblable à Sketchpad (sketch.io).
-
+    Le projet consiste à créer une application Web de dessin vectoriel. 
   </p>
 </p>
 
@@ -80,9 +74,8 @@ A list of commonly used resources that I find helpful are listed in the acknowle
 
 ### Built With
 This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
-* [Laravel](https://laravel.com)
+* [Angular](https://getbootstrap.com)
+* [NodeJs](https://laravel.com)
 
 
 
