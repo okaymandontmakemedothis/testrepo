@@ -24,7 +24,7 @@ describe("OpenWelcomeService", () => {
 
     TestBed.configureTestingModule({
       imports: [MatDialogModule],
-      providers: [OpenWelcomeService, {provide: WelcomeDialogService, useValue: welcomeSpy}],
+      providers: [OpenWelcomeService, { provide: WelcomeDialogService, useValue: welcomeSpy }],
     });
     dialogSpy = spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
   });
