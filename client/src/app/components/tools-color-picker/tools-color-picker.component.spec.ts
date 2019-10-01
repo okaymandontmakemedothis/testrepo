@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 import { ToolsColorPickerComponent } from './tools-color-picker.component';
@@ -15,7 +16,7 @@ describe('ToolsColorPickerComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ToolsColorPickerComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [MatDialogModule],
+      imports: [MatDialogModule, ReactiveFormsModule],
       providers: [
         { provide: MatDialogRef, useClass: class { close() { return null; } } },
         { provide: MAT_DIALOG_DATA, useValue: [] },
