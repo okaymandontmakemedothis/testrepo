@@ -8,7 +8,7 @@ import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
 import { ToolIdConstants } from 'src/app/services/tools/tool-id-constants';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
-import '../../services/hotkeys/hotkeys-constants';
+import { EmitReturn } from '../../services/hotkeys/hotkeys-constants';
 import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
 
 @Component({
