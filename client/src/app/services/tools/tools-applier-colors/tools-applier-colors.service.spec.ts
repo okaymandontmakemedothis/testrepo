@@ -83,4 +83,16 @@ describe('ToolsApplierColorsService', () => {
     service.onPressed(mouseEvent);
     expect(obj.secondaryColor).toEqual({ rgb: { r: 255, g: 2, b: 2 }, a: 1 });
   });
+
+  it('should return null on release', () => {
+    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
+    const mouseEvent = new MouseEvent('mouseup');
+    expect(service.onRelease(mouseEvent)).toBeNull();
+  });
+
+  it('should return null on move', () => {
+    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
+    const mouseEvent = new MouseEvent('mousemove');
+    expect(service.onMove(mouseEvent)).toBeNull();
+  });
 });

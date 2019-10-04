@@ -37,8 +37,8 @@ describe('PipetteToolService', () => {
     obj.primaryColor = { rgb: { r: 255, g: 2, b: 2 }, a: 1 };
     spyOn(drawingService, 'getObject').and.returnValue(obj);
     service.onPressed(mouseEvent);
-    expect(colorService.primaryColor).toEqual({ rgb: { r: 255, g: 2, b: 2 }, a: 1 });
-    expect(colorService.primaryAlpha).toEqual({ a: 1 });
+    expect(colorService.primaryColor).toEqual({ r: 255, g: 2, b: 2 } );
+    expect(colorService.primaryAlpha).toEqual( 1 );
   });
 
   it('should change the secondary color of the object on right click', () => {
@@ -47,11 +47,11 @@ describe('PipetteToolService', () => {
     spyOnProperty(mouseEvent, 'target').and.returnValue(1);
     const obj: IObjects = new MockOject();
     obj.id = 1;
-    obj.secondaryColor = { rgb: { r: 255, g: 2, b: 2 }, a: 1 };
+    obj.primaryColor = { rgb: { r: 255, g: 2, b: 2 }, a: 1 };
     spyOn(drawingService, 'getObject').and.returnValue(obj);
     service.onPressed(mouseEvent);
-    expect(colorService.secondaryColor).toEqual({ rgb: { r: 255, g: 2, b: 2 }});
-    expect(colorService.secondaryAlpha).toEqual({ a: 1 });
+    expect(colorService.secondaryColor).toEqual({ r: 255, g: 2, b: 2 });
+    expect(colorService.secondaryAlpha).toEqual( 1 );
   });
 
   it('should not change the primary color of the object on left click if not object is clicked', () => {
@@ -65,8 +65,8 @@ describe('PipetteToolService', () => {
     colorService.primaryColor = { r: 255, g: 0, b: 0 };
     colorService.primaryAlpha = 0.5;
     service.onPressed(mouseEvent);
-    expect(colorService.primaryColor).toEqual({ rgb: { r: 255, g: 0, b: 0 }});
-    expect(colorService.primaryAlpha).toEqual({ a: 0.5 });
+    expect(colorService.primaryColor).toEqual( { r: 255, g: 0, b: 0 });
+    expect(colorService.primaryAlpha).toEqual( 0.5 );
   });
 
   it('should not change the secondary color of the object on left click if not object is clicked', () => {
@@ -80,7 +80,20 @@ describe('PipetteToolService', () => {
     colorService.secondaryColor = { r: 255, g: 0, b: 0 };
     colorService.secondaryAlpha = 0.5;
     service.onPressed(mouseEvent);
-    expect(colorService.secondaryColor).toEqual({ rgb: { r: 255, g: 0, b: 0 }});
-    expect(colorService.secondaryAlpha).toEqual({ a: 0.5 });
+    expect(colorService.secondaryColor).toEqual({r: 255, g: 0, b: 0} );
+    expect(colorService.secondaryAlpha).toEqual( 0.5 );
   });
+
+  it('should return null on release', () => {
+    const service: PipetteToolService = TestBed.get(PipetteToolService);
+    const mouseEvent = new MouseEvent('mouseup');
+    expect(service.onRelease(mouseEvent)).toBeNull();
+  });
+
+  it('should return null on move', () => {
+    const service: PipetteToolService = TestBed.get(PipetteToolService);
+    const mouseEvent = new MouseEvent('mousemove');
+    expect(service.onMove(mouseEvent)).toBeNull();
+  });
+
 });
