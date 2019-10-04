@@ -121,7 +121,7 @@ export class ColorTransformerService {
       r = 0; g = x; b = c;
     } else if (sixtOfMaxHue * 4 <= hsl.h && hsl.h < sixtOfMaxHue * 5) {
       r = x; g = 0; b = c;
-    } else if (sixtOfMaxHue * 5 <= hsl.h && hsl.h < MAX_HUE) {
+    } else {
       r = c; g = 0; b = x;
     }
     r = Math.round((r + m) * RGB_MAX_VALUE);
