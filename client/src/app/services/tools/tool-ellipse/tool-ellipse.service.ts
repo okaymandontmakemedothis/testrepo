@@ -65,7 +65,8 @@ export class ToolEllipseService implements ITools {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     this.firstX = offset.x;
     this.firstY = offset.y;
-    this.object = new EllipseObject(offset.x, offset.y, this.strokeWidth.value, this.ellipseStyle.value);
+    this.object = new EllipseObject(offset.x, offset.y, this.firstY - offset.y, this.firstX - offset.x,
+      this.strokeWidth.value, this.ellipseStyle.value);
     if (event.button === 0) {
       this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
       this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };

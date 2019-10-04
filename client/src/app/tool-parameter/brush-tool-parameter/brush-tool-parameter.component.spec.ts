@@ -1,7 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ReactiveFormsModule, } from '@angular/forms';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModules } from 'src/app/app-material.module';
 import { TexturesService } from 'src/app/services/textures/textures.service';
@@ -13,7 +12,7 @@ describe('BrushToolParameterComponent', () => {
   let fixture: ComponentFixture<BrushToolParameterComponent>;
   let brushToolService: BrushToolService;
   let texturesService: TexturesService;
-
+ 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BrushToolParameterComponent],
@@ -51,6 +50,8 @@ describe('BrushToolParameterComponent', () => {
   });
 
   it('should return the stroke width value', () => {
-    expect(component.strokeWidthValue).toEqual(brushToolService.strokeWidth.value);
+    const form = brushToolService.parameters.get('strokeWidth') as FormControl;
+    form.patchValue(6);
+    expect(component.strokeWidthValue).toEqual(6);
   });
 });

@@ -15,9 +15,11 @@ export class EllipseObject implements IObjects {
   strokeWidth = 0;
   style = '';
 
-  constructor(x: number, y: number, strokeWidth: number, style: string) {
+  constructor(x: number, y: number, height: number, width: number, strokeWidth: number, style: string) {
     this.x = x;
     this.y = y;
+    this.height = height;
+    this.width = width;
     this.strokeWidth = strokeWidth;
     this.style = style;
   }
@@ -52,8 +54,10 @@ export class EllipseObject implements IObjects {
   /// Pour retourner la ligne svg de l'ellipse pour le dessiner
   draw(): string {
     if (this.strokeWidth > 0) {
-      return '<ellipse id="' + this.id + '" cx="' + this.x +
-        '" cy="' + this.y + '" rx="' + this.width + '" ry="' + this.height + '" style=' + this.getStyle() + ' />';
+      const cx = (this.x + this.width / 2);
+      const cy = (this.y + this.height / 2);
+      return '<ellipse id="' + this.id + '" cx="' + cx +
+        '" cy="' + cy + '" rx="' + (this.width / 2) + '" ry="' + (this.height / 2) + '" style=' + this.getStyle() + ' />';
     }
     return '';
   }
