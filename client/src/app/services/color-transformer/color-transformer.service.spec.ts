@@ -46,7 +46,7 @@ describe('ColorTransformerService', () => {
     expect(colorTransformerService.hsl2rgb({ h: 50, s: -1, l: 0 })).toEqual({ r: 0, g: 0, b: 0 });
   });
 
-  it('#hslrgb with different value of saturation an lightness', () => {
+  it('#hsl2rgb with different value of saturation an lightness', () => {
     expect(colorTransformerService.hsl2rgb({ h: 50, s: 1, l: 0.5 })).toEqual({ r: 255, g: 213, b: 0 });
     expect(colorTransformerService.hsl2rgb({ h: 50, s: 0, l: 0.5 })).toEqual({ r: 128, g: 128, b: 128 });
     expect(colorTransformerService.hsl2rgb({ h: 120, s: 0.5, l: 0.5 })).toEqual({ r: 64, g: 191, b: 64 });
@@ -91,5 +91,20 @@ describe('ColorTransformerService', () => {
   it('rgb2hex with a good rgb value', () => {
     const rgb = { r: 16, g: 255, b: 8 };
     expect(colorTransformerService.rgb2hex(rgb)).toBe('#10ff08');
+    expect(colorTransformerService.rgb2hex({ r: 15, g: 15, b: 255})).toBe('#0f0fff');
   });
+
+  it('hsl2hex with good hsl value', () => {
+    const hsl = { h: 118, s: 1, l: 0.52 };
+    expect(colorTransformerService.hsl2hex(hsl)).toEqual('#12ff0a');
+  });
+
+  it('hex2hsl with good hex value', () => {
+    expect(colorTransformerService.hex2hsl('#10ff08')).toEqual({h: 118, s: 1.001, l: 0.516});
+  });
+
+  it('hue2hex with good hue value', () => {
+    expect(colorTransformerService.hue2hex(118)).toEqual('#09ff00');
+  });
+
 });
