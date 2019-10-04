@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-
-import { HotkeysOutilService } from './hotkeys-outil.service';
 import { EmitReturn } from '../hotkeys-constants';
+import { HotkeysOutilService } from './hotkeys-outil.service';
 
 describe('HotkeysOutilService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

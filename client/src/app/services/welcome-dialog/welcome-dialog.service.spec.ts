@@ -1,5 +1,4 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { WelcomeDialogService } from './welcome-dialog.service';
 
 describe('WelcomeDialogService', () => {
