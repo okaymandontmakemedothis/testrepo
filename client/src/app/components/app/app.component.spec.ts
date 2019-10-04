@@ -7,12 +7,13 @@ import { AppComponent } from './app.component';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
+import { WelcomeDialogService } from 'src/app/services/welcome-dialog/welcome-dialog.service';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
-  // let dialogSpy: jasmine.Spy;
+  let welcomeDialogService: WelcomeDialogService;
   const dialogRefSpyObj = jasmine.createSpyObj({
     afterClosed: of({}),
     close: null,
@@ -28,24 +29,36 @@ describe('AppComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         MaterialModules,
-
-      ],
-
-      providers: [
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
+    welcomeDialogService = TestBed.get(WelcomeDialogService);
     TestBed.compileComponents();
   }));
 
-  beforeEach(() => {
+  it('should create the app', () => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    expect(component).toBeTruthy();
   });
 
-  it('should create the app', () => {
-    expect(component).toBeTruthy();
+  it('should not call the welcome message if the service return false', () => {
+    spyOnProperty(welcomeDialogService, 'shouldWelcomeMessageBeShown').and.returnValue(false);
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    const openSpy = spyOn(component, 'openDialog').and.returnValue();
+    fixture.detectChanges();
+    expect(openSpy).not.toHaveBeenCalled();
+  });
+
+  it('should call the welcome message if the service return false', () => {
+    spyOnProperty(welcomeDialogService, 'shouldWelcomeMessageBeShown').and.returnValue(true);
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    const openSpy = spyOn(component, 'openDialog').and.returnValue();
+    fixture.detectChanges();
+    expect(openSpy).toHaveBeenCalled();
   });
 });

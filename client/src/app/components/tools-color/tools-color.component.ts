@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { Subscription } from 'rxjs';
 import { RGB } from 'src/app/model/rgb.model';
 import { RGBA } from '../../model/rgba.model';
 import { DrawingService } from '../../services/drawing/drawing.service';
@@ -21,6 +22,9 @@ export class ToolsColorComponent {
 
   width = PRIMARY_AND_SECONDARY_SIZE.width;
   height = PRIMARY_AND_SECONDARY_SIZE.height;
+
+  dialogSub: Subscription;
+  dialogRef: MatDialogRef<ToolsColorPickerComponent>;
 
   readonly primarySize: { x: number, y: number, width: number, height: number } = PRIMARY_SIZE;
   readonly secondarySize: { x: number, y: number, width: number, height: number } = SECONDARY_SIZE;
@@ -54,27 +58,26 @@ export class ToolsColorComponent {
 
   /// Ouvre un dialog qui fait appel a colorPickerOpen
   openDialog(colorType: ColorType): void {
-    let dialogRef: MatDialogRef<ToolsColorPickerComponent>;
     switch (colorType) {
       case ColorType.primary:
-        dialogRef = this.colorPickerOpen(this.toolsColor.primaryColor, this.toolsColor.primaryAlpha);
-        dialogRef.afterClosed().subscribe((result: RGBA) => {
+        this.dialogRef = this.colorPickerOpen(this.toolsColor.primaryColor, this.toolsColor.primaryAlpha);
+        this.dialogSub = this.dialogRef.afterClosed().subscribe((result: RGBA) => {
           if (result) {
             this.toolsColor.setPrimaryColor(result.rgb, result.a);
           }
         });
         break;
       case ColorType.secondary:
-        dialogRef = this.colorPickerOpen(this.toolsColor.secondaryColor, this.toolsColor.secondaryAlpha);
-        dialogRef.afterClosed().subscribe((result: RGBA) => {
+        this.dialogRef = this.colorPickerOpen(this.toolsColor.secondaryColor, this.toolsColor.secondaryAlpha);
+        this.dialogSub = this.dialogRef.afterClosed().subscribe((result: RGBA) => {
           if (result) {
             this.toolsColor.setSecondaryColor(result.rgb, result.a);
           }
         });
         break;
       case ColorType.background:
-        dialogRef = this.colorPickerOpen(this.drawingService.color, this.drawingService.alpha);
-        dialogRef.afterClosed().subscribe((result: RGBA) => {
+        this.dialogRef = this.colorPickerOpen(this.drawingService.color, this.drawingService.alpha);
+        this.dialogSub = this.dialogRef.afterClosed().subscribe((result: RGBA) => {
           if (result) {
             this.drawingService.setDrawingColor(result);
           }
