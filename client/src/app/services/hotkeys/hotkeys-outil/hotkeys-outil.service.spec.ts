@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { HotkeysOutilService } from './hotkeys-outil.service';
 
 describe('HotkeysOutilService', () => {

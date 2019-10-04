@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { WelcomeDialogService } from './welcome-dialog.service';
 
 describe('WelcomeDialogService', () => {
