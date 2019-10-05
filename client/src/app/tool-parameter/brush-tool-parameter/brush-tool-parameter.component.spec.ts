@@ -2,11 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule, } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModules } from 'src/app/app-material.module';
 import { TexturesService } from 'src/app/services/textures/textures.service';
 import { BrushToolService } from 'src/app/services/tools/brush-tool/brush-tool.service';
 import { BrushToolParameterComponent } from './brush-tool-parameter.component';
-import { MaterialModules } from 'src/app/app-material.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('BrushToolParameterComponent', () => {
   let component: BrushToolParameterComponent;

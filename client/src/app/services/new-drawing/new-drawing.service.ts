@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
 
+/// Service pour créer des nouveau canvas de dessin
 @Injectable()
 export class NewDrawingService {
 
@@ -28,6 +29,7 @@ export class NewDrawingService {
     return this.form.get('size') as FormGroup;
   }
 
+  /// Réajuste le grandeur du workspace
   onResize() {
     if (!this.isSizeModified) {
       this.sizeGroup.setValue({ width: this.workspaceService.width, height: this.workspaceService.height });

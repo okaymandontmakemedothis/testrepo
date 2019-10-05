@@ -12,7 +12,7 @@ export class NewDrawingFormComponent {
 
   readonly minDimension: number = MIN_DIMENSION;
   readonly xSize: { width: number, height: number, x: number, y: number } = X_SIZE;
-
+  /// Cre un nouveau form pour la grosseur
   @Input()
   sizeForm: FormGroup;
 

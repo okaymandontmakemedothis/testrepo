@@ -12,6 +12,8 @@ export class TextureFive implements ITexture {
     getTextureIDName(id: number): string {
         return `${this.id}-${id}`;
     }
+
+    /// Retourne la ligne html du pattern
     getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number): string {
         return `<defs>
  <pattern id="${this.getTextureIDName(id)}" viewBox="0,0,4,4" width="4" height="4" x="${x}" y="${y}"

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ParameterComponentService } from './parameter-component.service';
 import { PencilToolParameterComponent } from 'src/app/tool-parameter/pencil-tool-parameter/pencil-tool-parameter.component';
+import { ParameterComponentService } from './parameter-component.service';
 
 describe('ParameterComponentService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

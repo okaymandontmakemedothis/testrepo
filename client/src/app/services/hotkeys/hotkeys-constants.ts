@@ -1,4 +1,4 @@
-const enum keyCodes {
+const enum KeyCodes {
     delete = 'Delete',
     addNP = 'NumpadAdd',
     minusNP = 'NumpadSubtract',
@@ -62,7 +62,7 @@ const enum keyCodes {
     z = 'KeyZ',
 }
 
-const enum emitReturn {
+const enum EmitReturn {
     NEW_DRAWING = 'newDrawing',
     PENCIL = 'pencil',
     BRUSH = 'brush',

@@ -1,51 +1,38 @@
 import { TestBed } from '@angular/core/testing';
 
 import { HttpClientModule } from '@angular/common/http';
-import { MatButtonToggleModule, MatButtonToggleChange } from '@angular/material';
+import { FormGroup } from '@angular/forms';
+import { MatButtonToggleChange, MatButtonToggleModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { WelcomeDialogModule } from 'src/app/components/welcome-dialog/welcome-dialog.module';
-import { HotkeysFichierService } from '../hotkeys/hotkeys-fichier/hotkeys-fichier.service';
-import { HotkeysOutilService } from '../hotkeys/hotkeys-outil/hotkeys-outil.service';
-import { HotkeysSelectionService } from '../hotkeys/hotkeys-selection/hotkeys-selection.service';
-import { HotkeysTravailService } from '../hotkeys/hotkeys-travail/hotkeys-travail.service';
-import { ToggleDrawerService } from '../toggle-drawer/toggle-drawer.service';
-import { ToolsService } from '../tools/tools.service';
-import { SidenavService } from './sidenav.service';
-import { ITools } from '../tools/ITools';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { FormGroup } from '@angular/forms';
+import { WelcomeDialogModule } from 'src/app/components/welcome-dialog/welcome-dialog.module';
 import { IObjects } from 'src/app/objects/IObjects';
 import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
+import { HotkeysService } from '../hotkeys/hotkeys.service';
+import { ToggleDrawerService } from '../toggle-drawer/toggle-drawer.service';
+import { ITools } from '../tools/ITools';
+import { ToolsService } from '../tools/tools.service';
+import { SidenavService } from './sidenav.service';
 
 describe('SidenavService', () => {
   let toggleDrawerServiceSpy: jasmine.SpyObj<ToggleDrawerService>;
-  let hotkeyOutilServiceSpy: jasmine.SpyObj<HotkeysOutilService>;
-  let hotkeyaServiceSpy: jasmine.SpyObj<HotkeysFichierService>;
-  let hotkeybServiceSpy: jasmine.SpyObj<HotkeysSelectionService>;
-  let hotkeycServiceSpy: jasmine.SpyObj<HotkeysTravailService>;
   let toolServiceSpy: jasmine.SpyObj<ToolsService>;
+  let hotkeyServiceSpy: jasmine.SpyObj<HotkeysService>;
 
   beforeEach(() => {
     const toogleSpy = jasmine.createSpyObj('ToggleDrawerService', ['open', 'close']);
-    const hotkeyOutilSpy = jasmine.createSpyObj('HotkeysOutilService', ['']);
-    const hotkeyaSpy = jasmine.createSpyObj('HotkeysFichierService', ['']);
-    const hotkeybSpy = jasmine.createSpyObj('HotkeysSelectionService', ['']);
-    const hotkeycSpy = jasmine.createSpyObj('HotkeysTravailService', ['']);
     const toolSpy = jasmine.createSpyObj('ToolsService', ['selectTool']);
+    const hotkeySpy = jasmine.createSpyObj('HotkeysService', ['hotkeysListener', 'disableHotkeys', 'enableHotkeys']);
     TestBed.configureTestingModule({
       imports: [MatDialogModule, BrowserAnimationsModule, WelcomeDialogModule, HttpClientModule, MatButtonToggleModule],
       providers: [{ provide: ToggleDrawerService, useValue: toogleSpy },
-      { provide: ToolsService, useValue: toolSpy }, { provide: HotkeysOutilService, useValue: hotkeyOutilSpy },
-      { provide: HotkeysFichierService, useValue: hotkeyaSpy }, { provide: HotkeysSelectionService, useValue: hotkeybSpy },
-      { provide: HotkeysTravailService, useValue: hotkeycSpy }],
+      { provide: ToolsService, useValue: toolSpy },
+      { provide: HotkeysService, useValue: hotkeySpy }],
     });
     toggleDrawerServiceSpy = TestBed.get(ToggleDrawerService);
-    hotkeyOutilServiceSpy = TestBed.get(HotkeysOutilService);
-    hotkeyaServiceSpy = TestBed.get(HotkeysFichierService);
-    hotkeybServiceSpy = TestBed.get(HotkeysSelectionService);
-    hotkeycServiceSpy = TestBed.get(HotkeysTravailService);
     toolServiceSpy = TestBed.get(ToolsService);
+    hotkeyServiceSpy = TestBed.get(HotkeysService);
   });
 
   it('sidenav service should be created', () => {
@@ -105,10 +92,7 @@ describe('SidenavService', () => {
     const mouseEvent = new MouseEvent('mousedown');
     service.canClick = true;
     window.dispatchEvent(mouseEvent);
-    expect(hotkeyOutilServiceSpy.canExecute).toEqual(true);
-    expect(hotkeyaServiceSpy.canExecute).toEqual(true);
-    expect(hotkeybServiceSpy.canExecute).toEqual(true);
-    expect(hotkeycServiceSpy.canExecute).toEqual(true);
+    expect(hotkeyServiceSpy.enableHotkeys).toHaveBeenCalled();
   });
 
   it('should call eventListenerOnInput and not execute hotkeys if target is not undefined', () => {
@@ -119,10 +103,7 @@ describe('SidenavService', () => {
     input.value = '2';
     spyOnProperty(mouseEvent, 'target').and.returnValue(input);
     window.dispatchEvent(mouseEvent);
-    expect(hotkeyOutilServiceSpy.canExecute).toEqual(false);
-    expect(hotkeyaServiceSpy.canExecute).toEqual(false);
-    expect(hotkeybServiceSpy.canExecute).toEqual(false);
-    expect(hotkeycServiceSpy.canExecute).toEqual(false);
+    expect(hotkeyServiceSpy.disableHotkeys).toHaveBeenCalled();
   });
 
   it('should get tool list', () => {
@@ -146,6 +127,10 @@ class MockItool implements ITools {
     }
     return new RectangleObject(0, 0, 0, '');
   }
-  onRelease(event: MouseEvent): void { }
-  onMove(event: MouseEvent): void { }
+  // tslint:disable-next-line: no-empty
+  onRelease(event: MouseEvent): void {
+  }
+  // tslint:disable-next-line: no-empty
+  onMove(event: MouseEvent): void {
+  }
 }

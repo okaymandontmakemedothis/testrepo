@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ColorPickerService } from 'src/app/color-picker/color-picker.service';
 import { RGBA } from '../../model/rgba.model';
 import { ToolsColorService } from '../../services/tools-color/tools-color.service';
-import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-tools-color-picker',
@@ -20,11 +20,12 @@ export class ToolsColorPickerComponent implements OnInit, AfterViewInit {
     private toolsColor: ToolsColorService,
     private colorPickerService: ColorPickerService) { }
 
+  /// Appliquer la couleur au form
   ngOnInit(): void {
     this.colorPickerService.setFormColor(this.data.rgb, this.data.a);
     this.form = this.colorPickerService.colorForm;
   }
-
+  /// Assigne au au component le valeur de la couleur la couleur dans le form change
   ngAfterViewInit(): void {
     this.colorPickerService.colorForm.valueChanges.subscribe(() => {
       this.data.rgb = this.colorPickerService.rgb.value;

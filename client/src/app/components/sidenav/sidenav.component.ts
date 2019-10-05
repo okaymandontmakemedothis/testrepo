@@ -25,22 +25,26 @@ export class SidenavComponent {
     return this.sideNavService.isOpened;
   }
 
+  /// Choisi un paramettre
   get selectedParameter(): number {
     return this.sideNavService.selectedParameter;
   }
 
+  /// Ouvre le sidenav
   open(): void {
     this.sideNavService.open();
   }
-
+  /// Ferme le sidenav
   close(): void {
     this.sideNavService.close();
   }
 
+  /// Changer la selection avec un toggle button
   selectionChanged(selectedItem: MatButtonToggleChange): void {
     this.sideNavService.selectionChanged(selectedItem);
   }
 
+  /// Ouvre le menu control
   openControlMenu(): void {
     this.sideNavService.openControlMenu();
   }

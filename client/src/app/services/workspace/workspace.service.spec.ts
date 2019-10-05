@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ElementRef } from '@angular/core';
-import { WorkspaceService, HEIGHT_OFFSET } from './workspace.service';
+import { HEIGHT_OFFSET, WorkspaceService } from './workspace.service';
 
 class MockElementRef {
   nativeElement = { offsetWidth: 20, offsetHeight: 40 };

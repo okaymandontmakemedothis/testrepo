@@ -1,39 +1,36 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ToolsColorComponent } from './tools-color.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialog, MAT_DIALOG_SCROLL_STRATEGY } from '@angular/material';
-import { Overlay } from '@angular/cdk/overlay';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog, MatDialogModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
 import { ToolsColorService } from 'src/app/services/tools-color/tools-color.service';
+import { ToolsColorComponent } from './tools-color.component';
 
 describe('ToolsColorComponent', () => {
   let component: ToolsColorComponent;
   let fixture: ComponentFixture<ToolsColorComponent>;
   let toolsColorServiceSpy: jasmine.SpyObj<ToolsColorService>;
+  const dialogRefSpyObj = jasmine.createSpyObj({
+    afterClosed: of({}),
+    close: null,
+    updatePosition: null,
+  });
+  dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(async(() => {
+    const spyToolsColor = jasmine.createSpyObj('ToolsColorService', ['switchColor', 'setPrimaryColor', 'setSecondaryColor']);
     TestBed.configureTestingModule({
       declarations: [ToolsColorComponent],
+      imports: [MatDialogModule, BrowserAnimationsModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [MatDialog,
-        { provide: Overlay, useValue: ['position, scrollStrategies'] },
-        { provide: MAT_DIALOG_SCROLL_STRATEGY, useValue: [] },
-      ],
-    })
-      .compileComponents();
+      providers: [{ provide: ToolsColorService, useValue: spyToolsColor }],
+    });
+    spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
+    TestBed.compileComponents();
   }));
 
   beforeEach(() => {
-    const spyToolsColor = jasmine.createSpyObj('ToolsColorService', ['switchColor', 'setPrimaryColor', 'setSecondaryColor']);
-
-    TestBed.configureTestingModule({
-      providers: [
-        { provide: ToolsColorService, useValue: spyToolsColor },
-      ],
-    });
-
     toolsColorServiceSpy = TestBed.get(ToolsColorService);
-
     fixture = TestBed.createComponent(ToolsColorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -44,9 +41,8 @@ describe('ToolsColorComponent', () => {
   });
 
   it('should call switchColor', () => {
-    const spy = spyOn(toolsColorServiceSpy, 'switchColor');
     component.switchColor();
-    expect(spy).toHaveBeenCalled();
+    expect(toolsColorServiceSpy.switchColor).toHaveBeenCalled();
   });
 
   it('should call clickPrimary;', () => {
@@ -67,15 +63,13 @@ describe('ToolsColorComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-
-  it('should call clickBackground', () => {
-    const spy = spyOn(toolsColorServiceSpy, 'setPrimaryColor');
+  it('should open PrimaryColorDialog', () => {
     component.openDialog(0);
-    expect(spy).toHaveBeenCalled();
+    expect(toolsColorServiceSpy.setPrimaryColor).toHaveBeenCalled();
   });
-  it('should call clickBackground', () => {
-    const spy = spyOn(toolsColorServiceSpy, 'setSecondaryColor');
+
+  it('should open SecondaryColorDialog', () => {
     component.openDialog(1);
-    expect(spy).toHaveBeenCalled();
+    expect(toolsColorServiceSpy.setSecondaryColor).toHaveBeenCalled();
   });
 });

@@ -4,6 +4,7 @@ import { TextureOptions } from 'src/app/model/texture-options.model';
 import { TexturesService } from 'src/app/services/textures/textures.service';
 import { BrushToolService } from 'src/app/services/tools/brush-tool/brush-tool.service';
 
+/// Le component d'affichage des paramètres du pinceau
 @Component({
   selector: 'app-brush-tool-parameter',
   templateUrl: './brush-tool-parameter.component.html',

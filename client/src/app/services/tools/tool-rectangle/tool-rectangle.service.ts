@@ -10,12 +10,14 @@ import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 
+/// Outil pour créer des rectangle, click suivis de bouge suivis de relache crée le rectangle
+/// et avec shift créer un carrée
 @Injectable({
   providedIn: 'root',
 })
 export class ToolRectangleService implements ITools {
   readonly faIcon: IconDefinition = faSquareFull;
-  readonly toolName = 'Rectangle Tool';
+  readonly toolName = 'Outil Rectangle';
   readonly id = ToolIdConstants.RECTANGLE_ID;
 
   private object: RectangleObject | null;

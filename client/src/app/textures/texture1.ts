@@ -12,6 +12,8 @@ export class TextureOne implements ITexture {
     getTextureIDName(id: number): string {
         return `${this.id}-${id}`;
     }
+
+    /// Retourne la ligne html du pattern
     getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number): string {
         return `<defs>
 <pattern id="${this.getTextureIDName(id)}" width="12" height="24" viewBox="0 0 12 24" x="${x}" y="${y}"
@@ -19,7 +21,7 @@ export class TextureOne implements ITexture {
 <g fill="none" fill-rule="evenodd">
 <g fill="rgb(${primaryColor.rgb.r},${primaryColor.rgb.g},${primaryColor.rgb.b})"
  fill-opacity="${primaryColor.a}">
-<path d="M2 0h2v12H2V0zm1 20c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM9 8c1.105 
+<path d="M2 0h2v12H2V0zm1 20c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM9 8c1.105
  0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-1 4h2v12H8V12z"/>
 </g>
 </g>

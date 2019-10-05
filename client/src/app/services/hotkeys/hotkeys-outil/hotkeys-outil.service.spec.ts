@@ -34,7 +34,7 @@ describe('HotkeysOutilService', () => {
 
     service.hotkeysOutil(keyBoardEvent);
 
-    expect(eventEmited).toBe(emitReturn.PENCIL);
+    expect(eventEmited).toBe(EmitReturn.PENCIL);
   });
 
   it('W should emit', () => {
@@ -47,7 +47,7 @@ describe('HotkeysOutilService', () => {
 
     service.hotkeysOutil(keyBoardEvent);
 
-    expect(eventEmited).toBe(emitReturn.BRUSH);
+    expect(eventEmited).toBe(EmitReturn.BRUSH);
   });
 
   it('P should emit', () => {
@@ -99,7 +99,7 @@ describe('HotkeysOutilService', () => {
 
     service.hotkeysOutil(keyBoardEvent);
 
-    expect(eventEmited).toBe(emitReturn.RECTANGLE);
+    expect(eventEmited).toBe(EmitReturn.RECTANGLE);
   });
 
   it('1 (numpad) should emit', () => {
@@ -112,7 +112,7 @@ describe('HotkeysOutilService', () => {
 
     service.hotkeysOutil(keyBoardEvent);
 
-    expect(eventEmited).toBe(emitReturn.RECTANGLE);
+    expect(eventEmited).toBe(EmitReturn.RECTANGLE);
   });
 
   it('2 should emit', () => {
@@ -203,7 +203,7 @@ describe('HotkeysOutilService', () => {
 
     service.hotkeysOutil(keyBoardEvent);
 
-    expect(eventEmited).toBe(emitReturn.APPLICATEUR);
+    expect(eventEmited).toBe(EmitReturn.APPLICATEUR);
   });
 
   it('B should emit', () => {

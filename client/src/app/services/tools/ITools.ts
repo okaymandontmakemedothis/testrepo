@@ -2,6 +2,7 @@ import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { IObjects } from 'src/app/objects/IObjects';
 
+/// Interface pour tous les outils
 export interface ITools {
     readonly id: number;
     readonly faIcon: IconDefinition;

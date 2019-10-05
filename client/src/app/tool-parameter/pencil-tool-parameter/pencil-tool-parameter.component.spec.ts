@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PencilToolParameterComponent } from './pencil-tool-parameter.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material';
+import { PencilToolParameterComponent } from './pencil-tool-parameter.component';
 
 describe('PencilToolParameterComponent', () => {
   let component: PencilToolParameterComponent;
