@@ -1,17 +1,17 @@
 import { injectable } from 'inversify';
 import { MongoClient } from 'mongodb';
 import 'reflect-metadata';
-import { Drawing } from '../../../common/communication/drawing';
+import { Drawing, Tag, DrawingObject } from '../../../common/communication/drawing';
 
-const url = 'mongodb://localhost:27017/test';
+const url = 'mongodb://localhost:27017/polydessin';
 const client = MongoClient;
 
 @injectable()
 export class DrawingService {
     async getAllDrawings(): Promise<Drawing[]> {
         return client.connect(url).then(async (mc: MongoClient) => {
-            const db = mc.db('test');
-            const test = db.collection('users');
+            const db = mc.db('polydessin');
+            const test = db.collection('drawings');
             return test.find().toArray().then((arr) => {
                 mc.close();
                 return arr;
@@ -21,8 +21,8 @@ export class DrawingService {
 
     async getDrawingByName(name: string): Promise<Drawing> {
         return client.connect(url).then(async (mc: MongoClient) => {
-            const db = mc.db('test');
-            const test = db.collection('users');
+            const db = mc.db('polydessin');
+            const test = db.collection('drawings');
             return test.findOne({ name: { $eq: name } }).then((value) => {
                 mc.close();
                 return value;
@@ -32,24 +32,72 @@ export class DrawingService {
 
     async setDrawing(d: Drawing): Promise<string> {
         return client.connect(url).then(async (mc: MongoClient) => {
-            const db = mc.db('test');
-            const test = db.collection('users');
-            test.insertOne(d, (err, res) => {
+            const db = mc.db('polydessin');
+            const tagCollection = db.collection('tags');
+            const drawingsCollection = db.collection('drawings');
+            console.log(d);
+            for (const tag of d.tags) {
+                await tagCollection.findOne({ name: { $eq: tag } }).then((t) => {
+                    if (t) {
+                        console.log(t + ' exist');
+                        const nbUses = t.numberOfUses += 1;
+                        tagCollection.updateOne({ name: { $eq: tag } }, { $set: { numberOfUses: nbUses } }, (err, res) => {
+                            if (err) {
+                                throw err;
+                            }
+                            console.log(res.result);
+                        });
+                    } else {
+                        console.log(tag);
+                        const newTag: Tag = { name: tag, numberOfUses: 1 };
+                        tagCollection.insertOne(newTag, (err, res) => {
+                            if (err) {
+                                throw err;
+                            }
+                            console.log(res.result);
+                        });
+                    }
+                });
+            }
+
+            drawingsCollection.insertOne(d, (err, res) => {
                 if (err) {
                     throw err;
                 }
                 console.log(res.result);
             });
             mc.close();
-            return 'Test';
+            return 'Done';
         });
     }
 
     async deleteDrawing(name: string): Promise<string> {
         return client.connect(url).then(async (mc: MongoClient) => {
-            const db = mc.db('test');
-            const test = db.collection('users');
-            test.deleteOne({ name }, (err, res) => {
+            const db = mc.db('polydessin');
+            const tagCollection = db.collection('tags');
+            const drawingsCollection = db.collection('drawings');
+            let d: Drawing;
+            await drawingsCollection.findOne({ name: { $eq: name } }).then((value: Drawing) => d = value);
+            if (!d) {
+                return 'err';
+            }
+            for (const tag of d.tags) {
+                await tagCollection.findOne({ name: { $eq: tag } }).then((t) => {
+                    if (t) {
+                        console.log(t + ' exist');
+                        const nbUses = t.numberOfUses -= 1;
+                        tagCollection.updateOne({ name: { $eq: tag } }, { $set: { numberOfUses: nbUses } }, (err, res) => {
+                            if (err) {
+                                throw err;
+                            }
+                            console.log(res.result);
+                        });
+                    } else {
+                        console.log('err');
+                    }
+                });
+            }
+            drawingsCollection.deleteOne({ name }, (err, res) => {
                 if (err) {
                     throw err;
                 }
