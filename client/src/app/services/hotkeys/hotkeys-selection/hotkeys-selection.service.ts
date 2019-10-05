@@ -4,6 +4,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 import { EventEmitter, Injectable, Output } from '@angular/core';
+import { KeyCodes } from '../hotkeys-constants';
 
 /// Service de hotkey pour les fonctions de selection
 @Injectable({

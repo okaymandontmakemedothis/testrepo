@@ -4,6 +4,7 @@ import { NewDrawingComponent } from 'src/app/components/new-drawing/new-drawing.
 import { ToggleDrawerService } from '../toggle-drawer/toggle-drawer.service';
 import { ToolIdConstants } from '../tools/tool-id-constants';
 import { ToolsService } from '../tools/tools.service';
+import { EmitReturn } from './hotkeys-constants';
 import { HotkeysFichierService } from './hotkeys-fichier/hotkeys-fichier.service';
 import { HotkeysOutilService } from './hotkeys-outil/hotkeys-outil.service';
 import { HotkeysSelectionService } from './hotkeys-selection/hotkeys-selection.service';

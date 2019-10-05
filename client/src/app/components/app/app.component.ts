@@ -19,7 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private welcomeService: WelcomeDialogService,
+    private welcomeDialogService: WelcomeDialogService,
     private hotkeysService: HotkeysService,
     private sideNavService: SidenavService,
   ) {
@@ -52,13 +52,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Ouvre le mat dialog lorsque le browser est initialiser si le checkbox est non cocher
   ngOnInit() {
-    if (this.welcomeService.shouldWelcomeMessageBeShown) {
+    if (this.welcomeDialogService.shouldWelcomeMessageBeShown) {
       this.openDialog();
     }
   }
 
   /// Detruit le subscribe du welcomeDialogSub
   ngOnDestroy(): void {
-    this.welcomeDialogSub.unsubscribe();
+    if (this.welcomeDialogSub) {
+      this.welcomeDialogSub.unsubscribe();
+    }
   }
 }

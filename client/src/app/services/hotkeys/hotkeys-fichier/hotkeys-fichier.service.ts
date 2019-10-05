@@ -4,7 +4,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import '../hotkeys-constants';
+import { EmitReturn, KeyCodes } from '../hotkeys-constants';
 
 /// Service de hotkey pour les fonctions de fichier
 @Injectable({

@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ToolsService } from 'src/app/services/tools/tools.service';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
-import '../../services/hotkeys/hotkeys-constants';
 
 @Component({
   selector: 'app-workspace',

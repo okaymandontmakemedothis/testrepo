@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-
+import { EmitReturn } from '../hotkeys-constants';
 import { HotkeysOutilService } from './hotkeys-outil.service';
 
 describe('HotkeysOutilService', () => {
