@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
+import { OpenDrawingComponent } from '../open-drawing/open-drawing.component';
+import { SaveDrawingComponent } from '../save-drawing/save-drawing.component';
 import { DIALOG_PROPERTIES, WelcomeDialogComponent } from '../welcome-dialog/welcome-dialog/welcome-dialog.component';
 
 /// Component pour afficher les options fichiers
@@ -22,4 +24,13 @@ export class ControlMenuComponent {
     this.dialog.open(WelcomeDialogComponent, DIALOG_PROPERTIES);
   }
 
+  /// Ouvrir le dialog de sauvegarde de dessin
+  openSaveDrawing(): void {
+    this.dialog.open(SaveDrawingComponent, {});
+  }
+
+  /// Ouvrir le dialog d'ouverture de fichier
+  openOpenDrawing(): void {
+    this.dialog.open(OpenDrawingComponent, {});
+  }
 }

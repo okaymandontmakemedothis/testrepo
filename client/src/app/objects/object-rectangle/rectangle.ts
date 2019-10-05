@@ -1,5 +1,6 @@
 import { RGBA } from '../../model/rgba.model';
 import { IObjects } from '../IObjects';
+import { DrawingObject } from '../../../../../common/communication/drawing';
 
 /// Classe pour créer les objets rectangles
 export class RectangleObject implements IObjects {
@@ -56,5 +57,23 @@ export class RectangleObject implements IObjects {
         '" y="' + this.y + '" width="' + this.width + '" height="' + this.height + '" style=' + this.getStyle() + ' />';
     }
     return '';
+  }
+
+  toDrawingObject(): DrawingObject {
+    const drawingObject = {
+      type: 'rectangle',
+      objectId: this.id,
+      x: this.x,
+      y: this.y,
+      height: this.height,
+      width: this.width,
+      primaryRGBA: this.primaryColor,
+      secondaryRGBA: this.secondaryColor,
+      pointsList: [],
+      strokeWidth: this.strokeWidth,
+      testureId: 0,
+      style: this.style,
+    };
+    return drawingObject;
   }
 }

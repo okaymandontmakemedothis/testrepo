@@ -20,6 +20,8 @@ import { ToolsColorComponent } from './components/tools-color/tools-color.compon
 import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.module';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { ToolParameterModule } from './tool-parameter/tool-parameter.module';
+import { SaveDrawingComponent } from './components/save-drawing/save-drawing.component';
+import { OpenDrawingComponent } from './components/open-drawing/open-drawing.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { ToolParameterModule } from './tool-parameter/tool-parameter.module';
     CanvasComponent,
     ControlMenuComponent,
     ParameterDirective,
+    SaveDrawingComponent,
+    OpenDrawingComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +64,8 @@ import { ToolParameterModule } from './tool-parameter/tool-parameter.module';
     ToolsColorPickerComponent,
     WorkspaceComponent,
     ControlMenuComponent,
+    SaveDrawingComponent,
+    OpenDrawingComponent,
   ],
   providers: [
   ],

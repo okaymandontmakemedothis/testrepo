@@ -2,6 +2,7 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
 import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
 import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
 import { IObjects } from 'src/app/objects/IObjects';
+import { DrawingObject } from '../../../../../common/communication/drawing';
 
 /// Service qui contient les fonction pour dessiner a l'écran
 @Injectable({
@@ -61,6 +62,15 @@ export class DrawingService {
     }
     this.svgString.emit(drawResult);
   }
+
+  drawingObjectList(): DrawingObject[] {
+    const drawingObjectList: DrawingObject[] = [];
+    for (const obj of this.objectList.values()) {
+      drawingObjectList.push(obj.toDrawingObject());
+    }
+    return drawingObjectList;
+  }
+
 
   /// Redéfini la dimension du dessin
   setDimension(width: number, height: number) {
