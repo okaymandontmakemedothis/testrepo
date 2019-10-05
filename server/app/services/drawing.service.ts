@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import 'reflect-metadata';
 import { Drawing, Tag } from '../../../common/communication/drawing';
 
@@ -18,13 +18,24 @@ export class DrawingService {
             });
         });
     }
-    async getDrawingsByTags(tagCollection: string[]):Promise<Drawing[]> {
+    async getDrawingsByTags(tagCollection: string[]): Promise<Drawing[]> {
         return client.connect(url).then(async (mc: MongoClient) => {
             const db = mc.db('polydessin');
             const test = db.collection('drawings');
             return test.find({tags: {$in: tagCollection}}).toArray().then((arr) => {
                 mc.close();
                 return arr;
+            });
+        });
+    }
+    async getDrawingsById(id: string): Promise<Drawing> {
+        return client.connect(url).then(async (mc: MongoClient) => {
+            const db = mc.db('polydessin');
+            const test = db.collection('drawings');
+            const objectId=new ObjectId(id)
+            return test.findOne( objectId).then((value) => {
+                mc.close();
+                return value;
             });
         });
     }
