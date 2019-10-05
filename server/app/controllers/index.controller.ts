@@ -1,9 +1,7 @@
-import {NextFunction, Request, Response, Router} from 'express';
-import {inject, injectable} from 'inversify';
-
-import {Message} from '../../../common/communication/message';
-import {IndexService} from '../services/index.service';
-
+import { NextFunction, Request, Response, Router } from 'express';
+import { inject, injectable } from 'inversify';
+import { Message } from '../../../common/communication/message';
+import { IndexService } from '../services/index.service';
 import Types from '../types';
 
 @injectable()
@@ -34,11 +32,11 @@ export class IndexController {
             });
 
         this.router.get('/text',
-        (req: Request, res: Response, next: NextFunction) => {
-            // Returns the JSON file for text
-            //const obj = this.indexService.getTextRessource();
-            res.json(this.indexService.getTextRessource("/../../../../app/res/text/welcome_text2.json"));
+            (req: Request, res: Response, next: NextFunction) => {
+                // Returns the JSON file for text
+                // const obj = this.indexService.getTextRessource();
+                res.json(this.indexService.getTextRessource('/../../../../app/res/text/welcome_text2.json'));
 
-        });
+            });
     }
 }
