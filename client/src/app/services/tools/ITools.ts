@@ -1,6 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { IObjects } from 'src/app/objects/IObjects';
+import { Renderer2 } from '@angular/core';
 
 /// Interface pour tous les outils
 export interface ITools {
@@ -8,7 +9,7 @@ export interface ITools {
     readonly faIcon: IconDefinition;
     readonly toolName: string;
     parameters: FormGroup;
-    onPressed(event: MouseEvent): IObjects | null;
-    onRelease(event: MouseEvent): void;
-    onMove(event: MouseEvent): void;
+    onPressed(event: MouseEvent, renderer: Renderer2): IObjects | null;
+    onRelease(event: MouseEvent, renderer: Renderer2): void;
+    onMove(event: MouseEvent, renderer: Renderer2): void;
 }

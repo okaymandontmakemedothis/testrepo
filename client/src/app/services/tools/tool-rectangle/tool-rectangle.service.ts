@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Renderer2, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
@@ -32,7 +32,11 @@ export class ToolRectangleService implements ITools {
   firstX: number;
   firstY: number;
 
-  constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService, private colorTool: ToolsColorService) {
+  constructor(
+    private drawingService: DrawingService,
+    private offsetManager: OffsetManagerService,
+    private colorTool: ToolsColorService,
+  ) {
     this.strokeWidth = new FormControl(1, Validators.min(1));
     this.rectStyle = new FormControl('fill');
     this.parameters = new FormGroup({
@@ -61,11 +65,14 @@ export class ToolRectangleService implements ITools {
 
   /// Quand le bouton de la sourie est enfoncé, on crée un rectangle et on le retourne
   /// en sortie et est inceré dans l'objet courrant de l'outil.
-  onPressed(event: MouseEvent): IObjects {
+  onPressed(event: MouseEvent, renderer: Renderer2): IObjects {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     this.firstX = offset.x;
     this.firstY = offset.y;
-    this.object = new RectangleObject(offset.x, offset.y, this.strokeWidth.value, this.rectStyle.value);
+    const rect = renderer.createElement('rect', 'svg');
+    renderer.setAttribute(rect, 'x', this.firstX.toString());
+    renderer.setAttribute(rect, 'y', this.firstY.toString());
+    this.object = new RectangleObject(offset.x, offset.y, this.strokeWidth.value, this.rectStyle.value, rect);
     if (event.button === 0) {
       this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
       this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
@@ -77,14 +84,18 @@ export class ToolRectangleService implements ITools {
   }
 
   /// Quand le bouton de la sourie est relaché, l'objet courrant de l'outil est mis a null.
-  onRelease(event: MouseEvent): void {
+  onRelease(event: MouseEvent, renderer: Renderer2): void {
     this.object = null;
   }
 
   /// Quand le bouton de la sourie est apuyé et on bouge celle-ci, l'objet courrant subit des modifications.
-  onMove(event: MouseEvent): void {
+  onMove(event: MouseEvent, renderer: Renderer2): void {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
-    this.setSize(offset.x, offset.y);
+    if (this.object) {
+      renderer.setAttribute(this.object.objRef, 'width', (offset.x - this.firstX).toString());
+      renderer.setAttribute(this.object.objRef, 'height', (offset.y - this.firstY).toString());
+      this.setSize(offset.x, offset.y);
+    }
   }
 
   /// Active le mode carré et assigne le size.

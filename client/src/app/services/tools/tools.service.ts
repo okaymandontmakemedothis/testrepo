@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Renderer2 } from '@angular/core';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../drawing/drawing.service';
 import { BrushToolService } from './brush-tool/brush-tool.service';
@@ -16,7 +16,6 @@ import { PipetteToolService } from './pipette-tool/pipette-tool.service';
   providedIn: 'root',
 })
 export class ToolsService {
-
   private isPressed = false;
   selectedToolId = 0;
   currentObject: null | IObjects;
@@ -59,7 +58,7 @@ export class ToolsService {
 
   /// Appeller la fonction onPressed du bon outil et ajoute un objet au dessin si nécéssaire
   onPressed(event: MouseEvent): void {
-    this.currentObject = this.selectedTool.onPressed(event);
+    this.currentObject = this.selectedTool.onPressed(event, this.drawing.renderer);
     this.isPressed = true;
     if (this.currentObject) {
       this.drawing.addObject(this.currentObject);
@@ -69,9 +68,8 @@ export class ToolsService {
   /// Appelle la fonction onRelease du bon outil et annule les entrée d'évenement souris
   onRelease(event: MouseEvent): void {
     if (this.isPressed) {
-      this.selectedTool.onRelease(event);
+      this.selectedTool.onRelease(event, this.drawing.renderer);
       this.currentObject = null;
-      this.drawing.draw();
     }
     this.isPressed = false;
   }
@@ -79,8 +77,7 @@ export class ToolsService {
   /// Appelle la fonction onMove du bon outil si les entrée d'évenement souris son activé
   onMove(event: MouseEvent): void {
     if (this.isPressed) {
-      this.selectedTool.onMove(event);
-      this.drawing.draw();
+      this.selectedTool.onMove(event, this.drawing.renderer);
     }
   }
 }

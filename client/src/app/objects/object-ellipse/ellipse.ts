@@ -1,8 +1,10 @@
 import { RGBA } from '../../model/rgba.model';
 import { IObjects } from '../IObjects';
+import { ElementRef } from '@angular/core';
 
 /// Classe pour créer les objets ellipses
 export class EllipseObject implements IObjects {
+  objRef: ElementRef;
   primaryColor: RGBA;
   secondaryColor: RGBA;
   id = 1;

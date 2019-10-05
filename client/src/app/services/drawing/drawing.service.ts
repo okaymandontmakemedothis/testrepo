@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { EventEmitter, Injectable, Output, Renderer2, ElementRef } from '@angular/core';
 import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
 import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
 import { IObjects } from 'src/app/objects/IObjects';
@@ -13,6 +13,10 @@ export class DrawingService {
   @Output()
   svgString = new EventEmitter<string>();
 
+  @Output()
+  objEmit = new EventEmitter<ElementRef>();
+
+  renderer: Renderer2;
   lastObjectId = 0;
   isCreated = false;
   color: RGB = DEFAULT_RGB_COLOR;
@@ -45,7 +49,6 @@ export class DrawingService {
     this.lastObjectId++;
     obj.id = this.lastObjectId;
     this.objectList.set(obj.id, obj);
-    this.draw();
   }
 
   /// Récupère un objet selon son id dans la map d'objet
@@ -58,6 +61,9 @@ export class DrawingService {
     let drawResult = '';
     for (const obj of this.objectList.values()) {
       drawResult += obj.draw();
+      if (obj.objRef) {
+        this.objEmit.emit(obj.objRef);
+      }
     }
     this.svgString.emit(drawResult);
   }
