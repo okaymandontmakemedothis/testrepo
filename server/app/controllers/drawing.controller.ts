@@ -15,7 +15,9 @@ export class DrawingController {
 
     private configureRouter() {
         this.router = Router();
+
         this.router.get('/',
+        
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
                 this.drawingService.getAllDrawings().then((d: Drawing[]) => {
@@ -31,6 +33,17 @@ export class DrawingController {
                 // Send the request to the service and send the response
                 this.drawingService.getDrawingByName(req.params.drawingName).then((d: Drawing) => {
                     console.log(d);
+                    res.json(d);
+                }).catch((reason: unknown) => {
+                    res.json('error');
+                });
+            });
+        this.router.post('/filter-by-tag',
+            (req: Request, res: Response, next: NextFunction) => {
+                // Send the request to the service and send the response
+                const tags: string[] = req.body.tags;
+                this.drawingService.getDrawingsByTags(tags).then((d: Drawing[]) => {
+                    // console.log(d);
                     res.json(d);
                 }).catch((reason: unknown) => {
                     res.json('error');

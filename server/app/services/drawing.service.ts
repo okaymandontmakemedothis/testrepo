@@ -18,6 +18,16 @@ export class DrawingService {
             });
         });
     }
+    async getDrawingsByTags(tagCollection: string[]):Promise<Drawing[]> {
+        return client.connect(url).then(async (mc: MongoClient) => {
+            const db = mc.db('polydessin');
+            const test = db.collection('drawings');
+            return test.find({tags: {$in: tagCollection}}).toArray().then((arr) => {
+                mc.close();
+                return arr;
+            });
+        });
+    }
 
     async getDrawingByName(name: string): Promise<Drawing> {
         return client.connect(url).then(async (mc: MongoClient) => {

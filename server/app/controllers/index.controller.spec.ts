@@ -9,8 +9,7 @@ import {assert} from 'chai';
 // // //Configure chai
 // chai.use(require('chai-http'))
 
-
-//Sample test to check test framework functionality
+// Sample test to check test framework functionality
 it('Sample test: should complete this test', (done) => {
     assert.ok(true);
     done();
