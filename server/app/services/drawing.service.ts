@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
 import { MongoClient } from 'mongodb';
 import 'reflect-metadata';
-import { Drawing, Tag, DrawingObject } from '../../../common/communication/drawing';
+import { Drawing, Tag } from '../../../common/communication/drawing';
 
 const url = 'mongodb://localhost:27017/polydessin';
 const client = MongoClient;
@@ -76,7 +76,7 @@ export class DrawingService {
             const db = mc.db('polydessin');
             const tagCollection = db.collection('tags');
             const drawingsCollection = db.collection('drawings');
-            let d: Drawing;
+            let d: Drawing|undefined;
             await drawingsCollection.findOne({ name: { $eq: name } }).then((value: Drawing) => d = value);
             if (!d) {
                 return 'err';
