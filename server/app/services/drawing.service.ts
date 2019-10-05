@@ -32,8 +32,8 @@ export class DrawingService {
         return client.connect(url).then(async (mc: MongoClient) => {
             const db = mc.db('polydessin');
             const test = db.collection('drawings');
-            const objectId=new ObjectId(id)
-            return test.findOne( objectId).then((value) => {
+            const objectId = new ObjectId(id);
+            return test.findOne( {_id: objectId}).then((value) => {
                 mc.close();
                 return value;
             });

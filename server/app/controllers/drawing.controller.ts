@@ -41,10 +41,8 @@ export class DrawingController {
         this.router.post('/by-id',
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                console.log(req.body.id)
-                // const id: string = req.body.id;
 
-                this.drawingService.getDrawingsById(req.params.id).then((d: Drawing) => {
+                this.drawingService.getDrawingsById(req.body.id).then((d: Drawing) => {
                     console.log(d);
                     res.json(d);
                 }).catch((reason: unknown) => {
