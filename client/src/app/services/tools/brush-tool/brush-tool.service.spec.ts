@@ -3,6 +3,7 @@ import { Polyline } from 'src/app/objects/object-polyline/polyline';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { BrushToolService } from './brush-tool.service';
+import { FormControl } from '@angular/forms';
 
 describe('BrushToolService', () => {
   let offsetManagerServiceSpy: jasmine.SpyObj<OffsetManagerService>;
@@ -83,5 +84,12 @@ describe('BrushToolService', () => {
 
     expect(object.primaryColor).toEqual({ rgb: { r: 0, g: 0, b: 0 }, a: 0 });
     expect(object.secondaryColor).toEqual({ rgb: { r: 255, g: 255, b: 255 }, a: 1 });
+  });
+
+  it('should return null if strokewidth is equal to 0', () => {
+    const service: BrushToolService = TestBed.get(BrushToolService);
+    const form = service.parameters.get('strokeWidth') as FormControl;
+    form.patchValue(0);
+    expect(service.onPressed(new MouseEvent('mousedown'))).toBeNull();
   });
 });
