@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { OpenDrawingService } from 'src/app/services/open-drawing/open-drawing.service';
 import { BehaviorSubject } from 'rxjs';
-import { DrawingPreview } from '../../../../../common/communication/drawing';
+import { DrawingPreview, Drawing } from '../../../../../common/communication/drawing';
 
 @Component({
   selector: 'app-open-drawing',
@@ -11,12 +11,14 @@ import { DrawingPreview } from '../../../../../common/communication/drawing';
 })
 export class OpenDrawingComponent {
 
-  drawingPrview = new BehaviorSubject<DrawingPreview>({name: '', tags: [''], width: 0, height: 0, thumbnail: '' });
+  drawingPreview = new BehaviorSubject<Drawing>({
+    name: '', tags: [''], width: 0, height: 0, backGroundColor: { rgb: { r: 0, g: 0, b: 0 }, a: 1 },
+    drawingObjects: [], thumbnail: '' });
  
   constructor(
     public dialogRef: MatDialogRef<OpenDrawingComponent>, private openDrawingService: OpenDrawingService) {
     this.openDrawingService.getDrawingPreview()
-      .subscribe(this.drawingPrview);
+      .subscribe(this.drawingPreview);
     }
 
   close(): void {
