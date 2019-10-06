@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { OpenDrawingService } from 'src/app/services/open-drawing/open-drawing.service';
 import { BehaviorSubject } from 'rxjs';
-import { DrawingPreview, Drawing } from '../../../../../common/communication/drawing';
+import {  Drawing } from '../../../../../common/communication/drawing';
 
 @Component({
   selector: 'app-open-drawing',
