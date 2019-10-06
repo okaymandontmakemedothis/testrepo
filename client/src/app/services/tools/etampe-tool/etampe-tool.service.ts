@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, HostListener } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { ITools } from '../ITools';
@@ -12,6 +12,7 @@ import { INITIAL_SCALE } from '../tools-constants';
 @Injectable({
   providedIn: 'root'
 })
+
 export class EtampeToolService implements ITools {
   readonly id = ToolIdConstants.ETAMPE_ID;
   readonly faIcon: IconDefinition = faStamp;
@@ -29,6 +30,22 @@ export class EtampeToolService implements ITools {
       etampe: this.etampe,
       facteur: this.facteur,
     });
+    this.registerEventListenerOnScroll();
+  }
+
+  registerEventListenerOnScroll() {
+    window.addEventListener('scroll', (event) => {
+      console.log('scrolling');
+      this.setAngle();
+    });
+  }
+
+  @HostListener('onmousewheel', ['$event'])
+  onMouseWheel(event: MouseEvent)  {
+    console.debug("Scroll Event");
+    if (this.object) {
+      this.object.angle = this.object.angle + 90;
+    }
   }
   onPressed(event: MouseEvent): IObjects | null {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
@@ -36,16 +53,25 @@ export class EtampeToolService implements ITools {
       this.object = new EtampeObject(offset.x, offset.y, this.etampe.value);
       this.object.width = this.object.width * this.facteur.value;
       this.object.height = this.object.height * this.facteur.value;
+      
       return this.object;
     } else {
       return null;
     }
-    
   }
   onRelease(event: MouseEvent) { 
+    this.registerEventListenerOnScroll();
     return null;
   }
   onMove(event: MouseEvent) { 
+    this.registerEventListenerOnScroll();
     return null;
+  }
+
+  setAngle() {
+ 
+    if (this.object) {
+      this.object.angle = this.object.angle + 90;
+    }
   }
 }

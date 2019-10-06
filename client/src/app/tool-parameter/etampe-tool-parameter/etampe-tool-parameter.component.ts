@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { EtampeToolService } from 'src/app/services/tools/etampe-tool/etampe-tool.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { EtampeStyle } from 'src/app/model/etampe-style.model';
+import { EtampeToolService } from 'src/app/services/tools/etampe-tool/etampe-tool.service';
 
 const SMILEY = 0;
 const SAD = 1;
 const FROWNY = 2;
 const HEART = 3;
 const UP = 4;
+const GHOST = 5;
+const TONGUE = 6;
+const KISS = 7;
 
 @Component({
   selector: 'app-etampe-tool-parameter',
@@ -16,6 +19,7 @@ const UP = 4;
 })
 export class EtampeToolParameterComponent implements OnInit{
   constructor(private etampeToolService: EtampeToolService) { }
+
   get toolName(): string {
     return this.etampeToolService.toolName;
   }
@@ -23,30 +27,31 @@ export class EtampeToolParameterComponent implements OnInit{
   form: FormGroup;
   currentEtampe = 0;
   styles: EtampeStyle[] = [
-    {
-      id: SMILEY,
-      url: 'https://cdn.pixabay.com/photo/2017/03/05/21/55/emoticon-2120024_960_720.png',
-      tooltip: 'content',
-    },
-    {
-      id: SAD,
+    {id: SMILEY,
+      url: 'https://cdn.shopify.com/s/files/1/1061/1924/products/Smiling_Face_Emoji_large.png?v=1480481056',
+      tooltip: 'content', },
+    {id: SAD,
       url: 'https://cdn.shopify.com/s/files/1/1061/1924/products/Sad_Face_Emoji_large.png?v=1480481055',
-      tooltip: 'triste',
-    },
-    {
-      id: FROWNY,
+      tooltip: 'triste', },
+    {id: FROWNY,
       url: 'http://cdn.shopify.com/s/files/1/1061/1924/products/Very_Mad_Emoji_grande.png?v=1480481060',
-      tooltip: 'facher',
-    },
-    {
-      id: HEART,
-      url: 'https://images.emojiterra.com/google/android-pie/512px/2764.png',
-      tooltip: 'coeur',
-    },
-    {
-      id: UP,
+      tooltip: 'facher', },
+    {id: HEART,
+      url: 'https://cdn.emojidex.com/emoji/seal/heart.png?1417137894',
+      tooltip: 'coeur', },
+    {id: UP,
       url: 'https://cdn.shopify.com/s/files/1/1061/1924/products/Thumbs_Up_Hand_Sign_Emoji_large.png?v=1480481047',
-      tooltip: 'pouce',
+      tooltip: 'pouce', },
+    {id: GHOST,
+      url: 'https://cdn.shopify.com/s/files/1/1061/1924/products/Ghost_Emoji_large.png?v=1480481053',
+      tooltip: 'fantome', },
+    {id: TONGUE,
+      url: 'http://cdn.shopify.com/s/files/1/1061/1924/products/' +
+      'Tongue_Out_Emoji_with_Winking_Eye_876290ec-609b-498e-84ae-b195218ea438_grande.png?v=1480481058',
+      tooltip: 'Grimace', },
+    {id: KISS,
+      url: 'https://cdn.shopify.com/s/files/1/1061/1924/products/Kiss_Emoji_Icon_2_large.png?v=1542435998',
+      tooltip: 'Bisou',
     },
   ];
 
