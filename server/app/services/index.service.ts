@@ -1,9 +1,9 @@
+import * as fs from 'fs';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { Message, WelcomeMessage } from '../../../common/communication/message';
 import Types from '../types';
 import { DateService } from './date.service';
-import * as fs from 'fs';
 
 @injectable()
 export class IndexService {
@@ -19,7 +19,7 @@ export class IndexService {
             body: 'Lorem ipsum........',
         };
     }
-    getTextRessource(pathName:string): WelcomeMessage {
+    getTextRessource(pathName: string): WelcomeMessage {
         const file = fs.readFileSync(__dirname + pathName);
         const obj = JSON.parse(file.toString());
         return obj;
