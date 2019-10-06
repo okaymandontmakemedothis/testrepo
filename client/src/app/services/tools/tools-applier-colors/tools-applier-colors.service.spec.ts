@@ -6,6 +6,7 @@ import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ToolsApplierColorsService } from './tools-applier-colors.service';
 
 class MockOject implements IObjects {
+
   id: number;
   x: number;
   y: number;
@@ -15,6 +16,9 @@ class MockOject implements IObjects {
   secondaryColor: RGBA;
   draw(): string {
     return '';
+  }
+  toDrawingObject(): import('../../../../../../common/communication/drawing').DrawingObject {
+    throw new Error('Method not implemented.');
   }
 }
 describe('ToolsApplierColorsService', () => {
