@@ -20,6 +20,7 @@ import { ToolsColorComponent } from './components/tools-color/tools-color.compon
 import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.module';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { ToolParameterModule } from './tool-parameter/tool-parameter.module';
+import { MouseWheelDirective } from './services/tools/etampe-tool/etampe.directive';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ToolParameterModule } from './tool-parameter/tool-parameter.module';
     CanvasComponent,
     ControlMenuComponent,
     ParameterDirective,
+    MouseWheelDirective,
   ],
   imports: [
     BrowserModule,

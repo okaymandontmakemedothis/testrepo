@@ -1,4 +1,4 @@
-import { Injectable, HostListener } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { ITools } from '../ITools';
@@ -8,6 +8,7 @@ import { faStamp } from '@fortawesome/free-solid-svg-icons';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { EtampeObject } from 'src/app/objects/object-etampe/etampe';
 import { INITIAL_SCALE } from '../tools-constants';
+import { MouseWheelDirective } from './etampe.directive';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,8 @@ export class EtampeToolService implements ITools {
   private facteur: FormControl;
   private object: EtampeObject | null;
 
+  @ViewChild(MouseWheelDirective, { static: true })
+  wheelHost: MouseWheelDirective;
 
   constructor(private offsetManager: OffsetManagerService) {
     this.etampe = new FormControl('');
@@ -30,23 +33,23 @@ export class EtampeToolService implements ITools {
       etampe: this.etampe,
       facteur: this.facteur,
     });
-    this.registerEventListenerOnScroll();
+    //this.registerEventListenerOnScroll();
   }
 
-  registerEventListenerOnScroll() {
-    window.addEventListener('scroll', (event) => {
-      console.log('scrolling');
-      this.setAngle();
-    });
-  }
+  // registerEventListenerOnScroll() {
+  //   window.addEventListener('scroll', (event) => {
+  //     console.log('scrolling');
+  //     this.setAngle();
+  //   });
+  // }
 
-  @HostListener('onmousewheel', ['$event'])
-  onMouseWheel(event: MouseEvent)  {
-    console.debug("Scroll Event");
-    if (this.object) {
-      this.object.angle = this.object.angle + 90;
-    }
-  }
+  // @HostListener('onmousewheel', ['$event'])
+  // onMouseWheel(event: MouseEvent)  {
+  //   console.debug("Scroll Event");
+  //   if (this.object) {
+  //     this.object.angle = this.object.angle + 90;
+  //   }
+  // }
   onPressed(event: MouseEvent): IObjects | null {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     if (event.button === 0) {
@@ -60,16 +63,13 @@ export class EtampeToolService implements ITools {
     }
   }
   onRelease(event: MouseEvent) { 
-    this.registerEventListenerOnScroll();
     return null;
   }
   onMove(event: MouseEvent) { 
-    this.registerEventListenerOnScroll();
     return null;
   }
 
   setAngle() {
- 
     if (this.object) {
       this.object.angle = this.object.angle + 90;
     }
