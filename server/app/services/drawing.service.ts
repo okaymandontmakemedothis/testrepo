@@ -22,7 +22,7 @@ export class DrawingService {
         return client.connect(url).then(async (mc: MongoClient) => {
             const db = mc.db('polydessin');
             const test = db.collection('drawings');
-            return test.find({tags: {$in: tagCollection}}).toArray().then((arr) => {
+            return test.find({ tags: { $in: tagCollection } }).toArray().then((arr) => {
                 mc.close();
                 return arr;
             });
@@ -33,7 +33,7 @@ export class DrawingService {
             const db = mc.db('polydessin');
             const test = db.collection('drawings');
             const objectId = new ObjectId(id);
-            return test.findOne( {_id: objectId}).then((value) => {
+            return test.findOne({ _id: objectId }).then((value) => {
                 mc.close();
                 return value;
             });
@@ -97,12 +97,7 @@ export class DrawingService {
             const db = mc.db('polydessin');
             const tagCollection = db.collection('tags');
             const drawingsCollection = db.collection('drawings');
-<<<<<<< HEAD
             const d = await drawingsCollection.findOne({ name: { $eq: name } }).then((value: Drawing) => value);
-=======
-            let d: Drawing|undefined;
-            await drawingsCollection.findOne({ name: { $eq: name } }).then((value: Drawing) => d = value);
->>>>>>> a0c1901ac0fd89d497d69e481a15ef74a79bdae7
             if (!d) {
                 return 'err';
             }
