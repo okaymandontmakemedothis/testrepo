@@ -19,7 +19,7 @@ export class EtampeObject implements IObjects {
     this.y = y;
     this.url = url;
   }
-  
+
   /// Pour retourner la ligne svg du rectangle pour le dessiner
   draw(): string {
     const x = (this.x - this.width / 2);

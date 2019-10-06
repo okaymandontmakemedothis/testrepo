@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
 import { Polyline } from 'src/app/objects/object-polyline/polyline';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { PencilToolService } from './pencil-tool.service';
-import { FormControl } from '@angular/forms';
 
 describe('PencilToolService', () => {
   let offsetManagerServiceSpy: jasmine.SpyObj<OffsetManagerService>;
@@ -24,7 +24,7 @@ describe('PencilToolService', () => {
     colorToolServiceSpy = TestBed.get(ToolsColorService);
   });
 
-  it('should be created', () => {
+  it('pencil service should be created', () => {
     const service: PencilToolService = TestBed.get(PencilToolService);
     expect(service).toBeTruthy();
   });
@@ -85,6 +85,7 @@ describe('PencilToolService', () => {
     expect(object.primaryColor).toEqual({ rgb: { r: 0, g: 0, b: 0 }, a: 0 });
     expect(object.secondaryColor).toEqual({ rgb: { r: 255, g: 255, b: 255 }, a: 1 });
   });
+  
   it('should return null if strokewidth is equal to 0', () => {
     const service: PencilToolService = TestBed.get(PencilToolService);
     const form = service.parameters.get('strokeWidth') as FormControl;

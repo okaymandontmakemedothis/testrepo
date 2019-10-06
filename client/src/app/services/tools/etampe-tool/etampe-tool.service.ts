@@ -37,9 +37,15 @@ export class EtampeToolService implements ITools {
       this.object.width = this.object.width * this.facteur.value;
       this.object.height = this.object.height * this.facteur.value;
       return this.object;
+    } else {
+      return null;
     }
+    
+  }
+  onRelease(event: MouseEvent) { 
     return null;
   }
-  onRelease(event: MouseEvent) { }
-  onMove(event: MouseEvent) { }
+  onMove(event: MouseEvent) { 
+    return null;
+  }
 }

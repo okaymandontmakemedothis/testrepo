@@ -56,7 +56,7 @@ describe('ToolsApplierColorsService', () => {
     expect(obj.secondaryColor).toEqual({ rgb: { r: 255, g: 0, b: 0 }, a: 0.5 });
   });
 
-  it('should not change the primary color of the object on left click if not object is clicked', () => {
+  it('should not change the primary color of the object on left click if no object is clicked', () => {
     const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
     const mouseEvent = new MouseEvent('click', { button: 0 });
     spyOnProperty(mouseEvent, 'target').and.returnValue(1);
@@ -70,7 +70,7 @@ describe('ToolsApplierColorsService', () => {
     expect(obj.primaryColor).toEqual({ rgb: { r: 255, g: 2, b: 2 }, a: 1 });
   });
 
-  it('should not change the secondary color of the object on right click if not object is clicked', () => {
+  it('should not change the secondary color of the object on right click if no object is clicked', () => {
     const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
     const mouseEvent = new MouseEvent('click', { button: 2 });
     spyOnProperty(mouseEvent, 'target').and.returnValue(1);
