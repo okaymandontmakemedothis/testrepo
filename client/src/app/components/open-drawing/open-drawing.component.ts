@@ -11,9 +11,9 @@ import { DrawingPreview, Drawing } from '../../../../../common/communication/dra
 })
 export class OpenDrawingComponent {
 
-  drawingPreview = new BehaviorSubject<Drawing>({
+  drawingPreview = new BehaviorSubject<Drawing[]>([{
     name: '', tags: [''], width: 0, height: 0, backGroundColor: { rgb: { r: 0, g: 0, b: 0 }, a: 1 },
-    drawingObjects: [], thumbnail: '' });
+    drawingObjects: [], thumbnail: '' }]);
  
   constructor(
     public dialogRef: MatDialogRef<OpenDrawingComponent>, private openDrawingService: OpenDrawingService) {
