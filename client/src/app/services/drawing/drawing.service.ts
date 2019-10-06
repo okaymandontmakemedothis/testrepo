@@ -13,7 +13,7 @@ export class DrawingService {
   /// Emit the SVG elements string
   @Output()
   svgString = new EventEmitter<string>();
-
+  isSaved = false;
   lastObjectId = 0;
   isCreated = false;
   color: RGB = DEFAULT_RGB_COLOR;
@@ -37,12 +37,14 @@ export class DrawingService {
 
   /// Retrait d'un objet selon son ID
   removeObject(id: number): void {
+    this.isSaved = false;
     this.objectList.delete(id);
     this.draw();
   }
 
   /// Ajout d'un objet dans la map d'objet du dessin
   addObject(obj: IObjects) {
+    this.isSaved = false;
     this.lastObjectId++;
     obj.id = this.lastObjectId;
     this.objectList.set(obj.id, obj);
@@ -54,13 +56,18 @@ export class DrawingService {
     return this.objectList.get(id);
   }
 
-  /// Retourn un string avec tout les éléments svg des objets
-  draw() {
+  drawString(): string {
     let drawResult = '';
     for (const obj of this.objectList.values()) {
       drawResult += obj.draw();
     }
-    this.svgString.emit(drawResult);
+    return drawResult;
+  }
+
+  /// Retourn un string avec tout les éléments svg des objets
+  draw() {
+    this.isSaved = false;
+    this.svgString.emit(this.drawString());
   }
 
   drawingObjectList(): DrawingObject[] {
@@ -70,7 +77,6 @@ export class DrawingService {
     }
     return drawingObjectList;
   }
-
 
   /// Redéfini la dimension du dessin
   setDimension(width: number, height: number) {
@@ -86,6 +92,7 @@ export class DrawingService {
 
   /// Fonction pour appeller la cascade de bonne fonction pour réinitialisé un nouveau dessin
   newDrawing(width: number, height: number, rgba: RGBA) {
+    this.isSaved = false;
     this.objectList.clear();
     this.lastObjectId = 0;
     this.setDimension(width, height);

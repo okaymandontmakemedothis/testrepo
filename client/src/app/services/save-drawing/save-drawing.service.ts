@@ -22,6 +22,7 @@ export class SaveDrawingService {
   filteredTags: Observable<string[]>;
   tags: string[] = [];
   allTags: string[] = ['Tag2', 'Tag3', 'Tag1', 'Tag4', 'Tag5'];
+  saveEnabled = true;
 
   constructor(
     private drawingService: DrawingService,
@@ -76,7 +77,8 @@ export class SaveDrawingService {
     return this.allTags.filter((tag) => tag.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  save(): void {
+  async save(): Promise<void> {
+    this.saveEnabled = false;
     const drawingObjectsList: DrawingObject[] = this.drawingService.drawingObjectList();
     const drawing: Drawing = {
       name: this.nameCtrl.value,
@@ -86,7 +88,8 @@ export class SaveDrawingService {
       height: this.drawingService.height,
       backGroundColor: { rgb: this.drawingService.color, a: this.drawingService.alpha },
     };
-    console.log(this.http.post<string>('http://localhost:3000/api/drawings/', drawing).
-      subscribe((value) => console.log(value)));
+    await this.http.post<string>('http://localhost:3000/api/drawings/', drawing).toPromise();
+    this.saveEnabled = true;
+    this.drawingService.isSaved = true;
   }
 }

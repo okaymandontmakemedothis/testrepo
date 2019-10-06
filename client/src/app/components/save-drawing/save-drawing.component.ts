@@ -1,16 +1,17 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, Renderer2 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
 import { SaveDrawingService } from 'src/app/services/save-drawing/save-drawing.service';
+import { DrawingService } from 'src/app/services/drawing/drawing.service';
 
 @Component({
   selector: 'app-save-drawing',
   templateUrl: './save-drawing.component.html',
   styleUrls: ['./save-drawing.component.scss'],
 })
-export class SaveDrawingComponent {
+export class SaveDrawingComponent implements AfterViewInit {
 
   visible = true;
   selectable = true;
@@ -20,11 +21,24 @@ export class SaveDrawingComponent {
 
   @ViewChild('tagInput', { static: false }) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
+  @ViewChild('svg', { static: false }) svg: ElementRef;
 
   constructor(
     public dialogRef: MatDialogRef<SaveDrawingComponent>,
     private saveDrawingService: SaveDrawingService,
-  ) { }
+    private drawingService: DrawingService,
+    private renderer: Renderer2,
+  ) {
+
+  }
+
+  ngAfterViewInit(): void {
+    this.dialogRef.afterOpened().subscribe(() => {
+      const svgString = this.drawingService.drawString();
+      this.renderer.setAttribute(this.svg.nativeElement, 'viewBox', '0 0 ' + this.drawingService.width + ' ' + this.drawingService.height);
+      this.svg.nativeElement.innerHTML = svgString;
+    });
+  }
 
   get nameCtrl(): FormControl {
     return this.saveDrawingService.nameCtrl;
@@ -42,6 +56,10 @@ export class SaveDrawingComponent {
     return this.saveDrawingService.filteredTags;
   }
 
+  get saveEnabled(): boolean {
+    return this.saveDrawingService.saveEnabled;
+  }
+
   add(event: MatChipInputEvent): void {
     this.saveDrawingService.add(event, this.matAutocomplete.isOpen);
   }
@@ -56,8 +74,8 @@ export class SaveDrawingComponent {
   }
 
   save(): void {
-    this.saveDrawingService.save();
-    this.dialogRef.close();
+    this.saveDrawingService.save().then(() => { this.dialogRef.close(); })
+
   }
 
   close(): void {

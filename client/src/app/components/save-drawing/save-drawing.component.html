@@ -22,7 +22,10 @@
         </mat-autocomplete>
     </mat-form-field>
 </div>
+<svg #svg height="150" width="150">
+</svg>
 <div mat-dialog-actions align="end">
-    <button mat-raised-button color=primary (click)="save()" [disabled]="nameCtrl.invalid">Sauvegarder</button>
+    <button mat-raised-button color=primary (click)="save()"
+        [disabled]="nameCtrl.invalid && saveEnabled">Sauvegarder</button>
     <button mat-raised-button color=primary (click)="close()">Annuler</button>
 </div>

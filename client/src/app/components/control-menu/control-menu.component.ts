@@ -4,6 +4,7 @@ import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.co
 import { OpenDrawingComponent } from '../open-drawing/open-drawing.component';
 import { SaveDrawingComponent } from '../save-drawing/save-drawing.component';
 import { DIALOG_PROPERTIES, WelcomeDialogComponent } from '../welcome-dialog/welcome-dialog/welcome-dialog.component';
+import { DrawingService } from 'src/app/services/drawing/drawing.service';
 
 /// Component pour afficher les options fichiers
 @Component({
@@ -13,7 +14,11 @@ import { DIALOG_PROPERTIES, WelcomeDialogComponent } from '../welcome-dialog/wel
 })
 export class ControlMenuComponent {
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private drawingService: DrawingService) {
+  }
+
+  get isSaved(): boolean {
+    return this.drawingService.isSaved;
   }
   /// Ouvre une nouveau dialog de creation de dessin
   openNewDrawing(): void {
