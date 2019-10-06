@@ -6,6 +6,8 @@ import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
+import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
+import { PipetteToolService } from './pipette-tool/pipette-tool.service';
 
 /// Service permettant de gérer l'outil présent selon son ID
 /// Appelle les bonnes fonctions d'évenement souris selon l'outil selectionner
@@ -26,6 +28,9 @@ export class ToolsService {
     private brushTool: BrushToolService,
     private colorApplicator: ToolsApplierColorsService,
     private rectangleTool: ToolRectangleService,
+    private ellipseTool: ToolEllipseService,
+    private pipetteTool: PipetteToolService,
+
   ) {
     this.initTools();
   }
@@ -36,6 +41,9 @@ export class ToolsService {
     this.tools.push(this.brushTool);
     this.tools.push(this.colorApplicator);
     this.tools.push(this.rectangleTool);
+    this.tools.push(this.ellipseTool);
+    this.tools.push(this.pipetteTool);
+
   }
 
   /// Selectionner un outil avec son id

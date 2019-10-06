@@ -23,7 +23,7 @@ export class BrushToolService implements ITools {
   readonly toolName = 'Outil Pinceau';
   parameters: FormGroup;
   private object: Polyline | null;
-  strokeWidth: FormControl;
+  private strokeWidth: FormControl;
   texture: FormControl;
   private lastPoint: Point = { x: 0, y: 0 };
 
