@@ -1,6 +1,9 @@
 export interface Drawing {
     name: string;
     tags: string[];
+    width: number;
+    height: number;
+    backGroundColor: { rgb: { r: number, g: number, b: number }, a: number };
     drawingObjects: DrawingObject[];
 }
 
@@ -11,8 +14,8 @@ export interface DrawingObject {
     y: number;
     height: number;
     width: number;
-    primaryRGBA: { r: number, g: number, b: number, a: number };
-    secondaryRGBA: { r: number, g: number, b: number, a: number };
+    primaryRGBA: { rgb: { r: number, g: number, b: number }, a: number };
+    secondaryRGBA: { rgb: { r: number, g: number, b: number }, a: number };
     pointsList: { x: number, y: number }[];
     strokeWidth: number;
     testureId: number;

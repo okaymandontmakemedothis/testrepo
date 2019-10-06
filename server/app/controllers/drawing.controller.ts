@@ -40,7 +40,7 @@ export class DrawingController {
         this.router.post('/',
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                const drawing: Drawing = { name: req.body.name, tags: req.body.tags, drawingObjects: req.body.drawingObjects };
+                const drawing: Drawing = req.body;
                 this.drawingService.setDrawing(drawing).then((m: string) => {
                     console.log(m);
                     res.json(m);
