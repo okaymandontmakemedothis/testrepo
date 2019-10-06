@@ -64,6 +64,16 @@ export class EtampeToolParameterComponent implements OnInit{
       etampe: this.styles[this.currentEtampe].url,
     });
   }
+  
+  toggleChange(event: any) {
+    const toggle = event.source;
+    if (toggle) {
+      const group = toggle.buttonToggleGroup;
+      if (event.value.some((item: any) => item === toggle.value)) {
+        group.value = [toggle.value];
+      }
+    }
+  }
 
   get scaleValue() {
     return (this.form.get('facteur') as FormControl).value;

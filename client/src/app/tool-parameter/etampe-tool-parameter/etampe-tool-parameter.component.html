@@ -14,11 +14,11 @@
 </div>
 <div>
     <mat-label>Etampes</mat-label> </div>
-    <mat-button-toggle-group [(value)]="currentStyle" vertical = 'true'> 
+    <mat-button-toggle-group [(value)]="currentStyle" vertical = 'true' #group="matButtonToggleGroup" multiple (change)="toggleChange($event)"> 
         <mat-button-toggle mat-icon-button [matTooltip]="styles[0].tooltip" [value]="styles[0].id"
           (click)="selectEtampe(styles[0].id)">
           <svg width=20 height=20>
-           <svg width="100%" heigth="100%">
+           <svg width="100%" heigth="100%" >
             <image xlink:href = "https://cdn.shopify.com/s/files/1/1061/1924/products/Smiling_Face_Emoji_large.png?v=1480481056" x="0" y="0" width="100%" height="100%"> </image>
            </svg>
           </svg>

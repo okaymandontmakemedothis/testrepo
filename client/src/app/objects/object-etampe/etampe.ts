@@ -14,11 +14,14 @@ export class EtampeObject implements IObjects {
   angle = 0;
   url = '';
 
+  
+  
   constructor(x: number, y: number, url: string) {
     this.x = x;
     this.y = y;
     this.url = url;
   }
+
   getRotation() {
     return '" transform=' + 'rotate(' + this.angle + ',' + this.x + ',' + this.y + ')';
   }

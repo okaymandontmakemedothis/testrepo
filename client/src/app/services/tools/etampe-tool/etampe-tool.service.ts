@@ -1,4 +1,4 @@
-import { Injectable, ViewChild } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { ITools } from '../ITools';
@@ -8,7 +8,7 @@ import { faStamp } from '@fortawesome/free-solid-svg-icons';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { EtampeObject } from 'src/app/objects/object-etampe/etampe';
 import { INITIAL_SCALE } from '../tools-constants';
-import { MouseWheelDirective } from './etampe.directive';
+import { DrawingService } from '../../drawing/drawing.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,55 +23,49 @@ export class EtampeToolService implements ITools {
   private facteur: FormControl;
   private object: EtampeObject | null;
 
-  @ViewChild(MouseWheelDirective, { static: true })
-  wheelHost: MouseWheelDirective;
-
-  constructor(private offsetManager: OffsetManagerService) {
+  constructor(private offsetManager: OffsetManagerService, private drawingService: DrawingService) {
     this.etampe = new FormControl('');
     this.facteur = new FormControl(INITIAL_SCALE);
     this.parameters = new FormGroup({
       etampe: this.etampe,
       facteur: this.facteur,
     });
-    //this.registerEventListenerOnScroll();
+    this.registerEventListenerOnScroll();
   }
 
-  // registerEventListenerOnScroll() {
-  //   window.addEventListener('scroll', (event) => {
-  //     console.log('scrolling');
-  //     this.setAngle();
-  //   });
-  // }
+  registerEventListenerOnScroll() {
+    window.addEventListener('wheel', (event) => {
+      console.log('scrolling');
+      this.setAngle();
+      this.drawingService.draw();
+    });
+  }
 
-  // @HostListener('onmousewheel', ['$event'])
-  // onMouseWheel(event: MouseEvent)  {
-  //   console.debug("Scroll Event");
-  //   if (this.object) {
-  //     this.object.angle = this.object.angle + 90;
-  //   }
-  // }
   onPressed(event: MouseEvent): IObjects | null {
+    this.registerEventListenerOnScroll();
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     if (event.button === 0) {
       this.object = new EtampeObject(offset.x, offset.y, this.etampe.value);
       this.object.width = this.object.width * this.facteur.value;
       this.object.height = this.object.height * this.facteur.value;
-      
       return this.object;
     } else {
       return null;
     }
+
   }
   onRelease(event: MouseEvent) { 
+    this.registerEventListenerOnScroll();
     return null;
   }
   onMove(event: MouseEvent) { 
+    this.registerEventListenerOnScroll();
     return null;
   }
 
   setAngle() {
     if (this.object) {
-      this.object.angle = this.object.angle + 90;
+      this.object.angle = this.object.angle + 10;
     }
   }
 }
