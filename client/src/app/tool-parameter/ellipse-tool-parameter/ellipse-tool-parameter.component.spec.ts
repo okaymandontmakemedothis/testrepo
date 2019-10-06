@@ -4,7 +4,6 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { EllipseToolParameterComponent } from './ellipse-tool-parameter.component';
 
-
 describe('RectangleToolParameterComponent', () => {
   let component: EllipseToolParameterComponent;
   let fixture: ComponentFixture<EllipseToolParameterComponent>;
@@ -14,7 +13,7 @@ describe('RectangleToolParameterComponent', () => {
       declarations: [EllipseToolParameterComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [ReactiveFormsModule,
-        MatButtonToggleModule,],
+        MatButtonToggleModule, ],
     })
       .compileComponents();
   }));

@@ -8,7 +8,7 @@ import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 
-/// Outil pour assigner la couleur d'un objet a la couleur primaire et secondaire, 
+/// Outil pour assigner la couleur d'un objet a la couleur primaire et secondaire,
 /// clique gauche change la couleur primaire et clique droit la couleur secondaire
 @Injectable({
   providedIn: 'root',

@@ -1,3 +1,4 @@
+import { DrawingObject } from '../../../../../common/communication/drawing';
 import { Point } from '../../model/point.model';
 import { RGBA } from '../../model/rgba.model';
 import { ITexture } from '../../textures/ITexture';
@@ -79,5 +80,23 @@ export class Polyline implements IObjects {
             polyline += '"/>\n';
         }
         return polyline;
+    }
+
+    toDrawingObject(): DrawingObject {
+        const drawingObject = {
+            type: 'polyline',
+            objectId: this.id,
+            x: this.x,
+            y: this.y,
+            height: this.height,
+            width: this.width,
+            primaryRGBA: this.primaryColor,
+            secondaryRGBA: this.secondaryColor,
+            pointsList: this.pointsList,
+            strokeWidth: this.strokeWidth,
+            testureId: this.texture ? this.texture.id : -1,
+            style: '',
+        };
+        return drawingObject;
     }
 }

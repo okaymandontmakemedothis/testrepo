@@ -12,7 +12,7 @@ describe('BrushToolParameterComponent', () => {
   let fixture: ComponentFixture<BrushToolParameterComponent>;
   let brushToolService: BrushToolService;
   let texturesService: TexturesService;
- 
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BrushToolParameterComponent],

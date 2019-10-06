@@ -16,6 +16,9 @@ class MockOject implements IObjects {
   draw(): string {
     return '';
   }
+  toDrawingObject(): import('../../../../../../common/communication/drawing').DrawingObject {
+    throw new Error('Method not implemented.');
+  }
 }
 describe('PipetteToolService', () => {
   const colorService: ToolsColorService = new ToolsColorService();
@@ -37,8 +40,8 @@ describe('PipetteToolService', () => {
     obj.primaryColor = { rgb: { r: 255, g: 2, b: 2 }, a: 1 };
     spyOn(drawingService, 'getObject').and.returnValue(obj);
     service.onPressed(mouseEvent);
-    expect(colorService.primaryColor).toEqual({ r: 255, g: 2, b: 2 } );
-    expect(colorService.primaryAlpha).toEqual( 1 );
+    expect(colorService.primaryColor).toEqual({ r: 255, g: 2, b: 2 });
+    expect(colorService.primaryAlpha).toEqual(1);
   });
 
   it('should change the secondary color of the object on right click', () => {
@@ -51,7 +54,7 @@ describe('PipetteToolService', () => {
     spyOn(drawingService, 'getObject').and.returnValue(obj);
     service.onPressed(mouseEvent);
     expect(colorService.secondaryColor).toEqual({ r: 255, g: 2, b: 2 });
-    expect(colorService.secondaryAlpha).toEqual( 1 );
+    expect(colorService.secondaryAlpha).toEqual(1);
   });
 
   it('should not change the primary color of the object on left click if not object is clicked', () => {
@@ -65,8 +68,8 @@ describe('PipetteToolService', () => {
     colorService.primaryColor = { r: 255, g: 0, b: 0 };
     colorService.primaryAlpha = 0.5;
     service.onPressed(mouseEvent);
-    expect(colorService.primaryColor).toEqual( { r: 255, g: 0, b: 0 });
-    expect(colorService.primaryAlpha).toEqual( 0.5 );
+    expect(colorService.primaryColor).toEqual({ r: 255, g: 0, b: 0 });
+    expect(colorService.primaryAlpha).toEqual(0.5);
   });
 
   it('should not change the secondary color of the object on left click if not object is clicked', () => {
@@ -80,8 +83,8 @@ describe('PipetteToolService', () => {
     colorService.secondaryColor = { r: 255, g: 0, b: 0 };
     colorService.secondaryAlpha = 0.5;
     service.onPressed(mouseEvent);
-    expect(colorService.secondaryColor).toEqual({r: 255, g: 0, b: 0} );
-    expect(colorService.secondaryAlpha).toEqual( 0.5 );
+    expect(colorService.secondaryColor).toEqual({ r: 255, g: 0, b: 0 });
+    expect(colorService.secondaryAlpha).toEqual(0.5);
   });
 
   it('should return null on release', () => {
