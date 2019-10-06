@@ -11,9 +11,9 @@ export class OpenDrawingService {
 
   constructor(private http: HttpClient) {
   }
-  getDrawingPreview(): Observable<DrawingPreview> {
-    return this.http.get<DrawingPreview>('http://localhost:3000/api/drawings/').pipe(
-      catchError(this.handleError<DrawingPreview>('welcomeGet')),
+  getDrawingPreview(): Observable<DrawingPreview[]> {
+    return this.http.get<DrawingPreview[]>('http://localhost:3000/api/drawings/').pipe(
+      catchError(this.handleError<DrawingPreview[]>('getDrawingPreview')),
     );
   }
 
