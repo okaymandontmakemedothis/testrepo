@@ -1,6 +1,6 @@
+import { DrawingObject } from '../../../../../common/communication/drawing';
 import { RGBA } from '../../model/rgba.model';
 import { IObjects } from '../IObjects';
-import { DrawingObject } from '../../../../../common/communication/drawing';
 
 /// Classe pour créer les objets rectangles
 export class RectangleObject implements IObjects {

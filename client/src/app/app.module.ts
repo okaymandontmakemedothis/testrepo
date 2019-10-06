@@ -12,16 +12,16 @@ import { ControlMenuComponent } from './components/control-menu/control-menu.com
 import { NewDrawingAlertComponent } from './components/new-drawing/new-drawing-alert/new-drawing-alert.component';
 import { NewDrawingFormComponent } from './components/new-drawing/new-drawing-form/new-drawing-form.component';
 import { NewDrawingComponent } from './components/new-drawing/new-drawing.component';
+import { OpenDrawingComponent } from './components/open-drawing/open-drawing.component';
 import { ParameterMenuComponent } from './components/parameter-menu/parameter-menu.component';
 import { ParameterDirective } from './components/parameter-menu/parameter.directive';
+import { SaveDrawingComponent } from './components/save-drawing/save-drawing.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ToolsColorPickerComponent } from './components/tools-color-picker/tools-color-picker.component';
 import { ToolsColorComponent } from './components/tools-color/tools-color.component';
 import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.module';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { ToolParameterModule } from './tool-parameter/tool-parameter.module';
-import { SaveDrawingComponent } from './components/save-drawing/save-drawing.component';
-import { OpenDrawingComponent } from './components/open-drawing/open-drawing.component';
 
 @NgModule({
   declarations: [

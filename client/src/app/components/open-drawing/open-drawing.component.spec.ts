@@ -8,7 +8,7 @@ describe('OpenDrawingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OpenDrawingComponent ]
+      declarations: [ OpenDrawingComponent ],
     })
     .compileComponents();
   }));

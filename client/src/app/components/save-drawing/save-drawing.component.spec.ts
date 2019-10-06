@@ -8,7 +8,7 @@ describe('SaveDrawingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SaveDrawingComponent ]
+      declarations: [ SaveDrawingComponent ],
     })
     .compileComponents();
   }));

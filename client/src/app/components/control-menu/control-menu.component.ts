@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { NewDrawingComponent } from '../../components/new-drawing/new-drawing.component';
 import { OpenDrawingComponent } from '../open-drawing/open-drawing.component';
 import { SaveDrawingComponent } from '../save-drawing/save-drawing.component';
 import { DIALOG_PROPERTIES, WelcomeDialogComponent } from '../welcome-dialog/welcome-dialog/welcome-dialog.component';
-import { DrawingService } from 'src/app/services/drawing/drawing.service';
 
 /// Component pour afficher les options fichiers
 @Component({

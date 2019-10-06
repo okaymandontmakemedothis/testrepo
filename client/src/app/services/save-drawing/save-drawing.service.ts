@@ -87,11 +87,11 @@ export class SaveDrawingService {
       width: this.drawingService.width,
       height: this.drawingService.height,
       backGroundColor: { rgb: this.drawingService.color, a: this.drawingService.alpha },
-      thumbnail:this.drawingService.drawString()
+      thumbnail: this.drawingService.drawString(),
     };
 
     await this.http.post<string>('http://localhost:3000/api/drawings/',
-     drawing
+     drawing,
   ).toPromise();
     this.saveEnabled = true;
     this.drawingService.isSaved = true;
