@@ -7,6 +7,7 @@ export interface IObjects {
     y: number;
     height: number;
     width: number;
+    strokeWidth: number;
     primaryColor: RGBA;
     secondaryColor: RGBA;
     draw(): string;

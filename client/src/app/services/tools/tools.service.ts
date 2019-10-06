@@ -4,10 +4,11 @@ import { DrawingService } from '../drawing/drawing.service';
 import { BrushToolService } from './brush-tool/brush-tool.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
+import { PipetteToolService } from './pipette-tool/pipette-tool.service';
+import { SelectionToolService } from './selection-tool/selection-tool.service';
+import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
-import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
-import { PipetteToolService } from './pipette-tool/pipette-tool.service';
 
 /// Service permettant de gérer l'outil présent selon son ID
 /// Appelle les bonnes fonctions d'évenement souris selon l'outil selectionner
@@ -30,7 +31,7 @@ export class ToolsService {
     private rectangleTool: ToolRectangleService,
     private ellipseTool: ToolEllipseService,
     private pipetteTool: PipetteToolService,
-
+    private selectionTool: SelectionToolService,
   ) {
     this.initTools();
   }
@@ -43,6 +44,7 @@ export class ToolsService {
     this.tools.push(this.rectangleTool);
     this.tools.push(this.ellipseTool);
     this.tools.push(this.pipetteTool);
+    this.tools.push(this.selectionTool);
 
   }
 
