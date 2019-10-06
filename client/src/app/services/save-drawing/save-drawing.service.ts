@@ -88,7 +88,10 @@ export class SaveDrawingService {
       height: this.drawingService.height,
       backGroundColor: { rgb: this.drawingService.color, a: this.drawingService.alpha },
     };
-    await this.http.post<string>('http://localhost:3000/api/drawings/', drawing).toPromise();
+
+    await this.http.post<string>('http://localhost:3000/api/drawings/',
+     {"drawing":drawing,"thumbnail":this.drawingService.drawString()
+  }).toPromise();
     this.saveEnabled = true;
     this.drawingService.isSaved = true;
   }
