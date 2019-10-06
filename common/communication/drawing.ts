@@ -5,6 +5,7 @@ export interface Drawing {
     height: number;
     backGroundColor: { rgb: { r: number, g: number, b: number }, a: number };
     drawingObjects: DrawingObject[];
+    thumbnail:string|undefined;
 }
 
 export interface DrawingObject {
