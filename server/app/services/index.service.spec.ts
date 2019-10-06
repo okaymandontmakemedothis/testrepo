@@ -1,4 +1,5 @@
-import {expect} from 'chai';
+import { fail } from 'assert';
+import { expect } from 'chai';
 import { DateService } from './date.service';
 import { IndexService } from './index.service';
 
@@ -13,8 +14,6 @@ describe('A sample service', () => {
 });
 
 describe('Testing index.service', () => {
-    beforeEach = () => {
-    };
     it('should return about content', (done) => {
         const mockDateService = sinon.mock(DateService);
 
@@ -30,7 +29,7 @@ describe('Testing index.service', () => {
         const indexService = new IndexService(mockDateService);
         const pathText = '/../res/text/welcome_text2.json';
         const result = indexService.getTextRessource(pathText);
-        expect(result.body).exist;
+        expect(result.body);
         done();
     });
     it('should return hello world message', async (done) => {
@@ -40,10 +39,10 @@ describe('Testing index.service', () => {
         let result;
         try {
             result = await indexService.helloWorld();
+            expect(result);
         } catch {
-
+            fail();
         }
-        expect(result).exist;
         done();
     });
 

@@ -1,3 +1,4 @@
+import { DrawingObject } from '../../../../../common/communication/drawing';
 import { RGBA } from '../../model/rgba.model';
 import { IObjects } from '../IObjects';
 
@@ -60,5 +61,24 @@ export class EllipseObject implements IObjects {
         '" cy="' + cy + '" rx="' + (this.width / 2) + '" ry="' + (this.height / 2) + '" style=' + this.getStyle() + ' />';
     }
     return '';
+  }
+
+  /// Retourne le drawing object pour un ellipse
+  toDrawingObject(): DrawingObject {
+    const drawingObject = {
+      type: 'ellipse',
+      objectId: this.id,
+      x: this.x,
+      y: this.y,
+      height: this.height,
+      width: this.width,
+      primaryRGBA: this.primaryColor,
+      secondaryRGBA: this.secondaryColor,
+      pointsList: [],
+      strokeWidth: this.strokeWidth,
+      testureId: 0,
+      style: this.style,
+    };
+    return drawingObject;
   }
 }
