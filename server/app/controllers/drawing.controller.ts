@@ -22,15 +22,8 @@ export class DrawingController {
                 // Send the request to the service and send the response
                 this.drawingService.getAllDrawingsPreviews().then((d: Drawing[]) => {
                     console.log(d);
-                    let previews:DrawingPreview[] =[]
-                    for (let drawing in d){
-                        
-                    }
-                    const drawingPreview :DrawingPreview={
-                        name:d.
-                    }
-                    previews.push(drawingPreview)
-                    res.json(previews);
+
+                    res.json(d);
                 }).catch((reason: unknown) => {
                     res.json('error');
                 });
