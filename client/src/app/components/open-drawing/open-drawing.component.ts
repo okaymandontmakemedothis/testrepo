@@ -14,11 +14,25 @@ export class OpenDrawingComponent {
   drawingPreview = new BehaviorSubject<Drawing[]>([{
     name: '', tags: [''], width: 0, height: 0, backGroundColor: { rgb: { r: 0, g: 0, b: 0 }, a: 1 },
     drawingObjects: [], thumbnail: '' }]);
- 
+  parsedHtml : XMLDocument
   constructor(
     public dialogRef: MatDialogRef<OpenDrawingComponent>, private openDrawingService: OpenDrawingService) {
     this.openDrawingService.getDrawingPreview()
       .subscribe(this.drawingPreview);
+      console.log(this.drawingPreview)
+
+
+    }
+
+    getThumbnail(){
+      let parser = new DOMParser();
+      console.log(this.drawingPreview.value[11])
+      if(this.drawingPreview.value[12].thumbnail){
+        this.parsedHtml = parser.parseFromString(this.drawingPreview.value[12].thumbnail, 'image/svg+xml');
+        console.log(this.parsedHtml)
+
+      }
+      return this.parsedHtml      
     }
 
   close(): void {

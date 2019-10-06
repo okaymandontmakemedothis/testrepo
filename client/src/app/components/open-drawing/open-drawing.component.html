@@ -1,5 +1,15 @@
 
-<p>{{drawingPreview[0].value.name}}</p>
-<p>{{drawingPreview[0].value.width}}</p>
-<p>{{drawingPreview[0].value.height}}</p>
+
+<div *ngFor="let preview of drawingPreview.value" >
+<button (click)="close()">
+
+    <p>{{preview.name}}</p>
+    <div *ngFor="let tag of preview.tags">
+
+        <p>{{tag}}</p>
+    </div>
+
+<svg>{{getThumbnail()}}</svg>
+</button>
+</div>
 <button (click)="close()">Close</button>
