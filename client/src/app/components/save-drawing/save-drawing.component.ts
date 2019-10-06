@@ -1,10 +1,10 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, ViewChild, AfterViewInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
-import { SaveDrawingService } from 'src/app/services/save-drawing/save-drawing.service';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
+import { SaveDrawingService } from 'src/app/services/save-drawing/save-drawing.service';
 
 @Component({
   selector: 'app-save-drawing',
@@ -74,7 +74,7 @@ export class SaveDrawingComponent implements AfterViewInit {
   }
 
   save(): void {
-    this.saveDrawingService.save().then(() => { this.dialogRef.close(); })
+    this.saveDrawingService.save().then(() => { this.dialogRef.close(); });
 
   }
 
