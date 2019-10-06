@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { inject, injectable } from 'inversify';
-import { Drawing } from '../../../common/communication/drawing';
+import { Drawing,DrawingPreview } from '../../../common/communication/drawing';
 import { DrawingService } from '../services/drawing.service';
 import Types from '../types';
 
@@ -20,9 +20,17 @@ export class DrawingController {
 
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                this.drawingService.getAllDrawings().then((d: Drawing[]) => {
+                this.drawingService.getAllDrawingsPreviews().then((d: Drawing[]) => {
                     console.log(d);
-                    res.json(d);
+                    let previews:DrawingPreview[] =[]
+                    for (let drawing in d){
+                        
+                    }
+                    const drawingPreview :DrawingPreview={
+                        name:d.
+                    }
+                    previews.push(drawingPreview)
+                    res.json(previews);
                 }).catch((reason: unknown) => {
                     res.json('error');
                 });
