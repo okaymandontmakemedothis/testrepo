@@ -2,8 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { RectangleToolParameterComponent } from './rectangle-tool-parameter.component';
 import { ToolRectangleService } from 'src/app/services/tools/tool-rectangle/tool-rectangle.service';
+import { RectangleToolParameterComponent } from './rectangle-tool-parameter.component';
 
 describe('RectangleToolParameterComponent', () => {
   let component: RectangleToolParameterComponent;

@@ -11,7 +11,7 @@ import { ToolIdConstants } from '../tool-id-constants';
 import { INITIAL_SCALE } from '../tools-constants';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 
 export class EtampeToolService implements ITools {

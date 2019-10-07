@@ -2,9 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { EllipseToolParameterComponent } from './ellipse-tool-parameter.component';
 import { ToolEllipseService } from 'src/app/services/tools/tool-ellipse/tool-ellipse.service';
-
+import { EllipseToolParameterComponent } from './ellipse-tool-parameter.component';
 
 describe('RectangleToolParameterComponent', () => {
   let component: EllipseToolParameterComponent;
@@ -16,7 +15,7 @@ describe('RectangleToolParameterComponent', () => {
       declarations: [EllipseToolParameterComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [ReactiveFormsModule,
-        MatButtonToggleModule,],
+        MatButtonToggleModule, ],
     })
       .compileComponents();
     ellipseToolService = TestBed.get(ToolEllipseService);

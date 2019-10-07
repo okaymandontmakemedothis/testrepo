@@ -15,9 +15,9 @@ const KISS = 7;
 @Component({
   selector: 'app-etampe-tool-parameter',
   templateUrl: './etampe-tool-parameter.component.html',
-  styleUrls: ['./etampe-tool-parameter.component.scss']
+  styleUrls: ['./etampe-tool-parameter.component.scss'],
 })
-export class EtampeToolParameterComponent implements OnInit{
+export class EtampeToolParameterComponent implements OnInit {
   constructor(private etampeToolService: EtampeToolService) { }
 
   get toolName(): string {
@@ -71,7 +71,6 @@ export class EtampeToolParameterComponent implements OnInit{
       });
     }
   }
-
 
   get scaleValue() {
     return (this.form.get('facteur') as FormControl).value;

@@ -85,7 +85,7 @@ describe('PencilToolService', () => {
     expect(object.primaryColor).toEqual({ rgb: { r: 0, g: 0, b: 0 }, a: 0 });
     expect(object.secondaryColor).toEqual({ rgb: { r: 255, g: 255, b: 255 }, a: 1 });
   });
-  
+
   it('should return null if strokewidth is equal to 0', () => {
     const service: PencilToolService = TestBed.get(PencilToolService);
     const form = service.parameters.get('strokeWidth') as FormControl;

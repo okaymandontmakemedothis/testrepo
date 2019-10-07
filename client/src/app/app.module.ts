@@ -21,7 +21,6 @@ import { WelcomeDialogModule } from './components/welcome-dialog/welcome-dialog.
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { ToolParameterModule } from './tool-parameter/tool-parameter.module';
 
-
 @NgModule({
   declarations: [
     AppComponent,

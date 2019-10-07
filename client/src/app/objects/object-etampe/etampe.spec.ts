@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { EtampeObject } from './etampe';
 
-
 describe('EtampeObject', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 

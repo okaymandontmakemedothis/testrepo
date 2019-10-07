@@ -14,8 +14,6 @@ export class EtampeObject implements IObjects {
   angle = 0;
   url = '';
 
-  
-  
   constructor(x: number, y: number, url: string) {
     this.x = x;
     this.y = y;
