@@ -23,9 +23,9 @@ export class EtampeToolParameterComponent implements OnInit{
   get toolName(): string {
     return this.etampeToolService.toolName;
   }
-  
+
   form: FormGroup;
-  currentEtampe = 0;
+  currentEtampe = 100;
   styles: EtampeStyle[] = [
     {id: SMILEY,
       url: 'https://cdn.shopify.com/s/files/1/1061/1924/products/Smiling_Face_Emoji_large.png?v=1480481056',
@@ -59,21 +59,19 @@ export class EtampeToolParameterComponent implements OnInit{
     this.form = this.etampeToolService.parameters;
   }
   selectEtampe(id: number): void {
-    this.currentEtampe = id;
-    this.form.patchValue({
+    if (id !== this.currentEtampe) {
+      this.currentEtampe = id;
+      this.form.patchValue({
       etampe: this.styles[this.currentEtampe].url,
     });
-  }
-  
-  toggleChange(event: any) {
-    const toggle = event.source;
-    if (toggle) {
-      const group = toggle.buttonToggleGroup;
-      if (event.value.some((item: any) => item === toggle.value)) {
-        group.value = [toggle.value];
-      }
+    } else {
+      this.currentEtampe = 100;
+      this.form.patchValue({
+        etampe: '',
+      });
     }
   }
+
 
   get scaleValue() {
     return (this.form.get('facteur') as FormControl).value;

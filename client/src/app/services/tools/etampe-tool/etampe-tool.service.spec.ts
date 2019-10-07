@@ -52,4 +52,98 @@ describe('EtampeToolService', () => {
     const mouseEvent = new MouseEvent('mousemove');
     expect(service.onMove(mouseEvent)).toBeNull();
   });
+
+  it('should set cran to 1 with alt', () => {
+    const service: EtampeToolService = TestBed.get(EtampeToolService);
+    const eventKeyDown = new KeyboardEvent('keydown', { altKey: true });
+
+    window.dispatchEvent(eventKeyDown);
+    expect(service.cran).toEqual(1);
+  });
+
+  it('should set cran to 15 with altkey is false', () => {
+    const service: EtampeToolService = TestBed.get(EtampeToolService);
+    const eventKeyDown = new KeyboardEvent('keydown', { altKey: true });
+    window.dispatchEvent(eventKeyDown);
+
+    expect(service.cran).toEqual(1);
+
+    const eventKeyUp = new KeyboardEvent('keyup', { altKey: false });
+    window.dispatchEvent(eventKeyUp);
+
+    expect(service.cran).toEqual(15);
+  });
+
+  it('should set cran to 1 when to altkey is always true', () => {
+    const service: EtampeToolService = TestBed.get(EtampeToolService);
+    const eventKeyDown = new KeyboardEvent('keydown', { altKey: true });
+    window.dispatchEvent(eventKeyDown);
+
+    expect(service.cran).toEqual(1);
+
+    const eventKeyUp = new KeyboardEvent('keyup', { altKey: true });
+    window.dispatchEvent(eventKeyUp);
+
+    expect(service.cran).toEqual(1);
+  });
+
+  it('should set cran to 15 when to altkey is always false', () => {
+    const service: EtampeToolService = TestBed.get(EtampeToolService);
+    const eventKeyDown = new KeyboardEvent('keydown', { altKey: false });
+    window.dispatchEvent(eventKeyDown);
+
+    expect(service.cran).toEqual(15);
+
+    const eventKeyUp = new KeyboardEvent('keyup', { altKey: false });
+    window.dispatchEvent(eventKeyUp);
+
+    expect(service.cran).toEqual(15);
+  });
+
+  it('should call setAngleBackward when mousewheel event gives a deltaY < 0', () => {
+    const service: EtampeToolService = TestBed.get(EtampeToolService);
+    const eventWheel = new WheelEvent('wheel', {deltaY: -10});
+    const spy = spyOn(service, 'setAngleBackward').and.callThrough();
+    window.dispatchEvent(eventWheel);
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call setAngle when mousewheel event gives a deltaY > 0', () => {
+    const service: EtampeToolService = TestBed.get(EtampeToolService);
+    const eventWheel = new WheelEvent('wheel', { deltaY: 10 });
+    const spy = spyOn(service, 'setAngle').and.callThrough();
+    window.dispatchEvent(eventWheel);
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should change angle when setAngle is called', () => {
+    const service: EtampeToolService = TestBed.get(EtampeToolService);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+    const mouseEvent = new MouseEvent('click', { button: 0 });
+    let object: EtampeObject | null = null;
+
+    object = service.onPressed(mouseEvent) as EtampeObject;
+    service.cran = 15;
+    object.angle = 0;
+    service.setAngle();
+
+    expect(object.angle).toEqual(15);
+  });
+
+  it('should change angle when setAngleBackward is called', () => {
+    const service: EtampeToolService = TestBed.get(EtampeToolService);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+    const mouseEvent = new MouseEvent('click', { button: 0 });
+    let object: EtampeObject | null = null;
+
+    object = service.onPressed(mouseEvent) as EtampeObject;
+    service.cran = 15;
+    object.angle = 0;
+    service.setAngleBackward();
+
+    expect(object.angle).toEqual(-15);
+  });
+
 });

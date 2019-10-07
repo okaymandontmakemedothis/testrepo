@@ -35,6 +35,7 @@ describe('EtampeToolParameterComponent', () => {
   it('should patch etampe value in form', () => {
     component.form = new FormGroup({ etampe: new FormControl('') });
     const spy = spyOn(component.form, 'patchValue').and.callThrough();
+    component.currentEtampe = 0;
     component.selectEtampe(1);
     expect(spy).toHaveBeenCalled();
   });
@@ -48,4 +49,12 @@ describe('EtampeToolParameterComponent', () => {
     form.patchValue(6);
     expect(component.scaleValue).toEqual(6);
   });
+
+  it('form control etampe should equal empty string', () => {
+    const form = etampeService.parameters.get('etampe') as FormControl;
+    component.currentEtampe = 1;
+    component.selectEtampe(1);
+    expect(form.value).toEqual('');
+  });
+
 });

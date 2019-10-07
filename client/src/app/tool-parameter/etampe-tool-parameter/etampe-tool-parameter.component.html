@@ -14,7 +14,7 @@
 </div>
 <div>
     <mat-label>Etampes</mat-label> </div>
-    <mat-button-toggle-group [(value)]="currentStyle" vertical = 'true' #group="matButtonToggleGroup" multiple (change)="toggleChange($event)"> 
+    <mat-button-toggle-group  vertical = 'true' #group="matButtonToggleGroup"> 
         <mat-button-toggle mat-icon-button [matTooltip]="styles[0].tooltip" [value]="styles[0].id"
           (click)="selectEtampe(styles[0].id)">
           <svg width=20 height=20>
