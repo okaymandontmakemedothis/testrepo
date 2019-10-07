@@ -9,6 +9,7 @@ import { SelectionToolService } from './selection-tool/selection-tool.service';
 import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
+import { ToolIdConstants } from './tool-id-constants';
 
 /// Service permettant de gérer l'outil présent selon son ID
 /// Appelle les bonnes fonctions d'évenement souris selon l'outil selectionner
@@ -61,6 +62,9 @@ export class ToolsService {
 
   /// Appeller la fonction onPressed du bon outil et ajoute un objet au dessin si nécéssaire
   onPressed(event: MouseEvent): void {
+
+    (this.tools[ToolIdConstants.SELECTION_ID] as SelectionToolService).removeSelection();
+
     this.currentObject = this.selectedTool.onPressed(event);
     this.isPressed = true;
     if (this.currentObject) {

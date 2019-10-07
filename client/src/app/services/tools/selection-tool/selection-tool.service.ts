@@ -18,19 +18,18 @@ export class SelectionToolService implements ITools {
   toolName: string;
   parameters: FormGroup;
 
-  firstSelection = true;
+  gotSelection = false;
+  rectID: number;
   rectSelection: RectangleObject | null;
   object: IObjects[] = [];
   firstX: number;
   firstY: number;
+  wasMoved = false;
 
   constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService) { }
 
   onPressed(event: MouseEvent) {
-    if (!this.firstSelection) {
-      this.drawingService.removeObject(this.drawingService.lastObjectId);
-    }
-    this.firstSelection = false;
+    this.gotSelection = false;
     this.object = [];
     const target = event.target as Element;
     const obj = this.drawingService.getObject(Number(target.id));
@@ -50,20 +49,20 @@ export class SelectionToolService implements ITools {
   }
 
   onRelease(event: MouseEvent): void {
+    this.findObjects();
     if (this.object.length > 0) {
-      this.findObjects();
       this.setSelection();
     } else {
-      this.findObjects();
       this.drawingService.removeObject(this.drawingService.lastObjectId);
     }
     this.rectSelection = null;
+    this.wasMoved = false;
   }
 
   onMove(event: MouseEvent): void {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     this.setSize(offset.x, offset.y);
-    //this.findObjects(offset.x, offset.y);
+    this.wasMoved = true;
   }
 
   private setSize(x: number, y: number): void {
@@ -83,38 +82,70 @@ export class SelectionToolService implements ITools {
   }
 
   private findObjects() {
-    const a = (document.getElementById('svgCanvas') as unknown) as SVGElement;
-    console.log(a.childNodes.item(a.childNodes.length - 1));
+    if (this.rectSelection) {
+      const a = (document.getElementById('svgCanvas') as unknown) as SVGSVGElement;
+
+      const r = a.createSVGRect();
+      r.x = this.rectSelection.x;
+      r.y = this.rectSelection.y;
+      r.width = this.rectSelection.width;
+      r.height = this.rectSelection.height;
+
+      a.getIntersectionList(r, a)
+        .forEach((element) => {
+          const obj = this.drawingService.getObject(Number(element.id));
+          if (obj !== undefined) {
+            this.object.push(obj);
+          }
+        });
+      this.object.pop();
+    }
   }
 
   private setSelection() {
     if (this.rectSelection) {
-      if (this.object.length === 1) {
+      this.gotSelection = true;
+      this.rectID = this.drawingService.lastObjectId;
+      if (this.object.length === 1 || !this.wasMoved) {
         this.rectSelection.x = this.object[0].x - this.object[0].strokeWidth / 2;
         this.rectSelection.y = this.object[0].y - this.object[0].strokeWidth / 2;
 
         this.rectSelection.width = this.object[0].width + this.object[0].strokeWidth;
         this.rectSelection.height = this.object[0].height + this.object[0].strokeWidth;
       } else {
-        let upLeft = this.object[0];
-        let downRight = this.object[0];
-        this.object.forEach((element) => {
-          if ((element.x - element.strokeWidth / 2) < (upLeft.x - upLeft.strokeWidth / 2) &&
-            (element.y - element.strokeWidth / 2) < (upLeft.y - upLeft.strokeWidth / 2)) {
-            upLeft = element;
+        let xL = this.object[0].x - this.object[0].strokeWidth / 2;
+        let xR = this.object[0].width + this.object[0].x + this.object[0].strokeWidth / 2;
+
+        let yT = this.object[0].y - this.object[0].strokeWidth / 2;
+        let yB = this.object[0].height + this.object[0].y + this.object[0].strokeWidth / 2;
+
+        this.object.forEach((elm) => {
+          if (elm.x - elm.strokeWidth / 2 < xL) {
+            xL = elm.x - elm.strokeWidth / 2;
           }
-          if ((element.x + element.strokeWidth / 2) > (downRight.x + downRight.strokeWidth / 2) &&
-            (element.y + element.strokeWidth / 2) > (downRight.y + downRight.strokeWidth / 2)) {
-            downRight = element;
+          if (elm.width + elm.x + elm.strokeWidth / 2 > xR) {
+            xR = elm.width + elm.x + elm.strokeWidth / 2;
+          }
+          if (elm.y - elm.strokeWidth / 2 < yT) {
+            yT = elm.y - elm.strokeWidth / 2;
+          }
+          if (elm.height + elm.y + elm.strokeWidth / 2 > yB) {
+            yB = elm.height + elm.y + elm.strokeWidth / 2;
           }
         });
 
-        this.rectSelection.x = upLeft.x - upLeft.strokeWidth / 2;
-        this.rectSelection.y = upLeft.y - upLeft.strokeWidth / 2;
+        this.rectSelection.x = xL;
+        this.rectSelection.y = yT;
 
-        this.rectSelection.width = downRight.width + upLeft.strokeWidth + downRight.strokeWidth / 2;
-        this.rectSelection.height = downRight.height + upLeft.strokeWidth + downRight.strokeWidth / 2;
+        this.rectSelection.width = xR - xL;
+        this.rectSelection.height = yB - yT;
       }
+    }
+  }
+
+  removeSelection() {
+    if (this.gotSelection) {
+      this.drawingService.removeObject(this.rectID);
     }
   }
 }
