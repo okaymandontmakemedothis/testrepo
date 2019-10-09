@@ -36,6 +36,6 @@ export class ControlMenuComponent {
 
   /// Ouvrir le dialog d'ouverture de fichier
   openOpenDrawing(): void {
-    this.dialog.open(OpenDrawingComponent, {maxHeight:800});
+    this.dialog.open(OpenDrawingComponent, {maxHeight: 800});
   }
 }

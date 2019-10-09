@@ -1,8 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { DrawingPreview } from '../../../../../common/communication/drawing';
 import { catchError } from 'rxjs/operators';
+import { DrawingPreview } from '../../../../../common/communication/drawing';
 
 @Injectable({
   providedIn: 'root',

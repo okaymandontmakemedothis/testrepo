@@ -8,10 +8,11 @@
 
         <p>{{tag}}</p>
     </div>
-            <div [id]=preview.name>
+            <div [id]=preview.name  class="wrapper">
                     {{getThumbnail(preview)}}
             </div>
 
     </button>
 </div>
 <button (click)="close()">Close</button>
+

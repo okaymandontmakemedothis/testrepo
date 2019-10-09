@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { OpenDrawingService } from 'src/app/services/open-drawing/open-drawing.service';
 import { BehaviorSubject } from 'rxjs';
+import { OpenDrawingService } from 'src/app/services/open-drawing/open-drawing.service';
 import {  Drawing } from '../../../../../common/communication/drawing';
 
 @Component({
@@ -19,20 +19,19 @@ export class OpenDrawingComponent {
     public dialogRef: MatDialogRef<OpenDrawingComponent>, private openDrawingService: OpenDrawingService) {
     this.openDrawingService.getDrawingPreview()
       .subscribe(this.drawingPreview);
-      console.log(this.drawingPreview)
-
+    console.log(this.drawingPreview);
 
     }
 
-    getThumbnail(drawingObject:Drawing){
+    getThumbnail(drawingObject: Drawing) {
 
-      let container=document.getElementById(drawingObject.name)
-      if(container)container.innerHTML=`<svg _ngcontent-gmu-c13="" version="1.1" xmlns="http://www.w3.org/2000/svg" width=${drawingObject.width} height=${drawingObject.height}>${drawingObject.thumbnail}</svg>`;
-      // return this.parsedHtml      
-      return container
+      const container = document.getElementById(drawingObject.name);
+
+      if (container) {container.innerHTML = `<svg  _ngcontent-gmu-c13="" version="1.1" 
+      xmlns="http://www.w3.org/2000/svg" width=${drawingObject.width} height=${drawingObject.height}>${drawingObject.thumbnail}</svg>`; }
+
     }
-
-  close(): void {
+    close(): void {
     this.dialogRef.close();
   }
 }
