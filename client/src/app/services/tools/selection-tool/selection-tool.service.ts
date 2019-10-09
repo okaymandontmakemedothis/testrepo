@@ -29,14 +29,6 @@ export class SelectionToolService implements ITools {
   constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService) { }
 
   onPressed(event: MouseEvent) {
-    this.gotSelection = false;
-    this.object = [];
-    const target = event.target as Element;
-    const obj = this.drawingService.getObject(Number(target.id));
-    if (obj !== undefined) {
-      this.object.push(obj);
-    }
-
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     this.firstX = offset.x;
     this.firstY = offset.y;
@@ -45,11 +37,39 @@ export class SelectionToolService implements ITools {
     this.rectSelection.primaryColor = { rgb: { r: 0, g: 0, b: 150 }, a: 0.25 };
     this.rectSelection.secondaryColor = { rgb: { r: 0, g: 0, b: 200 }, a: 1 };
 
+    const target = event.target as Element;
+    const obj = this.drawingService.getObject(Number(target.id));
+
+    if (event.button === 0) {
+      this.removeSelection();
+      this.gotSelection = false;
+      if (obj !== undefined) {
+        this.object.push(obj);
+      }
+
+    } else if (event.button === 2) {
+      if (obj !== undefined) {
+        if (this.object.indexOf(obj) !== -1) {
+          const index = this.object.indexOf(obj, 0);
+          if (index > -1) {
+            this.object.splice(index, 1);
+          }
+        } else {
+          this.object.push(obj);
+        }
+      }
+      this.wasMoved = true;
+    }
     return this.rectSelection;
   }
 
   onRelease(event: MouseEvent): void {
-    this.findObjects();
+    if (event.button === 0) {
+      this.findObjects();
+    } else if (event.button === 2) {
+      this.drawingService.removeObject(this.rectID);
+    }
+
     if (this.object.length > 0) {
       this.setSelection();
     } else {
@@ -145,6 +165,7 @@ export class SelectionToolService implements ITools {
 
   removeSelection() {
     if (this.gotSelection) {
+      this.object = [];
       this.drawingService.removeObject(this.rectID);
     }
   }

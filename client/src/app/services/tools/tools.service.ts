@@ -62,8 +62,9 @@ export class ToolsService {
 
   /// Appeller la fonction onPressed du bon outil et ajoute un objet au dessin si nécéssaire
   onPressed(event: MouseEvent): void {
-
-    (this.tools[ToolIdConstants.SELECTION_ID] as SelectionToolService).removeSelection();
+    if (this.selectedToolId !== ToolIdConstants.SELECTION_ID) {
+      (this.tools[ToolIdConstants.SELECTION_ID] as SelectionToolService).removeSelection();
+    }
 
     this.currentObject = this.selectedTool.onPressed(event);
     this.isPressed = true;
