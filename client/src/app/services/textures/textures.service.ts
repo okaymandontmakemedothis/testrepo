@@ -47,7 +47,10 @@ export class TexturesService {
   }
 
   /// Retourne la texture de l'index voulue
-  returnTexture(textureNumber: number): ITexture {
+  returnTexture(textureNumber: number): ITexture|null {
+    if (textureNumber<0){
+      return null
+    }
     const texture: ITexture | undefined = this.textureList.get(textureNumber);
     if (texture) {
       return texture;
