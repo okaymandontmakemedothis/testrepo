@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../drawing/drawing.service';
 import { BrushToolService } from './brush-tool/brush-tool.service';
+import { EtampeToolService } from './etampe-tool/etampe-tool.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
+import { PipetteToolService } from './pipette-tool/pipette-tool.service';
+import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
 
@@ -26,6 +29,10 @@ export class ToolsService {
     private brushTool: BrushToolService,
     private colorApplicator: ToolsApplierColorsService,
     private rectangleTool: ToolRectangleService,
+    private ellipseTool: ToolEllipseService,
+    private pipetteTool: PipetteToolService,
+    private etampeService: EtampeToolService,
+
   ) {
     this.initTools();
   }
@@ -36,6 +43,10 @@ export class ToolsService {
     this.tools.push(this.brushTool);
     this.tools.push(this.colorApplicator);
     this.tools.push(this.rectangleTool);
+    this.tools.push(this.ellipseTool);
+    this.tools.push(this.pipetteTool);
+    this.tools.push(this.etampeService);
+
   }
 
   /// Selectionner un outil avec son id

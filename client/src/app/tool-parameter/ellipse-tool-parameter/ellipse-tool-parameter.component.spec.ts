@@ -2,28 +2,27 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { ToolRectangleService } from 'src/app/services/tools/tool-rectangle/tool-rectangle.service';
-import { RectangleToolParameterComponent } from './rectangle-tool-parameter.component';
+import { ToolEllipseService } from 'src/app/services/tools/tool-ellipse/tool-ellipse.service';
+import { EllipseToolParameterComponent } from './ellipse-tool-parameter.component';
 
 describe('RectangleToolParameterComponent', () => {
-  let component: RectangleToolParameterComponent;
-  let fixture: ComponentFixture<RectangleToolParameterComponent>;
-  let rectangleToolService: ToolRectangleService;
+  let component: EllipseToolParameterComponent;
+  let fixture: ComponentFixture<EllipseToolParameterComponent>;
+  let ellipseToolService: ToolEllipseService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RectangleToolParameterComponent],
+      declarations: [EllipseToolParameterComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [ReactiveFormsModule,
         MatButtonToggleModule, ],
     })
       .compileComponents();
-    rectangleToolService = TestBed.get(ToolRectangleService);
-
+    ellipseToolService = TestBed.get(ToolEllipseService);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RectangleToolParameterComponent);
+    fixture = TestBed.createComponent(EllipseToolParameterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -32,14 +31,14 @@ describe('RectangleToolParameterComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should patch rect value in form', () => {
-    component.form = new FormGroup({ rectStyle: new FormControl('fill') });
+  it('should patch ellipse value in form', () => {
+    component.form = new FormGroup({ ellipseStyle: new FormControl('fill') });
     const spy = spyOn(component.form, 'patchValue').and.callThrough();
     component.selectStyle(1);
     expect(spy).toHaveBeenCalled();
   });
 
   it('should return the tool name', () => {
-    expect(component.toolName).toEqual(rectangleToolService.toolName);
+    expect(component.toolName).toEqual(ellipseToolService.toolName);
   });
 });

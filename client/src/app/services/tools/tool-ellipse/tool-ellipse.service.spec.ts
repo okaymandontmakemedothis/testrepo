@@ -1,0 +1,222 @@
+import { TestBed } from '@angular/core/testing';
+import { EllipseObject } from 'src/app/objects/object-ellipse/ellipse';
+import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+import { ToolsColorService } from '../../tools-color/tools-color.service';
+import { ToolEllipseService } from './tool-ellipse.service';
+
+describe('ToolEllipseService', () => {
+  let offsetManagerServiceSpy: jasmine.SpyObj<OffsetManagerService>;
+  let colorToolServiceSpy: jasmine.SpyObj<ToolsColorService>;
+
+  beforeEach(() => {
+    const spyOffset = jasmine.createSpyObj('OffsetManagerService', ['offsetFromMouseEvent']);
+    const spyColor = jasmine.createSpyObj('ToolsColorService', ['']);
+
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: OffsetManagerService, useValue: spyOffset },
+        { provide: ToolsColorService, useValue: spyColor },
+      ],
+    });
+
+    offsetManagerServiceSpy = TestBed.get(OffsetManagerService);
+    colorToolServiceSpy = TestBed.get(ToolsColorService);
+  });
+
+  it('should set circle with shift', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+
+    const object = service.onPressed(new MouseEvent('mousedown')) as EllipseObject;
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
+
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+
+    window.dispatchEvent(eventKeyDown);
+
+    expect(object.height).toEqual(object.width);
+  });
+
+  it('should unset circle with unshift', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+
+    const object = service.onPressed(new MouseEvent('mousedown')) as EllipseObject;
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
+
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    window.dispatchEvent(eventKeyDown);
+
+    expect(object.height).toEqual(object.width);
+
+    const eventKeyUp = new KeyboardEvent('keyup', { shiftKey: false });
+    window.dispatchEvent(eventKeyUp);
+
+    expect(object.height).toEqual(40);
+    expect(object.width).toEqual(50);
+  });
+
+  it('should not unset circle with one unshift of two shift', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+
+    const object = service.onPressed(new MouseEvent('mousedown')) as EllipseObject;
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
+
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    window.dispatchEvent(eventKeyDown);
+
+    expect(object.height).toEqual(object.width);
+
+    const eventKeyUp = new KeyboardEvent('keyup', { shiftKey: true });
+    window.dispatchEvent(eventKeyUp);
+
+    expect(object.height).toEqual(object.width);
+  });
+
+  it('should create un object on mouse press with good color', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+
+    colorToolServiceSpy.primaryColor = { r: 0, g: 0, b: 0 };
+    colorToolServiceSpy.primaryAlpha = 0;
+    colorToolServiceSpy.secondaryColor = { r: 255, g: 255, b: 255 };
+    colorToolServiceSpy.secondaryAlpha = 1;
+
+    let object: EllipseObject | null = null;
+
+    object = service.onPressed(new MouseEvent('mousedown', { button: 0 })) as EllipseObject;
+
+    expect(object).not.toBeNull();
+    expect(object.primaryColor).toEqual({ rgb: { r: 0, g: 0, b: 0 }, a: 0 });
+    expect(object.secondaryColor).toEqual({ rgb: { r: 255, g: 255, b: 255 }, a: 1 });
+  });
+
+  it('should create un object on mouse press with switched color', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+
+    colorToolServiceSpy.primaryColor = { r: 0, g: 0, b: 0 };
+    colorToolServiceSpy.primaryAlpha = 0;
+    colorToolServiceSpy.secondaryColor = { r: 255, g: 255, b: 255 };
+    colorToolServiceSpy.secondaryAlpha = 1;
+
+    let object: EllipseObject | null = null;
+
+    object = service.onPressed(new MouseEvent('mousedown', { button: 2 })) as EllipseObject;
+
+    expect(object).not.toBeNull();
+    expect(object.secondaryColor).toEqual({ rgb: { r: 0, g: 0, b: 0 }, a: 0 });
+    expect(object.primaryColor).toEqual({ rgb: { r: 255, g: 255, b: 255 }, a: 1 });
+  });
+
+  it('should set size of object on mouse move', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as EllipseObject;
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
+
+    expect(object.height).toEqual(40);
+    expect(object.width).toEqual(50);
+  });
+
+  it('should NOT set size of object on mouse move', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as EllipseObject;
+    service.onRelease(new MouseEvent('mouseup'));
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
+
+    expect(object.width).toBe(0);
+    expect(object.height).toBe(0);
+  });
+
+  it('should put width and height positive when they are negative', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as EllipseObject;
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
+
+    expect(object.height).toBeGreaterThan(0);
+    expect(object.width).toBeGreaterThan(0);
+  });
+
+  it('should put width and height equal and positive when they are negative on circle mode', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as EllipseObject;
+
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    window.dispatchEvent(eventKeyDown);
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 40 });
+    service.onMove(new MouseEvent('mousemove'));
+
+    expect(object.height).toEqual(object.width);
+    expect(object.height).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should put width and height equal and positive on circle mode for Y smaller than first y', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as EllipseObject;
+
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    window.dispatchEvent(eventKeyDown);
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 60, y: 0 });
+    service.onMove(new MouseEvent('mousemove'));
+
+    expect(object.height).toEqual(object.width);
+    expect(object.height).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should put width and height equal and positive on circle mode for Y bigger than first y', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as EllipseObject;
+
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    window.dispatchEvent(eventKeyDown);
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 60, y: 100 });
+    service.onMove(new MouseEvent('mousemove'));
+
+    expect(object.height).toEqual(object.width);
+    expect(object.height).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should put width and height equal and positive on circle mode for X', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });
+    const object = service.onPressed(new MouseEvent('mousedown')) as EllipseObject;
+
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    window.dispatchEvent(eventKeyDown);
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 100 });
+    service.onMove(new MouseEvent('mousemove'));
+
+    expect(object.height).toEqual(object.width);
+    expect(object.width).toBeGreaterThanOrEqual(0);
+  });
+});

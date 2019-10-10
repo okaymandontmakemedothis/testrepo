@@ -5,6 +5,7 @@ import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from './drawing.service';
 
 class MockObject implements IObjects {
+
   id: number;
   x = 10;
   y = 20;
@@ -14,6 +15,9 @@ class MockObject implements IObjects {
   secondaryColor: import('../../model/rgba.model').RGBA = { rgb: { r: 0, g: 0, b: 0 }, a: DEFAULT_ALPHA };
   draw(): string {
     return 'test';
+  }
+  toDrawingObject(): import('../../../../../common/communication/drawing').DrawingObject {
+    throw new Error('Method not implemented.');
   }
 }
 

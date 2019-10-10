@@ -91,8 +91,8 @@ export class SaveDrawingService {
     };
 
     await this.http.post<string>('http://localhost:3000/api/drawings/',
-     drawing,
-  ).toPromise();
+      drawing,
+    ).toPromise();
     this.saveEnabled = true;
     this.drawingService.isSaved = true;
   }
