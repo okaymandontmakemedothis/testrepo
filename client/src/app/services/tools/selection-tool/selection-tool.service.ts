@@ -25,6 +25,7 @@ export class SelectionToolService implements ITools {
   tmpX: number;
   tmpY: number;
   wasMoved = false;
+  isIn = false;
 
   constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService) { this.setRectSelection(); }
 
@@ -52,12 +53,17 @@ export class SelectionToolService implements ITools {
       if (rec !== undefined) {
         this.rectSelection = rec as RectangleObject;
       }*/
-      if (obj !== undefined && !this.rectID.includes(obj.id)) {
+
+      if (obj !== undefined && !this.rectID.includes(obj.id) && (this.object.length < 2 || !this.object.includes(obj))) {
         this.removeSelection();
         this.object.push(obj);
         this.setSelection();
-      } else if (!(offset.x >= this.rectSelection.x && offset.x <= (this.rectSelection.x + this.rectSelection.width)
-        && offset.y >= this.rectSelection.y && offset.y <= (this.rectSelection.y + this.rectSelection.height))) {
+        this.isIn = true;
+        this.rectID.push(this.drawingService.lastObjectId + 1);
+        return this.rectSelection;
+      } else if (this.isInside(offset.x, offset.y)) {
+        this.isIn = true;
+      } else {
         this.removeSelection();
       }
 
@@ -74,19 +80,25 @@ export class SelectionToolService implements ITools {
       }
       this.wasMoved = true;
     }*/
+    if (this.gotSelection) {
+      return null;
+    }
     this.rectID.push(this.drawingService.lastObjectId + 1);
     return this.rectSelection;
   }
 
   onRelease(event: MouseEvent): void {
-    const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     if (event.button === 0) {
-      if (this.wasMoved) {
+      if (this.wasMoved && !this.gotSelection) {
         this.findObjects();
       } else if (!this.wasMoved && this.object.length > 1
-        && ((offset.x >= this.rectSelection.x && offset.x <= (this.rectSelection.x + this.rectSelection.width)
-          && offset.y >= this.rectSelection.y && offset.y <= (this.rectSelection.y + this.rectSelection.height)))) {
-        this.removeSelection();
+        && this.isIn) {
+        this.object = [];
+        const target = event.target as Element;
+        const obj = this.drawingService.getObject(Number(target.id));
+        if (obj !== undefined) {
+          this.object.push(obj);
+        }
       }
     }/* else if (event.button === 2) {
       this.drawingService.removeObject(this.rectID);
@@ -100,15 +112,13 @@ export class SelectionToolService implements ITools {
     }
 
     this.wasMoved = false;
+    this.isIn = false;
   }
 
   onMove(event: MouseEvent): void {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
-    if (event.button === 0 && this.object.length === 1) {
-      this.moveObject(event.movementX, event.movementY);
-    } else if (offset.x >= this.rectSelection.x && offset.x <= (this.rectSelection.x + this.rectSelection.width)
-      && offset.y >= this.rectSelection.y && offset.y <= (this.rectSelection.y + this.rectSelection.height)) {
-      this.moveAll(event.movementX, event.movementY);
+    if (event.button === 0 && this.isIn) {
+      this.moveObjects(event.movementX, event.movementY);
       this.wasMoved = true;
     } else if (event.button === 0 || event.button === 2) {
       this.setSize(offset.x, offset.y);
@@ -153,21 +163,13 @@ export class SelectionToolService implements ITools {
     }
   }
 
-  private moveObject(x: number, y: number) {
-    this.object[0].x += x;
-    this.object[0].y += y;
+  private moveObjects(x: number, y: number) {
     this.rectSelection.x += x;
     this.rectSelection.y += y;
-  }
-
-  private moveAll(x: number, y: number) {
     this.object.forEach((obj) => {
       obj.x += x;
       obj.y += y;
     });
-
-    this.rectSelection.x += x;
-    this.rectSelection.y += y;
   }
 
   private setSelection() {
@@ -214,11 +216,17 @@ export class SelectionToolService implements ITools {
       this.drawingService.removeObject(id);
     });
     this.rectID = [];
+    this.gotSelection = false;
   }
 
   private setRectSelection(x: number = 0, y: number = 0) {
     this.rectSelection = new RectangleObject(x, y, 5, 'border');
     this.rectSelection.primaryColor = { rgb: { r: 0, g: 0, b: 150 }, a: 0.25 };
     this.rectSelection.secondaryColor = { rgb: { r: 0, g: 0, b: 200 }, a: 1 };
+  }
+
+  private isInside(x: number, y: number) {
+    return x >= this.rectSelection.x && x <= (this.rectSelection.x + this.rectSelection.width)
+      && y >= this.rectSelection.y && y <= (this.rectSelection.y + this.rectSelection.height);
   }
 }
