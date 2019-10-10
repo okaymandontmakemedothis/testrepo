@@ -24,7 +24,7 @@ describe('BrushToolService', () => {
     colorToolServiceSpy = TestBed.get(ToolsColorService);
   });
 
-  it('should be created', () => {
+  it('brush service should be created', () => {
     const service: BrushToolService = TestBed.get(BrushToolService);
     expect(service).toBeTruthy();
   });

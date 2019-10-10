@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PipetteToolService } from 'src/app/services/tools/pipette-tool/pipette-tool.service';
 import { PipetteToolParameterComponent } from './pipette-tool-parameter.component';
 

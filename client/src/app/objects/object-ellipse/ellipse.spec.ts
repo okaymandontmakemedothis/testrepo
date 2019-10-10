@@ -4,7 +4,7 @@ import { EllipseObject } from './ellipse';
 describe('EllipseObject', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
-  it('should be created', () => {
+  it('object ellipse should be created', () => {
     const object: EllipseObject = new EllipseObject(0, 0, 0, 0, 0, '');
     expect(object).toBeTruthy();
   });

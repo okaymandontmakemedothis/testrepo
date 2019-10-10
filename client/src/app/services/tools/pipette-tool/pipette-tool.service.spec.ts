@@ -44,7 +44,7 @@ describe('PipetteToolService', () => {
     expect(colorService.primaryAlpha).toEqual(1);
   });
 
-  it('should change the secondary color of the object on right click', () => {
+  it('should set the secondary color of the object on right click', () => {
     const service: PipetteToolService = TestBed.get(PipetteToolService);
     const mouseEvent = new MouseEvent('click', { button: 2 });
     spyOnProperty(mouseEvent, 'target').and.returnValue(1);
@@ -57,7 +57,7 @@ describe('PipetteToolService', () => {
     expect(colorService.secondaryAlpha).toEqual(1);
   });
 
-  it('should not change the primary color of the object on left click if not object is clicked', () => {
+  it('should not set the primary color of the object on left click if no object is clicked', () => {
     const service: PipetteToolService = TestBed.get(PipetteToolService);
     const mouseEvent = new MouseEvent('click', { button: 0 });
     spyOnProperty(mouseEvent, 'target').and.returnValue(1);
@@ -72,7 +72,7 @@ describe('PipetteToolService', () => {
     expect(colorService.primaryAlpha).toEqual(0.5);
   });
 
-  it('should not change the secondary color of the object on left click if not object is clicked', () => {
+  it('should not set the secondary color of the object on left click if no object is clicked', () => {
     const service: PipetteToolService = TestBed.get(PipetteToolService);
     const mouseEvent = new MouseEvent('click', { button: 0 });
     spyOnProperty(mouseEvent, 'target').and.returnValue(1);
