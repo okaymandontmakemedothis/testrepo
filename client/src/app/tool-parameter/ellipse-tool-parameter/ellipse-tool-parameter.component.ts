@@ -55,5 +55,4 @@ export class EllipseToolParameterComponent implements OnInit {
   get toolName(): string {
     return this.ellipseToolService.toolName;
   }
-
 }

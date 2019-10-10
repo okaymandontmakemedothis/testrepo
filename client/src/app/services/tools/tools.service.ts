@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../drawing/drawing.service';
 import { BrushToolService } from './brush-tool/brush-tool.service';
+import { EtampeToolService } from './etampe-tool/etampe-tool.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { PipetteToolService } from './pipette-tool/pipette-tool.service';
@@ -32,7 +33,9 @@ export class ToolsService {
     private rectangleTool: ToolRectangleService,
     private ellipseTool: ToolEllipseService,
     private pipetteTool: PipetteToolService,
+    private etampeService: EtampeToolService,
     private selectionTool: SelectionToolService,
+
   ) {
     this.initTools();
   }
@@ -45,6 +48,7 @@ export class ToolsService {
     this.tools.push(this.rectangleTool);
     this.tools.push(this.ellipseTool);
     this.tools.push(this.pipetteTool);
+    this.tools.push(this.etampeService);
     this.tools.push(this.selectionTool);
 
   }
