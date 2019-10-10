@@ -3,6 +3,7 @@ import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
 import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingObject } from '../../../../../common/communication/drawing';
+import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 
 /// Service qui contient les fonction pour dessiner a l'écran
 @Injectable({
@@ -23,7 +24,7 @@ export class DrawingService {
 
   private objectList: Map<number, IObjects>;
 
-  constructor() {
+  constructor( ) {
     this.objectList = new Map<number, IObjects>();
   }
 
@@ -40,6 +41,18 @@ export class DrawingService {
     this.isSaved = false;
     this.objectList.delete(id);
     this.draw();
+  }
+
+  /// Rajouter une liste de Drawing Object a la map d'Object 
+  addDrawingObjectList(objList:DrawingObject[]){
+    for (let drawingObject of objList){
+      switch(drawingObject.type){
+        case 'rectangle':
+          console.log("adding rectangle")
+          this.addObject(this.toRectangleObject(drawingObject))
+      }
+    }
+
   }
 
   /// Ajout d'un objet dans la map d'objet du dessin
@@ -98,5 +111,15 @@ export class DrawingService {
     this.setDimension(width, height);
     this.setDrawingColor(rgba);
     this.draw();
+  }
+
+  toRectangleObject(drawing:DrawingObject){
+    const rectangleObject= new RectangleObject(drawing.x,drawing.y,drawing.strokeWidth,drawing.style)
+    rectangleObject.id=drawing.objectId
+    rectangleObject.height=drawing.height
+    rectangleObject.width=drawing.width
+    rectangleObject.primaryColor=drawing.primaryRGBA
+    rectangleObject.secondaryColor=drawing.secondaryRGBA
+    return rectangleObject
   }
 }

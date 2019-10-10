@@ -17,7 +17,6 @@ export interface Drawing {
     thumbnail: string|undefined;
 }
 
-
 export interface DrawingObject {
     type: string;
     objectId: number;
