@@ -33,4 +33,22 @@ export class EtampeObject implements IObjects {
       '" y="' + y + '" width="' + this.width + '" height="' + this.height + '" xlink:href=' + this.url + this.getRotation() + ' />';
 
   }
+
+  toDrawingObject() {
+    const drawingObject = {
+      type: 'etampe',
+      objectId: this.id,
+      x: this.x,
+      y: this.y,
+      height: this.height,
+      width: this.width,
+      primaryRGBA: this.primaryColor,
+      secondaryRGBA: this.secondaryColor,
+      pointsList: [],
+      strokeWidth: 0,
+      testureId: 0,
+      style: this.url,
+    };
+    return drawingObject;
+  }
 }
