@@ -22,11 +22,12 @@ export class EtampeToolService implements ITools {
   private etampe: FormControl;
   private facteur: FormControl;
   private object: EtampeObject | null;
-  cran = 15;
+  interval = 15;
 
   constructor(private offsetManager: OffsetManagerService, private drawingService: DrawingService) {
     this.etampe = new FormControl('');
-    this.facteur = new FormControl(INITIAL_SCALE, Validators.min(0.01));
+    const validator = 0.01;
+    this.facteur = new FormControl(INITIAL_SCALE, Validators.min(validator));
     this.parameters = new FormGroup({
       etampe: this.etampe,
       facteur: this.facteur,
@@ -51,13 +52,15 @@ export class EtampeToolService implements ITools {
     window.addEventListener('keydown', (event) => {
       if (event.altKey) {
         event.preventDefault();
-        this.cran = 1;
+        const minInterval = 1;
+        this.interval = minInterval;
       }
     });
 
     window.addEventListener('keyup', (event) => {
       if (!event.altKey) {
-        this.cran = 15;
+        const maxInterval = 15;
+        this.interval = maxInterval;
       }
     });
   }
@@ -84,14 +87,14 @@ export class EtampeToolService implements ITools {
 
   setAngle() {
     if (this.object) {
-      this.object.angle = this.object.angle + this.cran;
+      this.object.angle = this.object.angle + this.interval;
       console.log(this.object.angle);
     }
   }
 
   setAngleBackward() {
     if (this.object) {
-      this.object.angle = this.object.angle - this.cran;
+      this.object.angle = this.object.angle - this.interval;
       console.log(this.object.angle);
     }
   }

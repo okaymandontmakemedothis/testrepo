@@ -58,7 +58,7 @@ describe('EtampeToolService', () => {
     const eventKeyDown = new KeyboardEvent('keydown', { altKey: true });
 
     window.dispatchEvent(eventKeyDown);
-    expect(service.cran).toEqual(1);
+    expect(service.interval).toEqual(1);
   });
 
   it('should set cran to 15 with altkey is false', () => {
@@ -66,12 +66,12 @@ describe('EtampeToolService', () => {
     const eventKeyDown = new KeyboardEvent('keydown', { altKey: true });
     window.dispatchEvent(eventKeyDown);
 
-    expect(service.cran).toEqual(1);
+    expect(service.interval).toEqual(1);
 
     const eventKeyUp = new KeyboardEvent('keyup', { altKey: false });
     window.dispatchEvent(eventKeyUp);
 
-    expect(service.cran).toEqual(15);
+    expect(service.interval).toEqual(15);
   });
 
   it('should set cran to 1 when to altkey is always true', () => {
@@ -79,12 +79,12 @@ describe('EtampeToolService', () => {
     const eventKeyDown = new KeyboardEvent('keydown', { altKey: true });
     window.dispatchEvent(eventKeyDown);
 
-    expect(service.cran).toEqual(1);
+    expect(service.interval).toEqual(1);
 
     const eventKeyUp = new KeyboardEvent('keyup', { altKey: true });
     window.dispatchEvent(eventKeyUp);
 
-    expect(service.cran).toEqual(1);
+    expect(service.interval).toEqual(1);
   });
 
   it('should set cran to 15 when to altkey is always false', () => {
@@ -92,12 +92,12 @@ describe('EtampeToolService', () => {
     const eventKeyDown = new KeyboardEvent('keydown', { altKey: false });
     window.dispatchEvent(eventKeyDown);
 
-    expect(service.cran).toEqual(15);
+    expect(service.interval).toEqual(15);
 
     const eventKeyUp = new KeyboardEvent('keyup', { altKey: false });
     window.dispatchEvent(eventKeyUp);
 
-    expect(service.cran).toEqual(15);
+    expect(service.interval).toEqual(15);
   });
 
   it('should call setAngleBackward when mousewheel event gives a deltaY < 0', () => {
@@ -125,7 +125,7 @@ describe('EtampeToolService', () => {
     let object: EtampeObject | null = null;
 
     object = service.onPressed(mouseEvent) as EtampeObject;
-    service.cran = 15;
+    service.interval = 15;
     object.angle = 0;
     service.setAngle();
 
@@ -139,7 +139,7 @@ describe('EtampeToolService', () => {
     let object: EtampeObject | null = null;
 
     object = service.onPressed(mouseEvent) as EtampeObject;
-    service.cran = 15;
+    service.interval = 15;
     object.angle = 0;
     service.setAngleBackward();
 

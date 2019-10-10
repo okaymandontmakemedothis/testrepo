@@ -25,7 +25,8 @@ export class EtampeToolParameterComponent implements OnInit {
   }
 
   form: FormGroup;
-  currentEtampe = 100;
+  defaultNumber = 100;
+  currentEtampe = this.defaultNumber;
   styles: EtampeStyle[] = [
     {id: SMILEY,
       url: 'https://cdn.shopify.com/s/files/1/1061/1924/products/Smiling_Face_Emoji_large.png?v=1480481056',
@@ -65,7 +66,7 @@ export class EtampeToolParameterComponent implements OnInit {
       etampe: this.styles[this.currentEtampe].url,
     });
     } else {
-      this.currentEtampe = 100;
+      this.currentEtampe = this.defaultNumber;
       this.form.patchValue({
         etampe: '',
       });

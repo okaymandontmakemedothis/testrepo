@@ -8,9 +8,10 @@ export class EtampeObject implements IObjects {
   id = 1;
   x = 0;
   y = 0;
-
-  height = 50;
-  width = 50;
+  defaultHeight = 50;
+  height = this.defaultHeight;
+  defaultWidth = 50;
+  width = this.defaultWidth;
   angle = 0;
   url = '';
 
