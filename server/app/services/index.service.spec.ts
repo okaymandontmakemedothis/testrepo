@@ -1,8 +1,9 @@
-import {expect} from 'chai';
-import { IndexService } from './index.service';
+import { fail } from 'assert';
+import { expect } from 'chai';
 import { DateService } from './date.service';
+import { IndexService } from './index.service';
 
-let sinon = require('sinon')
+const sinon = require('sinon');
 
 describe('A sample service', () => {
     it('should be logged in the coverage', (done: Mocha.Done) => {
@@ -12,42 +13,37 @@ describe('A sample service', () => {
     });
 });
 
-describe('Testing index.service',()=>{
-    beforeEach=()=>{
-    }
-    it('should return about content',(done)=>{
-        const mockDateService = sinon.mock(DateService)
+describe('Testing index.service', () => {
+    it('should return about content', (done) => {
+        const mockDateService = sinon.mock(DateService);
 
-        const indexService = new IndexService(mockDateService)
+        const indexService = new IndexService(mockDateService);
 
-        let result = indexService.about()
-        expect(result.body).eqls("Lorem ipsum........")
-        expect(result.title).eqls("This is merely a test")
-        done()
-    })
-    it('should return text resources',(done)=>{
+        const result = indexService.about();
+        expect(result.body).eqls('Lorem ipsum........');
+        expect(result.title).eqls('This is merely a test');
+        done();
+    });
+    it('should return text resources', (done) => {
         const mockDateService = sinon.mock(IndexService);
         const indexService = new IndexService(mockDateService);
-        const pathText="/../res/text/welcome_text2.json"
-        let result = indexService.getTextRessource(pathText);
-        expect(result.body).exist;
-        done()
-    })
-    it('should return hello world message',async (done) =>{
+        const pathText = '/../res/text/welcome_text2.json';
+        const result = indexService.getTextRessource(pathText);
+        expect(result.body);
+        done();
+    });
+    it('should return hello world message', async (done) => {
         const mockDateService = sinon.mock(DateService);
         const indexService = new IndexService(mockDateService);
         // mockDateService.expects('currentTime').returns(0)
-        let result
-        try{
-            result = await indexService.helloWorld()
+        let result;
+        try {
+            result = await indexService.helloWorld();
+            expect(result);
+        } catch {
+            fail();
         }
-        catch{
+        done();
+    });
 
-        }
-        expect(result).exist
-        done()
-    })
-
-
-})
-
+});
