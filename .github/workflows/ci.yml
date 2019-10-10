@@ -1,13 +1,12 @@
 name: PolyDessin-CI
 
-on: 
+on:
   pull_request:
-      branches:
+    branches:
       - master
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -15,18 +14,18 @@ jobs:
         node-version: [10.x]
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use angular container
-      uses: docker://angular/ngcontainer
-    - name: npm install, lint, and test client
-      run: |
-        cd client
-        npm install 
-        npm run lint
-        xvfb-run npm run test
-    - name: npm install, lint, and test server
-      run: |
-        cd server
-        npm install 
-        npm run lint
-        npm run test
+      - uses: actions/checkout@v1
+      - name: Use angular container
+        uses: docker://angular/ngcontainer
+      - name: npm install, lint, and test client
+        run: |
+          cd client
+          npm install 
+          npm run lint
+          xvfb-run npm run test-ci
+    # - name: npm install, lint, and test server
+    #   run: |
+    #     cd server
+    #     npm install
+    #     npm run lint
+    #     npm run test
