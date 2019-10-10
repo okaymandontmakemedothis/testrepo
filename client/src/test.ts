@@ -19,6 +19,6 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting(),
 );
 // Then we find all the tests.
-const context = require.context('./', true, /open-drawing.component.spec.ts.spec\.ts$/);
+const context = require.context('./', true, /open-drawing.component.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
