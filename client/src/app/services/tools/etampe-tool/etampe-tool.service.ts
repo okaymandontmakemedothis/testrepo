@@ -10,6 +10,10 @@ import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 import { INITIAL_SCALE } from '../tools-constants';
 
+const valeurMinimalDeFacteur = 0.01;
+const minInterval = 1;
+const maxInterval = 15;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -22,12 +26,11 @@ export class EtampeToolService implements ITools {
   private etampe: FormControl;
   private facteur: FormControl;
   private object: EtampeObject | null;
-  interval = 15;
+  intervaleDegresRotation = 15;
 
   constructor(private offsetManager: OffsetManagerService, private drawingService: DrawingService) {
     this.etampe = new FormControl('');
-    const validator = 0.01;
-    this.facteur = new FormControl(INITIAL_SCALE, Validators.min(validator));
+    this.facteur = new FormControl(INITIAL_SCALE, Validators.min(valeurMinimalDeFacteur));
     this.parameters = new FormGroup({
       etampe: this.etampe,
       facteur: this.facteur,
@@ -52,15 +55,13 @@ export class EtampeToolService implements ITools {
     window.addEventListener('keydown', (event) => {
       if (event.altKey) {
         event.preventDefault();
-        const minInterval = 1;
-        this.interval = minInterval;
+        this.intervaleDegresRotation = minInterval;
       }
     });
 
     window.addEventListener('keyup', (event) => {
       if (!event.altKey) {
-        const maxInterval = 15;
-        this.interval = maxInterval;
+        this.intervaleDegresRotation = maxInterval;
       }
     });
   }
@@ -87,14 +88,14 @@ export class EtampeToolService implements ITools {
 
   setAngle() {
     if (this.object) {
-      this.object.angle = this.object.angle + this.interval;
+      this.object.angle = this.object.angle + this.intervaleDegresRotation;
       console.log(this.object.angle);
     }
   }
 
   setAngleBackward() {
     if (this.object) {
-      this.object.angle = this.object.angle - this.interval;
+      this.object.angle = this.object.angle - this.intervaleDegresRotation;
       console.log(this.object.angle);
     }
   }

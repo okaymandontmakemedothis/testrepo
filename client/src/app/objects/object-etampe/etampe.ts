@@ -2,16 +2,17 @@ import { RGBA } from '../../model/rgba.model';
 import { IObjects } from '../IObjects';
 
 /// Classe pour créer les objets rectangles
+const defaultHeight = 50;
+const defaultWidth = 50;
 export class EtampeObject implements IObjects {
   primaryColor: RGBA;
   secondaryColor: RGBA;
   id = 1;
   x = 0;
   y = 0;
-  defaultHeight = 50;
-  height = this.defaultHeight;
-  defaultWidth = 50;
-  width = this.defaultWidth;
+
+  height = defaultHeight;
+  width = defaultWidth;
   angle = 0;
   url = '';
 
