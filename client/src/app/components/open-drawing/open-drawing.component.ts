@@ -17,11 +17,11 @@ export class OpenDrawingComponent {
     drawingObjects: [], thumbnail: '' }]);
   constructor(
 
-    public dialogRef: MatDialogRef<OpenDrawingComponent>, 
+    public dialogRef: MatDialogRef<OpenDrawingComponent>,
     private openDrawingService: OpenDrawingService, public drawingService: DrawingService) {
     this.drawingPreview = this.openDrawingService.drawingList;
     }
-    // loader le thumbnail 
+    // loader le thumbnail
     getThumbnail(drawingObject: Drawing) {
       const container = document.getElementById(drawingObject.name);
       if (container) {container.innerHTML = `<svg  _ngcontent-gmu-c13="" version="1.1"

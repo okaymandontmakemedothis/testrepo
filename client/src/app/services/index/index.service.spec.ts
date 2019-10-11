@@ -56,7 +56,6 @@ describe('IndexService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(dummyWelcomeMessage);
   });
-  
 
   it('#aideGet should work', () => {
     const dummyShortcutClavier: ShortcutClavier = {
