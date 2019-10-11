@@ -54,7 +54,7 @@ export class BrushToolService implements ITools {
     if (this.strokeWidth.value && this.strokeWidth.value > 0) {
       const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
       this.lastPoint = { x: offset.x, y: offset.y };
-      const texture: ITexture = this.texturesService.returnTexture(this.texture.value);
+      const texture: ITexture|null = this.texturesService.returnTexture(this.texture.value);
       this.object = new Polyline(this.lastPoint, this.strokeWidth.value, texture);
       if (event.button === 0) {
         this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };

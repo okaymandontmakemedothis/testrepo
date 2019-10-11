@@ -1,3 +1,12 @@
+export interface DrawingPreview {
+    name: string;
+    tags: string[];
+    width: number;
+    height: number;
+    thumbnail: string|undefined;
+
+}
+
 export interface Drawing {
     name: string;
     tags: string[];

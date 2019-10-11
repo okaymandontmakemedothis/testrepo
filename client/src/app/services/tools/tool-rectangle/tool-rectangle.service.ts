@@ -140,4 +140,5 @@ export class ToolRectangleService implements ITools {
       }
     }
   }
+
 }
