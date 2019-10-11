@@ -48,11 +48,11 @@ export class DrawingService {
   /// Rajouter une liste de Drawing Object a la map d'Object
   addDrawingObjectList(objList: DrawingObject[]) {
     for (const drawingObject of objList) {
-      switch(drawingObject.type) {
+      switch (drawingObject.type) {
         case 'rectangle':
           console.log('adding rectangle');
           this.addObject(this.toRectangleObject(drawingObject));
-          break
+          break;
         case 'polyline':
           console.log('adding polyline');
           this.addObject(this.toPolyLineObject(drawingObject));
@@ -122,30 +122,30 @@ export class DrawingService {
   }
 
   toRectangleObject(drawing: DrawingObject) {
-    const rectangleObject= new RectangleObject(drawing.x,drawing.y,drawing.strokeWidth,drawing.style);
-    rectangleObject.id=drawing.objectId;
-    rectangleObject.height=drawing.height;
-    rectangleObject.width=drawing.width;
-    rectangleObject.primaryColor=drawing.primaryRGBA;
-    rectangleObject.secondaryColor=drawing.secondaryRGBA;
+    const rectangleObject = new RectangleObject(drawing.x, drawing.y, drawing.strokeWidth, drawing.style);
+    rectangleObject.id = drawing.objectId;
+    rectangleObject.height = drawing.height;
+    rectangleObject.width = drawing.width;
+    rectangleObject.primaryColor = drawing.primaryRGBA;
+    rectangleObject.secondaryColor = drawing.secondaryRGBA;
     return rectangleObject;
   }
 
   toPolyLineObject(drawingObject: DrawingObject): Polyline {
     const texture = this.textureService.returnTexture(drawingObject.testureId);
 
-    console.log(drawingObject)
-    const polylineObject = new Polyline(drawingObject.pointsList[0],drawingObject.strokeWidth,texture);
-    polylineObject.pointsList=drawingObject.pointsList;
+    console.log(drawingObject);
+    const polylineObject = new Polyline(drawingObject.pointsList[0], drawingObject.strokeWidth, texture);
+    polylineObject.pointsList = drawingObject.pointsList;
 
-    polylineObject.id=drawingObject.objectId;
-    polylineObject.x=drawingObject.x;
-    polylineObject.y=drawingObject.y;
-    polylineObject.height=drawingObject.height;
-    polylineObject.width=drawingObject.width;
-    polylineObject.primaryColor=drawingObject.primaryRGBA;
-    polylineObject.secondaryColor=drawingObject.secondaryRGBA;
-    polylineObject.pointsList=drawingObject.pointsList;
+    polylineObject.id = drawingObject.objectId;
+    polylineObject.x = drawingObject.x;
+    polylineObject.y = drawingObject.y;
+    polylineObject.height = drawingObject.height;
+    polylineObject.width = drawingObject.width;
+    polylineObject.primaryColor = drawingObject.primaryRGBA;
+    polylineObject.secondaryColor = drawingObject.secondaryRGBA;
+    polylineObject.pointsList = drawingObject.pointsList;
 
     return polylineObject;
 }

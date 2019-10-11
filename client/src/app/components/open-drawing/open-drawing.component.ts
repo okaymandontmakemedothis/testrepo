@@ -18,9 +18,9 @@ export class OpenDrawingComponent {
   // parsedHtml : XMLDocument
   constructor(
 
-    public dialogRef: MatDialogRef<OpenDrawingComponent>, private openDrawingService: OpenDrawingService, public drawingService: DrawingService) {
-    this.openDrawingService.getDrawingPreview()
-      .subscribe(this.drawingPreview);
+    public dialogRef: MatDialogRef<OpenDrawingComponent>, 
+    private openDrawingService: OpenDrawingService, public drawingService: DrawingService) {
+    this.drawingPreview = this.openDrawingService.drawingList;
     console.log(this.drawingPreview);
 
     }
@@ -31,9 +31,6 @@ export class OpenDrawingComponent {
 
       if (container) {container.innerHTML = `<svg  _ngcontent-gmu-c13="" version="1.1"
       xmlns="http://www.w3.org/2000/svg" width=${drawingObject.width} height=${drawingObject.height}>${drawingObject.thumbnail}</svg>`; }
-    }
-    selectDrawing(drawing: Drawing) {
-
     }
     // ouvre un nouveau dessin  avec l'ancien drawing
     openDrawing(drawing: Drawing) {

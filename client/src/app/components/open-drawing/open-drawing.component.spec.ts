@@ -1,12 +1,12 @@
+import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { MaterialModules } from 'src/app/app-material.module';
-import { OpenDrawingComponent } from './open-drawing.component';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
-import { HttpClientModule } from '@angular/common/http';
+import { OpenDrawingComponent } from './open-drawing.component';
 
 describe('OpenDrawingComponent', () => {
   let component: OpenDrawingComponent;
@@ -25,7 +25,7 @@ describe('OpenDrawingComponent', () => {
     TestBed.configureTestingModule({
       declarations: [OpenDrawingComponent],
       imports: [MaterialModules, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, HttpClientModule],
-      providers: [{ provide: MatDialogRef, useValue: dialogRefSpyObj },{ provide: DrawingService, useValue: spyDrawing }],
+      providers: [{ provide: MatDialogRef, useValue: dialogRefSpyObj }, { provide: DrawingService, useValue: spyDrawing }],
     });
 
     spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
