@@ -38,6 +38,9 @@ export class SaveDrawingComponent implements AfterViewInit {
       this.renderer.setAttribute(this.svg.nativeElement, 'viewBox', '0 0 ' + this.drawingService.width + ' ' + this.drawingService.height);
       this.svg.nativeElement.innerHTML = svgString;
     });
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.saveDrawingService.reset();
+    });
   }
 
   get nameCtrl(): FormControl {

@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { Drawing, DrawingObject } from '../../../../../common/communication/drawing';
+import { Message } from '../../../../../common/communication/message';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,13 @@ export class SaveDrawingService {
   }
 
   getAllTags(): string[] {
-    return ['Tag2', 'Tag3', 'Tag1', 'Tag4', 'Tag5'];
+    return ['Tag2', 'Tag3', 'Tag1', 'Tag4', 'Tag5'].sort();
+  }
+
+  reset(): void {
+    this.tagCtrl.reset();
+    this.nameCtrl.reset();
+    this.tags = [];
   }
 
   add(event: MatChipInputEvent, isMatAutoCompleteOpen: boolean): void {
@@ -81,6 +88,7 @@ export class SaveDrawingService {
     this.saveEnabled = false;
     const drawingObjectsList: DrawingObject[] = this.drawingService.drawingObjectList();
     const drawing: Drawing = {
+      id: this.drawingService.id,
       name: this.nameCtrl.value,
       tags: this.tags,
       drawingObjects: drawingObjectsList,
@@ -90,10 +98,10 @@ export class SaveDrawingService {
       thumbnail: this.drawingService.drawString(),
     };
 
-    await this.http.post<string>('http://localhost:3000/api/drawings/',
-      drawing,
-    ).toPromise();
+    console.log(await this.http.post<Message>('http://localhost:3000/api/drawings/',
+      drawing, { observe: 'response' },
+    ).toPromise());
     this.saveEnabled = true;
-    this.drawingService.isSaved = true;
+    this.drawingService.saved = true;
   }
 }

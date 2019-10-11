@@ -12,13 +12,15 @@ import {  Drawing } from '../../../../../common/communication/drawing';
 })
 export class OpenDrawingComponent {
   selectedDrawing: Drawing;
-  drawingPreview = new BehaviorSubject<Drawing[]>([{
+  drawingPreview = new BehaviorSubject<Drawing[]>([{id:'',
     name: '', tags: [''], width: 0, height: 0, backGroundColor: { rgb: { r: 0, g: 0, b: 0 }, a: 1 },
     drawingObjects: [], thumbnail: '' }]);
   // parsedHtml : XMLDocument
   constructor(
-
-    public dialogRef: MatDialogRef<OpenDrawingComponent>, private openDrawingService: OpenDrawingService, public drawingService: DrawingService) {
+    public dialogRef: MatDialogRef<OpenDrawingComponent>,
+    private openDrawingService: OpenDrawingService,
+    public drawingService: DrawingService,
+  ) {
     this.openDrawingService.getDrawingPreview()
       .subscribe(this.drawingPreview);
     console.log(this.drawingPreview);
@@ -33,7 +35,6 @@ export class OpenDrawingComponent {
       xmlns="http://www.w3.org/2000/svg" width=${drawingObject.width} height=${drawingObject.height}>${drawingObject.thumbnail}</svg>`; }
     }
     selectDrawing(drawing: Drawing) {
-
     }
     // ouvre un nouveau dessin  avec l'ancien drawing
     openDrawing(drawing: Drawing) {
