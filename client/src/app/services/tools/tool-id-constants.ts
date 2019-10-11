@@ -7,4 +7,5 @@ export class ToolIdConstants {
     static readonly ELLIPSE_ID: number = 4;
     static readonly PIPETTE_ID: number = 5;
     static readonly ETAMPE_ID: number = 6;
+    static readonly POLYGONE_ID: number = 7;
 }
