@@ -15,26 +15,20 @@ export class OpenDrawingComponent {
   drawingPreview = new BehaviorSubject<Drawing[]>([{
     name: '', tags: [''], width: 0, height: 0, backGroundColor: { rgb: { r: 0, g: 0, b: 0 }, a: 1 },
     drawingObjects: [], thumbnail: '' }]);
-  // parsedHtml : XMLDocument
   constructor(
 
     public dialogRef: MatDialogRef<OpenDrawingComponent>, 
     private openDrawingService: OpenDrawingService, public drawingService: DrawingService) {
     this.drawingPreview = this.openDrawingService.drawingList;
-    console.log(this.drawingPreview);
-
     }
-
+    // loader le thumbnail 
     getThumbnail(drawingObject: Drawing) {
-
       const container = document.getElementById(drawingObject.name);
-
       if (container) {container.innerHTML = `<svg  _ngcontent-gmu-c13="" version="1.1"
       xmlns="http://www.w3.org/2000/svg" width=${drawingObject.width} height=${drawingObject.height}>${drawingObject.thumbnail}</svg>`; }
     }
     // ouvre un nouveau dessin  avec l'ancien drawing
     openDrawing(drawing: Drawing) {
-      console.log('open drawing');
       this.drawingService.isCreated = true;
       this.drawingService.newDrawing(drawing.width, drawing.height, drawing.backGroundColor);
       this.drawingService.addDrawingObjectList(drawing.drawingObjects);

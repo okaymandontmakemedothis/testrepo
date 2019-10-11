@@ -1,9 +1,9 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { OpenDrawingService } from './open-drawing.service';
 import { IndexService } from '../index/index.service';
 import SpyObj = jasmine.SpyObj;
-import { of, BehaviorSubject } from 'rxjs';
+import { of } from 'rxjs';
 import { Drawing } from '../../../../../common/communication/drawing';
 
 describe('OpenDrawingService', () => {
@@ -19,21 +19,17 @@ describe('OpenDrawingService', () => {
     thumbnail: "<svg></svg>",
 
 }
+
+ 
   beforeEach(() => {
-    indexServiceSpy = jasmine.createSpyObj('IndexService', ['getDrawingPreview']);
-
-    indexServiceSpy.getDrawingPreview.and.returnValue(of([mockDrawing]));
-  });
-  beforeEach(async(() => {
+    const indexSpy = jasmine.createSpyObj('IndexService', ['getDrawingPreview']);
     TestBed.configureTestingModule({
-      declarations:[OpenDrawingService],
-      providers:[
-        OpenDrawingService,{provide: IndexService, indexServiceSpy}
-      ]
+      providers: [{provide: IndexService,useValue: indexSpy}]
     })
-    TestBed.compileComponents();
+    indexServiceSpy = TestBed.get(IndexService)
+    indexServiceSpy.getDrawingPreview.and.returnValue(of([mockDrawing]));
 
-  }));
+  });
 
   it('should be created', () => {
     const service: OpenDrawingService = TestBed.get(OpenDrawingService);
@@ -41,8 +37,10 @@ describe('OpenDrawingService', () => {
   });
   it('should get drawing previews', () => {
     const service: OpenDrawingService = TestBed.get(OpenDrawingService);
-    const result :BehaviorSubject<Drawing[]> = service.drawingList
-    expect(result).toEqual(new BehaviorSubject<Drawing[]>([mockDrawing]))
+    service.drawingList.subscribe(drawingList=>{
+      expect(drawingList).toEqual([mockDrawing])
+
+    })
 
   });
 });
