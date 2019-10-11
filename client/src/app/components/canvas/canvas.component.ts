@@ -20,30 +20,9 @@ export class CanvasComponent implements AfterViewInit {
   /// À l'initialisation, le canvas s'abonne au service de dessin pour reçevoir en string le svg
   ngAfterViewInit() {
 
-    this.drawingService.svgString.subscribe((svgString: string) => {
-      // this.svg.
+    this.drawingService.drawingEmit.subscribe((el: ElementRef) => {
+      this.svg.nativeElement = el;
     });
-
-    this.drawingService.objEmit.subscribe((el: ElementRef) => {
-      this.renderer.appendChild(this.svg.nativeElement, el);
-    });
-  }
-
-  test() {
-    // const svg = this.renderer.createElement('svg', 'svg')
-    this.rect = this.renderer.createElement('rect', 'svg');
-    this.renderer.setAttribute(this.rect, 'x', '50');
-    this.renderer.setAttribute(this.rect, 'y', '50');
-    this.renderer.setAttribute(this.rect, 'width', '50');
-    this.renderer.setAttribute(this.rect, 'height', '50');
-    this.renderer.setAttribute(this.rect, 'fill', 'black');
-    console.log(this.rect);
-    this.renderer.appendChild(this.svg.nativeElement, this.rect);
-  }
-
-  test2() {
-    this.renderer.setAttribute(this.rect, 'fill', 'yellow');
-    this.renderer.setAttribute(this.rect, 'height', '100');
   }
 
   get height(): number {

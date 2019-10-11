@@ -108,14 +108,15 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
     this.toolsService.onPressed(event);
   }
 
-  /// Effectue un onRelease quand le clique de la sourie est relaché
-  onMouseUp(event: MouseEvent) {
-    this.toolsService.onRelease(event);
-  }
-
   /// Effectue un onMove quand la sourie bouge
   onMouseMove(event: MouseEvent) {
     this.toolsService.onMove(event);
+  }
+
+  /// Effectue un onRelease quand le clique de la sourie est relaché
+  @HostListener('window:mouseup', ['$event'])
+  onMouseUp(event: MouseEvent) {
+    this.toolsService.onRelease(event);
   }
 
   /// Écoute le clavier pour envoyer l'évenement a la sourie

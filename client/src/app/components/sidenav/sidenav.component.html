@@ -9,8 +9,8 @@
     <div>
       <mat-button-toggle-group class="iconsGroup" #group="matButtonToggleGroup" [value]="currentToolId"
         [vertical]="true">
-        <mat-button-toggle mat-icon-button *ngFor="let tool of toolList;" [matTooltip]="tool.toolName" [value]="tool.id"
-          (click)="open()" (change)="selectionChanged($event)">
+        <mat-button-toggle mat-icon-button *ngFor="let tool of toolList.values;" [matTooltip]="tool.toolName"
+          [value]="tool.id" (click)="open()" (change)="selectionChanged($event)">
           <fa-icon [icon]="tool.faIcon"></fa-icon>
         </mat-button-toggle>
       </mat-button-toggle-group>
