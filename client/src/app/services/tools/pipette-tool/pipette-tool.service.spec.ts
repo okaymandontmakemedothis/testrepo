@@ -4,6 +4,7 @@ import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../../drawing/drawing.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { PipetteToolService } from './pipette-tool.service';
+import { TexturesService } from '../../textures/textures.service';
 
 class MockOject implements IObjects {
   id: number;
@@ -21,8 +22,10 @@ class MockOject implements IObjects {
   }
 }
 describe('PipetteToolService', () => {
+  //TODO use mocks to replace dependencies
   const colorService: ToolsColorService = new ToolsColorService();
-  const drawingService: DrawingService = new DrawingService();
+  const textureService:TexturesService = new TexturesService()
+  const drawingService: DrawingService = new DrawingService(textureService);
   beforeEach(() => TestBed.configureTestingModule({
     providers: [{ provide: DrawingService, useValue: drawingService }, { provide: ToolsColorService, useValue: colorService }],
   }));

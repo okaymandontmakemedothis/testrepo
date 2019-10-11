@@ -6,7 +6,6 @@ import { Polyline } from 'src/app/objects/object-polyline/polyline';
 import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 import { DrawingObject } from '../../../../../common/communication/drawing';
 import { TexturesService } from '../textures/textures.service';
-import { ITexture } from 'src/app/textures/ITexture';
 
 /// Service qui contient les fonction pour dessiner a l'écran
 @Injectable({
@@ -53,9 +52,11 @@ export class DrawingService {
         case 'rectangle':
           console.log('adding rectangle');
           this.addObject(this.toRectangleObject(drawingObject));
+          break
         case 'polyline':
           console.log('adding polyline');
           this.addObject(this.toPolyLineObject(drawingObject));
+          break;
 
       }
     }
@@ -133,7 +134,7 @@ export class DrawingService {
   toPolyLineObject(drawingObject: DrawingObject): Polyline {
     const texture = this.textureService.returnTexture(drawingObject.testureId);
 
-
+    console.log(drawingObject)
     const polylineObject = new Polyline(drawingObject.pointsList[0],drawingObject.strokeWidth,texture);
     polylineObject.pointsList=drawingObject.pointsList;
 

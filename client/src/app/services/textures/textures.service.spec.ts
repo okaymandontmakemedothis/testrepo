@@ -17,13 +17,13 @@ describe('TexturesService', () => {
 
   it('should return texture one if outside the size of the list', () => {
     const outsideOfListIndex = service.textureList.size + 1;
-    const texture: ITexture = service.returnTexture(outsideOfListIndex);
-    expect(texture.id).toBe(TEXTURE_ONE);
+    const texture: ITexture|null = service.returnTexture(outsideOfListIndex);
+    expect(texture!.id).toBe(TEXTURE_ONE);
   });
 
   it('should return texture of the index if outside the size of the list', () => {
-    const texture: ITexture = service.returnTexture(TEXTURE_TWO);
-    expect(texture.id).toBe(TEXTURE_TWO);
+    const texture: ITexture|null = service.returnTexture(TEXTURE_TWO);
+    expect(texture!.id).toBe(TEXTURE_TWO);
   });
 
   it('should return texture one as the first texture option', () => {

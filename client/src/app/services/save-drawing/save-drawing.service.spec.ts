@@ -1,6 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { getTestBed, TestBed } from '@angular/core/testing';
 import { SaveDrawingService } from './save-drawing.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('SaveDrawingService', () => {
   let injector: TestBed;
@@ -9,7 +10,7 @@ describe('SaveDrawingService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule,HttpClientModule],
       providers: [SaveDrawingService],
     });
     injector = getTestBed();
