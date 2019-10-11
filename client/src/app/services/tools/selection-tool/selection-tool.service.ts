@@ -30,99 +30,93 @@ export class SelectionToolService implements ITools {
   constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService) { this.setRectSelection(); }
 
   onPressed(event: MouseEvent) {
-    const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
-    this.tmpX = offset.x;
-    this.tmpY = offset.y;
+    if (event.button === 0 || event.button === 2) {
+      const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+      this.tmpX = offset.x;
+      this.tmpY = offset.y;
 
-    const target = event.target as Element;
-    const obj = this.drawingService.getObject(Number(target.id));
+      const target = event.target as Element;
+      const obj = this.drawingService.getObject(Number(target.id));
 
-    if (event.button === 0) {
-
-      /*this.removeSelection();
-      this.gotSelection = false;
-
-      if (!(offset.x >= this.rectSelection.x && offset.x <= this.rectSelection.width
-        && offset.y >= this.rectSelection.y && offset.y <= this.rectSelection.height)) {
-
-        this.setRectSelection(offset.x, offset.y);
-      }
-     */
-
-      /*const rec = this.drawingService.getObject(this.rectID[this.rectID.length - 1]);
-      if (rec !== undefined) {
-        this.rectSelection = rec as RectangleObject;
-      }*/
-
-      if (obj !== undefined && !this.rectID.includes(obj.id) && (this.object.length < 2 || !this.object.includes(obj))) {
-        this.removeSelection();
-        this.object.push(obj);
-        this.setSelection();
-        this.isIn = true;
-        this.rectID.push(this.drawingService.lastObjectId + 1);
-        return this.rectSelection;
-      } else if (this.isInside(offset.x, offset.y)) {
-        this.isIn = true;
-      } else {
-        this.removeSelection();
-      }
-
-    }/* else if (event.button === 2) {
-      if (obj !== undefined) {
-        if (this.object.indexOf(obj) !== -1) {
-          const index = this.object.indexOf(obj, 0);
-          if (index > -1) {
-            this.object.splice(index, 1);
-          }
-        } else {
+      if (event.button === 0) {
+        if (obj !== undefined && !this.rectID.includes(obj.id) && (this.object.length < 2 || !this.object.includes(obj))) {
+          this.removeSelection();
           this.object.push(obj);
+          this.setSelection();
+          this.isIn = true;
+          this.rectID.push(this.drawingService.lastObjectId + 1);
+          return this.rectSelection;
+        } else if (this.isInside(offset.x, offset.y)) {
+          this.isIn = true;
+        } else {
+          this.removeSelection();
         }
       }
-      this.wasMoved = true;
-    }*/
-    if (this.gotSelection) {
-      return null;
+
+      else if (event.button === 2) {
+        if (obj !== undefined && !this.rectID.includes(obj.id)) {
+          if (this.object.includes(obj)) {
+            const index = this.object.indexOf(obj, 0);
+            if (index > -1) {
+              this.object.splice(index, 1);
+            }
+          } else {
+            this.object.push(obj);
+          }
+        }
+        this.wasMoved = true;
+      }
+
+
+      if (this.gotSelection) {
+        return null;
+      }
+      this.rectID.push(this.drawingService.lastObjectId + 1);
+      return this.rectSelection;
     }
-    this.rectID.push(this.drawingService.lastObjectId + 1);
-    return this.rectSelection;
+    return null;
   }
 
   onRelease(event: MouseEvent): void {
-    if (event.button === 0) {
-      if (this.wasMoved && !this.gotSelection) {
-        this.findObjects();
-      } else if (!this.wasMoved && this.object.length > 1
-        && this.isIn) {
-        this.object = [];
-        const target = event.target as Element;
-        const obj = this.drawingService.getObject(Number(target.id));
-        if (obj !== undefined) {
-          this.object.push(obj);
+    if (event.button === 0 || event.button === 2) {
+      if (event.button === 0) {
+        if (this.wasMoved && !this.gotSelection) {
+          this.findObjects();
+        } else if (!this.wasMoved && this.object.length > 1
+          && this.isIn) {
+          this.object = [];
+          const target = event.target as Element;
+          const obj = this.drawingService.getObject(Number(target.id));
+          if (obj !== undefined) {
+            this.object.push(obj);
+          }
         }
-      }
-    }/* else if (event.button === 2) {
+      }/* else if (event.button === 2) {
       this.drawingService.removeObject(this.rectID);
     }*/
 
-    if (this.object.length > 0) {
-      this.setSelection();
-    } else {
-      this.removeSelection();
-      this.setRectSelection();
-    }
+      if (this.object.length > 0) {
+        this.setSelection();
+      } else {
+        this.removeSelection();
+        this.setRectSelection();
+      }
 
-    this.wasMoved = false;
-    this.isIn = false;
+      this.wasMoved = false;
+      this.isIn = false;
+    }
   }
 
   onMove(event: MouseEvent): void {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
-    if (event.button === 0 && this.isIn) {
-      this.moveObjects(event.movementX, event.movementY);
-      this.wasMoved = true;
-    } else if (event.button === 0 || event.button === 2) {
-      this.setSize(offset.x, offset.y);
-      this.wasMoved = true;
+    if (event.buttons === 1) {
+      if (this.isIn) {
+        this.moveObjects(event.movementX, event.movementY);
+        this.wasMoved = true;
+      } else {
+        this.setSize(offset.x, offset.y);
+        this.wasMoved = true;
+      }
     }
   }
 
@@ -145,7 +139,7 @@ export class SelectionToolService implements ITools {
   private findObjects() {
     if (this.rectSelection) {
       const a = (document.getElementById('svgCanvas') as unknown) as SVGSVGElement;
-
+      console.log(a);
       const r = a.createSVGRect();
       r.x = this.rectSelection.x;
       r.y = this.rectSelection.y;

@@ -11,6 +11,8 @@ export class EtampeObject implements IObjects {
   x = 0;
   y = 0;
 
+  strokeWidth = 0;
+
   height = defaultHeight;
   width = defaultWidth;
   angle = 0;
@@ -30,7 +32,7 @@ export class EtampeObject implements IObjects {
   draw(): string {
     const x = (this.x - this.width / 2);
     const y = (this.y - this.height / 2);
-    return '<image id="' + this.id + '" x="' + x  +
+    return '<image id="' + this.id + '" x="' + x +
       '" y="' + y + '" width="' + this.width + '" height="' + this.height + '" xlink:href=' + this.url + this.getRotation() + ' />';
 
   }
