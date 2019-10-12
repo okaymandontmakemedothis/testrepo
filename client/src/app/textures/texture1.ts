@@ -1,3 +1,4 @@
+import { ElementRef, Renderer2 } from '@angular/core';
 import { RGBA } from 'src/app/model/rgba.model';
 import { ITexture } from './ITexture';
 import { TEXTURE_ONE } from './texture-id';
@@ -14,19 +15,38 @@ export class TextureOne implements ITexture {
     }
 
     /// Retourne la ligne html du pattern
-    getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number): string {
-        return `<defs>
-<pattern id="${this.getTextureIDName(id)}" width="12" height="24" viewBox="0 0 12 24" x="${x}" y="${y}"
- patternTransform="rotate(${this.randomAngle})" patternUnits="userSpaceOnUse">
-<g fill="none" fill-rule="evenodd">
-<g fill="rgb(${primaryColor.rgb.r},${primaryColor.rgb.g},${primaryColor.rgb.b})"
- fill-opacity="${primaryColor.a}">
-<path d="M2 0h2v12H2V0zm1 20c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM9 8c1.105
- 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-1 4h2v12H8V12z"/>
-</g>
-</g>
-</pattern>
-</defs>`;
+    getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number, renderer: Renderer2): ElementRef {
+        //        `<defs>
+        // <pattern id="${this.getTextureIDName(id)}" width="12" height="24" viewBox="0 0 12 24" x="${x}" y="${y}"
+        //  patternTransform="rotate(${this.randomAngle})" patternUnits="userSpaceOnUse">
+        // <g fill="none" fill-rule="evenodd">
+        // <g fill="rgb(${primaryColor.rgb.r},${primaryColor.rgb.g},${primaryColor.rgb.b})"
+        //  fill-opacity="${primaryColor.a}">
+        // <path d="M2 0h2v12H2V0zm1 20c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM9 8c1.105
+        //  0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-1 4h2v12H8V12z"/>
+        // </g>
+        // </g>
+        // </pattern>
+        // </defs>`;
+
+        const texture: SVGDefsElement = renderer.createElement('defs', 'svg');
+        const pattern: SVGPatternElement = renderer.createElement('pattern', 'svg');
+        renderer.setProperty(pattern, 'id', this.getTextureIDName(id));
+        renderer.setAttribute(pattern, 'width', '12');
+        renderer.setAttribute(pattern, 'height', '24');
+        renderer.setAttribute(pattern, 'viewBox', '0 0 12 24');
+        renderer.setAttribute(pattern, 'x', x.toString());
+        renderer.setAttribute(pattern, 'y', y.toString());
+        const g1: SVGGElement = renderer.createElement('g', 'svg');
+        renderer.setAttribute(g1, 'fill', 'none');
+        renderer.setAttribute(g1, 'fill-rule', 'evenodd');
+        const g2: SVGGElement = renderer.createElement('g', 'svg');
+        renderer.setAttribute(g2, 'fill', `rgb(${primaryColor.rgb.r},${primaryColor.rgb.g},${primaryColor.rgb.b})`);
+        renderer.setAttribute(g2, 'fill-opacity', `${primaryColor.a}`);
+        const path: SVGPathElement = renderer.createElement('path', 'svg');
+        renderer.setAttribute(path, 'd',
+            'M2 0h2v12H2V0zm1 20c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM9 8c1.105 ' +
+            '0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-1 4h2v12H8V12z');
     }
 
     getFilter(id: number): string | null {

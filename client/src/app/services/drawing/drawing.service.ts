@@ -9,7 +9,7 @@ import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
 export class DrawingService {
 
   @Output()
-  drawingEmit = new EventEmitter<ElementRef>();
+  drawingEmit = new EventEmitter<SVGElement>();
 
   renderer: Renderer2;
   lastObjectId = 0;
@@ -18,12 +18,12 @@ export class DrawingService {
   alpha: number = DEFAULT_ALPHA;
   width = 0;
   height = 0;
-  drawing: ElementRef;
+  drawing: SVGElement;
 
-  private objectList: Map<number, ElementRef>;
+  private objectList: Map<number, SVGElement>;
 
   constructor() {
-    this.objectList = new Map<number, ElementRef>();
+    this.objectList = new Map<number, SVGElement>();
   }
 
   get rgbColorString() {
@@ -41,7 +41,7 @@ export class DrawingService {
   }
 
   /// Ajout d'un objet dans la map d'objet du dessin
-  addObject(obj: ElementRef): number {
+  addObject(obj: SVGElement): number {
     this.lastObjectId++;
     this.renderer.setProperty(obj, 'id', this.lastObjectId);
     this.objectList.set(this.lastObjectId, obj);
@@ -50,7 +50,7 @@ export class DrawingService {
   }
 
   /// Récupère un objet selon son id dans la map d'objet
-  getObject(id: number): ElementRef | undefined {
+  getObject(id: number): SVGElement | undefined {
     return this.objectList.get(id);
   }
 

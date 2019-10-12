@@ -18,7 +18,7 @@ export class PencilToolService implements ITools {
   readonly toolName = 'Outil Crayon';
   readonly faIcon: IconDefinition = faPencilAlt;
   readonly id = ToolIdConstants.PENCIL_ID;
-  private object: ElementRef | null;
+  private object: SVGPolylineElement | null;
   private dotId: number;
   private strokeWidth: FormControl;
   private lastPoint: Point;
@@ -45,13 +45,13 @@ export class PencilToolService implements ITools {
       if (this.strokeWidth.value && this.strokeWidth.value > 0) {
         const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
         this.lastPoint = { x: offset.x, y: offset.y };
-        const point: ElementRef = this.drawingService.renderer.createElement('ellipse', 'svg');
+        const point: SVGEllipseElement = this.drawingService.renderer.createElement('ellipse', 'svg');
         this.drawingService.renderer.setAttribute(point, 'cx', offset.x.toString());
         this.drawingService.renderer.setAttribute(point, 'cy', offset.y.toString());
         this.drawingService.renderer.setAttribute(point, 'ry', (this.strokeWidth.value / 2).toString());
         this.drawingService.renderer.setAttribute(point, 'rx', (this.strokeWidth.value / 2).toString());
         this.drawingService.renderer.setStyle(point, 'stroke', `none`);
-        this.dotId = this.drawingService.addObject(point as ElementRef);
+        this.dotId = this.drawingService.addObject(point);
 
         this.object = this.drawingService.renderer.createElement('polyline', 'svg');
 
@@ -105,9 +105,11 @@ export class PencilToolService implements ITools {
     pointString = pointString.substring(0, pointString.length - 1);
     this.drawingService.renderer.setAttribute(this.object, 'points', pointString);
     if (this.dotId !== -1) {
-      this.drawingService.removeObject(this.dotId);
-      this.drawingService.addObject(this.object as ElementRef);
-      this.dotId = -1;
+      if (this.object) {
+        this.drawingService.removeObject(this.dotId);
+        this.drawingService.addObject(this.object);
+        this.dotId = -1;
+      }
     }
   }
   onKeyUp(event: KeyboardEvent) {
