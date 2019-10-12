@@ -1,4 +1,3 @@
-import { DrawingObject } from '../../../../../common/communication/drawing';
 import { RGBA } from '../../model/rgba.model';
 import { IObjects } from '../IObjects';
 
@@ -59,7 +58,7 @@ export class RectangleObject implements IObjects {
     return '';
   }
 
-  toDrawingObject(): DrawingObject {
+  toDrawingObject(): any {
     const drawingObject = {
       type: 'rectangle',
       objectId: this.id,

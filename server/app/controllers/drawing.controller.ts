@@ -3,7 +3,6 @@ import { inject, injectable } from 'inversify';
 import { Drawing } from '../../../common/communication/drawing';
 import { DrawingService } from '../services/drawing.service';
 import Types from '../types';
-import { Message } from '../../../common/communication/message';
 
 @injectable()
 export class DrawingController {
@@ -21,56 +20,47 @@ export class DrawingController {
 
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                this.drawingService.getAllDrawingsPreviews().then((d: Drawing[]) => {
-                    console.log(d);
-
-                    res.json(d);
-                }).catch((reason: unknown) => {
-                    res.json('error');
+                this.drawingService.getAllDrawings().then((drawings: Drawing[]) => {
+                    res.json(drawings);
+                }).catch(() => {
+                    res.sendStatus(500);
                 });
             });
 
         this.router.get('/:drawingName',
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                this.drawingService.getDrawingByName(req.params.drawingName).then((d: Drawing) => {
-                    console.log(d);
-                    res.json(d);
-                }).catch((reason: unknown) => {
-                    res.json('error');
+                this.drawingService.getDrawingByName(req.params.drawingName).then((drawing: Drawing) => {
+                    res.json(drawing);
+                }).catch(() => {
+                    res.sendStatus(500);
                 });
             });
-        this.router.post('/by-id', async (req: Request, res: Response, next: NextFunction) => {
+        this.router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
             // Send the request to the service and send the response
-            res.sendStatus(500);
-            try {
-                this.drawingService.getDrawingsById(req.body.id).then((d: Drawing) => {
-                    res.sendStatus(500);
-                }).catch((reason: unknown) => {
-                    res.sendStatus(500);
-                });
-            } catch (error) {
+            this.drawingService.getDrawingById(req.params.id).then((drawing: Drawing) => {
+                res.json(drawing);
+            }).catch(() => {
                 res.sendStatus(500);
-            }
+            });
         });
         this.router.post('/by-tag',
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
                 const tags: string[] = req.body.tags;
-                this.drawingService.getDrawingsByTags(tags).then((d: Drawing[]) => {
-                    // console.log(d);
-                    res.json(d);
-                }).catch((reason: unknown) => {
-                    res.json('error');
+                this.drawingService.getDrawingsByTags(tags).then((drawings: Drawing[]) => {
+                    res.json(drawings);
+                }).catch(() => {
+                    res.sendStatus(500);
                 });
             });
 
         this.router.post('/',
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                this.drawingService.setDrawing(req.body).then((message: Message) => {
-                    res.json(message);
-                }).catch((reason: unknown) => {
+                this.drawingService.setDrawing(req.body).then((drawing: Drawing) => {
+                    res.json(drawing);
+                }).catch(() => {
                     res.sendStatus(500);
                 });
 
@@ -80,10 +70,9 @@ export class DrawingController {
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
                 this.drawingService.deleteDrawing(req.params.drawingName).then((m: string) => {
-                    console.log(m);
                     res.json(m);
-                }).catch((reason: unknown) => {
-                    res.json('error');
+                }).catch(() => {
+                    res.sendStatus(500);
                 });
             });
     }

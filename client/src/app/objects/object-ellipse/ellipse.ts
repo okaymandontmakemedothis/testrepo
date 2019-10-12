@@ -1,4 +1,3 @@
-import { DrawingObject } from '../../../../../common/communication/drawing';
 import { RGBA } from '../../model/rgba.model';
 import { IObjects } from '../IObjects';
 
@@ -64,7 +63,7 @@ export class EllipseObject implements IObjects {
   }
 
   /// Retourne le drawing object pour un ellipse
-  toDrawingObject(): DrawingObject {
+  toDrawingObject(): any {
     const drawingObject = {
       type: 'ellipse',
       objectId: this.id,

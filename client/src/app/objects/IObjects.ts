@@ -1,4 +1,3 @@
-import { DrawingObject } from '../../../../common/communication/drawing';
 import { RGBA } from '../model/rgba.model';
 
 /// Interface pour tous les objets
@@ -11,5 +10,5 @@ export interface IObjects {
     primaryColor: RGBA;
     secondaryColor: RGBA;
     draw(): string;
-    toDrawingObject(): DrawingObject;
+    toDrawingObject(): any;
 }

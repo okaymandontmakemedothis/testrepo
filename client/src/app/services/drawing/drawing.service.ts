@@ -4,7 +4,6 @@ import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
 import { IObjects } from 'src/app/objects/IObjects';
 import { Polyline } from 'src/app/objects/object-polyline/polyline';
 import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
-import { DrawingObject } from '../../../../../common/communication/drawing';
 import { TexturesService } from '../textures/textures.service';
 
 /// Service qui contient les fonction pour dessiner a l'écran
@@ -51,7 +50,7 @@ export class DrawingService {
   }
 
   /// Rajouter une liste de Drawing Object a la map d'Object
-  addDrawingObjectList(objList: DrawingObject[]) {
+  addDrawingObjectList(objList: any[]) {
     for (const drawingObject of objList) {
       switch (drawingObject.type) {
         case 'rectangle':
@@ -96,8 +95,8 @@ export class DrawingService {
     this.svgString.emit(this.drawString());
   }
 
-  drawingObjectList(): DrawingObject[] {
-    const drawingObjectList: DrawingObject[] = [];
+  drawingObjectList(): any[] {
+    const drawingObjectList: any[] = [];
     for (const obj of this.objectList.values()) {
       drawingObjectList.push(obj.toDrawingObject());
     }
@@ -126,7 +125,7 @@ export class DrawingService {
     this.draw();
   }
 
-  toRectangleObject(drawing: DrawingObject) {
+  toRectangleObject(drawing: any) {
     const rectangleObject = new RectangleObject(drawing.x, drawing.y, drawing.strokeWidth, drawing.style);
     rectangleObject.id = drawing.objectId;
     rectangleObject.height = drawing.height;
@@ -136,7 +135,7 @@ export class DrawingService {
     return rectangleObject;
   }
 
-  toPolyLineObject(drawingObject: DrawingObject): Polyline {
+  toPolyLineObject(drawingObject: any): Polyline {
     const texture = this.textureService.returnTexture(drawingObject.testureId);
     const polylineObject = new Polyline(drawingObject.pointsList[0], drawingObject.strokeWidth, texture);
     polylineObject.pointsList = drawingObject.pointsList;

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { DrawingObject } from '../../../../../common/communication/drawing';
 import { Point } from '../../model/point.model';
 import { RGBA } from '../../model/rgba.model';
 import { ITexture } from '../../textures/ITexture';
@@ -7,8 +6,8 @@ import { IObjects } from '../IObjects';
 
 @Injectable({
     providedIn: 'root',
-  })
-  /// Classe pour créer les objets de lignes
+})
+/// Classe pour créer les objets de lignes
 export class Polyline implements IObjects {
     id: number;
     x: number;
@@ -87,7 +86,7 @@ export class Polyline implements IObjects {
         return polyline;
     }
 
-    toDrawingObject(): DrawingObject {
+    toDrawingObject(): any {
         const drawingObject = {
             type: 'polyline',
             objectId: this.id,
