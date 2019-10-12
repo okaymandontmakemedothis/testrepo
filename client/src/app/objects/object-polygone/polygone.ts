@@ -14,7 +14,8 @@ export class PolygoneObject implements IObjects {
   width = 0;
 
   vertexNumber = 0;
-  const initialAngle = 90;
+  initialAngle = 270;
+  // tslint:disable-next-line: variable-name
   _points: {x: number, y: number}[];
 
   strokeWidth = 0;
@@ -23,6 +24,10 @@ export class PolygoneObject implements IObjects {
   constructor(x: number, y: number, vertexNumber: number, strokeWidth: number, style: string) {
     this.x = x;
     this.y = y;
+    this.vertexNumber = vertexNumber;
+    if (this.vertexNumber === 4) {
+      this.initialAngle = 315;
+    }
     this.strokeWidth = strokeWidth;
     this.style = style;
   }
@@ -57,39 +62,45 @@ export class PolygoneObject implements IObjects {
   /// Pour retourner la ligne svg de l'ellipse pour le dessiner
   draw(): string {
     if (this.strokeWidth > 0) {
+      this.getPoints();
       const points: string = this.getPointsString(this.points);
       return '<polygon id="' + this.id
-      + 'points="' + points + '"'
+      + '" points="' + points
       + '" style=' + this.getStyle() + ' />';
     }
     return '';
   }
 
   get points(): {x: number, y: number}[] {
-    /// update the array
-    this.getPoints();
     /// return the array
     return this._points;
   }
 
+  set points(points: {x: number, y: number}[]) {
+    this._points = points;
+  }
+
   private getPoints() {
+    /// reset array from previous values
+    this.points = [];
     /// determine circle angles
-      const angle = 360 / this.vertexNumber;
+    const angle = 360 / this.vertexNumber;
     /// determine radius
-      const radius = this.width / 2;
+    const radius = this.width / 2;
     /// determine x and y from origin and initial angle
-      this.getPointsXandY(radius, 0);
+    this.getPointsXandY(radius, 0);
     /// repeat last step but add angle as you go for the n-1 remaining sides/points
-      let angleToAdd = 0;
-      for (let i = 1; i < this.vertexNumber; i++ ) {
-        angleToAdd += angle;
-        this.getPointsXandY(radius, angleToAdd);
-      }
+    let angleToAdd = 0;
+    for (let i = 1; i < this.vertexNumber; i++ ) {
+      angleToAdd += angle;
+      this.getPointsXandY(radius, angleToAdd);
+    }
   }
 
   getPointsXandY(radius: number, angleToAdd: number) {
-    const x = this.x + this.width / 2 + radius * Math.sin(this.getRAD((this.initialAngle + angleToAdd) % 360));
-    const y = this.y + this.height / 2 + radius * Math.cos(this.getRAD((this.initialAngle + angleToAdd) % 360));
+    const y = this.y + this.height / 2 + radius * Math.sin(this.getRAD((this.initialAngle + angleToAdd) % 360));
+    console.log(this.getRAD((this.initialAngle + angleToAdd) % 360));
+    const x = this.x + this.width / 2 + radius * Math.cos(this.getRAD((this.initialAngle + angleToAdd) % 360));
     this.points.push({x, y});
   }
 
@@ -102,6 +113,7 @@ export class PolygoneObject implements IObjects {
     for (const point of points) {
       tempString += point.x + ',' + point.y + ' ';
     }
+    console.log(tempString);
     return tempString;
   }
 
