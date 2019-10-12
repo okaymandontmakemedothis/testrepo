@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 
-import { OpenDrawingService } from './open-drawing.service';
 import { HttpClientModule } from '@angular/common/http';
+import { OpenDrawingService } from './open-drawing.service';
 
 describe('OpenDrawingService', () => {
   beforeEach(() => TestBed.configureTestingModule({
-    imports:[HttpClientModule]
+    imports: [HttpClientModule],
   }));
 
   it('should be created', () => {

@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { RGBA } from 'src/app/model/rgba.model';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../../drawing/drawing.service';
+import { TexturesService } from '../../textures/textures.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ToolsApplierColorsService } from './tools-applier-colors.service';
-import { TexturesService } from '../../textures/textures.service';
 
 class MockOject implements IObjects {
 
@@ -24,9 +24,9 @@ class MockOject implements IObjects {
 }
 describe('ToolsApplierColorsService', () => {
   const colorService: ToolsColorService = new ToolsColorService();
-  const textureService:TexturesService = new TexturesService()
-  const drawingService: DrawingService = new DrawingService(textureService); 
-   beforeEach(() => TestBed.configureTestingModule({
+  const textureService: TexturesService = new TexturesService();
+  const drawingService: DrawingService = new DrawingService(textureService);
+  beforeEach(() => TestBed.configureTestingModule({
     providers: [{ provide: DrawingService, useValue: drawingService }, { provide: ToolsColorService, useValue: colorService }],
   }));
   it('applier service should be created', () => {

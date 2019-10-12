@@ -7,6 +7,7 @@ import * as logger from 'morgan';
 import { DateController } from './controllers/date.controller';
 import { DrawingController } from './controllers/drawing.controller';
 import { IndexController } from './controllers/index.controller';
+import { TagController } from './controllers/tag.controller';
 import Types from './types';
 
 @injectable()
@@ -19,6 +20,7 @@ export class Application {
         @inject(Types.IndexController) private indexController: IndexController,
         @inject(Types.DateController) private dateController: DateController,
         @inject(Types.DrawingController) private drawingController: DrawingController,
+        @inject(Types.TagController) private tagController: TagController,
     ) {
         this.app = express();
 
@@ -41,6 +43,7 @@ export class Application {
         this.app.use('/api/index', this.indexController.router);
         this.app.use('/api/date', this.dateController.router);
         this.app.use('/api/drawings', this.drawingController.router);
+        this.app.use('/api/tags', this.tagController.router);
         this.errorHandling();
     }
 

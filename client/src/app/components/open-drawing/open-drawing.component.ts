@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
@@ -11,21 +13,29 @@ import { Drawing } from '../../../../../common/communication/drawing';
   styleUrls: ['./open-drawing.component.scss'],
 })
 export class OpenDrawingComponent {
+
+  tagCtrl = new FormControl();
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  @ViewChild('tagInput', { static: false }) tagInput: ElementRef<HTMLInputElement>;
+
   selectedDrawing: Drawing;
-  drawingPreview = new BehaviorSubject<Drawing[]>([{
-    id: '',
-    name: '', tags: [''], width: 0, height: 0, backGroundColor: { rgb: { r: 0, g: 0, b: 0 }, a: 1 }, svg: '',
-  }]);
+  drawingPreview = new BehaviorSubject<Drawing[]>([]);
+  isLoaded = false;
   // parsedHtml : XMLDocument
   constructor(
     public dialogRef: MatDialogRef<OpenDrawingComponent>,
     private openDrawingService: OpenDrawingService,
     public drawingService: DrawingService,
+    private renderer: Renderer2,
   ) {
     this.openDrawingService.getDrawingPreview()
       .subscribe(this.drawingPreview);
-    console.log(this.drawingPreview);
-
+    this.drawingPreview.subscribe(() => this.isLoaded = true);
   }
 
   getThumbnail(drawingObject: Drawing) {
@@ -33,11 +43,13 @@ export class OpenDrawingComponent {
     const container = document.getElementById(drawingObject.name);
 
     if (container) {
+      this.renderer.setAttribute(container, 'viewBox', `0 0 ${drawingObject.width} ${drawingObject.height}`);
       container.innerHTML = `${drawingObject.svg}`;
     }
   }
 
   selectDrawing(drawing: Drawing) {
+    return;
   }
 
   // ouvre un nouveau dessin  avec l'ancien drawing

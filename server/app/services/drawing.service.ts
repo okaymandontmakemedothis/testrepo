@@ -2,8 +2,6 @@ import { injectable } from 'inversify';
 import { MongoClient, ObjectId } from 'mongodb';
 import 'reflect-metadata';
 import { Drawing, Tag } from '../../../common/communication/drawing';
-import { Message } from '../../../common/communication/message';
-
 const MONGODB_URL = 'mongodb://localhost:27017/polydessin';
 const mongoClient = MongoClient;
 
@@ -73,7 +71,7 @@ export class DrawingService {
                 } else {
                     console.log(tag + 'does not exist in the database');
                     const newTag: Tag = { name: tag, numberOfUses: 1 };
-                    console.log('Initialising \x1b[32m%d\x1b[0m in the database', tag);
+                    console.log('Initialising \x1b[32m%s\x1b[0m in the database', tag);
                     tagCollection.insertOne(newTag, (err, res) => {
                         if (err) {
                             console.log('\x1b[31m%s\x1b[0m', 'Inserting error :' + newTag.name);

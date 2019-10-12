@@ -50,7 +50,8 @@
     "morgan": "^1.9.1",
     "nodemon": "^1.19.2",
     "reflect-metadata": "^0.1.10",
-    "serve-favicon": "~2.5.0"
+    "serve-favicon": "~2.5.0",
+    "ts-sinon": "^1.0.24"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.1",
@@ -65,7 +66,7 @@
     "@types/morgan": "~1.7.35",
     "@types/node": "~12.7.2",
     "@types/node-uuid": "0.0.28",
-    "@types/sinon": "^7.0.3",
+    "@types/sinon": "^7.5.0",
     "chai": "~4.2.0",
     "concurrently": "^4.0.1",
     "mocha": "^6.2.1",
