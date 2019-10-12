@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { faDrawPolygon, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { Point } from 'src/app/model/point.model';
 import { PolygoneObject } from 'src/app/objects/object-polygone/polygone';
-import { ITools } from '../ITools';
-import { ToolIdConstants } from '../tool-id-constants';
 import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
+import { ITools } from '../ITools';
+import { ToolIdConstants } from '../tool-id-constants';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PolygonService implements ITools {
+export class PolygonToolService implements ITools {
 
   readonly toolName = 'Outil Polygon';
   readonly faIcon: IconDefinition = faDrawPolygon;
@@ -24,7 +23,6 @@ export class PolygonService implements ITools {
   private strokeWidth: FormControl;
   private polygonStyle: FormControl;
   private vertexNumber: FormControl;
-  private lastPoint: Point;
 
   oldX = 0;
   oldY = 0;
@@ -39,6 +37,15 @@ export class PolygonService implements ITools {
       strokeWidth: this.strokeWidth,
       rectStyle: this.polygonStyle,
       vertexNumber: this.vertexNumber,
+    });
+    this.registerEventListener();
+  }
+
+  private registerEventListener() {
+    window.addEventListener('keydown', (event) => {
+      if (this.object) {
+        this.drawingService.draw();
+      }
     });
   }
 
