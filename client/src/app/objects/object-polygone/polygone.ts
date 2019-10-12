@@ -99,7 +99,6 @@ export class PolygoneObject implements IObjects {
 
   getPointsXandY(radius: number, angleToAdd: number) {
     const y = this.y + this.height / 2 + radius * Math.sin(this.getRAD((this.initialAngle + angleToAdd) % 360));
-    console.log(this.getRAD((this.initialAngle + angleToAdd) % 360));
     const x = this.x + this.width / 2 + radius * Math.cos(this.getRAD((this.initialAngle + angleToAdd) % 360));
     this.points.push({x, y});
   }
@@ -113,7 +112,6 @@ export class PolygoneObject implements IObjects {
     for (const point of points) {
       tempString += point.x + ',' + point.y + ' ';
     }
-    console.log(tempString);
     return tempString;
   }
 
