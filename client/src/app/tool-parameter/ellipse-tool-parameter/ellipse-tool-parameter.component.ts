@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ToolEllipseService } from 'src/app/services/tools/tool-ellipse/tool-ellipse.service';
 import { EllipseStyle } from 'src/app/model/ellipse-style.model';
-
+import { ToolEllipseService } from 'src/app/services/tools/tool-ellipse/tool-ellipse.service';
 
 const FILL_ID = 0;
 const CENTER_ID = 1;
@@ -56,6 +55,4 @@ export class EllipseToolParameterComponent implements OnInit {
   get toolName(): string {
     return this.ellipseToolService.toolName;
   }
-
 }
-

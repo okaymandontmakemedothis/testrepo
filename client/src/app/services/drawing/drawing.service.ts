@@ -1,6 +1,7 @@
 import { ElementRef, EventEmitter, Injectable, Output, Renderer2 } from '@angular/core';
 import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
 import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
+import { Drawing } from '../../../../../common/communication/drawing';
 
 /// Service qui contient les fonction pour dessiner a l'écran
 @Injectable({
@@ -12,6 +13,8 @@ export class DrawingService {
   drawingEmit = new EventEmitter<SVGElement>();
 
   renderer: Renderer2;
+  svgString = new EventEmitter<string>();
+  isSaved = false;
   lastObjectId = 0;
   isCreated = false;
   color: RGB = DEFAULT_RGB_COLOR;
@@ -25,7 +28,6 @@ export class DrawingService {
   constructor() {
     this.objectList = new Map<number, SVGElement>();
   }
-
   get rgbColorString() {
     return 'rgb(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ')';
   }
@@ -37,11 +39,13 @@ export class DrawingService {
   /// Retrait d'un objet selon son ID
   removeObject(id: number): void {
     this.renderer.removeChild(this.drawing, this.objectList.get(id));
+    this.isSaved = false;
     this.objectList.delete(id);
   }
 
   /// Ajout d'un objet dans la map d'objet du dessin
   addObject(obj: SVGElement): number {
+    this.isSaved = false;
     this.lastObjectId++;
     this.renderer.setProperty(obj, 'id', this.lastObjectId);
     this.objectList.set(this.lastObjectId, obj);
@@ -70,6 +74,7 @@ export class DrawingService {
 
   /// Fonction pour appeller la cascade de bonne fonction pour réinitialisé un nouveau dessin
   newDrawing(width: number, height: number, rgba: RGBA) {
+    this.isSaved = false;
     this.objectList.clear();
     this.lastObjectId = 0;
     this.drawing = this.renderer.createElement('svg', 'svg');

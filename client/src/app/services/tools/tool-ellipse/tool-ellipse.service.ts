@@ -18,8 +18,8 @@ export class ToolEllipseService implements ITools {
   readonly toolName = 'Outil Ellipse';
   readonly id = ToolIdConstants.ELLIPSE_ID;
 
-  private object: ElementRef | null;
-  private contour: ElementRef | null;
+  private object: SVGEllipseElement | null;
+  private contour: SVGRectElement | null;
   private contourId: number;
 
   parameters: FormGroup;
@@ -51,7 +51,9 @@ export class ToolEllipseService implements ITools {
       this.drawingService.renderer.setStyle(this.contour, 'stroke-dasharray', `10,10`);
       this.drawingService.renderer.setStyle(this.contour, 'd', `M5 40 l215 0`);
       this.drawingService.renderer.setStyle(this.contour, 'fill', `none`);
-      this.contourId = this.drawingService.addObject(this.contour as ElementRef);
+      if (this.contour) {
+        this.contourId = this.drawingService.addObject(this.contour);
+      }
 
       const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
 
@@ -72,8 +74,9 @@ export class ToolEllipseService implements ITools {
       } else {
         this.setStyle(false);
       }
-
-      this.drawingService.addObject(this.object as ElementRef);
+      if (this.object) {
+        this.drawingService.addObject(this.object);
+      }
     }
   }
 
@@ -173,6 +176,13 @@ export class ToolEllipseService implements ITools {
               (this.x + height / 2 + this.strokeWidth.value / 2).toString());
           }
         }
+      }
+
+      if (width < 0) {
+        width = 0;
+      }
+      if (height < 0) {
+        height = 0;
       }
 
       this.drawingService.renderer.setAttribute(this.object, 'rx', (width / 2).toString());

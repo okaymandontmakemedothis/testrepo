@@ -1,20 +1,41 @@
 import { injectable } from 'inversify';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import 'reflect-metadata';
-import { Drawing, Tag, DrawingObject } from '../../../common/communication/drawing';
+import { Drawing, Tag, DrawingPreview } from '../../../common/communication/drawing';
 
 const url = 'mongodb://localhost:27017/polydessin';
 const client = MongoClient;
 
 @injectable()
 export class DrawingService {
-    async getAllDrawings(): Promise<Drawing[]> {
+    async getAllDrawingsPreviews(): Promise<DrawingPreview[]> {
         return client.connect(url).then(async (mc: MongoClient) => {
             const db = mc.db('polydessin');
             const test = db.collection('drawings');
             return test.find().toArray().then((arr) => {
                 mc.close();
                 return arr;
+            });
+        });
+    }
+    async getDrawingsByTags(tagCollection: string[]): Promise<Drawing[]> {
+        return client.connect(url).then(async (mc: MongoClient) => {
+            const db = mc.db('polydessin');
+            const test = db.collection('drawings');
+            return test.find({ tags: { $in: tagCollection } }).toArray().then((arr) => {
+                mc.close();
+                return arr;
+            });
+        });
+    }
+    async getDrawingsById(id: string): Promise<Drawing> {
+        return client.connect(url).then(async (mc: MongoClient) => {
+            const db = mc.db('polydessin');
+            const test = db.collection('drawings');
+            const objectId = new ObjectId(id);
+            return test.findOne({ _id: objectId }).then((value) => {
+                mc.close();
+                return value;
             });
         });
     }
@@ -76,8 +97,7 @@ export class DrawingService {
             const db = mc.db('polydessin');
             const tagCollection = db.collection('tags');
             const drawingsCollection = db.collection('drawings');
-            let d: Drawing;
-            await drawingsCollection.findOne({ name: { $eq: name } }).then((value: Drawing) => d = value);
+            const d = await drawingsCollection.findOne({ name: { $eq: name } }).then((value: Drawing) => value);
             if (!d) {
                 return 'err';
             }

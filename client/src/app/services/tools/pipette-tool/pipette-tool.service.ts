@@ -2,13 +2,14 @@ import { ElementRef, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faEyeDropper } from '@fortawesome/free-solid-svg-icons';
+import { ObjectAtributeStructure } from 'src/app/model/object-structure.model';
+import { RGB } from 'src/app/model/rgb.model';
+import { DrawingService } from '../../drawing/drawing.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
-import { DrawingService } from '../../drawing/drawing.service';
-import { RGB } from 'src/app/model/rgb.model';
 
-/// Outil pour assigner la couleur d'un objet a la couleur primaire et secondaire, 
+/// Outil pour assigner la couleur d'un objet a la couleur primaire et secondaire,
 /// clique gauche change la couleur primaire et clique droit la couleur secondaire
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class PipetteToolService implements ITools {
   readonly faIcon: IconDefinition = faEyeDropper;
   readonly toolName = 'Pipette';
   parameters: FormGroup;
-  object: ElementRef | undefined;
+  object: SVGAElement | undefined;
 
   constructor(private drawingService: DrawingService, private toolsColorService: ToolsColorService) { }
 
@@ -26,17 +27,16 @@ export class PipetteToolService implements ITools {
   onPressed(event: MouseEvent): void {
     if (event.button === 0 || event.button === 2) {
       const target = event.target as SVGElement;
-      let fill = (target.style.fill as string).replace(/[^0-9]/g, ',').split(',').filter((el) => el !== '');
-      let opacity = target.style.fillOpacity as string;
-      console.log(event);
+      const propertyMap = ObjectAtributeStructure.get(target.tagName);
+      let property = propertyMap ? propertyMap.get('primaryColor') : '';
+
+      const fill = (target.style.getPropertyValue(property as string)).replace(/[^0-9]/g, ',').split(',').filter((el) => el !== '');
+
+      property = propertyMap ? propertyMap.get('primaryOpacity') : '';
+      const opacity = target.style.getPropertyValue(property as string);
 
       let rgb: RGB;
       let a: number;
-
-      if ((target.style.fill as string) === 'none') {
-        fill = (target.style.stroke as string).replace(/[^0-9]/g, ',').split(',').filter((el) => el !== '');
-        opacity = target.style.strokeOpacity as string;
-      }
 
       if (fill.length === 0) {
         rgb = this.drawingService.color;

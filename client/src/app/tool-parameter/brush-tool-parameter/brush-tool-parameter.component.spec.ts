@@ -12,7 +12,7 @@ describe('BrushToolParameterComponent', () => {
   let fixture: ComponentFixture<BrushToolParameterComponent>;
   let brushToolService: BrushToolService;
   let texturesService: TexturesService;
- 
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BrushToolParameterComponent],
@@ -33,7 +33,7 @@ describe('BrushToolParameterComponent', () => {
     component.ngOnInit();
   });
 
-  it('should create', () => {
+  it('should create component', () => {
     expect(component).toBeTruthy();
   });
 

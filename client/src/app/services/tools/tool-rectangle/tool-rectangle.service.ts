@@ -18,7 +18,7 @@ export class ToolRectangleService implements ITools {
   readonly toolName = 'Outil Rectangle';
   readonly id = ToolIdConstants.RECTANGLE_ID;
 
-  private object: ElementRef | null;
+  private object: SVGRectElement | null;
 
   parameters: FormGroup;
   private strokeWidth: FormControl;
@@ -67,8 +67,9 @@ export class ToolRectangleService implements ITools {
       } else {
         this.setStyle(false);
       }
-
-      this.drawingService.addObject(this.object as ElementRef);
+      if (this.object) {
+        this.drawingService.addObject(this.object);
+      }
     }
   }
 
@@ -145,8 +146,15 @@ export class ToolRectangleService implements ITools {
         }
       }
 
-      this.drawingService.renderer.setAttribute(this.object, 'width', (width).toString());
+      if (width < 0) {
+        width = 0;
+      }
+      if (height < 0) {
+        height = 0;
+      }
+
       this.drawingService.renderer.setAttribute(this.object, 'height', (height).toString());
+      this.drawingService.renderer.setAttribute(this.object, 'width', (width).toString());
     }
   }
 
@@ -215,4 +223,5 @@ export class ToolRectangleService implements ITools {
       }
     }
   }
+
 }

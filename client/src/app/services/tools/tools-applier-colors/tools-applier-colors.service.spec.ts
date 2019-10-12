@@ -2,10 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { RGBA } from 'src/app/model/rgba.model';
 import { IObjects } from 'src/app/objects/IObjects';
 import { DrawingService } from '../../drawing/drawing.service';
+import { TexturesService } from '../../textures/textures.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ToolsApplierColorsService } from './tools-applier-colors.service';
 
 class MockOject implements IObjects {
+
   id: number;
   x: number;
   y: number;
@@ -16,10 +18,14 @@ class MockOject implements IObjects {
   draw(): string {
     return '';
   }
+  toDrawingObject(): import('../../../../../../common/communication/drawing').DrawingObject {
+    throw new Error('Method not implemented.');
+  }
 }
 describe('ToolsApplierColorsService', () => {
   const colorService: ToolsColorService = new ToolsColorService();
-  const drawingService: DrawingService = new DrawingService();
+  const textureService: TexturesService = new TexturesService();
+  const drawingService: DrawingService = new DrawingService(textureService);
   beforeEach(() => TestBed.configureTestingModule({
     providers: [{ provide: DrawingService, useValue: drawingService }, { provide: ToolsColorService, useValue: colorService }],
   }));
@@ -56,7 +62,7 @@ describe('ToolsApplierColorsService', () => {
     expect(obj.secondaryColor).toEqual({ rgb: { r: 255, g: 0, b: 0 }, a: 0.5 });
   });
 
-  it('should not change the primary color of the object on left click if not object is clicked', () => {
+  it('should not change the primary color of the object on left click if no object is clicked', () => {
     const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
     const mouseEvent = new MouseEvent('click', { button: 0 });
     spyOnProperty(mouseEvent, 'target').and.returnValue(1);
@@ -70,7 +76,7 @@ describe('ToolsApplierColorsService', () => {
     expect(obj.primaryColor).toEqual({ rgb: { r: 255, g: 2, b: 2 }, a: 1 });
   });
 
-  it('should not change the secondary color of the object on right click if not object is clicked', () => {
+  it('should not change the secondary color of the object on right click if no object is clicked', () => {
     const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
     const mouseEvent = new MouseEvent('click', { button: 2 });
     spyOnProperty(mouseEvent, 'target').and.returnValue(1);
