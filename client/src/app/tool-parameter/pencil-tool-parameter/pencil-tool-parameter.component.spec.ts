@@ -29,7 +29,7 @@ describe('PencilToolParameterComponent', () => {
     component.ngOnInit();
   });
 
-  it('should create', () => {
+  it('should create component', () => {
     expect(component).toBeTruthy();
   });
 

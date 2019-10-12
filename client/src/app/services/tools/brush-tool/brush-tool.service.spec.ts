@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
 import { Polyline } from 'src/app/objects/object-polyline/polyline';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { BrushToolService } from './brush-tool.service';
-import { FormControl } from '@angular/forms';
 
 describe('BrushToolService', () => {
   let offsetManagerServiceSpy: jasmine.SpyObj<OffsetManagerService>;
@@ -24,7 +24,7 @@ describe('BrushToolService', () => {
     colorToolServiceSpy = TestBed.get(ToolsColorService);
   });
 
-  it('should be created', () => {
+  it('brush service should be created', () => {
     const service: BrushToolService = TestBed.get(BrushToolService);
     expect(service).toBeTruthy();
   });

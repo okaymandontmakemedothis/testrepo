@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { DrawingPreview } from '../../../../../common/communication/drawing';
 import { Message, ShortcutClavier, WelcomeMessage } from '../../../../../common/communication/message';
 
 /// Service qui rassembler les getter des serveurs
@@ -25,6 +26,12 @@ export class IndexService {
   welcomeGet(): Observable<WelcomeMessage> {
     return this.http.get<WelcomeMessage>('http://localhost:3000/api/index/text').pipe(
       catchError(this.handleError<WelcomeMessage>('welcomeGet')),
+    );
+  }
+  // GET tout les dessins du backend
+  getDrawingPreview(): Observable<DrawingPreview[]> {
+    return this.http.get<DrawingPreview[]>('http://localhost:3000/api/drawings/').pipe(
+      catchError(this.handleError<DrawingPreview[]>('getDrawingPreview')),
     );
   }
 

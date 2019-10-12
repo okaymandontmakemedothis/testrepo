@@ -23,7 +23,7 @@ describe('ToolEllipseService', () => {
     colorToolServiceSpy = TestBed.get(ToolsColorService);
   });
 
-  it('should set square with shift', () => {
+  it('should set circle with shift', () => {
     const service: ToolEllipseService = TestBed.get(ToolEllipseService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
 
@@ -39,7 +39,7 @@ describe('ToolEllipseService', () => {
     expect(object.height).toEqual(object.width);
   });
 
-  it('should unset square with unshift', () => {
+  it('should unset circle with unshift', () => {
     const service: ToolEllipseService = TestBed.get(ToolEllipseService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
 
@@ -60,7 +60,7 @@ describe('ToolEllipseService', () => {
     expect(object.width).toEqual(50);
   });
 
-  it('should not unset square with one unshift of two shift', () => {
+  it('should not unset circle with one unshift of two shift', () => {
     const service: ToolEllipseService = TestBed.get(ToolEllipseService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
 
@@ -156,7 +156,7 @@ describe('ToolEllipseService', () => {
     expect(object.width).toBeGreaterThan(0);
   });
 
-  it('should put width and height equal and positive when they are negative on square mode', () => {
+  it('should put width and height equal and positive when they are negative on circle mode', () => {
     const service: ToolEllipseService = TestBed.get(ToolEllipseService);
 
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });
@@ -172,7 +172,7 @@ describe('ToolEllipseService', () => {
     expect(object.height).toBeGreaterThanOrEqual(0);
   });
 
-  it('should put width and height equal and positive on square mode for Y smaller than first y', () => {
+  it('should put width and height equal and positive on circle mode for Y smaller than first y', () => {
     const service: ToolEllipseService = TestBed.get(ToolEllipseService);
 
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });
@@ -188,7 +188,7 @@ describe('ToolEllipseService', () => {
     expect(object.height).toBeGreaterThanOrEqual(0);
   });
 
-  it('should put width and height equal and positive on square mode for Y bigger than first y', () => {
+  it('should put width and height equal and positive on circle mode for Y bigger than first y', () => {
     const service: ToolEllipseService = TestBed.get(ToolEllipseService);
 
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });
@@ -204,7 +204,7 @@ describe('ToolEllipseService', () => {
     expect(object.height).toBeGreaterThanOrEqual(0);
   });
 
-  it('should put width and height equal and positive on square mode for X', () => {
+  it('should put width and height equal and positive on circle mode for X', () => {
     const service: ToolEllipseService = TestBed.get(ToolEllipseService);
 
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 80 });

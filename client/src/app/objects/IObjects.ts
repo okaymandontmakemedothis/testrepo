@@ -1,3 +1,4 @@
+import { DrawingObject } from '../../../../common/communication/drawing';
 import { RGBA } from '../model/rgba.model';
 import { ElementRef } from '@angular/core';
 
@@ -12,4 +13,5 @@ export interface IObjects {
     primaryColor: RGBA;
     secondaryColor: RGBA;
     draw(): string;
+    toDrawingObject(): DrawingObject;
 }

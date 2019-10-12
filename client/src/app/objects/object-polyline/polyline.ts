@@ -1,10 +1,15 @@
+import { Injectable } from '@angular/core';
+import { DrawingObject } from '../../../../../common/communication/drawing';
 import { Point } from '../../model/point.model';
 import { RGBA } from '../../model/rgba.model';
 import { ITexture } from '../../textures/ITexture';
 import { IObjects } from '../IObjects';
 import { ElementRef } from '@angular/core';
 
-/// Classe pour créer les objets de lignes
+@Injectable({
+    providedIn: 'root',
+  })
+  /// Classe pour créer les objets de lignes
 export class Polyline implements IObjects {
     objRef: ElementRef;
     id: number;
@@ -17,6 +22,7 @@ export class Polyline implements IObjects {
     pointsList: Point[] = [];
     strokeWidth: number;
     texture: ITexture | null;
+    // textureService:TexturesService
 
     constructor(point: Point, strokeWidth: number, texture: ITexture | null = null) {
         this.strokeWidth = strokeWidth;
@@ -81,5 +87,23 @@ export class Polyline implements IObjects {
             polyline += '"/>\n';
         }
         return polyline;
+    }
+
+    toDrawingObject(): DrawingObject {
+        const drawingObject = {
+            type: 'polyline',
+            objectId: this.id,
+            x: this.x,
+            y: this.y,
+            height: this.height,
+            width: this.width,
+            primaryRGBA: this.primaryColor,
+            secondaryRGBA: this.secondaryColor,
+            pointsList: this.pointsList,
+            strokeWidth: this.strokeWidth,
+            testureId: this.texture ? this.texture.id : -1,
+            style: '',
+        };
+        return drawingObject;
     }
 }
