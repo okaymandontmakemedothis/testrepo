@@ -7,8 +7,6 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { Drawing } from '../../../../../common/communication/drawing';
-import { Message } from '../../../../../common/communication/message';
-
 @Injectable({
   providedIn: 'root',
 })
