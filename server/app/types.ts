@@ -7,4 +7,6 @@ export default {
     DateService: Symbol('DateService'),
     DrawingController: Symbol('DrawingController'),
     DrawingService: Symbol('DrawingService'),
+    TagService: Symbol('TagService'),
+    TagController: Symbol('TagController'),
 };
