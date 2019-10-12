@@ -1,0 +1,40 @@
+<div class="parameter">
+  <h4>{{toolName}}</h4>
+  <div [formGroup]='form'>
+    <div>
+      <mat-form-field>
+        <mat-label>Border width</mat-label>
+        <input id="strokeInput" matInput matTextareaAutosize formControlName='strokeWidth' type="number"
+          placeholder="Border width" min="1">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-label>Style de remplissage</mat-label>
+      <mat-button-toggle-group [(value)]="currentStyle" #group="matButtonToggleGroup">
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[0].tooltip" [value]="styles[0].id"
+          (click)="selectStyle(styles[0].id)">
+          <svg width=26 height=26>
+            <ellipse cx=12 cy=12 rx=10 ry=10 fill="grey" stroke="black" stroke-width="3"></ellipse>
+          </svg>
+        </mat-button-toggle>
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[1].tooltip" [value]="styles[1].id"
+          (click)="selectStyle(styles[1].id)">
+          <svg width=26 height=26>
+            <ellipse cx=12 cy=12 rx=10 ry=10 fill="grey" stroke="transparent" stroke-width="3"></ellipse>
+          </svg>
+        </mat-button-toggle>
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[2].tooltip" [value]="styles[2].id"
+          (click)="selectStyle(styles[2].id)">
+          <svg width=26 height=26>
+            <ellipse cx=12 cy=12 rx=10 ry=10 fill="transparent" stroke="black" stroke-width="3"></ellipse>
+          </svg>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div>
+      <mat-label>Nombre de vertex</mat-label>
+      <input id="vertexInput" matInput matTextareaAutosize formControlName='vertexNumber' type="number"
+          placeholder="Border width" min="3" max="13">
+    </div>
+  </div>
+</div>
