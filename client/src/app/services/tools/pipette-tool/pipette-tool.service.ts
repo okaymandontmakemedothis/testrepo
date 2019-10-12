@@ -2,10 +2,11 @@ import { ElementRef, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faEyeDropper } from '@fortawesome/free-solid-svg-icons';
-// import { DrawingService } from '../../drawing/drawing.service';
-// import { ToolsColorService } from '../../tools-color/tools-color.service';
+import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
+import { DrawingService } from '../../drawing/drawing.service';
+import { RGB } from 'src/app/model/rgb.model';
 
 /// Outil pour assigner la couleur d'un objet a la couleur primaire et secondaire, 
 /// clique gauche change la couleur primaire et clique droit la couleur secondaire
@@ -19,32 +20,48 @@ export class PipetteToolService implements ITools {
   parameters: FormGroup;
   object: ElementRef | undefined;
 
-  constructor(/*private drawingService: DrawingService, private toolsColorService: ToolsColorService*/) { }
+  constructor(private drawingService: DrawingService, private toolsColorService: ToolsColorService) { }
 
   /// À l'appuis d'un clique de souris, on récupère l'objet cliqué et on modifie sa couleur
   onPressed(event: MouseEvent): void {
+    if (event.button === 0 || event.button === 2) {
+      const target = event.target as SVGElement;
+      let fill = (target.style.fill as string).replace(/[^0-9]/g, ',').split(',').filter((el) => el !== '');
+      let opacity = target.style.fillOpacity as string;
+      console.log(event);
 
-    // const target = event.target as EventTarget;
-    // this.object = this.drawingService.getObject(Number(target.id));
+      let rgb: RGB;
+      let a: number;
 
-    // if (this.object) {
-    //   if (event.button === 0) { // left click so set primary color to color of object
-    //     this.toolsColorService.setPrimaryColor(this.object.primaryColor.rgb, this.object.primaryColor.a);
-    //   } else {     // right click so set secondary color to color of object
-    //     this.toolsColorService.setSecondaryColor(this.object.primaryColor.rgb, this.object.primaryColor.a);
-    //   }
-    // } else {
-    // }
+      if ((target.style.fill as string) === 'none') {
+        fill = (target.style.stroke as string).replace(/[^0-9]/g, ',').split(',').filter((el) => el !== '');
+        opacity = target.style.strokeOpacity as string;
+      }
+
+      if (fill.length === 0) {
+        rgb = this.drawingService.color;
+        a = this.drawingService.alpha;
+      } else {
+        rgb = { r: Number(fill[0]), g: Number(fill[1]), b: Number(fill[2]) };
+        a = Number(opacity);
+      }
+
+      if (event.button === 0) { // left click so set primary color to color of object
+        this.toolsColorService.setPrimaryColor(rgb, a);
+      } else {     // right click so set secondary color to color of object
+        this.toolsColorService.setSecondaryColor(rgb, a);
+      }
+    }
   }
 
   /// Fonction non utilisé pour cet outil
   onRelease(event: MouseEvent) {
-    return null;
+    return;
   }
 
   /// Fonction non utilisé pour cet outil
   onMove(event: MouseEvent) {
-    return null;
+    return;
   }
 
   onKeyUp(event: KeyboardEvent): void {

@@ -188,12 +188,16 @@ export class ToolEllipseService implements ITools {
       case 'center': {
         if (isLeft) {
           this.drawingService.renderer.setStyle(this.object, 'fill',
-            `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b},${this.colorTool.primaryAlpha})`);
+            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
         } else {
           this.drawingService.renderer.setStyle(this.object, 'fill',
-            `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b},${this.colorTool.secondaryAlpha})`);
+            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
         }
         return;
       }
@@ -201,30 +205,40 @@ export class ToolEllipseService implements ITools {
         this.drawingService.renderer.setStyle(this.object, 'fill', `none`);
         if (isLeft) {
           this.drawingService.renderer.setStyle(this.object, 'stroke',
-            `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b},${this.colorTool.secondaryAlpha})`);
+            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
         } else {
           this.drawingService.renderer.setStyle(this.object, 'stroke',
-            `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b},${this.colorTool.primaryAlpha})`);
+            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
         }
         return;
       }
       case 'fill': {
         if (isLeft) {
           this.drawingService.renderer.setStyle(this.object, 'fill',
-            `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b},${this.colorTool.primaryAlpha})`);
+            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b})`);
           this.drawingService.renderer.setStyle(this.object, 'stroke',
-            `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b},${this.colorTool.secondaryAlpha})`);
+            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
+          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
         } else {
           this.drawingService.renderer.setStyle(this.object, 'stroke',
             `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b},${this.colorTool.primaryAlpha})`);
+          ${this.colorTool.primaryColor.b})`);
           this.drawingService.renderer.setStyle(this.object, 'fill',
             `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b},${this.colorTool.secondaryAlpha})`);
+            ${this.colorTool.secondaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
+          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
         }
         return;
       }
