@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 // import { BrushToolService } from './brush-tool/brush-tool.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
-// import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
+import { PipetteToolService } from './pipette-tool/pipette-tool.service';
 import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
-import { PipetteToolService } from './pipette-tool/pipette-tool.service';
+import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
 
 /// Service permettant de gérer l'outil présent selon son ID
 /// Appelle les bonnes fonctions d'évenement souris selon l'outil selectionner
@@ -20,8 +20,8 @@ export class ToolsService {
 
   constructor(
     private pencilTool: PencilToolService,
-    /*private brushTool: BrushToolService,
-    private colorApplicator: ToolsApplierColorsService,*/
+    /*private brushTool: BrushToolService,*/
+    private colorApplicator: ToolsApplierColorsService,
     private rectangleTool: ToolRectangleService,
     private ellipseTool: ToolEllipseService,
     private pipetteTool: PipetteToolService,
@@ -34,8 +34,8 @@ export class ToolsService {
   /// Initialiser la liste d'outil
   private initTools(): void {
     this.tools.set(this.pencilTool.id, this.pencilTool);
-    /*this.tools.set(this.brushTool.id, this.brushTool);
-    this.tools.set(this.colorApplicator.id, this.colorApplicator);*/
+    /*this.tools.set(this.brushTool.id, this.brushTool);*/
+    this.tools.set(this.colorApplicator.id, this.colorApplicator);
     this.tools.set(this.rectangleTool.id, this.rectangleTool);
     this.tools.set(this.ellipseTool.id, this.ellipseTool);
     this.tools.set(this.pipetteTool.id, this.pipetteTool);

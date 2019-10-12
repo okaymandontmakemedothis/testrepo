@@ -175,6 +175,13 @@ export class ToolEllipseService implements ITools {
         }
       }
 
+      if (width < 0) {
+        width = 0;
+      }
+      if (height < 0) {
+        height = 0;
+      }
+
       this.drawingService.renderer.setAttribute(this.object, 'rx', (width / 2).toString());
       this.drawingService.renderer.setAttribute(this.object, 'ry', (height / 2).toString());
 

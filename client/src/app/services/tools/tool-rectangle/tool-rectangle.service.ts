@@ -145,8 +145,15 @@ export class ToolRectangleService implements ITools {
         }
       }
 
-      this.drawingService.renderer.setAttribute(this.object, 'width', (width).toString());
+      if (width < 0) {
+        width = 0;
+      }
+      if (height < 0) {
+        height = 0;
+      }
+
       this.drawingService.renderer.setAttribute(this.object, 'height', (height).toString());
+      this.drawingService.renderer.setAttribute(this.object, 'width', (width).toString());
     }
   }
 
