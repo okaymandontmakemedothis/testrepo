@@ -34,8 +34,9 @@ export class SaveDrawingComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dialogRef.afterOpened().subscribe(() => {
+      this.saveDrawingService.reset();
       const svgString = this.drawingService.drawString();
-      this.renderer.setAttribute(this.svg.nativeElement, 'viewBox', '0 0 ' + this.drawingService.width + ' ' + this.drawingService.height);
+      this.renderer.setAttribute(this.svg.nativeElement, 'viewBox', `0 0 ${this.drawingService.width} ${this.drawingService.height}`);
       this.svg.nativeElement.innerHTML = svgString;
     });
     this.dialogRef.afterClosed().subscribe(() => {
@@ -76,9 +77,11 @@ export class SaveDrawingComponent implements AfterViewInit {
     this.tagInput.nativeElement.value = '';
   }
 
-  save(): void {
-    this.saveDrawingService.save().then(() => { this.dialogRef.close(); });
-
+  async save(): Promise<void> {
+    const saveSucceed = await this.saveDrawingService.save();
+    if (saveSucceed) {
+      this.dialogRef.close();
+    }
   }
 
   close(): void {

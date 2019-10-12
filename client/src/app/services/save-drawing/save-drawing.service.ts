@@ -8,6 +8,8 @@ import { map, startWith } from 'rxjs/operators';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { Drawing, DrawingObject } from '../../../../../common/communication/drawing';
 import { Message } from '../../../../../common/communication/message';
+import { ErrorMessageService } from '../error-message/error-message.service';
+import { TagService } from '../tag/tag.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,27 +24,31 @@ export class SaveDrawingService {
   nameCtrl = new FormControl();
   filteredTags: Observable<string[]>;
   tags: string[] = [];
-  allTags: string[] = ['Tag2', 'Tag3', 'Tag1', 'Tag4', 'Tag5'];
+  allTags: string[] = [];
   saveEnabled = true;
 
   constructor(
     private drawingService: DrawingService,
+    private tagService: TagService,
     private http: HttpClient,
+    private errorMessage: ErrorMessageService,
   ) {
     this.nameCtrl.setValidators([Validators.required]);
-    this.filteredTags = this.tagCtrl.valueChanges.pipe(
-      startWith(null),
-      map((tag: string | null) => tag ? this.filter(tag) : this.allTags.slice()));
+    this.reset();
   }
 
   getAllTags(): string[] {
-    return ['Tag2', 'Tag3', 'Tag1', 'Tag4', 'Tag5'].sort();
+    return this.allTags;
   }
 
   reset(): void {
     this.tagCtrl.reset();
     this.nameCtrl.reset();
     this.tags = [];
+    this.tagService.retrieveTags().then((tags) => this.allTags = tags);
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) => tag ? this.filter(tag) : this.allTags.slice()));
   }
 
   add(event: MatChipInputEvent, isMatAutoCompleteOpen: boolean): void {
@@ -54,7 +60,9 @@ export class SaveDrawingService {
 
       // Add our tag
       if ((value || '').trim()) {
-        this.tags.push(value.trim());
+        if (!this.tags.includes(value.trim())) {
+          this.tags.push(value.trim());
+        }
       }
 
       // Reset the input value
@@ -84,24 +92,27 @@ export class SaveDrawingService {
     return this.allTags.filter((tag) => tag.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  async save(): Promise<void> {
+  async save(): Promise<boolean> {
     this.saveEnabled = false;
     const drawingObjectsList: DrawingObject[] = this.drawingService.drawingObjectList();
-    const drawing: Drawing = {
-      id: this.drawingService.id,
+    const drawing = {
       name: this.nameCtrl.value,
       tags: this.tags,
-      drawingObjects: drawingObjectsList,
-      width: this.drawingService.width,
-      height: this.drawingService.height,
+      numberOfObjects: this.drawingService.
+        height: this.drawingService.height,
       backGroundColor: { rgb: this.drawingService.color, a: this.drawingService.alpha },
       thumbnail: this.drawingService.drawString(),
     };
-
-    console.log(await this.http.post<Message>('http://localhost:3000/api/drawings/',
-      drawing, { observe: 'response' },
-    ).toPromise());
+    try {
+      await this.http.post<Message>('http://localhost:3000/api/drawings/',
+        drawing, { observe: 'response' },
+      ).toPromise();
+    } catch {
+      this.errorMessage.showError('Test', 'Error');
+      return false;
+    }
     this.saveEnabled = true;
     this.drawingService.saved = true;
+    return true;
   }
 }
