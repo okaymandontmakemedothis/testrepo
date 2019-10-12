@@ -1,9 +1,9 @@
-import { Injectable, ElementRef, Renderer2 } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faEyeDropper } from '@fortawesome/free-solid-svg-icons';
-//import { DrawingService } from '../../drawing/drawing.service';
-//import { ToolsColorService } from '../../tools-color/tools-color.service';
+// import { DrawingService } from '../../drawing/drawing.service';
+// import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 
@@ -13,7 +13,6 @@ import { ToolIdConstants } from '../tool-id-constants';
   providedIn: 'root',
 })
 export class PipetteToolService implements ITools {
-  readonly renderer: Renderer2;
   readonly id = ToolIdConstants.PIPETTE_ID;
   readonly faIcon: IconDefinition = faEyeDropper;
   readonly toolName = 'Pipette';
@@ -23,7 +22,7 @@ export class PipetteToolService implements ITools {
   constructor(/*private drawingService: DrawingService, private toolsColorService: ToolsColorService*/) { }
 
   /// À l'appuis d'un clique de souris, on récupère l'objet cliqué et on modifie sa couleur
-  onPressed(event: MouseEvent): ElementRef | null {
+  onPressed(event: MouseEvent): void {
 
     // const target = event.target as EventTarget;
     // this.object = this.drawingService.getObject(Number(target.id));
@@ -34,10 +33,8 @@ export class PipetteToolService implements ITools {
     //   } else {     // right click so set secondary color to color of object
     //     this.toolsColorService.setSecondaryColor(this.object.primaryColor.rgb, this.object.primaryColor.a);
     //   }
-    //   return null;
     // } else {
-    return null;
-    //}
+    // }
   }
 
   /// Fonction non utilisé pour cet outil
@@ -50,6 +47,10 @@ export class PipetteToolService implements ITools {
     return null;
   }
 
-  onKeyUp(event: KeyboardEvent, renderer: Renderer2): void { }
-  onKeyDown(event: KeyboardEvent, renderer: Renderer2): void { }
+  onKeyUp(event: KeyboardEvent): void {
+    return;
+  }
+  onKeyDown(event: KeyboardEvent): void {
+    return;
+  }
 }

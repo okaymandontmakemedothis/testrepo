@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, Renderer2 } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
@@ -20,6 +20,7 @@ export class ToolEllipseService implements ITools {
 
   private object: ElementRef | null;
   private contour: ElementRef | null;
+  private contourId: number;
 
   parameters: FormGroup;
   private strokeWidth: FormControl;
@@ -42,161 +43,187 @@ export class ToolEllipseService implements ITools {
 
   /// Quand le bouton de la sourie est enfoncé, on crée un ellipse et on le retourne
   /// en sortie et est inceré dans l'objet courrant de l'outil.
-  onPressed(event: MouseEvent, renderer: Renderer2): ElementRef | null {
+  onPressed(event: MouseEvent): void {
     if (event.button === 0 || event.button === 2) {
-
-      this.contour = renderer.createElement('rect', 'svg');
-      renderer.setStyle(this.contour, 'stroke', `rgba(0, 0, 0, 1)`);
-      renderer.setStyle(this.contour, 'stroke-width', `1`);
-      renderer.setStyle(this.contour, 'fill', `none`);
-      renderer.appendChild(this.drawingService.drawing, this.contour);
+      this.contour = this.drawingService.renderer.createElement('rect', 'svg');
+      this.drawingService.renderer.setStyle(this.contour, 'stroke', `rgba(0, 0, 0, 1)`);
+      this.drawingService.renderer.setStyle(this.contour, 'stroke-width', `1`);
+      this.drawingService.renderer.setStyle(this.contour, 'stroke-dasharray', `10,10`);
+      this.drawingService.renderer.setStyle(this.contour, 'd', `M5 40 l215 0`);
+      this.drawingService.renderer.setStyle(this.contour, 'fill', `none`);
+      this.contourId = this.drawingService.addObject(this.contour as ElementRef);
 
       const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
 
       this.x = offset.x;
       this.y = offset.y;
-      this.object = renderer.createElement('ellipse', 'svg');
-      renderer.setAttribute(this.object, 'cx', this.x.toString());
-      renderer.setAttribute(this.object, 'cy', this.y.toString());
+      this.oldX = offset.x;
+      this.oldY = offset.y;
 
-      renderer.setStyle(this.object, 'stroke-width', this.strokeWidth.value.toString());
-      renderer.setStyle(this.object, 'stroke-alignment', 'outer');
+      this.object = this.drawingService.renderer.createElement('ellipse', 'svg');
+      this.drawingService.renderer.setAttribute(this.object, 'cx', this.x.toString());
+      this.drawingService.renderer.setAttribute(this.object, 'cy', this.y.toString());
+
+      this.drawingService.renderer.setStyle(this.object, 'stroke-width', this.strokeWidth.value.toString());
+      this.drawingService.renderer.setStyle(this.object, 'stroke-alignment', 'outer');
 
       if (event.button === 0) {
-        this.setStyle(renderer);
+        this.setStyle();
       } else {
-        this.setStyle(renderer, false);
+        this.setStyle(false);
       }
+
+      this.drawingService.addObject(this.object as ElementRef);
     }
-    return this.object;
   }
 
   /// Quand le bouton de la sourie est relaché, l'objet courrant de l'outil est mis a null.
-  onRelease(event: MouseEvent, renderer: Renderer2): void {
-    this.object = null;
-    this.isCircle = false;
-    if (this.contour) {
-      renderer.removeChild(this.drawingService.drawing, this.contour);
+  onRelease(event: MouseEvent): void {
+    if (event.button === 0 || event.button === 2) {
+      this.object = null;
+      this.isCircle = false;
+      if (this.contour) {
+        this.drawingService.removeObject(this.contourId);
+        this.contourId = 0;
+      }
     }
   }
 
   /// Quand le bouton de la sourie est apuyé et on bouge celle-ci, l'objet courrant subit des modifications.
-  onMove(event: MouseEvent, renderer: Renderer2): void {
+  onMove(event: MouseEvent): void {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     if (this.object) {
-      this.setSize(offset.x, offset.y, renderer);
+      this.setSize(offset.x, offset.y);
     }
   }
 
-  onKeyDown(event: KeyboardEvent, renderer: Renderer2) {
+  onKeyDown(event: KeyboardEvent) {
     if (event.shiftKey && this.object) {
       this.isCircle = true;
-      this.setSize(this.oldX, this.oldY, renderer);
+      this.setSize(this.oldX, this.oldY);
     }
   }
-  onKeyUp(event: KeyboardEvent, renderer: Renderer2) {
+  onKeyUp(event: KeyboardEvent) {
     if (!event.shiftKey && this.object) {
       this.isCircle = false;
-      this.setSize(this.oldX, this.oldY, renderer);
+      this.setSize(this.oldX, this.oldY);
     }
   }
 
   /// Transforme le size de l'objet courrant avec un x et un y en entrée
-  private setSize(mouseX: number, mouseY: number, renderer: Renderer2): void {
+  private setSize(mouseX: number, mouseY: number): void {
     if (this.object) {
       this.oldX = mouseX;
       this.oldY = mouseY;
 
-      let width = mouseX - this.x - this.strokeWidth.value / 2;
-      let height = mouseY - this.y - this.strokeWidth.value / 2;
+      let width = mouseX - this.x - this.strokeWidth.value;
+      let height = mouseY - this.y - this.strokeWidth.value;
 
       const cx = this.x + width / 2;
       const cy = this.y + height / 2;
 
-      renderer.setAttribute(this.object, 'cx', cx.toString());
-      renderer.setAttribute(this.object, 'cy', cy.toString());
+      this.drawingService.renderer.setAttribute(this.object, 'cx', (cx + this.strokeWidth.value / 2).toString());
+      this.drawingService.renderer.setAttribute(this.object, 'cy', (cy + this.strokeWidth.value / 2).toString());
 
-      renderer.setAttribute(this.contour, 'x', (this.x - this.strokeWidth.value / 2).toString());
-      renderer.setAttribute(this.contour, 'y', (this.y - this.strokeWidth.value / 2).toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'x', (this.x).toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'y', (this.y).toString());
 
       if (width < 0) {
-        renderer.setAttribute(this.object, 'cx', cx.toString());
-        renderer.setAttribute(this.contour, 'x', (mouseX - this.strokeWidth.value / 2).toString());
-        width = Math.abs(width);
+        this.drawingService.renderer.setAttribute(this.object, 'cx', (cx + this.strokeWidth.value / 2).toString());
+        this.drawingService.renderer.setAttribute(this.contour, 'x', (mouseX).toString());
+        width = Math.abs(width) - 2 * this.strokeWidth.value;
       }
       if (height < 0) {
-        renderer.setAttribute(this.object, 'cy', cy.toString());
-        renderer.setAttribute(this.contour, 'y', (mouseY - this.strokeWidth.value / 2).toString());
-        height = Math.abs(height);
+        this.drawingService.renderer.setAttribute(this.object, 'cy', (cy + this.strokeWidth.value / 2).toString());
+        this.drawingService.renderer.setAttribute(this.contour, 'y', (mouseY).toString());
+        height = Math.abs(height) - 2 * this.strokeWidth.value;
       }
 
       if (this.isCircle) {
         if (mouseY < this.y && mouseX < this.x) {
           if (width < height) {
             height = width;
-            renderer.setAttribute(this.object, 'cy', (this.y - width).toString());
-            renderer.setAttribute(this.contour, 'y', (this.y - width - this.strokeWidth.value / 2).toString());
+            this.drawingService.renderer.setAttribute(this.object, 'cy', (this.y - width / 2 - this.strokeWidth.value / 2).toString());
+            this.drawingService.renderer.setAttribute(this.contour, 'y', (this.y - width - this.strokeWidth.value).toString());
           } else {
             width = height;
-            renderer.setAttribute(this.object, 'cx', (this.x - height).toString());
-            renderer.setAttribute(this.contour, 'x', (this.x - height - this.strokeWidth.value / 2).toString());
+            this.drawingService.renderer.setAttribute(this.object, 'cx', (this.x - height / 2 - this.strokeWidth.value / 2).toString());
+            this.drawingService.renderer.setAttribute(this.contour, 'x', (this.x - height - this.strokeWidth.value).toString());
           }
         } else if (width < height) {
           height = width;
           if (mouseY < this.y) {
-            renderer.setAttribute(this.object, 'cy', (this.x + this.y - mouseX).toString());
-            renderer.setAttribute(this.contour, 'y', (this.x + this.y - mouseX - this.strokeWidth.value / 2).toString());
+            this.drawingService.renderer.setAttribute(this.object, 'cy',
+              (this.x + this.y - mouseX + width / 2 + this.strokeWidth.value / 2).toString());
+            this.drawingService.renderer.setAttribute(this.contour, 'y',
+              (this.x + this.y - mouseX).toString());
+          } else {
+            this.drawingService.renderer.setAttribute(this.object, 'cy',
+              (this.y + width / 2 + this.strokeWidth.value / 2).toString());
           }
         } else {
           width = height;
           if (mouseX < this.x) {
-            renderer.setAttribute(this.object, 'cx', (this.x + this.y - mouseY).toString());
-            renderer.setAttribute(this.contour, 'x', (this.x + this.y - mouseY - this.strokeWidth.value / 2).toString());
+            this.drawingService.renderer.setAttribute(this.object, 'cx',
+              (this.x + this.y - mouseY + height / 2 + this.strokeWidth.value / 2).toString());
+            this.drawingService.renderer.setAttribute(this.contour, 'x',
+              (this.x + this.y - mouseY).toString());
+          } else {
+            this.drawingService.renderer.setAttribute(this.object, 'cx',
+              (this.x + height / 2 + this.strokeWidth.value / 2).toString());
           }
         }
       }
 
-      renderer.setAttribute(this.object, 'rx', (width / 2).toString());
-      renderer.setAttribute(this.object, 'ry', (height / 2).toString());
+      this.drawingService.renderer.setAttribute(this.object, 'rx', (width / 2).toString());
+      this.drawingService.renderer.setAttribute(this.object, 'ry', (height / 2).toString());
 
-      renderer.setAttribute(this.contour, 'width', (width + this.strokeWidth.value).toString());
-      renderer.setAttribute(this.contour, 'height', (height + this.strokeWidth.value).toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'width', (width + this.strokeWidth.value).toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'height', (height + this.strokeWidth.value).toString());
     }
   }
 
-  private setStyle(renderer: Renderer2, isLeft: boolean = true) {
+  private setStyle(isLeft: boolean = true) {
     switch (this.ellipseStyle.value) {
       case 'center': {
         if (isLeft) {
-          renderer.setStyle(this.object, 'fill', `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          this.drawingService.renderer.setStyle(this.object, 'fill',
+            `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
           ${this.colorTool.primaryColor.b},${this.colorTool.primaryAlpha})`);
         } else {
-          renderer.setStyle(this.object, 'fill', `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+          this.drawingService.renderer.setStyle(this.object, 'fill',
+            `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
             ${this.colorTool.secondaryColor.b},${this.colorTool.secondaryAlpha})`);
         }
         return;
       }
       case 'border': {
-        renderer.setStyle(this.object, 'fill', `none`);
+        this.drawingService.renderer.setStyle(this.object, 'fill', `none`);
         if (isLeft) {
-          renderer.setStyle(this.object, 'stroke', `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+          this.drawingService.renderer.setStyle(this.object, 'stroke',
+            `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
             ${this.colorTool.secondaryColor.b},${this.colorTool.secondaryAlpha})`);
         } else {
-          renderer.setStyle(this.object, 'stroke', `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          this.drawingService.renderer.setStyle(this.object, 'stroke',
+            `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
           ${this.colorTool.primaryColor.b},${this.colorTool.primaryAlpha})`);
         }
         return;
       }
       case 'fill': {
         if (isLeft) {
-          renderer.setStyle(this.object, 'fill', `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          this.drawingService.renderer.setStyle(this.object, 'fill',
+            `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
           ${this.colorTool.primaryColor.b},${this.colorTool.primaryAlpha})`);
-          renderer.setStyle(this.object, 'stroke', `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+          this.drawingService.renderer.setStyle(this.object, 'stroke',
+            `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
             ${this.colorTool.secondaryColor.b},${this.colorTool.secondaryAlpha})`);
         } else {
-          renderer.setStyle(this.object, 'stroke', `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          this.drawingService.renderer.setStyle(this.object, 'stroke',
+            `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
           ${this.colorTool.primaryColor.b},${this.colorTool.primaryAlpha})`);
-          renderer.setStyle(this.object, 'fill', `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+          this.drawingService.renderer.setStyle(this.object, 'fill',
+            `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
             ${this.colorTool.secondaryColor.b},${this.colorTool.secondaryAlpha})`);
         }
         return;

@@ -1,8 +1,8 @@
-import { ElementRef, Injectable, Renderer2 } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faTint } from '@fortawesome/free-solid-svg-icons';
-//import { ToolsColorService } from '../../tools-color/tools-color.service';
+// import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 
@@ -20,7 +20,7 @@ export class ToolsApplierColorsService implements ITools {
   constructor(/*private drawingService: DrawingService, private toolsColorService: ToolsColorService*/) { }
 
   /// À l'appuis d'un clique de souris, on récupère l'objet cliqué et on modifie sa couleur
-  onPressed(event: MouseEvent): ElementRef | null {
+  onPressed(event: MouseEvent): void {
     // const target = event.target as Element;
     // this.object = this.drawingService.getObject(Number(target.id));
     // if (this.object) {
@@ -31,8 +31,7 @@ export class ToolsApplierColorsService implements ITools {
     //   }
     //   return null;
     // } else {
-    return null;
-    //}
+    // }
   }
 
   /// Fonction non utilisé pour cet outil
@@ -44,8 +43,10 @@ export class ToolsApplierColorsService implements ITools {
   onMove(event: MouseEvent) {
     return null;
   }
-  onKeyUp(event: KeyboardEvent, renderer: Renderer2) {
+  onKeyUp(event: KeyboardEvent) {
+    return;
   }
-  onKeyDown(event: KeyboardEvent, renderer: Renderer2) {
+  onKeyDown(event: KeyboardEvent) {
+    return;
   }
 }

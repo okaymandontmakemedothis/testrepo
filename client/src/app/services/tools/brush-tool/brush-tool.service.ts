@@ -1,11 +1,11 @@
-import { Injectable, ElementRef, Renderer2 } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faPaintBrush, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Point } from 'src/app/model/point.model';
 import { TexturesService } from 'src/app/services/textures/textures.service';
-//import { ITexture } from 'src/app/textures/ITexture';
-//import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
-//import { ToolsColorService } from '../../tools-color/tools-color.service';
+// import { ITexture } from 'src/app/textures/ITexture';
+// import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+// import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 import { INITIAL_WIDTH } from '../tools-constants';
@@ -42,13 +42,13 @@ export class BrushToolService implements ITools {
   private addPoint(dpoint: Point) {
     if (this.object) {
       this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
-      //this.object.addPoint(this.lastPoint);
+      // this.object.addPoint(this.lastPoint);
     }
   }
 
   /// Création d'un polyline selon la position de l'evenement de souris, choisi les bonnes couleurs selon le clique de souris
   /// Récupère la bonne texture
-  onPressed(event: MouseEvent): ElementRef | null {
+  onPressed(event: MouseEvent): void {
     /*if (this.strokeWidth.value && this.strokeWidth.value > 0) {
       const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
       this.lastPoint = { x: offset.x, y: offset.y };
@@ -61,7 +61,6 @@ export class BrushToolService implements ITools {
         this.object.primaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
         this.object.secondaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
       }*/
-    return this.object;
     /*} else {
       return null;
     }*/
@@ -77,8 +76,10 @@ export class BrushToolService implements ITools {
   onMove(event: MouseEvent): void {
     this.addPoint({ x: event.movementX, y: event.movementY });
   }
-  onKeyUp(event: KeyboardEvent, renderer: Renderer2) {
+  onKeyUp(event: KeyboardEvent) {
+    return;
   }
-  onKeyDown(event: KeyboardEvent, renderer: Renderer2) {
+  onKeyDown(event: KeyboardEvent) {
+    return;
   }
 }

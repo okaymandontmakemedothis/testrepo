@@ -1,12 +1,11 @@
-import { Injectable, ElementRef } from '@angular/core';
-import { DrawingService } from '../drawing/drawing.service';
-//import { BrushToolService } from './brush-tool/brush-tool.service';
+import { Injectable } from '@angular/core';
+// import { BrushToolService } from './brush-tool/brush-tool.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
-import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
-//import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
+// import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
 import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
-//import { PipetteToolService } from './pipette-tool/pipette-tool.service';
+import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
+// import { PipetteToolService } from './pipette-tool/pipette-tool.service';
 
 /// Service permettant de gérer l'outil présent selon son ID
 /// Appelle les bonnes fonctions d'évenement souris selon l'outil selectionner
@@ -17,17 +16,15 @@ import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
 export class ToolsService {
   private isPressed = false;
   selectedToolId = 0;
-  currentObject: null | ElementRef;
   tools: Map<number, ITools> = new Map<number, ITools>();
 
   constructor(
-    private drawing: DrawingService,
     private pencilTool: PencilToolService,
     /*private brushTool: BrushToolService,
     private colorApplicator: ToolsApplierColorsService,*/
     private rectangleTool: ToolRectangleService,
     private ellipseTool: ToolEllipseService,
-    //private pipetteTool: PipetteToolService,
+    // private pipetteTool: PipetteToolService,
 
   ) {
     this.initTools();
@@ -41,12 +38,11 @@ export class ToolsService {
     this.tools.set(this.colorApplicator.id, this.colorApplicator);*/
     this.tools.set(this.rectangleTool.id, this.rectangleTool);
     this.tools.set(this.ellipseTool.id, this.ellipseTool);
-    //this.tools.set(this.pipetteTool.id, this.pipetteTool);
+    // this.tools.set(this.pipetteTool.id, this.pipetteTool);
   }
 
   /// Selectionner un outil avec son id
   selectTool(id: number): void {
-    this.currentObject = null;
     this.selectedToolId = id;
   }
 
@@ -57,18 +53,13 @@ export class ToolsService {
 
   /// Appeller la fonction onPressed du bon outil et ajoute un objet au dessin si nécéssaire
   onPressed(event: MouseEvent): void {
-    console.log(this.selectedTool);
     const tool = this.selectedTool;
     if (!tool) {
       return;
     }
 
-    this.currentObject = tool.onPressed(event, this.drawing.renderer);
+    tool.onPressed(event);
     this.isPressed = true;
-    if (this.currentObject) {
-      this.drawing.addObject(this.currentObject);
-    }
-
   }
 
   /// Appelle la fonction onRelease du bon outil et annule les entrée d'évenement souris
@@ -78,8 +69,7 @@ export class ToolsService {
       return;
     }
     if (this.isPressed) {
-      tool.onRelease(event, this.drawing.renderer);
-      this.currentObject = null;
+      tool.onRelease(event);
     }
     this.isPressed = false;
 
@@ -92,7 +82,7 @@ export class ToolsService {
       return;
     }
     if (this.isPressed) {
-      tool.onMove(event, this.drawing.renderer);
+      tool.onMove(event);
     }
   }
 
@@ -103,7 +93,7 @@ export class ToolsService {
         return;
       }
       if (this.isPressed) {
-        tool.onKeyDown(event, this.drawing.renderer);
+        tool.onKeyDown(event);
       }
     });
     window.addEventListener('keyup', (event) => {
@@ -112,7 +102,7 @@ export class ToolsService {
         return;
       }
       if (this.isPressed) {
-        tool.onKeyUp(event, this.drawing.renderer);
+        tool.onKeyUp(event);
       }
     });
   }

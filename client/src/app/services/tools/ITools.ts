@@ -1,4 +1,3 @@
-import { ElementRef, Renderer2 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
@@ -8,9 +7,9 @@ export interface ITools {
     readonly faIcon: IconDefinition;
     readonly toolName: string;
     parameters: FormGroup;
-    onPressed(event: MouseEvent, renderer: Renderer2): ElementRef | null;
-    onRelease(event: MouseEvent, renderer: Renderer2): void;
-    onMove(event: MouseEvent, renderer: Renderer2): void;
-    onKeyDown(event: KeyboardEvent, renderer: Renderer2): void;
-    onKeyUp(event: KeyboardEvent, renderer: Renderer2): void;
+    onPressed(event: MouseEvent): void;
+    onRelease(event: MouseEvent): void;
+    onMove(event: MouseEvent): void;
+    onKeyDown(event: KeyboardEvent): void;
+    onKeyUp(event: KeyboardEvent): void;
 }
