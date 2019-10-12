@@ -3,12 +3,14 @@ import { Point } from '../../model/point.model';
 import { RGBA } from '../../model/rgba.model';
 import { ITexture } from '../../textures/ITexture';
 import { IObjects } from '../IObjects';
+import { ElementRef } from '@angular/core';
 
 @Injectable({
     providedIn: 'root',
 })
 /// Classe pour créer les objets de lignes
 export class Polyline implements IObjects {
+    objRef: ElementRef;
     id: number;
     x: number;
     y: number;

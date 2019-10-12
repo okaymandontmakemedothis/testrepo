@@ -1,13 +1,11 @@
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faPaintBrush, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Point } from 'src/app/model/point.model';
-import { IObjects } from 'src/app/objects/IObjects';
-import { Polyline } from 'src/app/objects/object-polyline/polyline';
 import { TexturesService } from 'src/app/services/textures/textures.service';
-import { ITexture } from 'src/app/textures/ITexture';
-import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
-import { ToolsColorService } from '../../tools-color/tools-color.service';
+// import { ITexture } from 'src/app/textures/ITexture';
+// import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+// import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 import { INITIAL_WIDTH } from '../tools-constants';
@@ -22,15 +20,15 @@ export class BrushToolService implements ITools {
   readonly faIcon: IconDefinition = faPaintBrush;
   readonly toolName = 'Outil Pinceau';
   parameters: FormGroup;
-  private object: Polyline | null;
+  private object: ElementRef | null;
   private strokeWidth: FormControl;
   texture: FormControl;
   private lastPoint: Point = { x: 0, y: 0 };
 
   constructor(
     private texturesService: TexturesService,
-    private offsetManager: OffsetManagerService,
-    private colorTool: ToolsColorService,
+    /*private offsetManager: OffsetManagerService,
+    private colorTool: ToolsColorService,*/
   ) {
     this.strokeWidth = new FormControl(INITIAL_WIDTH);
     this.texture = new FormControl(this.texturesService.firstTexture.value);
@@ -44,14 +42,14 @@ export class BrushToolService implements ITools {
   private addPoint(dpoint: Point) {
     if (this.object) {
       this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
-      this.object.addPoint(this.lastPoint);
+      // this.object.addPoint(this.lastPoint);
     }
   }
 
   /// Création d'un polyline selon la position de l'evenement de souris, choisi les bonnes couleurs selon le clique de souris
   /// Récupère la bonne texture
-  onPressed(event: MouseEvent): IObjects | null {
-    if (this.strokeWidth.value && this.strokeWidth.value > 0) {
+  onPressed(event: MouseEvent): void {
+    /*if (this.strokeWidth.value && this.strokeWidth.value > 0) {
       const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
       this.lastPoint = { x: offset.x, y: offset.y };
       const texture: ITexture|null = this.texturesService.returnTexture(this.texture.value);
@@ -62,11 +60,10 @@ export class BrushToolService implements ITools {
       } else {
         this.object.primaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
         this.object.secondaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
-      }
-      return this.object;
-    } else {
+      }*/
+    /*} else {
       return null;
-    }
+    }*/
   }
 
   /// Réinitialisation de l'outil après avoir laisser le clique de la souris
@@ -78,5 +75,11 @@ export class BrushToolService implements ITools {
   /// Ajout d'un point seulon le déplacement de la souris
   onMove(event: MouseEvent): void {
     this.addPoint({ x: event.movementX, y: event.movementY });
+  }
+  onKeyUp(event: KeyboardEvent) {
+    return;
+  }
+  onKeyDown(event: KeyboardEvent) {
+    return;
   }
 }

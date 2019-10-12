@@ -1,10 +1,6 @@
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { ElementRef, EventEmitter, Injectable, Output, Renderer2 } from '@angular/core';
 import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
 import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
-import { IObjects } from 'src/app/objects/IObjects';
-import { Polyline } from 'src/app/objects/object-polyline/polyline';
-import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
-import { TexturesService } from '../textures/textures.service';
 
 /// Service qui contient les fonction pour dessiner a l'écran
 @Injectable({
@@ -12,22 +8,23 @@ import { TexturesService } from '../textures/textures.service';
 })
 export class DrawingService {
 
-  /// Emit the SVG elements string
   @Output()
-  svgString = new EventEmitter<string>();
+  drawingEmit = new EventEmitter<ElementRef>();
   id: string;
   saved = false;
+  renderer: Renderer2;
   lastObjectId = 0;
   isCreated = false;
   color: RGB = DEFAULT_RGB_COLOR;
   alpha: number = DEFAULT_ALPHA;
   width = 0;
   height = 0;
+  drawing: ElementRef;
 
-  private objectList: Map<number, IObjects>;
+  private objectList: Map<number, ElementRef>;
 
-  constructor(private textureService: TexturesService) {
-    this.objectList = new Map<number, IObjects>();
+  constructor() {
+    this.objectList = new Map<number, ElementRef>();
   }
 
   get rgbColorString() {
@@ -45,8 +42,8 @@ export class DrawingService {
   /// Retrait d'un objet selon son ID
   removeObject(id: number): void {
     this.saved = false;
+    this.renderer.removeChild(this.drawing, this.objectList.get(id));
     this.objectList.delete(id);
-    this.draw();
   }
 
   /// Rajouter une liste de Drawing Object a la map d'Object
@@ -68,45 +65,26 @@ export class DrawingService {
   }
 
   /// Ajout d'un objet dans la map d'objet du dessin
-  addObject(obj: IObjects) {
+  addObject(obj: ElementRef): number {
     this.saved = false;
     this.lastObjectId++;
-    obj.id = this.lastObjectId;
-    this.objectList.set(obj.id, obj);
-    this.draw();
+    this.renderer.setProperty(obj, 'id', this.lastObjectId);
+    this.objectList.set(this.lastObjectId, obj);
+    this.renderer.appendChild(this.drawing, obj);
+    return this.lastObjectId;
   }
 
   /// Récupère un objet selon son id dans la map d'objet
-  getObject(id: number): IObjects | undefined {
+  getObject(id: number): ElementRef | undefined {
     return this.objectList.get(id);
-  }
-
-  drawString(): string {
-    let drawResult = '';
-    for (const obj of this.objectList.values()) {
-      drawResult += obj.draw();
-    }
-    return drawResult;
-  }
-
-  /// Retourn un string avec tout les éléments svg des objets
-  draw() {
-    this.saved = false;
-    this.svgString.emit(this.drawString());
-  }
-
-  drawingObjectList(): any[] {
-    const drawingObjectList: any[] = [];
-    for (const obj of this.objectList.values()) {
-      drawingObjectList.push(obj.toDrawingObject());
-    }
-    return drawingObjectList;
   }
 
   /// Redéfini la dimension du dessin
   setDimension(width: number, height: number) {
     this.width = width;
     this.height = height;
+    this.renderer.setAttribute(this.drawing, 'width', width.toString());
+    this.renderer.setAttribute(this.drawing, 'height', height.toString());
   }
 
   /// Change la couleur du fond d'écran
@@ -120,9 +98,10 @@ export class DrawingService {
     this.saved = false;
     this.objectList.clear();
     this.lastObjectId = 0;
+    this.drawing = this.renderer.createElement('svg', 'svg');
     this.setDimension(width, height);
     this.setDrawingColor(rgba);
-    this.draw();
+    this.drawingEmit.emit(this.drawing);
   }
 
   toRectangleObject(drawing: any) {

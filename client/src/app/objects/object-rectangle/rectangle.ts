@@ -1,8 +1,10 @@
 import { RGBA } from '../../model/rgba.model';
 import { IObjects } from '../IObjects';
+import { ElementRef } from '@angular/core';
 
 /// Classe pour créer les objets rectangles
 export class RectangleObject implements IObjects {
+  objRef: ElementRef;
   primaryColor: RGBA;
   secondaryColor: RGBA;
   id = 1;
@@ -15,7 +17,8 @@ export class RectangleObject implements IObjects {
   strokeWidth = 0;
   style = '';
 
-  constructor(x: number, y: number, strokeWidth: number, style: string) {
+  constructor(x: number, y: number, strokeWidth: number, style: string, objRef: ElementRef) {
+    this.objRef = objRef;
     this.x = x;
     this.y = y;
     this.strokeWidth = strokeWidth;
