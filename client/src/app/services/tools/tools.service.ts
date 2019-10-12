@@ -6,6 +6,7 @@ import { EtampeToolService } from './etampe-tool/etampe-tool.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { PipetteToolService } from './pipette-tool/pipette-tool.service';
+import { PolygonToolService } from './polygon-tool/polygon-tool.service';
 import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
@@ -32,6 +33,7 @@ export class ToolsService {
     private ellipseTool: ToolEllipseService,
     private pipetteTool: PipetteToolService,
     private etampeService: EtampeToolService,
+    private polygonService: PolygonToolService,
 
   ) {
     this.initTools();
@@ -46,6 +48,7 @@ export class ToolsService {
     this.tools.push(this.ellipseTool);
     this.tools.push(this.pipetteTool);
     this.tools.push(this.etampeService);
+    this.tools.push(this.polygonService);
 
   }
 

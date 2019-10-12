@@ -8,6 +8,7 @@ import { EllipseToolParameterComponent } from './ellipse-tool-parameter/ellipse-
 import { EtampeToolParameterComponent } from './etampe-tool-parameter/etampe-tool-parameter.component';
 import { PencilToolParameterComponent } from './pencil-tool-parameter/pencil-tool-parameter.component';
 import { PipetteToolParameterComponent } from './pipette-tool-parameter/pipette-tool-parameter.component';
+import { PolygonToolParameterComponent } from './polygone-tool-parameter/polygone-tool-parameter.component';
 import { RectangleToolParameterComponent } from './rectangle-tool-parameter/rectangle-tool-parameter.component';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { RectangleToolParameterComponent } from './rectangle-tool-parameter/rect
     EllipseToolParameterComponent,
     PipetteToolParameterComponent,
     EtampeToolParameterComponent,
+    PolygonToolParameterComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +37,7 @@ import { RectangleToolParameterComponent } from './rectangle-tool-parameter/rect
     EllipseToolParameterComponent,
     PipetteToolParameterComponent,
     EtampeToolParameterComponent,
+    PolygonToolParameterComponent,
 
   ],
 })
