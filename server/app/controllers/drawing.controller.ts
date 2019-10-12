@@ -3,6 +3,7 @@ import { inject, injectable } from 'inversify';
 import { Drawing } from '../../../common/communication/drawing';
 import { DrawingService } from '../services/drawing.service';
 import Types from '../types';
+import { Message } from '../../../common/communication/message';
 
 @injectable()
 export class DrawingController {
@@ -39,17 +40,19 @@ export class DrawingController {
                     res.json('error');
                 });
             });
-        this.router.post('/by-id',
-            (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
-
+        this.router.post('/by-id', async (req: Request, res: Response, next: NextFunction) => {
+            // Send the request to the service and send the response
+            res.sendStatus(500);
+            try {
                 this.drawingService.getDrawingsById(req.body.id).then((d: Drawing) => {
-                    console.log(d);
-                    res.json(d);
+                    res.sendStatus(500);
                 }).catch((reason: unknown) => {
-                    res.json('error');
+                    res.sendStatus(500);
                 });
-            });
+            } catch (error) {
+                res.sendStatus(500);
+            }
+        });
         this.router.post('/by-tag',
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
@@ -65,13 +68,12 @@ export class DrawingController {
         this.router.post('/',
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                const drawing: Drawing = req.body;
-                this.drawingService.setDrawing(drawing).then((m: string) => {
-                    console.log(m);
-                    res.json(m);
+                this.drawingService.setDrawing(req.body).then((message: Message) => {
+                    res.json(message);
                 }).catch((reason: unknown) => {
-                    res.json('error');
+                    res.sendStatus(500);
                 });
+
             });
 
         this.router.delete('/:drawingName',
