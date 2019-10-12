@@ -41,11 +41,12 @@ export class DrawingService {
   }
 
   /// Ajout d'un objet dans la map d'objet du dessin
-  addObject(obj: ElementRef) {
+  addObject(obj: ElementRef): number {
     this.lastObjectId++;
     this.renderer.setProperty(obj, 'id', this.lastObjectId);
     this.objectList.set(this.lastObjectId, obj);
     this.renderer.appendChild(this.drawing, obj);
+    return this.lastObjectId;
   }
 
   /// Récupère un objet selon son id dans la map d'objet

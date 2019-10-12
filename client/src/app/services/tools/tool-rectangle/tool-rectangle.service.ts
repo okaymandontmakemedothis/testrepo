@@ -1,10 +1,7 @@
-import { Injectable, Renderer2, ElementRef } from '@angular/core';
+import { ElementRef, Injectable, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faSquareFull } from '@fortawesome/free-solid-svg-icons';
-import { IObjects } from 'src/app/objects/IObjects';
-import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
-import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
@@ -20,7 +17,7 @@ export class ToolRectangleService implements ITools {
   readonly toolName = 'Outil Rectangle';
   readonly id = ToolIdConstants.RECTANGLE_ID;
 
-  private object: RectangleObject | null;
+  private object: ElementRef | null;
 
   parameters: FormGroup;
   private strokeWidth: FormControl;
@@ -29,11 +26,11 @@ export class ToolRectangleService implements ITools {
   private isSquare = false;
   oldX = 0;
   oldY = 0;
-  firstX: number;
-  firstY: number;
+
+  x: number;
+  y: number;
 
   constructor(
-    private drawingService: DrawingService,
     private offsetManager: OffsetManagerService,
     private colorTool: ToolsColorService,
   ) {
@@ -43,42 +40,28 @@ export class ToolRectangleService implements ITools {
       strokeWidth: this.strokeWidth,
       rectStyle: this.rectStyle,
     });
-    this.registerEventListenerOnShift();
-  }
-
-  /// Quand le bouton shift et peser, le rectangle se transforme en carree et quand on lache le bouton, il redevient rectangle.
-  private registerEventListenerOnShift() {
-    window.addEventListener('keydown', (event) => {
-      if (event.shiftKey && this.object) {
-        this.setSquare();
-        this.drawingService.draw();
-      }
-    });
-
-    window.addEventListener('keyup', (event) => {
-      if (!event.shiftKey && this.object) {
-        this.unsetSquare();
-        this.drawingService.draw();
-      }
-    });
   }
 
   /// Quand le bouton de la sourie est enfoncé, on crée un rectangle et on le retourne
   /// en sortie et est inceré dans l'objet courrant de l'outil.
-  onPressed(event: MouseEvent, renderer: Renderer2): IObjects {
-    const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
-    this.firstX = offset.x;
-    this.firstY = offset.y;
-    const rect = renderer.createElement('rect', 'svg');
-    renderer.setAttribute(rect, 'x', this.firstX.toString());
-    renderer.setAttribute(rect, 'y', this.firstY.toString());
-    this.object = new RectangleObject(offset.x, offset.y, this.strokeWidth.value, this.rectStyle.value, rect);
-    if (event.button === 0) {
-      this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
-      this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
-    } else {
-      this.object.primaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
-      this.object.secondaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+  onPressed(event: MouseEvent, renderer: Renderer2): ElementRef | null {
+    if (event.button === 0 || event.button === 2) {
+
+      const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+      this.x = offset.x;
+      this.y = offset.y;
+      this.object = renderer.createElement('rect', 'svg');
+      renderer.setAttribute(this.object, 'x', this.x.toString());
+      renderer.setAttribute(this.object, 'y', this.y.toString());
+
+      renderer.setStyle(this.object, 'stroke-width', this.strokeWidth.value.toString());
+      renderer.setStyle(this.object, 'stroke-alignment', 'outer');
+
+      if (event.button === 0) {
+        this.setStyle(renderer);
+      } else {
+        this.setStyle(renderer, false);
+      }
     }
     return this.object;
   }
@@ -86,68 +69,119 @@ export class ToolRectangleService implements ITools {
   /// Quand le bouton de la sourie est relaché, l'objet courrant de l'outil est mis a null.
   onRelease(event: MouseEvent, renderer: Renderer2): void {
     this.object = null;
+    this.isSquare = false;
   }
 
   /// Quand le bouton de la sourie est apuyé et on bouge celle-ci, l'objet courrant subit des modifications.
   onMove(event: MouseEvent, renderer: Renderer2): void {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
     if (this.object) {
-      renderer.setAttribute(this.object.objRef, 'width', (offset.x - this.firstX).toString());
-      renderer.setAttribute(this.object.objRef, 'height', (offset.y - this.firstY).toString());
-      this.setSize(offset.x, offset.y);
+      this.setSize(offset.x, offset.y, renderer);
     }
   }
 
-  /// Active le mode carré et assigne le size.
-  private setSquare() {
-    this.isSquare = true;
-    this.setSize(this.oldX, this.oldY);
+  onKeyDown(event: KeyboardEvent, renderer: Renderer2): void {
+    if (event.shiftKey && this.object) {
+      this.isSquare = true;
+      this.setSize(this.oldX, this.oldY, renderer);
+    }
   }
 
-  /// Désactive le mode carré et assigne le size.
-  private unsetSquare() {
-    this.isSquare = false;
-    this.setSize(this.oldX, this.oldY);
+  onKeyUp(event: KeyboardEvent, renderer: Renderer2): void {
+    if (!event.shiftKey && this.object) {
+      this.isSquare = false;
+      this.setSize(this.oldX, this.oldY, renderer);
+    }
   }
 
   /// Transforme le size de l'objet courrant avec un x et un y en entrée
-  private setSize(x: number, y: number): void {
+  private setSize(mouseX: number, mouseY: number, renderer: Renderer2): void {
     if (this.object) {
-      this.oldX = x;
-      this.oldY = y;
+      this.oldX = mouseX;
+      this.oldY = mouseY;
 
-      this.object.width = x - this.firstX;
-      this.object.height = y - this.firstY;
+      let width = mouseX - this.x - this.strokeWidth.value;
+      let height = mouseY - this.y - this.strokeWidth.value;
 
-      if (this.object.width < 0) {
-        this.object.x = x;
-        this.object.width = this.firstX - this.object.x;
+      renderer.setAttribute(this.object, 'x', (this.x + this.strokeWidth.value / 2).toString());
+      renderer.setAttribute(this.object, 'y', (this.y + this.strokeWidth.value / 2).toString());
+
+      if (width < 0) {
+        renderer.setAttribute(this.object, 'x', (mouseX + this.strokeWidth.value / 2).toString());
+        width = Math.abs(width) - 2 * this.strokeWidth.value;
       }
-      if (this.object.height < 0) {
-        this.object.y = y;
-        this.object.height = this.firstY - this.object.y;
+      if (height < 0) {
+        renderer.setAttribute(this.object, 'y', (mouseY + this.strokeWidth.value / 2).toString());
+        height = Math.abs(height) - 2 * this.strokeWidth.value;
       }
 
       if (this.isSquare) {
-        if (y < this.firstY && x < this.firstX) {
-          if (this.object.width < this.object.height) {
-            this.object.height = this.object.width;
-            this.object.y = this.firstY - this.object.width;
+        if (mouseY < this.y && mouseX < this.x) {
+          if (width < height) {
+            height = width;
+            renderer.setAttribute(this.object, 'y', (this.y - width).toString());
           } else {
-            this.object.width = this.object.height;
-            this.object.x = this.firstX - this.object.height;
+            width = height;
+            renderer.setAttribute(this.object, 'x', (this.x - height).toString());
           }
-        } else if (this.object.width < this.object.height) {
-          this.object.height = this.object.width;
-          if (y < this.firstY) {
-            this.object.y = this.firstX + this.firstY - x;
+        } else if (width < height) {
+          height = width;
+          if (mouseY < this.y) {
+            renderer.setAttribute(this.object, 'y', (this.x + this.y - mouseX).toString());
           }
         } else {
-          this.object.width = this.object.height;
-          if (x < this.firstX) {
-            this.object.x = this.firstX + this.firstY - y;
+          width = height;
+          if (mouseX < this.x) {
+            renderer.setAttribute(this.object, 'x', (this.x + this.y - mouseY).toString());
           }
         }
+      }
+
+      renderer.setAttribute(this.object, 'width', (width).toString());
+      renderer.setAttribute(this.object, 'height', (height).toString());
+    }
+  }
+
+  /// Pour definir le style du rectangle (complet, contour, centre)
+  private setStyle(renderer: Renderer2, isLeft: boolean = true) {
+    switch (this.rectStyle.value) {
+      case 'center': {
+        if (isLeft) {
+          renderer.setStyle(this.object, 'fill', `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b},${this.colorTool.primaryAlpha})`);
+        } else {
+          renderer.setStyle(this.object, 'fill', `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b},${this.colorTool.secondaryAlpha})`);
+        }
+        return;
+      }
+      case 'border': {
+        renderer.setStyle(this.object, 'fill', `none`);
+        if (isLeft) {
+          renderer.setStyle(this.object, 'stroke', `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b},${this.colorTool.secondaryAlpha})`);
+        } else {
+          renderer.setStyle(this.object, 'stroke', `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b},${this.colorTool.primaryAlpha})`);
+        }
+        return;
+      }
+      case 'fill': {
+        if (isLeft) {
+          renderer.setStyle(this.object, 'fill', `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b},${this.colorTool.primaryAlpha})`);
+          renderer.setStyle(this.object, 'stroke', `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b},${this.colorTool.secondaryAlpha})`);
+        } else {
+          renderer.setStyle(this.object, 'stroke', `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b},${this.colorTool.primaryAlpha})`);
+          renderer.setStyle(this.object, 'fill', `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b},${this.colorTool.secondaryAlpha})`);
+        }
+        return;
+      }
+      default: {
+        return;
       }
     }
   }

@@ -11,4 +11,6 @@ export interface ITools {
     onPressed(event: MouseEvent, renderer: Renderer2): ElementRef | null;
     onRelease(event: MouseEvent, renderer: Renderer2): void;
     onMove(event: MouseEvent, renderer: Renderer2): void;
+    onKeyDown(event: KeyboardEvent, renderer: Renderer2): void;
+    onKeyUp(event: KeyboardEvent, renderer: Renderer2): void;
 }
