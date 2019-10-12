@@ -31,7 +31,8 @@ export class ToolsApplierColorsService implements ITools {
       let property: string;
 
       if (this.object) {
-        if (event.button === 0) { // left click so set fill to a color
+        property = propertyMap ? propertyMap.get('primaryColor') as string : '';
+        if (event.button === 0 && target.style.getPropertyValue(property) !== 'none') { // left click so set fill to a color
           property = propertyMap ? propertyMap.get('primaryColor') as string : '';
           this.drawingService.renderer.setStyle(this.object, property,
             `rgb(${this.toolsColorService.primaryColor.r},${this.toolsColorService.primaryColor.g},
@@ -39,14 +40,17 @@ export class ToolsApplierColorsService implements ITools {
 
           property = propertyMap ? propertyMap.get('primaryOpacity') as string : '';
           this.drawingService.renderer.setStyle(this.object, property, `${this.toolsColorService.primaryAlpha}`);
-        } else {     // right click so set stroke to a color
+        } else {
           property = propertyMap ? propertyMap.get('secondaryColor') as string : '';
-          this.drawingService.renderer.setStyle(this.object, 'stroke',
-            `rgb(${this.toolsColorService.secondaryColor.r},${this.toolsColorService.secondaryColor.g},
+          if (event.button === 2 && target.style.getPropertyValue(property) !== '') {     // right click so set stroke to a color
+            property = propertyMap ? propertyMap.get('secondaryColor') as string : '';
+            this.drawingService.renderer.setStyle(this.object, 'stroke',
+              `rgb(${this.toolsColorService.secondaryColor.r},${this.toolsColorService.secondaryColor.g},
             ${this.toolsColorService.secondaryColor.b})`);
 
-          property = propertyMap ? propertyMap.get('secondaryOpacity') as string : '';
-          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.toolsColorService.secondaryAlpha}`);
+            property = propertyMap ? propertyMap.get('secondaryOpacity') as string : '';
+            this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.toolsColorService.secondaryAlpha}`);
+          }
         }
       }
     }
