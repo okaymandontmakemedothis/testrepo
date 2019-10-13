@@ -3,7 +3,7 @@ export interface DrawingPreview {
     tags: string[];
     width: number;
     height: number;
-    thumbnail: string|undefined;
+    thumbnail: string | undefined;
 
 }
 
@@ -13,8 +13,7 @@ export interface Drawing {
     width: number;
     height: number;
     backGroundColor: { rgb: { r: number, g: number, b: number }, a: number };
-    drawingObjects: DrawingObject[];
-    thumbnail: string|undefined;
+    svg: string | undefined;
 }
 
 export interface DrawingObject {
