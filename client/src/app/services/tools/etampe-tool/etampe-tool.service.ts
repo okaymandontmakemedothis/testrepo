@@ -57,7 +57,6 @@ export class EtampeToolService implements ITools {
     }
   }
 
-
   onPressed(event: MouseEvent): void {
     if (event.button === 0) {
       const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);

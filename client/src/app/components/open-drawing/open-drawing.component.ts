@@ -13,6 +13,7 @@ import { Drawing } from '../../../../../common/communication/drawing';
 export class OpenDrawingComponent {
   selectedDrawing: Drawing;
   drawingPreview = new BehaviorSubject<Drawing[]>([{
+    id: '0',
     name: '', tags: [''], width: 0, height: 0, backGroundColor: { rgb: { r: 0, g: 0, b: 0 }, a: 1 },
     svg: '',
   }]);

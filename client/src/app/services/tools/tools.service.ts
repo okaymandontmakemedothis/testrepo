@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BrushToolService } from './brush-tool/brush-tool.service';
+import { EtampeToolService } from './etampe-tool/etampe-tool.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { PipetteToolService } from './pipette-tool/pipette-tool.service';
 import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
-import { EtampeToolService } from './etampe-tool/etampe-tool.service';
 
 /// Service permettant de gérer l'outil présent selon son ID
 /// Appelle les bonnes fonctions d'évenement souris selon l'outil selectionner
