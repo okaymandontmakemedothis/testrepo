@@ -5,7 +5,6 @@ import { Point } from 'src/app/model/point.model';
 import { RGB } from 'src/app/model/rgb.model';
 import { TexturesService } from 'src/app/services/textures/textures.service';
 import { DrawingService } from '../../drawing/drawing.service';
-// import { ITexture } from 'src/app/textures/ITexture';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
@@ -65,8 +64,8 @@ export class BrushToolService implements ITools {
         this.drawingService.renderer.setAttribute(point, 'rx', (this.strokeWidth.value / 2).toString());
         this.drawingService.renderer.setStyle(point, 'stroke', `none`);
         this.dotId = this.drawingService.addObject(point);
-
         this.object = this.drawingService.renderer.createElement('polyline', 'svg');
+
         if (this.object) {
           this.drawingService.renderer.setStyle(this.object, 'stroke-width', this.strokeWidth.value.toString());
           this.drawingService.renderer.setAttribute(this.object, 'points', `${this.lastPoint.x} ${this.lastPoint.y}`);
@@ -85,15 +84,20 @@ export class BrushToolService implements ITools {
 
   /// Définir les couleurs des objets
   private setColors(rgb: RGB, a: number, point: SVGElement) {
-    this.drawingService.renderer.setStyle(
-      this.object, 'stroke', `rgb(${rgb.r},${rgb.g},
-    ${rgb.b})`);
-    this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${a}`);
-
-    this.drawingService.renderer.setStyle(
-      point, 'fill', `rgb(${rgb.r},${rgb.g},
-    ${rgb.b})`);
-    this.drawingService.renderer.setStyle(point, 'fillOpacity', `${a}`);
+    const texture: SVGDefsElement | null = this.texturesService.getTextureElement(
+      this.texture.value, { rgb, a }, this.lastPoint.x, this.lastPoint.y, this.drawingService.renderer);
+    if (texture) {
+      this.drawingService.addObject(texture);
+      const texturePattern: SVGPatternElement = texture.children.item(0) as SVGPatternElement;
+      let textureId = '';
+      if (texturePattern) {
+        textureId = texturePattern.id;
+      }
+      this.drawingService.renderer.setStyle(
+        this.object, 'stroke', `url(#${textureId})`);
+      this.drawingService.renderer.setStyle(
+        point, 'fill', `url(#${texture.id})`);
+    }
   }
 
   /// Réinitialisation de l'outil après avoir laisser le clique de la souris

@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
+<<<<<<< HEAD
 import { EtampeToolService } from './etampe-tool/etampe-tool.service';
 import { GridService } from './grid-tool/grid.sevice';
 // import { BrushToolService } from './brush-tool/brush-tool.service';
+=======
+import { BrushToolService } from './brush-tool/brush-tool.service';
+import { EtampeToolService } from './etampe-tool/etampe-tool.service';
+>>>>>>> d5aeac0be2dc6736aa2d9e4b427bf31d086d4086
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { PipetteToolService } from './pipette-tool/pipette-tool.service';
@@ -22,7 +27,7 @@ export class ToolsService {
 
   constructor(
     private pencilTool: PencilToolService,
-    /*private brushTool: BrushToolService,*/
+    private brushTool: BrushToolService,
     private colorApplicator: ToolsApplierColorsService,
     private rectangleTool: ToolRectangleService,
     private ellipseTool: ToolEllipseService,
@@ -38,7 +43,7 @@ export class ToolsService {
   /// Initialiser la liste d'outil
   private initTools(): void {
     this.tools.set(this.pencilTool.id, this.pencilTool);
-    /*this.tools.set(this.brushTool.id, this.brushTool);*/
+    this.tools.set(this.brushTool.id, this.brushTool);
     this.tools.set(this.colorApplicator.id, this.colorApplicator);
     this.tools.set(this.rectangleTool.id, this.rectangleTool);
     this.tools.set(this.ellipseTool.id, this.ellipseTool);
