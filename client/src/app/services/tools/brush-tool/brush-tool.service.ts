@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faPaintBrush, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Point } from 'src/app/model/point.model';

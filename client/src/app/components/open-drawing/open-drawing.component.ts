@@ -31,7 +31,7 @@ export class OpenDrawingComponent {
     openDrawing(drawing: Drawing) {
       this.drawingService.isCreated = true;
       this.drawingService.newDrawing(drawing.width, drawing.height, drawing.backGroundColor);
-      this.drawingService.addDrawingObjectList(drawing.drawingObjects);
+      //this.drawingService.addDrawingObjectList(drawing.drawingObjects);
       this.dialogRef.close();
 
     }

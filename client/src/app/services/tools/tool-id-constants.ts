@@ -6,6 +6,6 @@ export class ToolIdConstants {
     static readonly RECTANGLE_ID: number = 2;
     static readonly ELLIPSE_ID: number = 3;
     static readonly PIPETTE_ID: number = 4;
-    static readonly ETAMPE_ID: number = 6;
+    static readonly ETAMPE_ID: number = 5;
 
 }

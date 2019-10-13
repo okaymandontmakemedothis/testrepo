@@ -1,5 +1,6 @@
 import { RGBA } from '../../model/rgba.model';
 import { IObjects } from '../IObjects';
+import { ElementRef } from '@angular/core';
 
 /// Classe pour créer les objets rectangles
 const defaultHeight = 50;
@@ -10,7 +11,7 @@ export class EtampeObject implements IObjects {
   id = 1;
   x = 0;
   y = 0;
-
+  objRef: ElementRef;
   height = defaultHeight;
   width = defaultWidth;
   angle = 0;

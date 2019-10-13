@@ -1,7 +1,7 @@
-import { ElementRef, EventEmitter, Injectable, Output, Renderer2 } from '@angular/core';
+import { EventEmitter, Injectable, Output, Renderer2 } from '@angular/core';
 import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
 import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
-import { Drawing } from '../../../../../common/communication/drawing';
+// import { Drawing } from '../../../../../common/communication/drawing';
 
 /// Service qui contient les fonction pour dessiner a l'écran
 @Injectable({
