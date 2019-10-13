@@ -13,8 +13,7 @@ export class TagService {
     try {
       const tags: Tag[] = await this.http.get<Tag[]>('http://localhost:3000/api/tags').toPromise();
       return tags.map((tag) => tag.name);
-    }
-    catch (error) {
+    } catch (error) {
       return [];
     }
   }
