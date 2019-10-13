@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { EtampeToolService } from './etampe-tool/etampe-tool.service';
+import { GridService } from './grid-tool/grid.sevice';
 // import { BrushToolService } from './brush-tool/brush-tool.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
@@ -6,7 +8,6 @@ import { PipetteToolService } from './pipette-tool/pipette-tool.service';
 import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
-import { EtampeToolService } from './etampe-tool/etampe-tool.service';
 
 /// Service permettant de gérer l'outil présent selon son ID
 /// Appelle les bonnes fonctions d'évenement souris selon l'outil selectionner
@@ -27,6 +28,7 @@ export class ToolsService {
     private ellipseTool: ToolEllipseService,
     private pipetteTool: PipetteToolService,
     private etampeService: EtampeToolService,
+    private gridService: GridService,
 
   ) {
     this.initTools();
@@ -42,6 +44,7 @@ export class ToolsService {
     this.tools.set(this.ellipseTool.id, this.ellipseTool);
     this.tools.set(this.pipetteTool.id, this.pipetteTool);
     this.tools.set(this.etampeService.id, this.etampeService);
+    this.tools.set(this.gridService.id, this.gridService);
   }
 
   /// Selectionner un outil avec son id

@@ -13,7 +13,7 @@ import { Component } from '@angular/core';
   templateUrl: './save-drawing.component.html',
   styleUrls: ['./save-drawing.component.scss'],
 })
-export class SaveDrawingComponent{ //implements AfterViewInit {
+export class SaveDrawingComponent { // implements AfterViewInit {
 
   // visible = true;
   // selectable = true;

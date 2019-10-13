@@ -1,6 +1,6 @@
+import { ElementRef } from '@angular/core';
 import { RGBA } from '../../model/rgba.model';
 import { IObjects } from '../IObjects';
-import { ElementRef } from '@angular/core';
 
 /// Classe pour créer les objets rectangles
 const defaultHeight = 50;

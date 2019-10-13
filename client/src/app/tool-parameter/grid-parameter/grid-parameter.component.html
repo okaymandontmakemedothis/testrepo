@@ -1,0 +1,32 @@
+<div class="parameter">
+    <h4>{{toolName}}</h4>
+    <div [formGroup]='form'>
+        <mat-grid-list cols="4" rowHeight="70px">
+           
+            <mat-grid-tile [colspan]="2">
+                <mat-form-field>
+                    <mat-label>Taille des carrés</mat-label>
+                    <input matInput formControlName='sizeCell' type="number" placeholder="Taille des carrés" min="1"
+                        oninput="validity.valid||(value='');" onblur="validity.valid||(value='');">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="1">
+                <button mat-button (click) = "changeGridSize()"><mat-icon>done</mat-icon></button> 
+            </mat-grid-tile> 
+
+          <mat-grid-tile [colspan]="2">
+                <mat-form-field>
+                    <mat-label>Transparence</mat-label>
+                    <input matInput formControlName='transparence' type="number" step="0.01" placeholder="Transparence"  max="1.00" 
+                        min="0.00" oninput="validity.valid||(value='');" onblur="validity.valid||(value='');">
+                </mat-form-field>            
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="1">
+                <button mat-button (click) = "changeOpacity()"><mat-icon>done</mat-icon></button> 
+            </mat-grid-tile>  
+        </mat-grid-list>
+    </div>
+</div>
+<div [formGroup]='form'>
+    <mat-checkbox formControlName='activerGrille' (change)="onSelection($event)" >Activer la grille</mat-checkbox>
+</div>
