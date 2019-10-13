@@ -27,6 +27,23 @@
         </mat-grid-list>
     </div>
 </div>
+<div>
+  <mat-label>Couleur de la grille</mat-label>
+      <mat-button-toggle-group [(value)]="currentStyle" #group="matButtonToggleGroup">
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[0].tooltip" [value]="styles[0].id"
+          (click)="changeColor(styles[0].id)">
+          <svg width=26 height=26>
+            <rect x=3 y=3 width=20 height=20 fill="black" stroke="black" stroke-width="3"></rect>
+          </svg>
+        </mat-button-toggle>
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[1].tooltip" [value]="styles[1].id"
+          (click)="changeColor(styles[1].id)">
+          <svg width=26 height=26>
+            <rect x=3 y=3 width=20 height=20 fill="white" stroke="black" stroke-width="1"></rect>
+          </svg>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+</div>
 <div [formGroup]='form'>
     <mat-checkbox formControlName='activerGrille' (change)="onSelection($event)" >Activer la grille</mat-checkbox>
 </div>

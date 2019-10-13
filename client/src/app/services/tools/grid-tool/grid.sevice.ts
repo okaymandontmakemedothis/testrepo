@@ -20,6 +20,7 @@ export class GridService implements ITools {
     sizeCell: FormControl;
     activerGrille: FormControl;
     transparence: FormControl;
+    color: FormControl;
     object: SVGLineElement | null;
     x: number;
     y: number;
@@ -29,14 +30,17 @@ export class GridService implements ITools {
     pattern: SVGPatternElement;
     form: FormGroup;
 
+
     constructor(private drawingService: DrawingService, ) { // private newDrawingService: NewDrawingService) {
         this.sizeCell = new FormControl(INITIAL_CELL_SIZE, Validators.min(1));
         this.transparence = new FormControl(INITIAL_TRANSPARENCE, Validators.min(0.1));
         this.activerGrille = new FormControl(false);
+        this.color = new FormControl ('black');
         this.parameters = new FormGroup({
             sizeCell: this.sizeCell,
             transparence: this.transparence,
             activerGrille: this.activerGrille,
+            color: this.color,
         });
         // this.form =  this.newDrawingService.sizeGroup;
         // this.screenSizeX = (this.form.get('width') as FormControl).value;
@@ -91,7 +95,7 @@ export class GridService implements ITools {
     }
     private setStyle() {
         this.drawingService.renderer.setStyle(this.rect, 'fill', 'none');
-        this.drawingService.renderer.setStyle(this.rect, 'stroke', 'rgb(0,0,0)');
+        this.drawingService.renderer.setStyle(this.rect, 'stroke', this.color.value);
         this.drawingService.renderer.setStyle(this.rect, 'stroke-width', '1');
         this.drawingService.renderer.setStyle(this.rect, 'stroke-opacity', this.transparence.value.toString());
     }
@@ -109,5 +113,9 @@ export class GridService implements ITools {
 
     changeOpacity() {
         this.drawingService.renderer.setStyle(this.rect, 'stroke-opacity', this.transparence.value.toString());
+    }
+
+    changeColor() {
+        this.drawingService.renderer.setStyle(this.rect, 'stroke', this.color.value);
     }
 }

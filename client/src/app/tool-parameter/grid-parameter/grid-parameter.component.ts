@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { GridService } from 'src/app/services/tools/grid-tool/grid.sevice';
+import { gridColor } from 'src/app/model/grid-model';
+
+const NOIR = 0;
+const BLANC = 1;
 
 @Component({
   selector: 'app-grid-parameter',
@@ -11,6 +15,19 @@ export class GridParameterComponent implements OnInit {
   form: FormGroup;
   gridAlreadyCreated = false;
   constructor(private gridService: GridService) { }
+  currentColor = 0;
+  styles: gridColor[] = [
+    {
+      id: NOIR,
+      style: 'black',
+      tooltip: 'Noir',
+    },
+    {
+      id: BLANC,
+      style: 'white',
+      tooltip: 'blanc',
+    },
+  ];
 
   ngOnInit(): void {
     this.form = this.gridService.parameters;
@@ -33,7 +50,12 @@ export class GridParameterComponent implements OnInit {
   changeGridSize() {
     this.gridService.changeGridSize();
   }
-
+  changeColor(id: number) {
+    this.form.patchValue({
+      color: this.styles[id].style,
+    });
+    this.gridService.changeColor();
+  }
   onSelection(event: any) {
     console.log(event);
     if ((this.form.get('activerGrille') as FormControl).value === true) {
