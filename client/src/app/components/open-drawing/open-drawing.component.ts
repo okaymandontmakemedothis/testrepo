@@ -4,7 +4,6 @@ import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
-import { OpenDrawingService } from 'src/app/services/open-drawing/open-drawing.service';
 import { Drawing } from '../../../../../common/communication/drawing';
 
 @Component({
@@ -29,13 +28,13 @@ export class OpenDrawingComponent {
   // parsedHtml : XMLDocument
   constructor(
     public dialogRef: MatDialogRef<OpenDrawingComponent>,
-    private openDrawingService: OpenDrawingService,
+    // private openDrawingService: OpenDrawingService,
     public drawingService: DrawingService,
     private renderer: Renderer2,
   ) {
-    this.openDrawingService.getDrawingPreview()
-      .subscribe(this.drawingPreview);
-    this.drawingPreview.subscribe(() => this.isLoaded = true);
+    // this.openDrawingService.getDrawingPreview()
+    //   .subscribe(this.drawingPreview);
+    // this.drawingPreview.subscribe(() => this.isLoaded = true);
   }
 
   getThumbnail(drawingObject: Drawing) {

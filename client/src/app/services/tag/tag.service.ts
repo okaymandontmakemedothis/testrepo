@@ -10,7 +10,12 @@ export class TagService {
   constructor(private http: HttpClient) { }
 
   async retrieveTags(): Promise<string[]> {
-    const tags: Tag[] = await this.http.get<Tag[]>('http://localhost:3000/api/tags').toPromise();
-    return tags.map((tag) => tag.name);
+    try {
+      const tags: Tag[] = await this.http.get<Tag[]>('http://localhost:3000/api/tags').toPromise();
+      return tags.map((tag) => tag.name);
+    }
+    catch (error) {
+      return [];
+    }
   }
 }

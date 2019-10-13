@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { DrawingPreview } from '../../../../../common/communication/drawing';
 import { Message, ShortcutClavier, WelcomeMessage } from '../../../../../common/communication/message';
 
 /// Service qui rassembler les getter des serveurs
@@ -29,11 +28,11 @@ export class IndexService {
     );
   }
   // GET tout les dessins du backend
-  getDrawingPreview(): Observable<DrawingPreview[]> {
-    return this.http.get<DrawingPreview[]>('http://localhost:3000/api/drawings/').pipe(
-      catchError(this.handleError<DrawingPreview[]>('getDrawingPreview')),
-    );
-  }
+  // getDrawingPreview(): Observable<DrawingPreview[]> {
+  //   return this.http.get<DrawingPreview[]>('http://localhost:3000/api/drawings/').pipe(
+  //     catchError(this.handleError<DrawingPreview[]>('getDrawingPreview')),
+  //   );
+  // }
 
   /// Transmet le message contenue dans le JSON file pour le message de shortcut clavier
   aideGet(): Observable<ShortcutClavier> {

@@ -14,7 +14,6 @@ export class DrawingService {
   saved = false;
   renderer: Renderer2;
   svgString = new EventEmitter<string>();
-  isSaved = false;
   lastObjectId = 0;
   isCreated = false;
   color: RGB = DEFAULT_RGB_COLOR;
@@ -33,23 +32,26 @@ export class DrawingService {
   }
 
   get rgbaColorString() {
-    return 'rgb(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ',' + this.alpha + ')';
+    return 'rgba(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ',' + this.alpha + ')';
   }
 
   get isSaved(): boolean {
     return this.saved || !this.isCreated;
   }
 
+  get objects(): Map<number, SVGElement> {
+    return this.objectList;
+  }
   /// Retrait d'un objet selon son ID
   removeObject(id: number): void {
     this.renderer.removeChild(this.drawing, this.objectList.get(id));
-    this.isSaved = false;
+    this.saved = false;
     this.objectList.delete(id);
   }
 
   /// Ajout d'un objet dans la map d'objet du dessin
   addObject(obj: SVGElement): number {
-    this.isSaved = false;
+    this.saved = false;
     this.lastObjectId++;
     this.renderer.setProperty(obj, 'id', this.lastObjectId);
     this.objectList.set(this.lastObjectId, obj);
@@ -87,30 +89,30 @@ export class DrawingService {
     this.drawingEmit.emit(this.drawing);
   }
 
-  toRectangleObject(drawing: any) {
-    const rectangleObject = new RectangleObject(drawing.x, drawing.y, drawing.strokeWidth, drawing.style);
-    rectangleObject.id = drawing.objectId;
-    rectangleObject.height = drawing.height;
-    rectangleObject.width = drawing.width;
-    rectangleObject.primaryColor = drawing.primaryRGBA;
-    rectangleObject.secondaryColor = drawing.secondaryRGBA;
-    return rectangleObject;
-  }
+  // toRectangleObject(drawing: any) {
+  //   const rectangleObject = new RectangleObject(drawing.x, drawing.y, drawing.strokeWidth, drawing.style);
+  //   rectangleObject.id = drawing.objectId;
+  //   rectangleObject.height = drawing.height;
+  //   rectangleObject.width = drawing.width;
+  //   rectangleObject.primaryColor = drawing.primaryRGBA;
+  //   rectangleObject.secondaryColor = drawing.secondaryRGBA;
+  //   return rectangleObject;
+  // }
 
-  toPolyLineObject(drawingObject: any): Polyline {
-    const texture = this.textureService.returnTexture(drawingObject.testureId);
-    const polylineObject = new Polyline(drawingObject.pointsList[0], drawingObject.strokeWidth, texture);
-    polylineObject.pointsList = drawingObject.pointsList;
+  // toPolyLineObject(drawingObject: any): Polyline {
+  //   const texture = this.textureService.returnTexture(drawingObject.testureId);
+  //   const polylineObject = new Polyline(drawingObject.pointsList[0], drawingObject.strokeWidth, texture);
+  //   polylineObject.pointsList = drawingObject.pointsList;
 
-    polylineObject.id = drawingObject.objectId;
-    polylineObject.x = drawingObject.x;
-    polylineObject.y = drawingObject.y;
-    polylineObject.height = drawingObject.height;
-    polylineObject.width = drawingObject.width;
-    polylineObject.primaryColor = drawingObject.primaryRGBA;
-    polylineObject.secondaryColor = drawingObject.secondaryRGBA;
-    polylineObject.pointsList = drawingObject.pointsList;
+  //   polylineObject.id = drawingObject.objectId;
+  //   polylineObject.x = drawingObject.x;
+  //   polylineObject.y = drawingObject.y;
+  //   polylineObject.height = drawingObject.height;
+  //   polylineObject.width = drawingObject.width;
+  //   polylineObject.primaryColor = drawingObject.primaryRGBA;
+  //   polylineObject.secondaryColor = drawingObject.secondaryRGBA;
+  //   polylineObject.pointsList = drawingObject.pointsList;
 
-    return polylineObject;
-  }
+  //   return polylineObject;
+  // }
 }

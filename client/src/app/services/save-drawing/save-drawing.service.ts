@@ -102,7 +102,7 @@ export class SaveDrawingService {
       width: this.drawingService.width,
       height: this.drawingService.height,
       backGroundColor: { rgb: this.drawingService.color, a: this.drawingService.alpha },
-      svg: 'this.drawingService.drawString()',
+      svg: this.drawingService.drawing.innerHTML,
     };
     try {
       await this.http.post<Message>('http://localhost:3000/api/drawings/',

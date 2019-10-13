@@ -192,11 +192,6 @@ export class ToolEllipseService implements ITools {
       this.drawingService.renderer.setAttribute(this.contour, 'height', (height + this.strokeWidth.value).toString());
     }
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> feature/renderer2
 
   private setStyle(isLeft: boolean = true) {
     switch (this.ellipseStyle.value) {
@@ -262,8 +257,4 @@ export class ToolEllipseService implements ITools {
       }
     }
   }
-<<<<<<< HEAD
->>>>>>> feature/renderer2
-=======
->>>>>>> feature/renderer2
 }
