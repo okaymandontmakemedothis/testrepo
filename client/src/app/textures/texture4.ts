@@ -15,7 +15,7 @@ export class TextureFour implements ITexture {
     }
 
     /// Retourne la ligne html du pattern
-    getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number, renderer: Renderer2): SVGDefsElement {
+    getPattern(primaryColor: RGBA, id: number, x: number, y: number, renderer: Renderer2): SVGDefsElement {
         const texture: SVGDefsElement = renderer.createElement('defs', 'svg');
         const pattern: SVGPatternElement = renderer.createElement('pattern', 'svg');
         renderer.setProperty(pattern, 'id', this.getTextureIDName(id));

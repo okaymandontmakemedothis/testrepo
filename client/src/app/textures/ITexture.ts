@@ -5,5 +5,5 @@ export interface ITexture {
     readonly id: number;
     readonly name: string;
     getTextureIDName(id: number): string;
-    getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number, renderer: Renderer2): SVGDefsElement;
+    getPattern(primaryColor: RGBA, id: number, x: number, y: number, renderer: Renderer2): SVGDefsElement;
 }

@@ -1,4 +1,4 @@
-import { ElementRef, Renderer2 } from '@angular/core';
+import { Renderer2 } from '@angular/core';
 import { RGBA } from 'src/app/model/rgba.model';
 import { ITexture } from './ITexture';
 import { TEXTURE_ONE } from './texture-id';
@@ -15,7 +15,7 @@ export class TextureOne implements ITexture {
     }
 
     /// Retourne la ligne html du pattern
-    getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number, renderer: Renderer2): SVGDefsElement {
+    getPattern(primaryColor: RGBA, id: number, x: number, y: number, renderer: Renderer2): SVGDefsElement {
 
         const texture: SVGDefsElement = renderer.createElement('defs', 'svg');
         const pattern: SVGPatternElement = renderer.createElement('pattern', 'svg');

@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faStamp } from '@fortawesome/free-solid-svg-icons';
@@ -24,7 +24,7 @@ export class EtampeToolService implements ITools {
   parameters: FormGroup;
   private etampe: FormControl;
   private facteur: FormControl;
-  private object: SVGImageElement | null;
+  //private object: SVGImageElement | null;
   intervaleDegresRotation = 15;
 
   constructor(/* private offsetManager: OffsetManagerService, private drawingService: DrawingService */) {
