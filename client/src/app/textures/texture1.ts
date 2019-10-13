@@ -15,19 +15,7 @@ export class TextureOne implements ITexture {
     }
 
     /// Retourne la ligne html du pattern
-    getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number, renderer: Renderer2): ElementRef {
-        //        `<defs>
-        // <pattern id="${this.getTextureIDName(id)}" width="12" height="24" viewBox="0 0 12 24" x="${x}" y="${y}"
-        //  patternTransform="rotate(${this.randomAngle})" patternUnits="userSpaceOnUse">
-        // <g fill="none" fill-rule="evenodd">
-        // <g fill="rgb(${primaryColor.rgb.r},${primaryColor.rgb.g},${primaryColor.rgb.b})"
-        //  fill-opacity="${primaryColor.a}">
-        // <path d="M2 0h2v12H2V0zm1 20c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM9 8c1.105
-        //  0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-1 4h2v12H8V12z"/>
-        // </g>
-        // </g>
-        // </pattern>
-        // </defs>`;
+    getPattern(primaryColor: RGBA, secondaryColor: RGBA, id: number, x: number, y: number, renderer: Renderer2): SVGDefsElement {
 
         const texture: SVGDefsElement = renderer.createElement('defs', 'svg');
         const pattern: SVGPatternElement = renderer.createElement('pattern', 'svg');
@@ -47,9 +35,10 @@ export class TextureOne implements ITexture {
         renderer.setAttribute(path, 'd',
             'M2 0h2v12H2V0zm1 20c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM9 8c1.105 ' +
             '0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-1 4h2v12H8V12z');
-    }
-
-    getFilter(id: number): string | null {
-        return null;
+        renderer.appendChild(g2, path);
+        renderer.appendChild(g1, g2);
+        renderer.appendChild(pattern, g1);
+        renderer.appendChild(texture, pattern);
+        return texture;
     }
 }
