@@ -88,28 +88,12 @@ export class GridService implements ITools {
         this.drawingService.renderer.setStyle(overallRect, 'stroke', 'rgb(0,0,0)');
         console.log('here overallrect');
         this.drawingService.addObject(overallRect);
-
-        //  if (this.activerGrille.value === true) {
-        //      if (this.object) { /// effacer la grille si elle existe deja
-        //        this.object.clean(true);
-        //      }
-        //      this.object = new Grid(this.sizeCell.value, this.transparence.value);
-        //      this.object.clean(false);
-        //      return this.object;
-        //  } else {
-        //    if (this.object != null) {
-        //     this.object.clean(true);
-        //    }
-        //    return this.object;
-        //  }
     }
     private setStyle() {
         this.drawingService.renderer.setStyle(this.rect, 'fill', 'none');
         this.drawingService.renderer.setStyle(this.rect, 'stroke', 'rgb(0,0,0)');
         this.drawingService.renderer.setStyle(this.rect, 'stroke-width', '1');
-        if (this.activerGrille.value === true) {
-            this.drawingService.renderer.setStyle(this.rect, 'stroke-opacity', this.transparence.value.toString());
-        }
+        this.drawingService.renderer.setStyle(this.rect, 'stroke-opacity', this.transparence.value.toString());
     }
 
     removeGrid() {

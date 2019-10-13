@@ -4,11 +4,7 @@ import { ApplierToolParameterComponent } from 'src/app/tool-parameter/applier-to
 import { BrushToolParameterComponent } from 'src/app/tool-parameter/brush-tool-parameter/brush-tool-parameter.component';
 import { EllipseToolParameterComponent } from 'src/app/tool-parameter/ellipse-tool-parameter/ellipse-tool-parameter.component';
 import { EtampeToolParameterComponent } from 'src/app/tool-parameter/etampe-tool-parameter/etampe-tool-parameter.component';
-<<<<<<< HEAD
 import { GridParameterComponent } from 'src/app/tool-parameter/grid-parameter/grid-parameter.component';
-// import { BrushToolParameterComponent } from 'src/app/tool-parameter/brush-tool-parameter/brush-tool-parameter.component';
-=======
->>>>>>> d5aeac0be2dc6736aa2d9e4b427bf31d086d4086
 import { PencilToolParameterComponent } from 'src/app/tool-parameter/pencil-tool-parameter/pencil-tool-parameter.component';
 import { PipetteToolParameterComponent } from 'src/app/tool-parameter/pipette-tool-parameter/pipette-tool-parameter.component';
 import { RectangleToolParameterComponent } from 'src/app/tool-parameter/rectangle-tool-parameter/rectangle-tool-parameter.component';

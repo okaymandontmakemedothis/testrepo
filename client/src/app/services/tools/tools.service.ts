@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
-<<<<<<< HEAD
-import { EtampeToolService } from './etampe-tool/etampe-tool.service';
-import { GridService } from './grid-tool/grid.sevice';
-// import { BrushToolService } from './brush-tool/brush-tool.service';
-=======
 import { BrushToolService } from './brush-tool/brush-tool.service';
 import { EtampeToolService } from './etampe-tool/etampe-tool.service';
->>>>>>> d5aeac0be2dc6736aa2d9e4b427bf31d086d4086
+import { GridService } from './grid-tool/grid.sevice';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { PipetteToolService } from './pipette-tool/pipette-tool.service';

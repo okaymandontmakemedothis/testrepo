@@ -30,20 +30,6 @@ export class OpenDrawingComponent {
       container.innerHTML = `<svg  _ngcontent-gmu-c13="" version="1.1"
       xmlns="http://www.w3.org/2000/svg" width=${drawingObject.width} height=${drawingObject.height}>${drawingObject.svg}</svg>`;
     }
-<<<<<<< HEAD
-    // loader le thumbnail
-    getThumbnail(drawingObject: Drawing) {
-      const container = document.getElementById(drawingObject.name);
-      if (container) {container.innerHTML = `<svg  _ngcontent-gmu-c13="" version="1.1"
-      xmlns="http://www.w3.org/2000/svg" width=${drawingObject.width} height=${drawingObject.height}>${drawingObject.thumbnail}</svg>`; }
-    }
-    // ouvre un nouveau dessin  avec l'ancien drawing
-    openDrawing(drawing: Drawing) {
-      this.drawingService.isCreated = true;
-      this.drawingService.newDrawing(drawing.width, drawing.height, drawing.backGroundColor);
-      // this.drawingService.addDrawingObjectList(drawing.drawingObjects);
-      this.dialogRef.close();
-=======
   }
   // ouvre un nouveau dessin  avec l'ancien drawing
   openDrawing(drawing: Drawing) {
@@ -51,7 +37,6 @@ export class OpenDrawingComponent {
     this.drawingService.newDrawing(drawing.width, drawing.height, drawing.backGroundColor);
     // this.drawingService.addDrawingObjectList(drawing.drawingObjects);
     this.dialogRef.close();
->>>>>>> d5aeac0be2dc6736aa2d9e4b427bf31d086d4086
 
   }
   close(): void {

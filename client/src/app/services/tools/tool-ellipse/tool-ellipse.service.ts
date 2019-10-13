@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import {  Injectable } from '@angular/core';
-=======
 import { Injectable } from '@angular/core';
->>>>>>> d5aeac0be2dc6736aa2d9e4b427bf31d086d4086
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
