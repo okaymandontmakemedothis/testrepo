@@ -11,6 +11,7 @@ const UP = 4;
 const GHOST = 5;
 const TONGUE = 6;
 const KISS = 7;
+const defaultNumber = 100;
 
 @Component({
   selector: 'app-etampe-tool-parameter',
@@ -25,8 +26,7 @@ export class EtampeToolParameterComponent implements OnInit {
   }
 
   form: FormGroup;
-  defaultNumber = 100;
-  currentEtampe = this.defaultNumber;
+  currentEtampe = defaultNumber;
   styles: EtampeStyle[] = [
     {id: SMILEY,
       url: 'https://cdn.shopify.com/s/files/1/1061/1924/products/Smiling_Face_Emoji_large.png?v=1480481056',
@@ -66,7 +66,7 @@ export class EtampeToolParameterComponent implements OnInit {
       etampe: this.styles[this.currentEtampe].url,
     });
     } else {
-      this.currentEtampe = this.defaultNumber;
+      this.currentEtampe = defaultNumber;
       this.form.patchValue({
         etampe: '',
       });
@@ -74,6 +74,6 @@ export class EtampeToolParameterComponent implements OnInit {
   }
 
   get scaleValue() {
-    return (this.form.get('facteur') as FormControl).value;
+    return (this.form.get('facteurSize') as FormControl).value;
   }
 }

@@ -1,5 +1,5 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { HttpClient } from '@angular/common/http';
+// import { COMMA, ENTER } from '@angular/cdk/keycodes';
+// import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material';
@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { Drawing } from '../../../../../common/communication/drawing';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -81,6 +82,7 @@ export class SaveDrawingService {
     this.saveEnabled = false;
     // const drawingObjectsList: DrawingObject[] = this.drawingService.drawingObjectList();
     const drawing: Drawing = {
+      id: '',
       name: this.nameCtrl.value,
       tags: this.tags,
       width: this.drawingService.width,

@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faStamp } from '@fortawesome/free-solid-svg-icons';
-// import { EtampeObject } from 'src/app/objects/object-etampe/etampe';
-// import { DrawingService } from '../../drawing/drawing.service';
-// import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+import { DrawingService } from '../../drawing/drawing.service';
+import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 import { INITIAL_SCALE } from '../tools-constants';
 
-const valeurMinimalDeFacteur = 0.01;
-// const minInterval = 1;
-// const maxInterval = 15;
+const valeurMinimalDeFacteur = 1;
+const minInterval = 1;
+const maxInterval = 15;
+const defaultAngleRotation = 0;
 
 @Injectable({
   providedIn: 'root',
@@ -23,60 +23,62 @@ export class EtampeToolService implements ITools {
   readonly toolName = 'Etampe';
   parameters: FormGroup;
   private etampe: FormControl;
-  private facteur: FormControl;
-  // private object: SVGImageElement | null;
+  private facteurSize: FormControl;
+  private object: SVGImageElement | null;
+  OldX: number;
+  OldY: number;
+  x: number;
+  y: number;
+  angleRotation: number;
   intervaleDegresRotation = 15;
 
-  constructor(/* private offsetManager: OffsetManagerService, private drawingService: DrawingService */) {
+  constructor(private offsetManager: OffsetManagerService, private drawingService: DrawingService) {
     this.etampe = new FormControl('');
-    this.facteur = new FormControl(INITIAL_SCALE, Validators.min(valeurMinimalDeFacteur));
+    this.facteurSize = new FormControl(INITIAL_SCALE, Validators.min(valeurMinimalDeFacteur));
     this.parameters = new FormGroup({
       etampe: this.etampe,
-      facteur: this.facteur,
+      facteurSize: this.facteurSize,
     });
-    // this.registerEventListenerOnScroll();
-    // this.registerEventListenerOnAlt();
+
   }
 
-  /* registerEventListenerOnScroll() {
-    window.addEventListener('wheel', (event) => {
-      if (event.deltaY < 0) {
-        this.setAngleBackward();
-        this.drawingService.draw();
-      } else {
-        this.setAngle();
-        this.drawingService.draw();
-      }
-    });
+  registerEventListenerOnScroll() {
+    if (this.object) {
+      this.object.addEventListener('wheel', (eventWheel) => {
+        eventWheel.preventDefault();
+        if (eventWheel.target === this.object) {
+          if (eventWheel.deltaY < 0) {
+            this.setAngleBackward();
+          } else {
+            this.setAngle();
+          }
+        }
+      });
+    }
   }
 
-  private registerEventListenerOnAlt() {
-    window.addEventListener('keydown', (event) => {
-      if (event.altKey) {
-        event.preventDefault();
-        this.intervaleDegresRotation = minInterval;
-      }
-    });
-
-    window.addEventListener('keyup', (event) => {
-      if (!event.altKey) {
-        this.intervaleDegresRotation = maxInterval;
-      }
-    });
-  } */
 
   onPressed(event: MouseEvent): void {
-    // const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+    if (event.button === 0) {
+      const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+      this.angleRotation = 0;
+      this.OldX = offset.x;
+      this.OldY = offset.y;
+      this.x = offset.x - this.facteurSize.value / 2;
+      this.y = offset.y - this.facteurSize.value / 2;
 
-    // if (event.button === 0) {
-    //   this.object = new EtampeObject(offset.x, offset.y, this.etampe.value);
-    //   this.object.width = this.object.width * this.facteur.value;
-    //   this.object.height = this.object.height * this.facteur.value;
-    //   return this.object;
-    // } else {
-    //   return null;
-    // }
-
+      this.object = this.drawingService.renderer.createElement('image', 'svg');
+      this.drawingService.renderer.setAttribute(this.object, 'x', this.x.toString());
+      this.drawingService.renderer.setAttribute(this.object, 'y', this.y.toString());
+      this.drawingService.renderer.setAttribute(this.object, 'height', (this.facteurSize.value).toString());
+      this.drawingService.renderer.setAttribute(this.object, 'width', (this.facteurSize.value).toString());
+      this.drawingService.renderer.setAttribute(this.object, 'href', this.etampe.value);
+      this.drawingService.renderer.setAttribute(this.object, 'transform', this.getRotation(defaultAngleRotation));
+      if (this.object) {
+        this.drawingService.addObject(this.object);
+      }
+      this.registerEventListenerOnScroll();
+    }
   }
   onRelease(event: MouseEvent) {
     return;
@@ -86,23 +88,36 @@ export class EtampeToolService implements ITools {
   }
 
   onKeyDown(event: KeyboardEvent): void {
-    return;
+    if (event.altKey && this.object) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.intervaleDegresRotation = minInterval;
+    }
   }
   onKeyUp(event: KeyboardEvent): void {
-    return;
+    if (!event.altKey && this.object) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.intervaleDegresRotation = maxInterval;
+    }
+  }
+  getRotation(angle: number): string {
+    return 'rotate(' + angle + ',' + this.OldX + ',' + this.OldY + ')';
   }
 
-  // setAngle() {
-  //   if (this.object) {
-  //     this.object.angle = this.object.angle + this.intervaleDegresRotation;
-  //     console.log(this.object.angle);
-  //   }
-  // }
+  setAngle() {
+    if (this.object) {
+      this.angleRotation += this.intervaleDegresRotation;
+      this.drawingService.renderer.setAttribute(this.object, 'transform', this.getRotation(this.angleRotation));
 
-  // setAngleBackward() {
-  //   if (this.object) {
-  //     this.object.angle = this.object.angle - this.intervaleDegresRotation;
-  //     console.log(this.object.angle);
-  //   }
-  // }
+    }
+  }
+
+  setAngleBackward() {
+    if (this.object) {
+      this.angleRotation -= this.intervaleDegresRotation;
+      this.drawingService.renderer.setAttribute(this.object, 'transform', this.getRotation(this.angleRotation));
+
+    }
+  }
 }
