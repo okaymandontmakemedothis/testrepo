@@ -44,11 +44,15 @@ export class GridParameterComponent implements OnInit {
   get toolName(): string {
     return this.gridService.toolName;
   }
-  changeOpacity() {
-    this.gridService.changeOpacity();
+  changeOpacity(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.gridService.changeOpacity();
+    }
   }
-  changeGridSize() {
-    this.gridService.changeGridSize();
+  changeGridSize(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.gridService.changeGridSize();
+    }
   }
   changeColor(id: number) {
     this.form.patchValue({
