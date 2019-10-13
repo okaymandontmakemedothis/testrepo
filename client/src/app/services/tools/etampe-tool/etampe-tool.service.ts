@@ -11,7 +11,7 @@ import { INITIAL_SCALE } from '../tools-constants';
 const valeurMinimalDeFacteur = 1;
 const minInterval = 1;
 const maxInterval = 15;
-let intervaleDegresRotation = 15;
+const defaultAngleRotation = 0;
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,8 @@ export class EtampeToolService implements ITools {
   OldY: number;
   x: number;
   y: number;
-  angleRotation = 0;
+  angleRotation: number;
+  intervaleDegresRotation = 15;
 
   constructor(private offsetManager: OffsetManagerService, private drawingService: DrawingService) {
     this.etampe = new FormControl('');
@@ -38,23 +39,29 @@ export class EtampeToolService implements ITools {
       etampe: this.etampe,
       facteurSize: this.facteurSize,
     });
-    this.registerEventListenerOnScroll();
+
   }
 
   registerEventListenerOnScroll() {
-    window.addEventListener('wheel', (event) => {
-      if (event.deltaY < 0) {
-        this.setAngleBackward();
-      } else {
-        this.setAngle();
-      }
-    });
+    if (this.object) {
+      this.object.addEventListener('wheel', (eventWheel) => {
+        eventWheel.preventDefault();
+        if (eventWheel.target === this.object) {
+          if (eventWheel.deltaY < 0) {
+            this.setAngleBackward();
+          } else {
+            this.setAngle();
+          }
+        }
+      });
+    }
   }
 
 
   onPressed(event: MouseEvent): void {
     if (event.button === 0) {
       const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+      this.angleRotation = 0;
       this.OldX = offset.x;
       this.OldY = offset.y;
       this.x = offset.x - this.facteurSize.value / 2;
@@ -65,12 +72,12 @@ export class EtampeToolService implements ITools {
       this.drawingService.renderer.setAttribute(this.object, 'y', this.y.toString());
       this.drawingService.renderer.setAttribute(this.object, 'height', (this.facteurSize.value).toString());
       this.drawingService.renderer.setAttribute(this.object, 'width', (this.facteurSize.value).toString());
-      this.drawingService.renderer.setAttribute(this.object, 'xlink:href', (this.etampe.value).toString());
-
-      this.drawingService.renderer.setAttribute(this.object, 'transform', this.getRotation(this.OldX, this.OldY));
+      this.drawingService.renderer.setAttribute(this.object, 'href', this.etampe.value);
+      this.drawingService.renderer.setAttribute(this.object, 'transform', this.getRotation(defaultAngleRotation));
       if (this.object) {
         this.drawingService.addObject(this.object);
       }
+      this.registerEventListenerOnScroll();
     }
   }
   onRelease(event: MouseEvent) {
@@ -81,27 +88,36 @@ export class EtampeToolService implements ITools {
   }
 
   onKeyDown(event: KeyboardEvent): void {
-    if (event.altKey) {
+    if (event.altKey && this.object) {
       event.preventDefault();
-      intervaleDegresRotation = minInterval;
+      event.stopPropagation();
+      this.intervaleDegresRotation = minInterval;
     }
   }
   onKeyUp(event: KeyboardEvent): void {
-    intervaleDegresRotation = maxInterval;
+    if (!event.altKey && this.object) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.intervaleDegresRotation = maxInterval;
+    }
   }
-  getRotation(x: number, y: number): string {
-    return '" transform=' + 'rotate(' + this.angleRotation + ',' + x + ',' + y + ')';
+  getRotation(angle: number): string {
+    return 'rotate(' + angle + ',' + this.OldX + ',' + this.OldY + ')';
   }
 
   setAngle() {
     if (this.object) {
-      this.angleRotation += intervaleDegresRotation;
+      this.angleRotation += this.intervaleDegresRotation;
+      this.drawingService.renderer.setAttribute(this.object, 'transform', this.getRotation(this.angleRotation));
+
     }
   }
 
   setAngleBackward() {
     if (this.object) {
-      this.angleRotation -= intervaleDegresRotation;
+      this.angleRotation -= this.intervaleDegresRotation;
+      this.drawingService.renderer.setAttribute(this.object, 'transform', this.getRotation(this.angleRotation));
+
     }
   }
 }
