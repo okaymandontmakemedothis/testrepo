@@ -24,7 +24,7 @@ export class EtampeToolService implements ITools {
   parameters: FormGroup;
   private etampe: FormControl;
   private facteur: FormControl;
-  //private object: SVGImageElement | null;
+  // private object: SVGImageElement | null;
   intervaleDegresRotation = 15;
 
   constructor(/* private offsetManager: OffsetManagerService, private drawingService: DrawingService */) {

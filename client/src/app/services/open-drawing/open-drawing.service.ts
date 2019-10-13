@@ -10,7 +10,7 @@ export class OpenDrawingService {
   drawingList = new BehaviorSubject<Drawing[]>([]);
 
   constructor(private indexService: IndexService) {
-    this.indexService.getDrawingPreview();//subscribe(this.drawingList);
+    this.indexService.getDrawingPreview(); // subscribe(this.drawingList);
   }
 
 }

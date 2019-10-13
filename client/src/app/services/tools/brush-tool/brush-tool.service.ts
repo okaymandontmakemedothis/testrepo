@@ -88,8 +88,13 @@ export class BrushToolService implements ITools {
       this.texture.value, { rgb, a }, this.lastPoint.x, this.lastPoint.y, this.drawingService.renderer);
     if (texture) {
       this.drawingService.addObject(texture);
+      const texturePattern: SVGPatternElement = texture.children.item(0) as SVGPatternElement;
+      let textureId = '';
+      if (texturePattern) {
+        textureId = texturePattern.id;
+      }
       this.drawingService.renderer.setStyle(
-        this.object, 'stroke', `url(#${texture.id})`);
+        this.object, 'stroke', `url(#${textureId})`);
       this.drawingService.renderer.setStyle(
         point, 'fill', `url(#${texture.id})`);
     }

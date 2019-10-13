@@ -10,12 +10,12 @@ export class TextureOne implements ITexture {
     readonly name = 'Texture One';
     readonly randomAngle = Math.round(Math.random() * 360);
 
-    getTextureIDName(id: number): string {
+    getTextureIDName(id: string): string {
         return `${this.id}-${id}`;
     }
 
     /// Retourne la ligne html du pattern
-    getPattern(primaryColor: RGBA, id: number, x: number, y: number, renderer: Renderer2): SVGDefsElement {
+    getPattern(primaryColor: RGBA, id: string, x: number, y: number, renderer: Renderer2): SVGDefsElement {
 
         const texture: SVGDefsElement = renderer.createElement('defs', 'svg');
         const pattern: SVGPatternElement = renderer.createElement('pattern', 'svg');
@@ -25,6 +25,8 @@ export class TextureOne implements ITexture {
         renderer.setAttribute(pattern, 'viewBox', '0 0 12 24');
         renderer.setAttribute(pattern, 'x', x.toString());
         renderer.setAttribute(pattern, 'y', y.toString());
+        renderer.setAttribute(pattern, 'patternTransform', `rotate(${this.randomAngle})`);
+        renderer.setAttribute(pattern, 'patternUnits', 'userSpaceOnUse');
         const g1: SVGGElement = renderer.createElement('g', 'svg');
         renderer.setAttribute(g1, 'fill', 'none');
         renderer.setAttribute(g1, 'fill-rule', 'evenodd');

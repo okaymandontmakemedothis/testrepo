@@ -1,4 +1,5 @@
 import { Injectable, Renderer2 } from '@angular/core';
+import { RGBA } from 'src/app/model/rgba.model';
 import { TextureOptions } from '../../model/texture-options.model';
 import { ITexture } from '../../textures/ITexture';
 import { TEXTURE_FIVE, TEXTURE_FOUR, TEXTURE_ONE, TEXTURE_THREE, TEXTURE_TWO } from '../../textures/texture-id';
@@ -7,7 +8,6 @@ import { TextureTwo } from '../../textures/texture2';
 import { TextureThree } from '../../textures/texture3';
 import { TextureFour } from '../../textures/texture4';
 import { TextureFive } from '../../textures/texture5';
-import { RGBA } from 'src/app/model/rgba.model';
 
 /// Classe service qui permet de retourner une texture selon un indexe
 @Injectable({
@@ -51,7 +51,7 @@ export class TexturesService {
   getTextureElement(textureNumber: number, primaryColor: RGBA, x: number, y: number, renderer: Renderer2): SVGDefsElement | null {
     const texture: ITexture | null = this.returnTexture(textureNumber);
     if (texture) {
-      return texture.getPattern(primaryColor, this.lastId++, x, y, renderer);
+      return texture.getPattern(primaryColor, 'texture-' + (this.lastId++), x, y, renderer);
     }
     return null;
   }

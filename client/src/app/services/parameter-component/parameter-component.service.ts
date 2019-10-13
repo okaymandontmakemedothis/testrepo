@@ -1,8 +1,8 @@
 import { Injectable, Type } from '@angular/core';
 import { ControlMenuComponent } from 'src/app/components/control-menu/control-menu.component';
 import { ApplierToolParameterComponent } from 'src/app/tool-parameter/applier-tool-parameter/applier-tool-parameter.component';
+import { BrushToolParameterComponent } from 'src/app/tool-parameter/brush-tool-parameter/brush-tool-parameter.component';
 import { EllipseToolParameterComponent } from 'src/app/tool-parameter/ellipse-tool-parameter/ellipse-tool-parameter.component';
-// import { BrushToolParameterComponent } from 'src/app/tool-parameter/brush-tool-parameter/brush-tool-parameter.component';
 import { PencilToolParameterComponent } from 'src/app/tool-parameter/pencil-tool-parameter/pencil-tool-parameter.component';
 import { PipetteToolParameterComponent } from 'src/app/tool-parameter/pipette-tool-parameter/pipette-tool-parameter.component';
 import { RectangleToolParameterComponent } from 'src/app/tool-parameter/rectangle-tool-parameter/rectangle-tool-parameter.component';
@@ -18,7 +18,7 @@ export class ParameterComponentService {
   constructor() {
     this.parameterComponentList.push(
       PencilToolParameterComponent,
-      /*BrushToolParameterComponent,*/
+      BrushToolParameterComponent,
       ApplierToolParameterComponent,
       RectangleToolParameterComponent,
       EllipseToolParameterComponent,

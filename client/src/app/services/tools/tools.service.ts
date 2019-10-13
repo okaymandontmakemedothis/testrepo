@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-// import { BrushToolService } from './brush-tool/brush-tool.service';
+import { BrushToolService } from './brush-tool/brush-tool.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { PipetteToolService } from './pipette-tool/pipette-tool.service';
@@ -21,7 +21,7 @@ export class ToolsService {
 
   constructor(
     private pencilTool: PencilToolService,
-    /*private brushTool: BrushToolService,*/
+    private brushTool: BrushToolService,
     private colorApplicator: ToolsApplierColorsService,
     private rectangleTool: ToolRectangleService,
     private ellipseTool: ToolEllipseService,
@@ -36,7 +36,7 @@ export class ToolsService {
   /// Initialiser la liste d'outil
   private initTools(): void {
     this.tools.set(this.pencilTool.id, this.pencilTool);
-    /*this.tools.set(this.brushTool.id, this.brushTool);*/
+    this.tools.set(this.brushTool.id, this.brushTool);
     this.tools.set(this.colorApplicator.id, this.colorApplicator);
     this.tools.set(this.rectangleTool.id, this.rectangleTool);
     this.tools.set(this.ellipseTool.id, this.ellipseTool);

@@ -1,7 +1,7 @@
+import { Renderer2 } from '@angular/core';
 import { RGBA } from 'src/app/model/rgba.model';
 import { ITexture } from './ITexture';
 import { TEXTURE_FIVE } from './texture-id';
-import { Renderer2 } from '@angular/core';
 
 /// Classe avec les informations de la texture de texture five
 /// Le pattern provient du site web https://www.heropatterns.com/
@@ -10,18 +10,18 @@ export class TextureFive implements ITexture {
     readonly name = 'Texture Five';
     readonly randomAngle = Math.round(Math.random() * 360);
 
-    getTextureIDName(id: number): string {
+    getTextureIDName(id: string): string {
         return `${this.id}-${id}`;
     }
 
     /// Retourne la ligne html du pattern
-    getPattern(primaryColor: RGBA, id: number, x: number, y: number, renderer: Renderer2): SVGDefsElement {
+    getPattern(primaryColor: RGBA, id: string, x: number, y: number, renderer: Renderer2): SVGDefsElement {
         const texture: SVGDefsElement = renderer.createElement('defs', 'svg');
         const pattern: SVGPatternElement = renderer.createElement('pattern', 'svg');
         renderer.setProperty(pattern, 'id', this.getTextureIDName(id));
-        renderer.setAttribute(pattern, 'width', '60px');
-        renderer.setAttribute(pattern, 'height', '60px');
-        renderer.setAttribute(pattern, 'viewBox', '0 0 60 60');
+        renderer.setAttribute(pattern, 'width', '4px');
+        renderer.setAttribute(pattern, 'height', '4px');
+        renderer.setAttribute(pattern, 'viewBox', '0 0 4 4');
         renderer.setAttribute(pattern, 'x', x.toString());
         renderer.setAttribute(pattern, 'y', y.toString());
         renderer.setAttribute(pattern, 'patternTransform', `rotate(${this.randomAngle})`);
