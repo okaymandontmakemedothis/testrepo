@@ -1,4 +1,4 @@
-import { ElementRef, EventEmitter, Injectable, Output, Renderer2 } from '@angular/core';
+import { EventEmitter, Injectable, Output, Renderer2 } from '@angular/core';
 import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
 import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
 
@@ -9,24 +9,25 @@ import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
 export class DrawingService {
 
   @Output()
-  drawingEmit = new EventEmitter<ElementRef>();
+  drawingEmit = new EventEmitter<SVGElement>();
   id: string;
   saved = false;
   renderer: Renderer2;
+  svgString = new EventEmitter<string>();
+  isSaved = false;
   lastObjectId = 0;
   isCreated = false;
   color: RGB = DEFAULT_RGB_COLOR;
   alpha: number = DEFAULT_ALPHA;
   width = 0;
   height = 0;
-  drawing: ElementRef;
+  drawing: SVGElement;
 
-  private objectList: Map<number, ElementRef>;
+  private objectList: Map<number, SVGElement>;
 
   constructor() {
-    this.objectList = new Map<number, ElementRef>();
+    this.objectList = new Map<number, SVGElement>();
   }
-
   get rgbColorString() {
     return 'rgb(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ')';
   }
@@ -41,32 +42,14 @@ export class DrawingService {
 
   /// Retrait d'un objet selon son ID
   removeObject(id: number): void {
-    this.saved = false;
     this.renderer.removeChild(this.drawing, this.objectList.get(id));
+    this.isSaved = false;
     this.objectList.delete(id);
   }
 
-  /// Rajouter une liste de Drawing Object a la map d'Object
-  addDrawingObjectList(objList: any[]) {
-    for (const drawingObject of objList) {
-      switch (drawingObject.type) {
-        case 'rectangle':
-          console.log('adding rectangle');
-          this.addObject(this.toRectangleObject(drawingObject));
-          break;
-        case 'polyline':
-          console.log('adding polyline');
-          this.addObject(this.toPolyLineObject(drawingObject));
-          break;
-
-      }
-    }
-
-  }
-
   /// Ajout d'un objet dans la map d'objet du dessin
-  addObject(obj: ElementRef): number {
-    this.saved = false;
+  addObject(obj: SVGElement): number {
+    this.isSaved = false;
     this.lastObjectId++;
     this.renderer.setProperty(obj, 'id', this.lastObjectId);
     this.objectList.set(this.lastObjectId, obj);
@@ -75,7 +58,7 @@ export class DrawingService {
   }
 
   /// Récupère un objet selon son id dans la map d'objet
-  getObject(id: number): ElementRef | undefined {
+  getObject(id: number): SVGElement | undefined {
     return this.objectList.get(id);
   }
 

@@ -1,11 +1,12 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faPaintBrush, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Point } from 'src/app/model/point.model';
+import { RGB } from 'src/app/model/rgb.model';
 import { TexturesService } from 'src/app/services/textures/textures.service';
-// import { ITexture } from 'src/app/textures/ITexture';
-// import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
-// import { ToolsColorService } from '../../tools-color/tools-color.service';
+import { DrawingService } from '../../drawing/drawing.service';
+import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 import { INITIAL_WIDTH } from '../tools-constants';
@@ -20,15 +21,18 @@ export class BrushToolService implements ITools {
   readonly faIcon: IconDefinition = faPaintBrush;
   readonly toolName = 'Outil Pinceau';
   parameters: FormGroup;
-  private object: ElementRef | null;
+  private object: SVGPolylineElement | null;
   private strokeWidth: FormControl;
   texture: FormControl;
-  private lastPoint: Point = { x: 0, y: 0 };
+  private lastPoint: Point;
+  private dotId: number;
+  private pointsList: Point[] = [];
 
   constructor(
     private texturesService: TexturesService,
-    /*private offsetManager: OffsetManagerService,
-    private colorTool: ToolsColorService,*/
+    private offsetManager: OffsetManagerService,
+    private colorTool: ToolsColorService,
+    private drawingService: DrawingService,
   ) {
     this.strokeWidth = new FormControl(INITIAL_WIDTH);
     this.texture = new FormControl(this.texturesService.firstTexture.value);
@@ -39,42 +43,86 @@ export class BrushToolService implements ITools {
   }
 
   /// Ajout d'un point dans la liste de point du Polyline
-  private addPoint(dpoint: Point) {
+  private addPoint(point: Point) {
     if (this.object) {
-      this.lastPoint = { x: this.lastPoint.x + dpoint.x, y: this.lastPoint.y + dpoint.y };
-      // this.object.addPoint(this.lastPoint);
+      this.lastPoint = point;
+      this.pointsList.push(this.lastPoint);
     }
   }
 
   /// Création d'un polyline selon la position de l'evenement de souris, choisi les bonnes couleurs selon le clique de souris
   /// Récupère la bonne texture
   onPressed(event: MouseEvent): void {
-    /*if (this.strokeWidth.value && this.strokeWidth.value > 0) {
-      const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
-      this.lastPoint = { x: offset.x, y: offset.y };
-      const texture: ITexture|null = this.texturesService.returnTexture(this.texture.value);
-      this.object = new Polyline(this.lastPoint, this.strokeWidth.value, texture);
-      if (event.button === 0) {
-        this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
-        this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
-      } else {
-        this.object.primaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
-        this.object.secondaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
-      }*/
-    /*} else {
-      return null;
-    }*/
+    if (event.button === 0 || event.button === 2) {
+      if (this.strokeWidth.value && this.strokeWidth.value > 0) {
+        const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+        this.lastPoint = { x: offset.x, y: offset.y };
+        const point: SVGEllipseElement = this.drawingService.renderer.createElement('ellipse', 'svg');
+        this.drawingService.renderer.setAttribute(point, 'cx', this.lastPoint.x.toString());
+        this.drawingService.renderer.setAttribute(point, 'cy', this.lastPoint.y.toString());
+        this.drawingService.renderer.setAttribute(point, 'ry', (this.strokeWidth.value / 2).toString());
+        this.drawingService.renderer.setAttribute(point, 'rx', (this.strokeWidth.value / 2).toString());
+        this.drawingService.renderer.setStyle(point, 'stroke', `none`);
+        this.dotId = this.drawingService.addObject(point);
+        this.object = this.drawingService.renderer.createElement('polyline', 'svg');
+
+        if (this.object) {
+          this.drawingService.renderer.setStyle(this.object, 'stroke-width', this.strokeWidth.value.toString());
+          this.drawingService.renderer.setAttribute(this.object, 'points', `${this.lastPoint.x} ${this.lastPoint.y}`);
+          this.drawingService.renderer.setStyle(this.object, 'stroke-linecap', `round`);
+          this.drawingService.renderer.setStyle(this.object, 'stroke-linejoin', `round`);
+          this.drawingService.renderer.setStyle(this.object, 'fill', `none`);
+        }
+        if (event.button === 0) {
+          this.setColors(this.colorTool.primaryColor, this.colorTool.primaryAlpha, point);
+        } else {
+          this.setColors(this.colorTool.secondaryColor, this.colorTool.secondaryAlpha, point);
+        }
+      }
+    }
+  }
+
+  /// Définir les couleurs des objets
+  private setColors(rgb: RGB, a: number, point: SVGElement) {
+    const texture: SVGDefsElement | null = this.texturesService.getTextureElement(
+      this.texture.value, { rgb, a }, this.lastPoint.x, this.lastPoint.y, this.drawingService.renderer);
+    if (texture) {
+      this.drawingService.addObject(texture);
+      const texturePattern: SVGPatternElement = texture.children.item(0) as SVGPatternElement;
+      let textureId = '';
+      if (texturePattern) {
+        textureId = texturePattern.id;
+      }
+      this.drawingService.renderer.setStyle(
+        this.object, 'stroke', `url(#${textureId})`);
+      this.drawingService.renderer.setStyle(
+        point, 'fill', `url(#${texture.id})`);
+    }
   }
 
   /// Réinitialisation de l'outil après avoir laisser le clique de la souris
   onRelease(event: MouseEvent): void {
     this.object = null;
+    this.pointsList = [];
     this.lastPoint = { x: 0, y: 0 };
   }
 
   /// Ajout d'un point seulon le déplacement de la souris
   onMove(event: MouseEvent): void {
-    this.addPoint({ x: event.movementX, y: event.movementY });
+    this.addPoint(this.offsetManager.offsetFromMouseEvent(event));
+    let pointString = '';
+    for (const point of this.pointsList) {
+      pointString += `${point.x} ${point.y},`;
+    }
+    pointString = pointString.substring(0, pointString.length - 1);
+    this.drawingService.renderer.setAttribute(this.object, 'points', pointString);
+    if (this.dotId !== -1) {
+      if (this.object) {
+        this.drawingService.removeObject(this.dotId);
+        this.drawingService.addObject(this.object);
+        this.dotId = -1;
+      }
+    }
   }
   onKeyUp(event: KeyboardEvent) {
     return;

@@ -22,7 +22,7 @@ export class CanvasComponent implements AfterViewInit {
 
     this.drawingService.drawingEmit.subscribe((el: ElementRef) => {
       this.renderer.appendChild(this.svg.nativeElement, el);
-      //this.svg.nativeElement = el;
+      // this.svg.nativeElement = el;
     });
   }
 

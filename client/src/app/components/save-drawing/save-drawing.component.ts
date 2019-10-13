@@ -34,10 +34,9 @@ export class SaveDrawingComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dialogRef.afterOpened().subscribe(() => {
-      this.saveDrawingService.reset();
-      const svgString = this.drawingService.drawString();
-      this.renderer.setAttribute(this.svg.nativeElement, 'viewBox', `0 0 ${this.drawingService.width} ${this.drawingService.height}`);
-      this.svg.nativeElement.innerHTML = svgString;
+      // const svgString = this.drawingService.drawString();
+      this.renderer.setAttribute(this.svg.nativeElement, 'viewBox', '0 0 ' + this.drawingService.width + ' ' + this.drawingService.height);
+      // this.svg.nativeElement.innerHTML = svgString;
     });
     this.dialogRef.afterClosed().subscribe(() => {
       this.saveDrawingService.reset();

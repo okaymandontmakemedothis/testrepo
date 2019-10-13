@@ -99,7 +99,6 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
 
   /// Effectue un onPress sur le clique droit de la sourie
   onRightClick(event: MouseEvent) {
-    this.toolsService.onPressed(event);
     return false;
   }
 
