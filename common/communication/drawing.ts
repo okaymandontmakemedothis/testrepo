@@ -8,6 +8,7 @@ export interface DrawingPreview {
 }
 
 export interface Drawing {
+    id: string;
     name: string;
     tags: string[];
     width: number;
