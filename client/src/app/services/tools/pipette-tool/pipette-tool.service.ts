@@ -27,12 +27,12 @@ export class PipetteToolService implements ITools {
   onPressed(event: MouseEvent): void {
     if (event.button === 0 || event.button === 2) {
       const target = event.target as SVGElement;
-      const propertyMap = ObjectAtributeStructure.get(target.tagName);
-      let property = propertyMap ? propertyMap.get('primaryColor') : '';
+      const propertyMap = ObjectAtributeStructure[target.tagName.toLowerCase()];
+      let property = propertyMap ? propertyMap.primaryColor : '';
 
       const fill = (target.style.getPropertyValue(property as string)).replace(/[^0-9]/g, ',').split(',').filter((el) => el !== '');
 
-      property = propertyMap ? propertyMap.get('primaryOpacity') : '';
+      property = propertyMap ? propertyMap.primaryOpacity : '';
       const opacity = target.style.getPropertyValue(property as string);
 
       let rgb: RGB;
@@ -55,19 +55,18 @@ export class PipetteToolService implements ITools {
   }
 
   /// Fonction non utilisé pour cet outil
-  onRelease(event: MouseEvent) {
-    return;
-  }
+  // tslint:disable-next-line: no-empty
+  onRelease(event: MouseEvent) { }
 
   /// Fonction non utilisé pour cet outil
-  onMove(event: MouseEvent) {
-    return;
-  }
+  // tslint:disable-next-line: no-empty
+  onMove(event: MouseEvent) { }
 
-  onKeyUp(event: KeyboardEvent): void {
-    return;
-  }
-  onKeyDown(event: KeyboardEvent): void {
-    return;
-  }
+  /// Fonction non utilisé pour cet outil
+  // tslint:disable-next-line: no-empty
+  onKeyUp(event: KeyboardEvent): void { }
+
+  /// Fonction non utilisé pour cet outil
+  // tslint:disable-next-line: no-empty
+  onKeyDown(event: KeyboardEvent): void { }
 }

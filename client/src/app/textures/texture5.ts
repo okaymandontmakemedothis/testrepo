@@ -46,7 +46,7 @@ export class TextureFive implements ITexture {
         return texture;
     }
 
-    getFilter(id: number): string | null {
+    getFilter(id: string): string | null {
         return null;
     }
 }

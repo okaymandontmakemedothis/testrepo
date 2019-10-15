@@ -4,7 +4,6 @@ export interface DrawingPreview {
     width: number;
     height: number;
     thumbnail: string | undefined;
-
 }
 
 export interface Drawing {
