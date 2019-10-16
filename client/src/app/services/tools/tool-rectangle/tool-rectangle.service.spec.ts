@@ -1,41 +1,91 @@
+import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-// import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+import { DrawingService } from '../../drawing/drawing.service';
+import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+import { ToolRectangleService } from './tool-rectangle.service';
 // import { ToolsColorService } from '../../tools-color/tools-color.service';
 // import { ToolRectangleService } from './tool-rectangle.service';
 
 describe('ToolRectangleService', () => {
-  // let offsetManagerServiceSpy: jasmine.SpyObj<OffsetManagerService>;
+  let offsetManagerServiceSpy: jasmine.SpyObj<OffsetManagerService>;
   // let colorToolServiceSpy: jasmine.SpyObj<ToolsColorService>;
+  let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
+
+  const renderer2Mock = jasmine.createSpyObj('renderer2Mock', [
+    'destroy',
+    'createElement',
+    'createComment',
+    'createText',
+    'destroyNode',
+    'appendChild',
+    'insertBefore',
+    'removeChild',
+    'selectRootElement',
+    'parentNode',
+    'nextSibling',
+    'setAttribute',
+    'removeAttribute',
+    'addClass',
+    'removeClass',
+    'setStyle',
+    'removeStyle',
+    'setProperty',
+    'setValue',
+    'listen',
+  ]);
+
+  /* const rootRendererMock = {
+    renderComponent: () => {
+      return renderer2Mock;
+    },
+  }; */
 
   beforeEach(() => {
-    // const spyOffset = jasmine.createSpyObj('OffsetManagerService', ['offsetFromMouseEvent']);
+    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['addObject', 'getObject']);
+    const spyOffset = jasmine.createSpyObj('OffsetManagerService', ['offsetFromMouseEvent']);
     // const spyColor = jasmine.createSpyObj('ToolsColorService', ['']);
 
     TestBed.configureTestingModule({
-      providers: [
-        // { provide: OffsetManagerService, useValue: spyOffset },
+      providers: [Renderer2,
+        { provide: DrawingService, useValue: spyDrawingService },
+        { provide: OffsetManagerService, useValue: spyOffset },
         // { provide: ToolsColorService, useValue: spyColor },
       ],
     });
 
-    // offsetManagerServiceSpy = TestBed.get(OffsetManagerService);
+    drawingServiceSpy = TestBed.get(DrawingService);
+    offsetManagerServiceSpy = TestBed.get(OffsetManagerService);
     // colorToolServiceSpy = TestBed.get(ToolsColorService);
   });
 
+  it('tool-rectangle service should be created', () => {
+    const service: ToolRectangleService = TestBed.get(ToolRectangleService);
+    expect(service).toBeTruthy();
+  });
+
   it('should set square with shift', () => {
-    // const service: ToolRectangleService = TestBed.get(ToolRectangleService);
-    // offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+    let obj: SVGElement = SVGElement.prototype;
 
-    // const object = service.onPressed(new MouseEvent('mousedown')) as RectangleObject;
+    drawingServiceSpy.renderer = renderer2Mock;
+    renderer2Mock.createElement.and.returnValue(() => {
+      obj = document.createElement('rect') as Element as SVGElement;
+      return obj;
+    });
+    drawingServiceSpy.addObject.and.callFake((object) => { obj = object as SVGRectElement; return 1; });
 
-    // offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 50, y: 40 });
-    // service.onMove(new MouseEvent('mousemove'));
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
 
-    // const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
+    const service: ToolRectangleService = TestBed.get(ToolRectangleService);
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
 
-    // window.dispatchEvent(eventKeyDown);
+    const mouseEvent = new MouseEvent('keydown', { button: 0 });
 
-    // expect(object.height).toEqual(object.width);
+    service.onPressed(mouseEvent);
+    console.log(obj.tagName);
+
+    service.onKeyDown(eventKeyDown);
+
+    expect(obj).toBeTruthy();
   });
 
   it('should unset square with unshift', () => {
