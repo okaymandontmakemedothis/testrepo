@@ -45,8 +45,4 @@ export class TextureFive implements ITexture {
         renderer.appendChild(texture, pattern);
         return texture;
     }
-
-    getFilter(id: string): string | null {
-        return null;
-    }
 }

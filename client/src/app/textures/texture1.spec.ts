@@ -1,11 +1,13 @@
-// import { Renderer2 } from '@angular/core';
-// import { RGBA } from '../model/rgba.model';
+import { Renderer2 } from '@angular/core';
+import { RGBA } from '../model/rgba.model';
 import { TEXTURE_ONE } from './texture-id';
 import { TextureOne } from './texture1';
 
-describe('BrushToolService', () => {
+describe('Texture1', () => {
     let textureOne: TextureOne;
-    // const id = '2';
+    let renderer2Spy: jasmine.SpyObj<Renderer2>;
+    renderer2Spy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild']);
+    const id = '1';
     beforeEach(() => {
         textureOne = new TextureOne();
     });
@@ -19,24 +21,20 @@ describe('BrushToolService', () => {
         expect(idName).toBe(TEXTURE_ONE + '-2');
     });
 
-    it('should return the patern', () => {
-
-        //         const idName: string = textureOne.getTextureIDName(id);
-        //         const rgba: RGBA = { rgb: { r: 200, g: 123, b: 200 }, a: 1 };
-        //         const x = 20;
-        //         const y = 25;
-        //         const patternString = `<defs>
-        // <pattern id="${idName}" width="12" height="24" viewBox="0 0 12 24" x="${x}" y="${y}"
-        //  patternTransform="rotate(${textureOne.randomAngle})" patternUnits="userSpaceOnUse">
-        // <g fill="none" fill-rule="evenodd">
-        // <g fill="rgb(${rgba.rgb.r},${rgba.rgb.g},${rgba.rgb.b})"
-        //  fill-opacity="${rgba.a}">
-        // <path d="M2 0h2v12H2V0zm1 20c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM9 8c1.105
-        //  0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-1 4h2v12H8V12z"/>
-        // </g>
-        // </g>
-        // </pattern>
-        // </defs>`;
-        //         expect(textureOne.getPattern(rgba, id, x, y, Renderer2.prototype)).toBe(patternString);
+    it('should return the patern with the value inserted', () => {
+        const idName: string = textureOne.getTextureIDName(id);
+        const rgba: RGBA = { rgb: { r: 200, g: 123, b: 200 }, a: 1 };
+        const x = 20;
+        const y = 25;
+        renderer2Spy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
+        renderer2Spy.createElement.withArgs('pattern', 'svg').and.returnValue('pattern');
+        renderer2Spy.createElement.withArgs('g', 'svg').and.returnValue('g');
+        renderer2Spy.createElement.withArgs('path', 'svg').and.returnValue('path');
+        textureOne.getPattern(rgba, idName, x, y, renderer2Spy);
+        expect(renderer2Spy.setProperty).toHaveBeenCalledWith('pattern', 'id', TEXTURE_ONE + '-' + idName);
+        expect(renderer2Spy.setAttribute).toHaveBeenCalledWith('pattern', 'x', x.toString());
+        expect(renderer2Spy.setAttribute).toHaveBeenCalledWith('pattern', 'y', y.toString());
+        expect(renderer2Spy.setAttribute).toHaveBeenCalledWith('g', 'fill', `rgb(${rgba.rgb.r},${rgba.rgb.g},${rgba.rgb.b})`);
+        expect(renderer2Spy.setAttribute).toHaveBeenCalledWith('g', 'fill-opacity', `${rgba.a}`);
     });
 });
