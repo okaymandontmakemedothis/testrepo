@@ -26,6 +26,7 @@ export class PipetteToolService implements ITools {
   /// À l'appuis d'un clique de souris, on récupère l'objet cliqué et on modifie sa couleur
   onPressed(event: MouseEvent): void {
     if (event.button === 0 || event.button === 2) {
+      console.log(event);
       const target = event.target as SVGElement;
       const propertyMap = ObjectAtributeStructure[target.tagName.toLowerCase()];
       let property = propertyMap ? propertyMap.primaryColor : '';
