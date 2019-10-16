@@ -27,6 +27,7 @@ export class GridService implements ITools {
     screenSizeX: number;
     screenSizeY: number;
     rect: SVGRectElement;
+    path: SVGPathElement;
     pattern: SVGPatternElement;
     form: FormGroup;
 
@@ -35,18 +36,13 @@ export class GridService implements ITools {
         this.sizeCell = new FormControl(INITIAL_CELL_SIZE, Validators.min(1));
         this.transparence = new FormControl(INITIAL_TRANSPARENCE, Validators.min(0.1));
         this.activerGrille = new FormControl(false);
-        this.color = new FormControl ('black');
+        this.color = new FormControl('black');
         this.parameters = new FormGroup({
             sizeCell: this.sizeCell,
             transparence: this.transparence,
             activerGrille: this.activerGrille,
             color: this.color,
         });
-        // this.form =  this.newDrawingService.sizeGroup;
-        // this.screenSizeX = (this.form.get('width') as FormControl).value;
-        // this.screenSizeY = (this.form.get('height') as FormControl).value;
-        // console.log(this.screenSizeX);
-        // console.log(this.screenSizeY);
         this.screenSizeX = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         this.screenSizeY = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     }
@@ -74,34 +70,41 @@ export class GridService implements ITools {
         this.drawingService.renderer.setAttribute(this.pattern, 'patternUnits', 'userSpaceOnUse');
         this.drawingService.renderer.setAttribute(this.pattern, 'x', this.x.toString());
         this.drawingService.renderer.setAttribute(this.pattern, 'y', this.y.toString());
+
         this.rect = this.drawingService.renderer.createElement('rect', 'svg');
         this.drawingService.renderer.setAttribute(this.rect, 'x', this.x.toString());
         this.drawingService.renderer.setAttribute(this.rect, 'y', this.y.toString());
         this.drawingService.renderer.setAttribute(this.rect, 'width', this.sizeCell.value.toString());
         this.drawingService.renderer.setAttribute(this.rect, 'height', this.sizeCell.value.toString());
         this.setStyle();
-        this.drawingService.addObject(grid);
         this.drawingService.renderer.appendChild(grid, this.pattern);
+
         this.drawingService.renderer.appendChild(this.pattern, this.rect);
 
         const overallRect: SVGRectElement = this.drawingService.renderer.createElement('rect', 'svg');
 
         this.drawingService.renderer.setStyle(overallRect, 'fill', 'url(#Pattern)');
+        this.drawingService.renderer.setAttribute(overallRect, 'pointer-events', 'none');
         this.drawingService.renderer.setAttribute(overallRect, 'width', this.screenSizeX.toString());
         this.drawingService.renderer.setAttribute(overallRect, 'height', this.screenSizeY.toString());
-        this.drawingService.renderer.setStyle(overallRect, 'stroke', 'rgb(0,0,0)');
-        console.log('here overallrect');
         this.drawingService.addObject(overallRect);
+        this.drawingService.addObject(grid);
     }
+
     private setStyle() {
         this.drawingService.renderer.setStyle(this.rect, 'fill', 'none');
         this.drawingService.renderer.setStyle(this.rect, 'stroke', this.color.value);
         this.drawingService.renderer.setStyle(this.rect, 'stroke-width', '1');
         this.drawingService.renderer.setStyle(this.rect, 'stroke-opacity', this.transparence.value.toString());
+        this.hideGrid();
     }
 
-    removeGrid() {
-        this.drawingService.renderer.setStyle(this.rect, 'stroke-opacity', '0');
+    hideGrid() {
+        this.drawingService.renderer.setStyle(this.rect, 'visibility', 'hidden');
+    }
+
+    showGrid() {
+        this.drawingService.renderer.setStyle(this.rect, 'visibility', 'visible');
     }
 
     changeGridSize() {

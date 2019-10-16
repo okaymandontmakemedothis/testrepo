@@ -7,7 +7,7 @@
                 <mat-form-field>
                     <mat-label>Taille des carrés</mat-label>
                     <input matInput formControlName='sizeCell' type="number" placeholder="Taille des carrés" min="1"
-                        (keyup)="changeGridSize($event)" oninput="validity.valid||(value='');" onblur="validity.valid||(value='');">
+                        (keyup)="changeGridSizeKey($event)" (blur) ="changeGridSizeOnLostFocus()"  oninput="validity.valid||(value='');" onblur="validity.valid||(value='');">
                 </mat-form-field>
             </mat-grid-tile>
 
@@ -15,7 +15,7 @@
                 <mat-form-field>
                     <mat-label>Transparence</mat-label>
                     <input matInput formControlName='transparence' type="number" step="0.01" placeholder="Transparence"  max="1.00" 
-                        (keyup)="changeOpacity($event)" min="0.00" oninput="validity.valid||(value='');" onblur="validity.valid||(value='');">
+                        (keyup)="changeOpacityKey($event)" min="0.00" (blur) ="changeOpacityOnLostFocus()" oninput="validity.valid||(value='');" onblur="validity.valid||(value='');">
                 </mat-form-field>            
             </mat-grid-tile>
 

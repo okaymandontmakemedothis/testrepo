@@ -48,7 +48,7 @@ export class DrawingService {
     this.lastObjectId++;
     this.renderer.setProperty(obj, 'id', this.lastObjectId);
     this.objectList.set(this.lastObjectId, obj);
-    this.renderer.appendChild(this.drawing, obj);
+    this.renderer.insertBefore(this.drawing, obj, this.drawing.lastElementChild);
     return this.lastObjectId;
   }
 
