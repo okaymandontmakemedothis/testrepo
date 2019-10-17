@@ -6,7 +6,6 @@ import { DrawingService } from '../../drawing/drawing.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 import { INITIAL_CELL_SIZE, INITIAL_TRANSPARENCE } from '../tools-constants';
-// import { NewDrawingService } from '../new-drawing/new-drawing.service';
 
 @Injectable({
     providedIn: 'root',

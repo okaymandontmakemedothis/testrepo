@@ -1,8 +1,8 @@
+import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { DrawingService } from '../../drawing/drawing.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ToolsApplierColorsService } from './tools-applier-colors.service';
-import { Renderer2 } from '@angular/core';
 
 describe('ToolsApplierColorsService', () => {
   let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
@@ -11,7 +11,7 @@ describe('ToolsApplierColorsService', () => {
 
   beforeEach(() => {
     const spyColor = jasmine.createSpyObj('ToolsColorService', ['']);
-    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle',]);
+    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', ]);
     let spyDrawingService = jasmine.createSpyObj('DrawingService', ['addObject', 'getObject']);
     spyDrawingService = {
       ...spyDrawingService,
@@ -41,7 +41,7 @@ describe('ToolsApplierColorsService', () => {
     colorToolServiceSpy.primaryAlpha = 0.5;
 
     rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
-    //spyOnProperty(mouseEvent, 'target').and.returnValue(svg);
+    // spyOnProperty(mouseEvent, 'target').and.returnValue(svg);
     const setColorsSpy = spyOn(service, 'setColors');
     const setOpacitySpy = spyOn(service, 'setOpacity');
 
@@ -60,7 +60,7 @@ describe('ToolsApplierColorsService', () => {
     // svg.setAttribute('style', 'stroke: rgb(0, 0, 255); stroke-opacity: 1');
     // spyOnProperty(mouseEvent, 'target').and.returnValue(svg);
     rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
-    //spyOnProperty(mouseEvent, 'target').and.returnValue(svg);
+    // spyOnProperty(mouseEvent, 'target').and.returnValue(svg);
     const setColorsSpy = spyOn(service, 'setColors');
     const setOpacitySpy = spyOn(service, 'setOpacity');
 

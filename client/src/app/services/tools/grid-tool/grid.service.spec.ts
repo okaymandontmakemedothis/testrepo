@@ -1,14 +1,14 @@
-import { TestBed } from '@angular/core/testing';
-import { GridService } from './grid.sevice';
-import { DrawingService } from '../../drawing/drawing.service';
-import { FormControl } from '@angular/forms';
 import { Renderer2 } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
+import { DrawingService } from '../../drawing/drawing.service';
+import { GridService } from './grid.sevice';
 
 describe('GridService', () => {
     let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
     let rendererSpy: jasmine.SpyObj<Renderer2>;
     beforeEach(() => {
-        rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle',]);
+        rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', ]);
         let spyDrawingService = jasmine.createSpyObj('DrawingService', ['addObject', 'removeObject']);
         spyDrawingService = {
             ...spyDrawingService,

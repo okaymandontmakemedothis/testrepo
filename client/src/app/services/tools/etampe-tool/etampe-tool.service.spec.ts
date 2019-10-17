@@ -1,8 +1,8 @@
+import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { DrawingService } from '../../drawing/drawing.service';
-import { Renderer2 } from '@angular/core';
+import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { EtampeToolService } from './etampe-tool.service';
 
 describe('PencilToolService', () => {
@@ -12,7 +12,7 @@ describe('PencilToolService', () => {
 
   beforeEach(() => {
     const spyOffset = jasmine.createSpyObj('OffsetManagerService', ['offsetFromMouseEvent']);
-    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle',]);
+    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', ]);
     let spyDrawingService = jasmine.createSpyObj('DrawingService', ['addObject', 'removeObject']);
     spyDrawingService = {
       ...spyDrawingService,

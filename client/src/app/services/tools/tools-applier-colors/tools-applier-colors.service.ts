@@ -3,11 +3,11 @@ import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faTint } from '@fortawesome/free-solid-svg-icons';
 import { ObjectAtributeStructure } from 'src/app/model/object-structure.model';
+import { RGB } from 'src/app/model/rgb.model';
 import { DrawingService } from '../../drawing/drawing.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
-import { RGB } from 'src/app/model/rgb.model';
 
 /// Outil pour changer la couleur d'un objet, clique gauche change la couleur primaire et clique droit la couleur secondaire
 @Injectable({
@@ -41,7 +41,7 @@ export class ToolsApplierColorsService implements ITools {
 
           property = propertyMap ? propertyMap.primaryOpacity : '';
           this.setOpacity(this.toolsColorService.primaryAlpha, property);
-          //this.drawingService.renderer.setStyle(this.object, property, `${this.toolsColorService.primaryAlpha}`);
+          // this.drawingService.renderer.setStyle(this.object, property, `${this.toolsColorService.primaryAlpha}`);
         } else {
           property = propertyMap ? propertyMap.secondaryColor : '';
           if (event.button === 2 && target.style.getPropertyValue(property) !== '') {     // right click so set stroke to a color
@@ -53,7 +53,7 @@ export class ToolsApplierColorsService implements ITools {
             property = propertyMap ? propertyMap.secondaryOpacity : '';
             this.setOpacity(this.toolsColorService.secondaryAlpha, property);
 
-            //this.drawingService.renderer.setStyle(this.object, property, `${this.toolsColorService.secondaryAlpha}`);
+            // this.drawingService.renderer.setStyle(this.object, property, `${this.toolsColorService.secondaryAlpha}`);
           }
         }
       }

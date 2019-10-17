@@ -1,10 +1,10 @@
+import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
+import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { PencilToolService } from './pencil-tool.service';
-import { DrawingService } from '../../drawing/drawing.service';
-import { Renderer2 } from '@angular/core';
 
 describe('PencilToolService', () => {
   let offsetManagerServiceSpy: jasmine.SpyObj<OffsetManagerService>;
@@ -15,7 +15,7 @@ describe('PencilToolService', () => {
   beforeEach(() => {
     const spyOffset = jasmine.createSpyObj('OffsetManagerService', ['offsetFromMouseEvent']);
     const spyColor = jasmine.createSpyObj('ToolsColorService', ['']);
-    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle',]);
+    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', ]);
     let spyDrawingService = jasmine.createSpyObj('DrawingService', ['addObject', 'removeObject']);
     spyDrawingService = {
       ...spyDrawingService,
