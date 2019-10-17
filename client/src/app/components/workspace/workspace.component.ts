@@ -99,7 +99,6 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
 
   /// Effectue un onPress sur le clique droit de la sourie
   onRightClick(event: MouseEvent) {
-    this.toolsService.onPressed(event);
     return false;
   }
 
@@ -109,11 +108,13 @@ export class WorkspaceComponent implements OnInit, AfterViewInit {
   }
 
   /// Effectue un onRelease quand le clique de la sourie est relaché
+  @HostListener('window:mouseup', ['$event'])
   onMouseUp(event: MouseEvent) {
     this.toolsService.onRelease(event);
   }
 
   /// Effectue un onMove quand la sourie bouge
+  @HostListener('window:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
     this.toolsService.onMove(event);
   }

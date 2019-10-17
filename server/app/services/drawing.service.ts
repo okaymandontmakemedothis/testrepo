@@ -1,14 +1,14 @@
 import { injectable } from 'inversify';
 import { MongoClient, ObjectId } from 'mongodb';
 import 'reflect-metadata';
-import { Drawing, Tag } from '../../../common/communication/drawing';
+import { Drawing, Tag, DrawingPreview } from '../../../common/communication/drawing';
 
 const url = 'mongodb://localhost:27017/polydessin';
 const client = MongoClient;
 
 @injectable()
 export class DrawingService {
-    async getAllDrawings(): Promise<Drawing[]> {
+    async getAllDrawingsPreviews(): Promise<DrawingPreview[]> {
         return client.connect(url).then(async (mc: MongoClient) => {
             const db = mc.db('polydessin');
             const test = db.collection('drawings');

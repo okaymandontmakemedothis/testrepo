@@ -1,11 +1,19 @@
+export interface DrawingPreview {
+    name: string;
+    tags: string[];
+    width: number;
+    height: number;
+    thumbnail: string | undefined;
+}
+
 export interface Drawing {
+    id: string;
     name: string;
     tags: string[];
     width: number;
     height: number;
     backGroundColor: { rgb: { r: number, g: number, b: number }, a: number };
-    drawingObjects: DrawingObject[];
-    thumbnail: string|undefined;
+    svg: string | undefined;
 }
 
 export interface DrawingObject {

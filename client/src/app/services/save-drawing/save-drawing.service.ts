@@ -6,7 +6,7 @@ import { MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
-import { Drawing, DrawingObject } from '../../../../../common/communication/drawing';
+import { Drawing } from '../../../../../common/communication/drawing';
 
 @Injectable({
   providedIn: 'root',
@@ -79,15 +79,15 @@ export class SaveDrawingService {
 
   async save(): Promise<void> {
     this.saveEnabled = false;
-    const drawingObjectsList: DrawingObject[] = this.drawingService.drawingObjectList();
+    // const drawingObjectsList: DrawingObject[] = this.drawingService.drawingObjectList();
     const drawing: Drawing = {
+      id: '',
       name: this.nameCtrl.value,
       tags: this.tags,
-      drawingObjects: drawingObjectsList,
       width: this.drawingService.width,
       height: this.drawingService.height,
       backGroundColor: { rgb: this.drawingService.color, a: this.drawingService.alpha },
-      thumbnail: this.drawingService.drawString(),
+      svg: 'this.drawingService.drawString()',
     };
 
     await this.http.post<string>('http://localhost:3000/api/drawings/',

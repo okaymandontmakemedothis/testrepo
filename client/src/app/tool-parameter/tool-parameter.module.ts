@@ -6,6 +6,7 @@ import { ApplierToolParameterComponent } from './applier-tool-parameter/applier-
 import { BrushToolParameterComponent } from './brush-tool-parameter/brush-tool-parameter.component';
 import { EllipseToolParameterComponent } from './ellipse-tool-parameter/ellipse-tool-parameter.component';
 import { EtampeToolParameterComponent } from './etampe-tool-parameter/etampe-tool-parameter.component';
+import { GridParameterComponent } from './grid-parameter/grid-parameter.component';
 import { PencilToolParameterComponent } from './pencil-tool-parameter/pencil-tool-parameter.component';
 import { PipetteToolParameterComponent } from './pipette-tool-parameter/pipette-tool-parameter.component';
 import { PolygonToolParameterComponent } from './polygone-tool-parameter/polygone-tool-parameter.component';
@@ -21,6 +22,7 @@ import { RectangleToolParameterComponent } from './rectangle-tool-parameter/rect
     PipetteToolParameterComponent,
     EtampeToolParameterComponent,
     PolygonToolParameterComponent,
+    GridParameterComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +40,7 @@ import { RectangleToolParameterComponent } from './rectangle-tool-parameter/rect
     PipetteToolParameterComponent,
     EtampeToolParameterComponent,
     PolygonToolParameterComponent,
+    GridParameterComponent,
 
   ],
 })

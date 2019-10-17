@@ -20,8 +20,9 @@ export class DrawingController {
 
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                this.drawingService.getAllDrawings().then((d: Drawing[]) => {
+                this.drawingService.getAllDrawingsPreviews().then((d: Drawing[]) => {
                     console.log(d);
+
                     res.json(d);
                 }).catch((reason: unknown) => {
                     res.json('error');

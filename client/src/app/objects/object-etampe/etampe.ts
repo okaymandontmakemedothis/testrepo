@@ -1,16 +1,16 @@
+import { ElementRef } from '@angular/core';
 import { RGBA } from '../../model/rgba.model';
-import { IObjects } from '../IObjects';
 
 /// Classe pour créer les objets rectangles
 const defaultHeight = 50;
 const defaultWidth = 50;
-export class EtampeObject implements IObjects {
+export class EtampeObject {
   primaryColor: RGBA;
   secondaryColor: RGBA;
   id = 1;
   x = 0;
   y = 0;
-
+  objRef: ElementRef;
   height = defaultHeight;
   width = defaultWidth;
   angle = 0;
@@ -30,7 +30,7 @@ export class EtampeObject implements IObjects {
   draw(): string {
     const x = (this.x - this.width / 2);
     const y = (this.y - this.height / 2);
-    return '<image id="' + this.id + '" x="' + x  +
+    return '<image id="' + this.id + '" x="' + x +
       '" y="' + y + '" width="' + this.width + '" height="' + this.height + '" xlink:href=' + this.url + this.getRotation() + ' />';
 
   }
