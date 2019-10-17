@@ -1,9 +1,7 @@
-
 import { Component, OnInit } from '@angular/core';
-import { FormControl , FormGroup } from '@angular/forms';
-import {RectangleStyle } from 'src/app/model/reactangle-style.model';
+import { FormControl, FormGroup } from '@angular/forms';
+import { RectangleStyle } from 'src/app/model/reactangle-style.model';
 import { LineToolService } from '../../services/tools/line-tool/line-tool.service';
-
 
 const LIGNE = 0;
 const POINTILLE_TRAIT = 1;
@@ -91,12 +89,12 @@ export class LineToolParameterComponent implements OnInit {
     this.lineToolService.selectStyleJonction();
   }
   changeDiameter(event: KeyboardEvent) {
-    if(event.key === 'Enter'){
+    if (event.key === 'Enter') {
       this.lineToolService.changeDiameter();
     }
   }
   changeStrokeWidth(event: KeyboardEvent) {
-    if(event.key === 'Enter') {
+    if (event.key === 'Enter') {
       this.lineToolService.changeStrokeWidth();
     }
   }

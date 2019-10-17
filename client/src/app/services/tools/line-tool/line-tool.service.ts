@@ -58,7 +58,6 @@ export class LineToolService implements ITools {
   /// Création d'un polyline selon la position de l'evenement de souris, choisi les bonnes couleurs selon le clique de souris
   onPressed(event: MouseEvent): void {
     if (event.button === 0 || event.button === 2) {
-      console.log('presse');
       if (this.verifydoubleClick() === true) {
 
         this.onDoublePressed();

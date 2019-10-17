@@ -11,6 +11,8 @@ export const enum KeyCodes {
     altL = 'AltLeft',
     altR = 'AltRight',
     tab = 'Tab',
+    esc = 'Escape',
+    backSpace = 'Backspace',
 
     b0 = 'Digit0',
     b1 = 'Digit1',
@@ -68,4 +70,5 @@ export const enum EmitReturn {
     BRUSH = 'brush',
     APPLICATEUR = 'applicateur',
     RECTANGLE = 'rectangle',
+    LINE = 'line',
 }
