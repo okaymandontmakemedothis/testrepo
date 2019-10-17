@@ -43,8 +43,8 @@ export class GridService implements ITools {
             activerGrille: this.activerGrille,
             color: this.color,
         });
-        this.screenSizeX = window.innerWidth; // || document.documentElement.clientWidth || document.body.clientWidth;
-        this.screenSizeY = window.innerHeight; // || document.documentElement.clientHeight || document.body.clientHeight;
+        this.screenSizeX = window.innerWidth;
+        this.screenSizeY = window.innerHeight;
     }
 
     onPressed(event: MouseEvent) {
