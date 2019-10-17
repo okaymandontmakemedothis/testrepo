@@ -20,4 +20,15 @@ export const ObjectAtributeStructure: Record<string, Record<string, string>> = {
         width: 'width',
         height: 'height',
     },
+
+    ellipse: {
+        primaryColor: 'fill',
+        primaryOpacity: 'fill-Opacity',
+        secondaryColor: 'stroke',
+        secondaryOpacity: 'stroke-Opacity',
+        x: 'x',
+        y: 'y',
+        width: 'width',
+        height: 'height',
+    },
 };
