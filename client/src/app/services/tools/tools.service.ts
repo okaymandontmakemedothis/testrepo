@@ -3,9 +3,11 @@ import { BrushToolService } from './brush-tool/brush-tool.service';
 import { EtampeToolService } from './etampe-tool/etampe-tool.service';
 import { GridService } from './grid-tool/grid.sevice';
 import { ITools } from './ITools';
+import { LineToolService } from './line-tool/line-tool.service';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { PipetteToolService } from './pipette-tool/pipette-tool.service';
 import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
+import { ToolIdConstants } from './tool-id-constants';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
 
@@ -29,6 +31,7 @@ export class ToolsService {
     private pipetteTool: PipetteToolService,
     private etampeService: EtampeToolService,
     private gridService: GridService,
+    private lineTool: LineToolService,
 
   ) {
     this.initTools();
@@ -45,6 +48,7 @@ export class ToolsService {
     this.tools.set(this.pipetteTool.id, this.pipetteTool);
     this.tools.set(this.etampeService.id, this.etampeService);
     this.tools.set(this.gridService.id, this.gridService);
+    this.tools.set(this.lineTool.id, this.lineTool);
   }
 
   /// Selectionner un outil avec son id
@@ -74,7 +78,7 @@ export class ToolsService {
     if (!tool) {
       return;
     }
-    if (this.isPressed) {
+    if (this.isPressed || tool.id === ToolIdConstants.LINE_ID) {
       tool.onRelease(event);
     }
     this.isPressed = false;
@@ -87,7 +91,7 @@ export class ToolsService {
     if (!tool) {
       return;
     }
-    if (this.isPressed) {
+    if (this.isPressed || tool.id === ToolIdConstants.LINE_ID) {
       tool.onMove(event);
     }
   }
@@ -98,7 +102,7 @@ export class ToolsService {
       if (!tool) {
         return;
       }
-      if (this.isPressed) {
+      if (this.isPressed || tool.id === ToolIdConstants.LINE_ID) {
         tool.onKeyDown(event);
       }
     });
@@ -107,7 +111,7 @@ export class ToolsService {
       if (!tool) {
         return;
       }
-      if (this.isPressed) {
+      if (this.isPressed || tool.id === ToolIdConstants.LINE_ID) {
         tool.onKeyUp(event);
       }
     });

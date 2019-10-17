@@ -19,7 +19,12 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting(),
 );
 // Then we find all the tests.
+<<<<<<< HEAD
 //const context = require.context('./', true, /.spec\.ts$/);
 const context = require.context('./', true, /etampe-tool\.service\.spec\.ts$/);
+=======
+// const context = require.context('./', true, /.spec\.ts$/);
+const context = require.context('./', true, /canvas.component\.spec\.ts$/);
+>>>>>>> 58b810a465e8faf4f0c332c5e1a90f1be52f6b03
 // And load the modules.
 context.keys().map(context);
