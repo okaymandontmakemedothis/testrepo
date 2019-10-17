@@ -30,7 +30,6 @@ export class GridService implements ITools {
     pattern: SVGPatternElement;
     form: FormGroup;
 
-
     constructor(private drawingService: DrawingService, ) {
         this.sizeCell = new FormControl(INITIAL_CELL_SIZE, Validators.min(1));
         this.transparence = new FormControl(INITIAL_TRANSPARENCE, Validators.min(0.1));
