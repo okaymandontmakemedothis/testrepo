@@ -32,7 +32,7 @@ export class GridService implements ITools {
     form: FormGroup;
 
 
-    constructor(private drawingService: DrawingService, ) { // private newDrawingService: NewDrawingService) {
+    constructor(private drawingService: DrawingService, ) {
         this.sizeCell = new FormControl(INITIAL_CELL_SIZE, Validators.min(1));
         this.transparence = new FormControl(INITIAL_TRANSPARENCE, Validators.min(0.1));
         this.activerGrille = new FormControl(false);
@@ -43,21 +43,25 @@ export class GridService implements ITools {
             activerGrille: this.activerGrille,
             color: this.color,
         });
-        this.screenSizeX = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        this.screenSizeY = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        this.screenSizeX = window.innerWidth; // || document.documentElement.clientWidth || document.body.clientWidth;
+        this.screenSizeY = window.innerHeight; // || document.documentElement.clientHeight || document.body.clientHeight;
     }
 
     onPressed(event: MouseEvent) {
-        // this.createPatternGrid();
+        return;
     }
     onRelease(event: MouseEvent) {
         return;
     }
     onMove(event: MouseEvent) {
-        return null;
+        return;
     }
-    onKeyDown(event: KeyboardEvent): void { }
-    onKeyUp(event: KeyboardEvent): void { }
+    onKeyDown(event: KeyboardEvent): void {
+        return;
+     }
+    onKeyUp(event: KeyboardEvent): void {
+        return;
+    }
 
     createPatternGrid() {
         this.x = 0;
