@@ -31,7 +31,6 @@ export class GridService implements ITools {
     pattern: SVGPatternElement;
     form: FormGroup;
 
-
     constructor(private drawingService: DrawingService, ) { // private newDrawingService: NewDrawingService) {
         this.sizeCell = new FormControl(INITIAL_CELL_SIZE, Validators.min(1));
         this.transparence = new FormControl(INITIAL_TRANSPARENCE, Validators.min(0.1));
@@ -56,7 +55,11 @@ export class GridService implements ITools {
     onMove(event: MouseEvent) {
         return null;
     }
+
+    // tslint:disable-next-line: no-empty
     onKeyDown(event: KeyboardEvent): void { }
+
+    // tslint:disable-next-line: no-empty
     onKeyUp(event: KeyboardEvent): void { }
 
     createPatternGrid() {
@@ -87,6 +90,7 @@ export class GridService implements ITools {
         this.drawingService.renderer.setAttribute(overallRect, 'pointer-events', 'none');
         this.drawingService.renderer.setAttribute(overallRect, 'width', this.screenSizeX.toString());
         this.drawingService.renderer.setAttribute(overallRect, 'height', this.screenSizeY.toString());
+
         this.drawingService.addObject(overallRect);
         this.drawingService.addObject(grid);
     }

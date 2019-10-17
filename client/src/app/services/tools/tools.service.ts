@@ -45,6 +45,7 @@ export class ToolsService {
     this.tools.set(this.colorApplicator.id, this.colorApplicator);
     this.tools.set(this.rectangleTool.id, this.rectangleTool);
     this.tools.set(this.ellipseTool.id, this.ellipseTool);
+    this.tools.set(this.lineTool.id, this.lineTool);
     this.tools.set(this.pipetteTool.id, this.pipetteTool);
     this.tools.set(this.etampeService.id, this.etampeService);
     this.tools.set(this.gridService.id, this.gridService);
@@ -54,6 +55,7 @@ export class ToolsService {
   /// Selectionner un outil avec son id
   selectTool(id: number): void {
     this.selectedToolId = id;
+    this.lineTool.changeTool();
   }
 
   /// Retourner l'outil presentement selectionné

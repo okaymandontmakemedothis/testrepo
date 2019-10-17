@@ -24,10 +24,10 @@ export class ParameterComponentService {
       ApplierToolParameterComponent,
       RectangleToolParameterComponent,
       EllipseToolParameterComponent,
+      LineToolParameterComponent,
       PipetteToolParameterComponent,
       EtampeToolParameterComponent,
       GridParameterComponent,
-      LineToolParameterComponent,
     );
     // Le push ce fait par la suite pour s'assurer qu'il s'agit de la derniere classe
     this.parameterComponentList.push(ControlMenuComponent);

@@ -40,6 +40,7 @@ import { RectangleToolParameterComponent } from './rectangle-tool-parameter/rect
     PipetteToolParameterComponent,
     EtampeToolParameterComponent,
     GridParameterComponent,
+    LineToolParameterComponent,
 
   ],
 })
