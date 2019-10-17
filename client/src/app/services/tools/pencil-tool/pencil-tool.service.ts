@@ -8,6 +8,7 @@ import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 import { INITIAL_WIDTH } from '../tools-constants';
+import { RGB } from 'src/app/model/rgb.model';
 
 /// Service de l'outil pencil, permet de créer des polyline en svg
 /// Il est possible d'ajuster le stroke width dans le form
@@ -60,31 +61,45 @@ export class PencilToolService implements ITools {
         this.drawingService.renderer.setStyle(this.object, 'stroke-linecap', `round`);
         this.drawingService.renderer.setStyle(this.object, 'stroke-linejoin', `round`);
         this.drawingService.renderer.setStyle(this.object, 'fill', `none`);
-        if (event.button === 0) {
-          this.drawingService.renderer.setStyle(
-            this.object, 'stroke', `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b})`);
-          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
 
-          this.drawingService.renderer.setStyle(
-            point, 'fill', `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b})`);
-          this.drawingService.renderer.setStyle(point, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
+        if (event.button === 0) {
+          this.setColors(this.colorTool.primaryColor, this.colorTool.primaryAlpha, point);
+          // this.drawingService.renderer.setStyle(
+          //   this.object, 'stroke', `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          // ${this.colorTool.primaryColor.b})`);
+          // this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
+
+          // this.drawingService.renderer.setStyle(
+          //   point, 'fill', `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          // ${this.colorTool.primaryColor.b})`);
+          // this.drawingService.renderer.setStyle(point, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
 
         } else {
-          this.drawingService.renderer.setStyle(
-            this.object, 'stroke', `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b})`);
-          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
+          this.setColors(this.colorTool.secondaryColor, this.colorTool.secondaryAlpha, point);
+          // this.drawingService.renderer.setStyle(
+          //   this.object, 'stroke', `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+          //   ${this.colorTool.secondaryColor.b})`);
+          // this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
 
-          this.drawingService.renderer.setStyle(
-            point, 'fill', `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-              ${this.colorTool.secondaryColor.b})`);
-          this.drawingService.renderer.setStyle(point, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
+          // this.drawingService.renderer.setStyle(
+          //   point, 'fill', `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+          //     ${this.colorTool.secondaryColor.b})`);
+          // this.drawingService.renderer.setStyle(point, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
         }
       }
     }
   }
+  setColors(rgb: RGB, a: number, dot: SVGElement) {
+    this.drawingService.renderer.setStyle(
+      this.object, 'stroke', `rgb(${ rgb.r }, ${ rgb.g },
+        ${ rgb.b })`);
+    this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', a.toString());
+    this.drawingService.renderer.setStyle(
+      dot, 'fill', `rgb(${rgb.r}, ${rgb.g},
+        ${ rgb.b})`);
+    this.drawingService.renderer.setStyle(dot, 'fillOpacity', a.toString());
+  }
+
 
   /// Réinitialisation de l'outil après avoir laisser le clique de la souris
   onRelease(event: MouseEvent): void {
@@ -97,15 +112,15 @@ export class PencilToolService implements ITools {
 
   /// Ajout d'un point seulon le déplacement de la souris
   onMove(event: MouseEvent): void {
-    this.addPoint(this.offsetManager.offsetFromMouseEvent(event));
-    let pointString = '';
-    for (const point of this.pointsList) {
-      pointString += `${point.x} ${point.y},`;
-    }
-    pointString = pointString.substring(0, pointString.length - 1);
-    this.drawingService.renderer.setAttribute(this.object, 'points', pointString);
-    if (this.dotId !== -1) {
-      if (this.object) {
+    if (this.object) {
+      this.addPoint(this.offsetManager.offsetFromMouseEvent(event));
+      let pointString = '';
+      for (const point of this.pointsList) {
+        pointString += `${point.x} ${point.y},`;
+      }
+      pointString = pointString.substring(0, pointString.length - 1);
+      this.drawingService.renderer.setAttribute(this.object, 'points', pointString);
+      if (this.dotId !== -1) {
         this.drawingService.removeObject(this.dotId);
         this.drawingService.addObject(this.object);
         this.dotId = -1;
