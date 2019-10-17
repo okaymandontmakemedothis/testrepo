@@ -67,7 +67,8 @@ export class GridParameterComponent implements OnInit {
     this.gridService.changeColor();
   }
 
-  onSelection(event: any) {
+  onSelection() {
+    console.log((this.form.get('activerGrille') as FormControl).value)
     if ((this.form.get('activerGrille') as FormControl).value === true) {
       this.gridService.showGrid();
     } else {

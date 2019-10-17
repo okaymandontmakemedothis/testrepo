@@ -34,7 +34,7 @@ describe('EtampeToolParameterComponent', () => {
 
   it('should patch etampe value in form', () => {
     component.form = new FormGroup({ etampe: new FormControl('') });
-    const spy = spyOn(component.form, 'patchValue').and.callThrough();
+    const spy = spyOn(component.form, 'patchValue');
     component.currentEtampe = 0;
     component.selectEtampe(1);
     expect(spy).toHaveBeenCalled();

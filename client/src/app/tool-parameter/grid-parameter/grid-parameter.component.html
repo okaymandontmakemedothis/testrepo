@@ -40,5 +40,5 @@
       </mat-button-toggle-group>
 </div>
 <div [formGroup]='form'>
-    <mat-checkbox formControlName='activerGrille' (change)="onSelection($event)" >Activer la grille</mat-checkbox>
+    <mat-checkbox id= 'showGrid' formControlName='activerGrille' (change)="onSelection()" >Activer la grille</mat-checkbox>
 </div>
