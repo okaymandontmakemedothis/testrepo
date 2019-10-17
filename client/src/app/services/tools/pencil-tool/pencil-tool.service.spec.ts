@@ -124,6 +124,7 @@ describe('PencilToolService', () => {
     const form = service.parameters.get('strokeWidth') as FormControl;
     form.patchValue(0);
     expect(service.onPressed(new MouseEvent('mousedown'))).toBeUndefined();
+    expect(drawingServiceSpy.addObject).not.toHaveBeenCalled();
 
   });
 
@@ -145,4 +146,5 @@ describe('PencilToolService', () => {
     service.onPressed(new MouseEvent('mousedown', { button: 1 }));
     expect(rendererSpy.createElement).not.toHaveBeenCalled();
   });
+
 });

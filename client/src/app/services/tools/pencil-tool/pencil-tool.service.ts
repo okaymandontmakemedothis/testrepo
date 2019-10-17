@@ -35,9 +35,8 @@ export class PencilToolService implements ITools {
 
   /// Ajout d'un point dans la liste de point du Polyline
   private addPoint(point: Point) {
-    if (this.object) {
-      this.pointsList.push(point);
-    }
+    this.lastPoint = point;
+    this.pointsList.push(this.lastPoint);
   }
 
   /// Création d'un polyline selon la position de l'evenement de souris, choisi les bonnes couleurs selon le clique de souris
@@ -64,27 +63,8 @@ export class PencilToolService implements ITools {
 
         if (event.button === 0) {
           this.setColors(this.colorTool.primaryColor, this.colorTool.primaryAlpha, point);
-          // this.drawingService.renderer.setStyle(
-          //   this.object, 'stroke', `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          // ${this.colorTool.primaryColor.b})`);
-          // this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
-
-          // this.drawingService.renderer.setStyle(
-          //   point, 'fill', `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          // ${this.colorTool.primaryColor.b})`);
-          // this.drawingService.renderer.setStyle(point, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
-
         } else {
           this.setColors(this.colorTool.secondaryColor, this.colorTool.secondaryAlpha, point);
-          // this.drawingService.renderer.setStyle(
-          //   this.object, 'stroke', `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-          //   ${this.colorTool.secondaryColor.b})`);
-          // this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
-
-          // this.drawingService.renderer.setStyle(
-          //   point, 'fill', `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-          //     ${this.colorTool.secondaryColor.b})`);
-          // this.drawingService.renderer.setStyle(point, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
         }
       }
     }
@@ -100,14 +80,11 @@ export class PencilToolService implements ITools {
     this.drawingService.renderer.setStyle(dot, 'fillOpacity', a.toString());
   }
 
-
   /// Réinitialisation de l'outil après avoir laisser le clique de la souris
   onRelease(event: MouseEvent): void {
-    if (event.button === 0 || event.button === 2) {
-      this.object = null;
-      this.pointsList = [];
-      this.lastPoint = { x: 0, y: 0 };
-    }
+    this.object = null;
+    this.pointsList = [];
+    this.lastPoint = { x: 0, y: 0 };
   }
 
   /// Ajout d'un point seulon le déplacement de la souris

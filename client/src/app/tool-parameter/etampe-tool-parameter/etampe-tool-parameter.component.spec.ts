@@ -45,7 +45,7 @@ describe('EtampeToolParameterComponent', () => {
   });
 
   it('should return the scale value', () => {
-    const form = etampeService.parameters.get('facteur') as FormControl;
+    const form = etampeService.parameters.get('facteurSize') as FormControl;
     form.patchValue(6);
     expect(component.scaleValue).toEqual(6);
   });
