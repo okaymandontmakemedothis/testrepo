@@ -8,6 +8,7 @@ import { PipetteToolService } from './pipette-tool/pipette-tool.service';
 import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
+import { LineToolService } from './line-tool/line-tool.service';
 
 /// Service permettant de gérer l'outil présent selon son ID
 /// Appelle les bonnes fonctions d'évenement souris selon l'outil selectionner
@@ -29,6 +30,7 @@ export class ToolsService {
     private pipetteTool: PipetteToolService,
     private etampeService: EtampeToolService,
     private gridService: GridService,
+    private lineTool: LineToolService,
 
   ) {
     this.initTools();
@@ -45,6 +47,7 @@ export class ToolsService {
     this.tools.set(this.pipetteTool.id, this.pipetteTool);
     this.tools.set(this.etampeService.id, this.etampeService);
     this.tools.set(this.gridService.id, this.gridService);
+    this.tools.set(this.lineTool.id, this.lineTool);
   }
 
   /// Selectionner un outil avec son id

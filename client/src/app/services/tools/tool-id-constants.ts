@@ -8,5 +8,6 @@ export class ToolIdConstants {
     static readonly PIPETTE_ID: number = 5;
     static readonly ETAMPE_ID: number = 6;
     static readonly GRID_ID: number = 7;
+    static readonly  LINE_ID: number = 8;
 
 }

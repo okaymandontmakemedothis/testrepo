@@ -10,6 +10,7 @@ import { GridParameterComponent } from './grid-parameter/grid-parameter.componen
 import { PencilToolParameterComponent } from './pencil-tool-parameter/pencil-tool-parameter.component';
 import { PipetteToolParameterComponent } from './pipette-tool-parameter/pipette-tool-parameter.component';
 import { RectangleToolParameterComponent } from './rectangle-tool-parameter/rectangle-tool-parameter.component';
+import { LineToolParameterComponent } from './line-tool-parameter/line-tool-parameter/line-tool-parameter.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RectangleToolParameterComponent } from './rectangle-tool-parameter/rect
     PipetteToolParameterComponent,
     EtampeToolParameterComponent,
     GridParameterComponent,
+    LineToolParameterComponent,
   ],
   imports: [
     CommonModule,
