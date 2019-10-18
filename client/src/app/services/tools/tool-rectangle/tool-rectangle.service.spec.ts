@@ -61,11 +61,11 @@ describe('ToolRectangleService', () => {
     expect(setSizeSpy).toHaveBeenCalledWith(10, 12);
   });
 
-  it('should not set square if key is not shift', () => {
+  it('should not set square if shiftKey is false on keydown', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
     rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
-    const eventKeyDown = new KeyboardEvent('keydown', { altKey: true });
+    const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: false });
     const moveEvent = new MouseEvent('mousemove', { movementX: 2, movementY: 2 });
 
     service.onPressed(new MouseEvent('mousedown', { button: 0 }));
@@ -91,7 +91,7 @@ describe('ToolRectangleService', () => {
     expect(setSizeSpy).toHaveBeenCalledWith(10, 12);
   });
 
-  it('should not unset square if shiftKey is true', () => {
+  it('should not unset square if shiftKey is true on keyUp', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
     rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
@@ -109,7 +109,6 @@ describe('ToolRectangleService', () => {
   it('should create un object on mouse press ', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 10 });
-    (service.parameters.get('rectStyle') as FormControl).patchValue('center');
 
     rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
     service.onPressed(new MouseEvent('mousedown', { button: 0 }));
@@ -277,16 +276,8 @@ describe('ToolRectangleService', () => {
     service.oldY = 2;
     const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
     service.onKeyDown(eventKeyDown);
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'x', '4.5');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'y', '4.5');
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'x', '0.5');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'y', '2.5');
 
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'y', '4.5');
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'width', '1');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'height', '1');
   });
 
   it('should change y when mouseX and MouseY < x and y and width > height on square mode', () => {
@@ -300,15 +291,6 @@ describe('ToolRectangleService', () => {
     service.onKeyDown(eventKeyDown);
 
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'x', '4.5');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'y', '4.5');
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'x', '2.5');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'y', '0.5');
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'x', '4.5');
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'width', '1');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'height', '1');
   });
 
   it('should change y width < height and when MouseY < y on square mode', () => {
@@ -320,16 +302,8 @@ describe('ToolRectangleService', () => {
     service.oldY = 0;
     const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
     service.onKeyDown(eventKeyDown);
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'x', '4.5');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'y', '2.5');
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'x', '4.5');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'y', '2.5');
 
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'y', '2.5');
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'width', '0');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'height', '0');
   });
 
   it('should not change y width < height and when MouseY > y on square mode', () => {
@@ -341,13 +315,8 @@ describe('ToolRectangleService', () => {
     service.oldY = 3;
     const eventKeyDown = new KeyboardEvent('keydown', { shiftKey: true });
     service.onKeyDown(eventKeyDown);
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'x', '4.5');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'y', '2.5');
 
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'x', '4.5');
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'width', '0');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'height', '0');
   });
 
   it('should change x width > height and when Mousex < x on square mode', () => {
@@ -359,16 +328,8 @@ describe('ToolRectangleService', () => {
     service.oldX = 1;
     service.oldY = 4;
     service.onKeyDown(eventKeyDown);
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'x', '2.5');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'y', '4.5');
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'x', '1.5');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'y', '4.5');
 
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'x', '2.5');
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'width', '0');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'height', '0');
   });
 
   it('should not change x width > height and when Mousex > x on square mode', () => {
@@ -380,12 +341,7 @@ describe('ToolRectangleService', () => {
     service.oldX = 3;
     service.oldY = 4;
     service.onKeyDown(eventKeyDown);
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'x', '2.5');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'y', '4.5');
 
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'y', '4.5');
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'width', '0');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'height', '0');
   });
 });
