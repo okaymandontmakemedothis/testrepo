@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faTint } from '@fortawesome/free-solid-svg-icons';
-import { ObjectAtributeStructure } from 'src/app/model/object-structure.model';
+import { OBJECT_ATTRIBUTE_STRUCTURE } from 'src/app/model/object-structure.model';
 import { DrawingService } from '../../drawing/drawing.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
@@ -25,31 +25,49 @@ export class ToolsApplierColorsService implements ITools {
   onPressed(event: MouseEvent): void {
     if (event.button === 0 || event.button === 2) {
       const target = event.target as SVGElement;
-      this.object = this.drawingService.getObject(Number(target.id));
 
-      const propertyMap = ObjectAtributeStructure[target.tagName];
-      let property: string;
+      const propertyMap: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[target.tagName];
+      if (!propertyMap) {
+        return;
+      }
+      const primaryColorAttribute: string | undefined = propertyMap.primaryColor;
+      const primaryAlphaAttribute: string | undefined = propertyMap.primaryOpacity;
+      if (!primaryColorAttribute || !primaryAlphaAttribute) {
+        return;
+      }
+      const actualValue = target.style.getPropertyValue(primaryColorAttribute);
 
+      if (actualValue.startsWith('url')) {
+        this.object = (((document.getElementById(actualValue.replace('url("#', '').replace('")', '')) as HTMLElement)
+          .children.item(0) as SVGElement)
+          .children.item(0) as SVGElement);
+      } else {
+        this.object = this.drawingService.getObject(Number(target.id));
+      }
+      let colorString;
+      let alphaString;
+      if (event.button === 0) {
+        colorString = 'primaryColor';
+        alphaString = 'primaryOpacity';
+      } else {
+        colorString = 'secondaryColor';
+        alphaString = 'secondaryOpacity';
+      }
       if (this.object) {
-        property = propertyMap ? propertyMap.primaryColor : '';
-        if (event.button === 0 && target.style.getPropertyValue(property) !== 'none') { // left click so set fill to a color
-          this.drawingService.renderer.setStyle(this.object, property,
-            `rgb(${this.toolsColorService.primaryColor.r},${this.toolsColorService.primaryColor.g},
-          ${this.toolsColorService.primaryColor.b})`);
-
-          property = propertyMap ? propertyMap.primaryOpacity : '';
-          this.drawingService.renderer.setStyle(this.object, property, `${this.toolsColorService.primaryAlpha}`);
-        } else {
-          property = propertyMap ? propertyMap.secondaryColor : '';
-          if (event.button === 2 && target.style.getPropertyValue(property) !== '') {     // right click so set stroke to a color
-            this.drawingService.renderer.setStyle(this.object, 'stroke',
-              `rgb(${this.toolsColorService.secondaryColor.r},${this.toolsColorService.secondaryColor.g},
-            ${this.toolsColorService.secondaryColor.b})`);
-
-            property = propertyMap ? propertyMap.secondaryOpacity : '';
-            this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.toolsColorService.secondaryAlpha}`);
-          }
+        const tag: string = this.object.tagName === 'g' ? 'rect' : this.object.tagName;
+        const property: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[tag];
+        if (!property) {
+          return;
         }
+        const colorAtribute: string | undefined = property[colorString];
+        const alphaAtribute: string | undefined = property[alphaString];
+        if (!colorAtribute || !alphaAtribute) {
+          return;
+        }
+        this.drawingService.renderer.setStyle(this.object, colorAtribute,
+          `rgb(${this.toolsColorService.primaryColor.r},${this.toolsColorService.primaryColor.g},
+          ${this.toolsColorService.primaryColor.b})`);
+        this.drawingService.renderer.setStyle(this.object, alphaAtribute, `${this.toolsColorService.primaryAlpha}`);
       }
     }
   }

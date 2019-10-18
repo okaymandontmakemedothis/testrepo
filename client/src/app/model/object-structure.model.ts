@@ -1,4 +1,4 @@
-export const ObjectAtributeStructure: Record<string, Record<string, string>> = {
+export const OBJECT_ATTRIBUTE_STRUCTURE: Record<string, Record<string, string>> = {
     polyline: {
         primaryColor: 'stroke',
         primaryOpacity: 'stroke-Opacity',
