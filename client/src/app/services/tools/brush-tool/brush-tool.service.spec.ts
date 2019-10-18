@@ -1,11 +1,11 @@
+import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
+import { TexturesService } from '../../textures/textures.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { BrushToolService } from './brush-tool.service';
-import { TexturesService } from '../../textures/textures.service';
-import { Renderer2 } from '@angular/core';
 
 describe('BrushToolService', () => {
   let offsetManagerServiceSpy: jasmine.SpyObj<OffsetManagerService>;
@@ -17,7 +17,7 @@ describe('BrushToolService', () => {
   beforeEach(() => {
     const spyOffset = jasmine.createSpyObj('OffsetManagerService', ['offsetFromMouseEvent']);
     const spyColor = jasmine.createSpyObj('ToolsColorService', ['']);
-    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle',]);
+    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', ]);
     let spyTextureService = jasmine.createSpyObj('TextureService', ['getTextureElement']);
     spyTextureService = {
       ...spyTextureService,
@@ -150,7 +150,7 @@ describe('BrushToolService', () => {
     service.onPressed(new MouseEvent('mousedown'));
     service.onMove(new MouseEvent('mousemove'));
     service.onRelease(new MouseEvent('mouseup'));
-    expect(rendererSpy.setStyle).toHaveBeenCalledWith('polyline', 'stroke', 'url(#1)')
+    expect(rendererSpy.setStyle).toHaveBeenCalledWith('polyline', 'stroke', 'url(#1)');
   });
 
   it('should do nothing on onKeyUp', () => {

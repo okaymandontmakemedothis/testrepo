@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed} from '@angular/core/testing';
-import { GridParameterComponent } from './grid-parameter.component';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModules } from 'src/app/app-material.module';
 import { GridService } from 'src/app/services/tools/grid-tool/grid.sevice';
+import { GridParameterComponent } from './grid-parameter.component';
 
 describe('GridParameterComponent', () => {
   let component: GridParameterComponent;

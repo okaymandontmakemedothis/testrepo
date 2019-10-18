@@ -8,7 +8,7 @@ describe('LineToolParameterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LineToolParameterComponent ]
+      declarations: [ LineToolParameterComponent ],
     })
     .compileComponents();
   }));

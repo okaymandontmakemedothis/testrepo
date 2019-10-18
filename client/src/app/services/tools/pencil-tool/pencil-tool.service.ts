@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faPencilAlt, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Point } from 'src/app/model/point.model';
+import { RGB } from 'src/app/model/rgb.model';
 import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 import { INITIAL_WIDTH } from '../tools-constants';
-import { RGB } from 'src/app/model/rgb.model';
 
 /// Service de l'outil pencil, permet de créer des polyline en svg
 /// Il est possible d'ajuster le stroke width dans le form
