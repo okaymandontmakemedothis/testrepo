@@ -45,7 +45,7 @@ export class SaveDrawingService {
     this.tagCtrl.reset();
     this.nameCtrl.reset();
     this.tags = [];
-    this.tagService.retrieveTags().then((tags) => this.allTags = tags);
+    this.tagService.retrieveTags().subscribe((tags: string[]) => this.allTags = tags);
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) => tag ? this.filter(tag) : this.allTags.slice()));

@@ -81,7 +81,6 @@ describe('ToolRectangleService', () => {
     const mouseEvent = new MouseEvent('keydown', { button: 0 });
 
     service.onPressed(mouseEvent);
-    console.log(obj.tagName);
 
     service.onKeyDown(eventKeyDown);
 

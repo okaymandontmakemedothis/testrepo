@@ -10,18 +10,18 @@
         <div>
             <mat-form-field class="tag-list">
                 <mat-chip-list #chipList aria-label="Sélection d'étiquette">
-                    <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
+                    <!-- <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
                         (removed)="remove(tag)">
                         {{tag}}
                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
                     <input placeholder="Étiquette(s)..." #tagInput [formControl]="tagCtrl" [matChipInputFor]="chipList"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
-                        (matChipInputTokenEnd)="add($event)">
+                        (matChipInputTokenEnd)="add($event)"> -->
                 </mat-chip-list>
             </mat-form-field>
         </div>
-        <mat-list>
+        <!-- <mat-list>
             <mat-list-item *ngFor="let preview of drawingPreview.value">
                 <svg [id]=preview.name height="100" width="100" mat-list-icon>
                     {{getThumbnail(preview)}}
@@ -29,14 +29,15 @@
                 <h4 mat-line>{{preview.name}}</h4>
                 <p mat-line> {{preview.tags}} </p>
             </mat-list-item>
-        </mat-list>
+        </mat-list> -->
         <div *ngFor="let preview of drawingPreview.value">
             <mat-card class="example-card" (click)="openDrawing(preview)">
                 <mat-card-header>
                     <mat-card-title>{{preview.name}}</mat-card-title>
                 </mat-card-header>
+                <div [id]=preview.name [style.background]="getBackground(preview)"></div>
                 <!-- <div class="wrapper"> -->
-                <svg [id]=preview.name height="150" width="150">
+                <svg height="150" width="150">
                     {{getThumbnail(preview)}}
                 </svg>
                 <!-- </div> -->
@@ -48,6 +49,6 @@
             </mat-card>
         </div>
     </div>
-    <button mat-raised-button color="primary" (click)="close()">Close</button>
-    <button mat-raised-button color="primary" (click)="close()">Open</button>
+    <button mat-raised-button color="primary" (click)="close()">Fermer</button>
+    <button mat-raised-button color="primary" (click)="close()">Ouvrir</button>
 </div>

@@ -5,6 +5,8 @@ import { MatDialogRef } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { Drawing } from '../../../../../common/communication/drawing';
+import { OpenDrawingService } from 'src/app/services/open-drawing/open-drawing.service';
+import { RGBA } from 'src/app/model/rgba.model';
 
 @Component({
   selector: 'app-open-drawing',
@@ -31,34 +33,36 @@ export class OpenDrawingComponent {
   isLoaded = false;
   constructor(
     public dialogRef: MatDialogRef<OpenDrawingComponent>,
-    // private openDrawingService: OpenDrawingService,
+    private openDrawingService: OpenDrawingService,
     public drawingService: DrawingService,
     private renderer: Renderer2,
   ) {
-    // this.openDrawingService.getDrawingPreview()
-    //   .subscribe(this.drawingPreview);
-    // this.drawingPreview.subscribe(() => this.isLoaded = true);
+    this.openDrawingService.getDrawings()
+      .subscribe(this.drawingPreview);
+    this.drawingPreview.subscribe(() => this.isLoaded = true);
+  }
+
+  getBackground(drawing: Drawing): string {
+    const rgba: RGBA = drawing.backGroundColor;
+    return `rgba(${rgba.rgb.r},${rgba.rgb.g},${rgba.rgb.b},${rgba.a})`;
   }
 
   getThumbnail(drawingObject: Drawing) {
-
     const container = document.getElementById(drawingObject.name);
-
+    const svgThumbnail: SVGElement = this.renderer.createElement('svg', 'svg');
+    this.renderer.setAttribute(svgThumbnail, 'viewBox', `0 0 ${drawingObject.width} ${drawingObject.height}`);
+    svgThumbnail.innerHTML = `${drawingObject.svg}`;
     if (container) {
-      this.renderer.setAttribute(container, 'viewBox', `0 0 ${drawingObject.width} ${drawingObject.height}`);
-      container.innerHTML = `${drawingObject.svg}`;
+      this.renderer.appendChild(container, svgThumbnail);
+      console.log(container.innerHTML);
     }
-  }
-
-  selectDrawing(drawing: Drawing) {
-    return;
   }
 
   // ouvre un nouveau dessin  avec l'ancien drawing
   openDrawing(drawing: Drawing) {
     console.log('open drawing');
     this.drawingService.isCreated = true;
-    this.drawingService.newDrawing(drawing.width, drawing.height, drawing.backGroundColor);
+    this.drawingService.openDrawing(drawing);
     this.dialogRef.close();
 
   }

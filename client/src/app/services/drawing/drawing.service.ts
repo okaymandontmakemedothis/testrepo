@@ -1,6 +1,7 @@
 import { EventEmitter, Injectable, Output, Renderer2 } from '@angular/core';
 import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
 import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
+import { Drawing } from '../../../../../common/communication/drawing';
 
 /// Service qui contient les fonction pour dessiner a l'écran
 @Injectable({
@@ -86,6 +87,26 @@ export class DrawingService {
     this.drawing = this.renderer.createElement('svg', 'svg');
     this.setDimension(width, height);
     this.setDrawingColor(rgba);
+    this.drawingEmit.emit(this.drawing);
+  }
+
+  openDrawing(drawing: Drawing) {
+    this.saved = false;
+    this.objectList.clear();
+    this.id = drawing.id;
+    this.lastObjectId = 0;
+    this.drawing = this.renderer.createElement('svg', 'svg');
+    this.setDimension(drawing.width, drawing.height);
+    this.setDrawingColor(drawing.backGroundColor);
+    this.drawing.innerHTML = drawing.svg;
+    let lastId: number;
+    for (let i = 0; i < this.drawing.children.length; i++) {
+      lastId = Number((this.drawing.children.item(i) as SVGElement).id);
+      this.objectList.set(lastId, this.drawing.children.item(i) as SVGElement);
+      if (lastId > this.lastObjectId) {
+        this.lastObjectId = lastId;
+      }
+    }
     this.drawingEmit.emit(this.drawing);
   }
 
