@@ -6,7 +6,6 @@ import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
-import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root',
@@ -38,11 +37,6 @@ export class SelectionToolService implements ITools {
   constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService) { }
 
   onPressed(event: MouseEvent) {
-    if (this.first) {
-      this.setRectSelection();
-      this.setRectInversement();
-      this.first = false;
-    }
     if (event.button === 0 || event.button === 2) {
       const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
       this.tmpX = offset.x;
@@ -174,11 +168,14 @@ export class SelectionToolService implements ITools {
 
     const allObject: SVGElement[] = [];
     this.drawingService.objectList.forEach((value) => {
-      if (!this.rectID.includes(Number(value.getAttribute('id'))) || Number(value.getAttribute('id'))) {
+      if (!this.rectID.includes(Number(value.getAttribute('id')))
+        && Number(value.getAttribute('id')) !== this.rectInversementId
+        && value.tagName !== 'defs') {
+        console.log(value);
         allObject.push(value);
       }
     });
-    allObject.splice(0, 2);
+    allObject.splice(0, 1);
     console.log(allObject);
 
     const rectBox = rectUsing.getBoundingClientRect();
@@ -186,7 +183,10 @@ export class SelectionToolService implements ITools {
     if (rectUsing === this.rectSelection) {
       allObject.forEach((obj) => {
         const box = obj.getBoundingClientRect();
-        if (!(rectBox.left > box.right || rectBox.right < box.left || rectBox.top > box.bottom || rectBox.bottom < box.top)) {
+        if (!(rectBox.left > box.right + this.strToNum(obj.style.strokeWidth) / 2
+          || rectBox.right < box.left - this.strToNum(obj.style.strokeWidth) / 2
+          || rectBox.top > box.bottom + this.strToNum(obj.style.strokeWidth) / 2
+          || rectBox.bottom < box.top - this.strToNum(obj.style.strokeWidth) / 2)) {
           this.objects.push(obj);
         }
       });
@@ -197,7 +197,6 @@ export class SelectionToolService implements ITools {
       //       this.objects.push(obj);
       //     });
     } else if (rectUsing === this.rectInversement) {
-      allObject.pop();
       allObject.forEach((obj) => {
         const box = obj.getBoundingClientRect();
         if (!(rectBox.left > box.right || rectBox.right < box.left || rectBox.top > box.bottom || rectBox.bottom < box.top)) {
@@ -330,6 +329,9 @@ export class SelectionToolService implements ITools {
     });
     this.rectID = [];
     this.gotSelection = false;
+
+    this.setRectSelection();
+    this.setRectInversement();
   }
 
   private setRectSelection() {

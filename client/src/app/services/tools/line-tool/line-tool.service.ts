@@ -264,16 +264,17 @@ export class LineToolService implements ITools {
   }
 
   selectStyleJonction() {
-    this.drawingService.renderer.setAttribute(this.circle, 'visibility', 'hidden');
-
-    if (this.rectStyleJonction.value === 'arrondi') {
-      this.drawingService.renderer.setStyle(this.object, 'stroke-linecap', `round`);
-      this.drawingService.renderer.setStyle(this.object, 'stroke-linejoin', `round`);
-    } else if (this.rectStyleJonction.value === 'en angle') {
-      this.drawingService.renderer.setStyle(this.object, 'stroke-linecap', `square`);
-      this.drawingService.renderer.setStyle(this.object, 'stroke-linejoin', `miter`);
-    } else if (this.rectStyleJonction.value === 'avec point') {
-      this.drawingService.renderer.setAttribute(this.circle, 'visibility', 'visible');
+    if (this.circle) {
+      this.drawingService.renderer.setAttribute(this.circle, 'visibility', 'hidden');
+      if (this.rectStyleJonction.value === 'arrondi') {
+        this.drawingService.renderer.setStyle(this.object, 'stroke-linecap', `round`);
+        this.drawingService.renderer.setStyle(this.object, 'stroke-linejoin', `round`);
+      } else if (this.rectStyleJonction.value === 'en angle') {
+        this.drawingService.renderer.setStyle(this.object, 'stroke-linecap', `square`);
+        this.drawingService.renderer.setStyle(this.object, 'stroke-linejoin', `miter`);
+      } else if (this.rectStyleJonction.value === 'avec point') {
+        this.drawingService.renderer.setAttribute(this.circle, 'visibility', 'visible');
+      }
     }
   }
 

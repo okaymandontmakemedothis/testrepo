@@ -16,8 +16,8 @@ export class TextureOne implements ITexture {
 
     /// Retourne la ligne html du pattern
     getPattern(primaryColor: RGBA, id: string, x: number, y: number, renderer: Renderer2): SVGDefsElement {
-
         const texture: SVGDefsElement = renderer.createElement('defs', 'svg');
+        renderer.setAttribute(texture, 'pointer-events', 'none');
         const pattern: SVGPatternElement = renderer.createElement('pattern', 'svg');
         renderer.setProperty(pattern, 'id', this.getTextureIDName(id));
         renderer.setAttribute(pattern, 'width', '12');
