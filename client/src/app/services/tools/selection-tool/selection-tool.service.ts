@@ -236,17 +236,31 @@ export class SelectionToolService implements ITools {
     if (transform) {
       const translate = transform.replace(/[^-?\d]+/g, ',').split(',').filter((el) => el !== '');
       this.drawingService.renderer.setAttribute(this.rectSelection, 'transform',
-        `translate(${Number(translate[0]) + x} ${Number(translate[1]) + y})`);
+        `translate(${Number(translate[0]) + x},${Number(translate[1]) + y})`);
     } else {
-      this.drawingService.renderer.setAttribute(this.rectSelection, 'transform', `translate(${x} ${y})`);
+      this.drawingService.renderer.setAttribute(this.rectSelection, 'transform', `translate(${x},${y})`);
     }
     this.objects.forEach((obj) => {
       transform = obj.getAttribute('transform');
       if (transform) {
-        const translate = transform.replace(/[^-?\d]+/g, ',').split(',').filter((el) => el !== '');
-        this.drawingService.renderer.setAttribute(obj, 'transform', `translate(${Number(translate[0]) + x} ${Number(translate[1]) + y})`);
+        const transformPart = transform.split(' ');
+
+        let rotate = '';
+        transformPart.forEach((str) => { if (str.startsWith('rotate')) { rotate = str; } });
+        let translate = '';
+        transformPart.forEach((str) => {
+          if (str.startsWith('translate')) {
+            translate = str;
+          } else if (translate === '') {
+            translate = '0 0';
+          }
+        });
+
+        const translateElm = translate.replace(/[^-?\d]+/g, ',').split(',').filter((el) => el !== '');
+        this.drawingService.renderer.setAttribute(obj, 'transform',
+          `translate(${Number(translateElm[0]) + x},${Number(translateElm[1]) + y}) ${rotate}`);
       } else {
-        this.drawingService.renderer.setAttribute(obj, 'transform', `translate(${x} ${y})`);
+        this.drawingService.renderer.setAttribute(obj, 'transform', `translate(${x},${y})`);
       }
     });
   }
