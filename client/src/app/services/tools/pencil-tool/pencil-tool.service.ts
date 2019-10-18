@@ -8,6 +8,7 @@ import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 import { INITIAL_WIDTH } from '../tools-constants';
+import { RGB } from 'src/app/model/rgb.model';
 
 /// Service de l'outil pencil, permet de créer des polyline en svg
 /// Il est possible d'ajuster le stroke width dans le form
@@ -34,9 +35,8 @@ export class PencilToolService implements ITools {
 
   /// Ajout d'un point dans la liste de point du Polyline
   private addPoint(point: Point) {
-    if (this.object) {
-      this.pointsList.push(point);
-    }
+    this.lastPoint = point;
+    this.pointsList.push(this.lastPoint);
   }
 
   /// Création d'un polyline selon la position de l'evenement de souris, choisi les bonnes couleurs selon le clique de souris
@@ -60,52 +60,44 @@ export class PencilToolService implements ITools {
         this.drawingService.renderer.setStyle(this.object, 'stroke-linecap', `round`);
         this.drawingService.renderer.setStyle(this.object, 'stroke-linejoin', `round`);
         this.drawingService.renderer.setStyle(this.object, 'fill', `none`);
+
         if (event.button === 0) {
-          this.drawingService.renderer.setStyle(
-            this.object, 'stroke', `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b})`);
-          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
-
-          this.drawingService.renderer.setStyle(
-            point, 'fill', `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b})`);
-          this.drawingService.renderer.setStyle(point, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
-
+          this.setColors(this.colorTool.primaryColor, this.colorTool.primaryAlpha, point);
         } else {
-          this.drawingService.renderer.setStyle(
-            this.object, 'stroke', `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b})`);
-          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
-
-          this.drawingService.renderer.setStyle(
-            point, 'fill', `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-              ${this.colorTool.secondaryColor.b})`);
-          this.drawingService.renderer.setStyle(point, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
+          this.setColors(this.colorTool.secondaryColor, this.colorTool.secondaryAlpha, point);
         }
       }
     }
   }
+  setColors(rgb: RGB, a: number, dot: SVGElement) {
+    this.drawingService.renderer.setStyle(
+      this.object, 'stroke', `rgb(${rgb.r}, ${rgb.g},
+        ${ rgb.b})`);
+    this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', a.toString());
+    this.drawingService.renderer.setStyle(
+      dot, 'fill', `rgb(${rgb.r}, ${rgb.g},
+        ${ rgb.b})`);
+    this.drawingService.renderer.setStyle(dot, 'fillOpacity', a.toString());
+  }
 
   /// Réinitialisation de l'outil après avoir laisser le clique de la souris
   onRelease(event: MouseEvent): void {
-    if (event.button === 0 || event.button === 2) {
-      this.object = null;
-      this.pointsList = [];
-      this.lastPoint = { x: 0, y: 0 };
-    }
+    this.object = null;
+    this.pointsList = [];
+    this.lastPoint = { x: 0, y: 0 };
   }
 
   /// Ajout d'un point seulon le déplacement de la souris
   onMove(event: MouseEvent): void {
-    this.addPoint(this.offsetManager.offsetFromMouseEvent(event));
-    let pointString = '';
-    for (const point of this.pointsList) {
-      pointString += `${point.x} ${point.y},`;
-    }
-    pointString = pointString.substring(0, pointString.length - 1);
-    this.drawingService.renderer.setAttribute(this.object, 'points', pointString);
-    if (this.dotId !== -1) {
-      if (this.object) {
+    if (this.object) {
+      this.addPoint(this.offsetManager.offsetFromMouseEvent(event));
+      let pointString = '';
+      for (const point of this.pointsList) {
+        pointString += `${point.x} ${point.y},`;
+      }
+      pointString = pointString.substring(0, pointString.length - 1);
+      this.drawingService.renderer.setAttribute(this.object, 'points', pointString);
+      if (this.dotId !== -1) {
         this.drawingService.removeObject(this.dotId);
         this.drawingService.addObject(this.object);
         this.dotId = -1;

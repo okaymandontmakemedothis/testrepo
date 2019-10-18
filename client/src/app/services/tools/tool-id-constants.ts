@@ -5,8 +5,10 @@ export class ToolIdConstants {
     static readonly APPLIER_ID: number = 2;
     static readonly RECTANGLE_ID: number = 3;
     static readonly ELLIPSE_ID: number = 4;
-    static readonly PIPETTE_ID: number = 5;
-    static readonly ETAMPE_ID: number = 6;
-    static readonly GRID_ID: number = 7;
+    static readonly LINE_ID: number = 5;
+    static readonly PIPETTE_ID: number = 6;
+    static readonly ETAMPE_ID: number = 7;
+    static readonly GRID_ID: number = 8;
+    static readonly SELECTION_ID: number = 9;
 
 }

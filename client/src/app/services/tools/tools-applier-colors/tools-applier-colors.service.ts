@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faTint } from '@fortawesome/free-solid-svg-icons';
 import { OBJECT_ATTRIBUTE_STRUCTURE } from 'src/app/model/object-structure.model';
+import { RGB } from 'src/app/model/rgb.model';
 import { DrawingService } from '../../drawing/drawing.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
@@ -70,6 +71,16 @@ export class ToolsApplierColorsService implements ITools {
         this.drawingService.renderer.setStyle(this.object, alphaAtribute, `${this.toolsColorService.primaryAlpha}`);
       }
     }
+  }
+
+  setColors(rgb: RGB, property: string) {
+    this.drawingService.renderer.setStyle(
+      this.object, property, `rgb(${rgb.r}, ${rgb.g},
+        ${ rgb.b})`);
+  }
+
+  setOpacity(a: number, property: string) {
+    this.drawingService.renderer.setStyle(this.object, 'property', a.toString());
   }
 
   /// Fonction non utilisé pour cet outil

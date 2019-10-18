@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { GridService } from 'src/app/services/tools/grid-tool/grid.sevice';
 import { gridColor } from 'src/app/model/grid-model';
+import { GridService } from 'src/app/services/tools/grid-tool/grid.service';
 
 const NOIR = 0;
 const BLANC = 1;
@@ -44,15 +44,21 @@ export class GridParameterComponent implements OnInit {
   get toolName(): string {
     return this.gridService.toolName;
   }
-  changeOpacity(event: KeyboardEvent) {
+  changeOpacityKey(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       this.gridService.changeOpacity();
     }
   }
-  changeGridSize(event: KeyboardEvent) {
+  changeOpacityOnLostFocus() {
+    this.gridService.changeOpacity();
+  }
+  changeGridSizeKey(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       this.gridService.changeGridSize();
     }
+  }
+  changeGridSizeOnLostFocus() {
+    this.gridService.changeGridSize();
   }
   changeColor(id: number) {
     this.form.patchValue({
@@ -60,17 +66,13 @@ export class GridParameterComponent implements OnInit {
     });
     this.gridService.changeColor();
   }
-  onSelection(event: any) {
-    console.log(event);
+
+  onSelection() {
+    console.log((this.form.get('activerGrille') as FormControl).value)
     if ((this.form.get('activerGrille') as FormControl).value === true) {
-      if (this.gridAlreadyCreated === false) {
-        this.gridService.createPatternGrid();
-        this.gridAlreadyCreated = true;
-      } else {
-        this.gridService.changeOpacity();
-      }
+      this.gridService.showGrid();
     } else {
-      this.gridService.removeGrid();
+      this.gridService.hideGrid();
     }
   }
 

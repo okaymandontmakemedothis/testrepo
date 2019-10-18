@@ -33,7 +33,7 @@ describe('RectangleToolParameterComponent', () => {
 
   it('should patch ellipse value in form', () => {
     component.form = new FormGroup({ ellipseStyle: new FormControl('fill') });
-    const spy = spyOn(component.form, 'patchValue').and.callThrough();
+    const spy = spyOn(component.form, 'patchValue');
     component.selectStyle(1);
     expect(spy).toHaveBeenCalled();
   });
