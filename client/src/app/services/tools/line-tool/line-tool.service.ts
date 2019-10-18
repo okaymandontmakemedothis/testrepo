@@ -73,7 +73,6 @@ export class LineToolService implements ITools {
           this.defineMarker(this.markerId);
 
           this.object = this.drawingService.renderer.createElement('polyline', 'svg');
-
           this.drawingService.renderer.setAttribute(this.object, 'marker-start', `url(#Marker${this.markerId})`);
           this.drawingService.renderer.setAttribute(this.object, 'marker-mid', `url(#Marker${this.markerId})`);
           this.drawingService.renderer.setAttribute(this.object, 'marker-end', `url(#Marker${this.markerId})`);
@@ -134,13 +133,13 @@ export class LineToolService implements ITools {
     }
   }
 
-  onKeyUp(event: KeyboardEvent) {
+  onKeyUp(event: KeyboardEvent): void {
     if (!event.shiftKey) {
       this.isShiftPressed = false;
     }
   }
 
-  onKeyDown(event: KeyboardEvent) {
+  onKeyDown(event: KeyboardEvent): void {
     if (this.object) {
       if (event.code === KeyCodes.backSpace) {
         this.removeRecentPoint();
@@ -153,13 +152,13 @@ export class LineToolService implements ITools {
   }
 
   /// Ajout d'un point dans la liste de point du Polyline
-  private addPoint(point: Point) {
+  private addPoint(point: Point): void {
     if (this.object) {
       this.pointsList.push(point);
     }
   }
 
-  private changePoint(point: Point) {
+  private changePoint(point: Point): void {
     if (this.object) {
       this.pointsList.pop();
       this.pointsList.push(point);
@@ -167,7 +166,7 @@ export class LineToolService implements ITools {
   }
 
   /// mettre a jour la liste de points reliant les segments
-  private updatelistPoint() {
+  private updatelistPoint(): void {
     let pointString = '';
     for (const point of this.pointsList) {
       pointString += `${point.x} ${point.y},`;
@@ -192,7 +191,7 @@ export class LineToolService implements ITools {
     return false;
   }
 
-  private onDoublePressed() {
+  private onDoublePressed(): void {
     if (this.object) {
       this.pointsList.pop();
       this.updatelistPoint();
@@ -205,7 +204,7 @@ export class LineToolService implements ITools {
     }
   }
 
-  private setLineLoop() {
+  private setLineLoop(): void {
     if (this.firstPoint) {
       this.addPoint(this.firstPoint);
       this.updatelistPoint();
@@ -213,7 +212,7 @@ export class LineToolService implements ITools {
   }
 
   /// mettre a jour la liste de points contenant les lignes
-  private removeRecentPoint() {
+  private removeRecentPoint(): void {
     if (this.pointsList.length > 2) {
       const obj = this.pointsList.pop();
       this.pointsList.pop();
@@ -222,7 +221,7 @@ export class LineToolService implements ITools {
     this.updatelistPoint();
   }
 
-  private eraseLine() {
+  private eraseLine(): void {
     /// mettre a jour la liste de points contenant les segments
     this.pointsList.splice(0);
     this.updatelistPoint();
@@ -232,8 +231,8 @@ export class LineToolService implements ITools {
     }
   }
 
-  private defineMarker(id: number) {
-    const mark: SVGDefsElement = this.drawingService.renderer.createElement('defs', 'svg');
+  private defineMarker(id: number): void {
+    const markerDefs: SVGDefsElement = this.drawingService.renderer.createElement('defs', 'svg');
     const marker = this.drawingService.renderer.createElement('marker', 'svg');
 
     this.drawingService.renderer.setAttribute(marker, 'markerUnits', 'userSpaceOnUse');
@@ -252,18 +251,18 @@ export class LineToolService implements ITools {
     this.drawingService.renderer.setAttribute(this.circle, 'r', (this.diameter.value / 2).toString());
     this.drawingService.renderer.setAttribute(this.circle, 'visibility', 'hidden');
 
-    this.drawingService.renderer.appendChild(mark, marker);
+    this.drawingService.renderer.appendChild(markerDefs, marker);
 
     this.drawingService.renderer.appendChild(marker, this.circle);
 
-    this.drawingService.addObject(mark);
+    this.drawingService.addObject(markerDefs);
   }
 
-  changeTool() {
+  changeTool(): void {
     this.onDoublePressed();
   }
 
-  selectStyleJonction() {
+  selectStyleJonction(): void {
     if (this.circle) {
       this.drawingService.renderer.setAttribute(this.circle, 'visibility', 'hidden');
       if (this.rectStyleJonction.value === 'arrondi') {
@@ -278,7 +277,7 @@ export class LineToolService implements ITools {
     }
   }
 
-  selectStyleMotif() {
+  selectStyleMotif(): void {
     if (this.object) {
       if (this.rectStyleMotif.value === 'pointille-trait') {
         this.drawingService.renderer.setStyle(this.object, 'stroke-dasharray', `${this.strokeWidth.value * 2}`);
