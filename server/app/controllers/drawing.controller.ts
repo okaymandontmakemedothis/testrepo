@@ -36,7 +36,7 @@ export class DrawingController {
                     res.sendStatus(500);
                 });
             });
-        this.router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+        this.router.get('/by-id/:id', async (req: Request, res: Response, next: NextFunction) => {
             // Send the request to the service and send the response
             this.drawingService.getDrawingById(req.params.id).then((drawing: Drawing) => {
                 res.json(drawing);

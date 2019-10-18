@@ -5,6 +5,7 @@ import * as express from 'express';
 import { inject, injectable } from 'inversify';
 import * as logger from 'morgan';
 import { DateController } from './controllers/date.controller';
+import { DefController } from './controllers/def.controller';
 import { DrawingController } from './controllers/drawing.controller';
 import { IndexController } from './controllers/index.controller';
 import { TagController } from './controllers/tag.controller';
@@ -21,6 +22,7 @@ export class Application {
         @inject(Types.DateController) private dateController: DateController,
         @inject(Types.DrawingController) private drawingController: DrawingController,
         @inject(Types.TagController) private tagController: TagController,
+        @inject(Types.DefController) private defController: DefController,
     ) {
         this.app = express();
 
@@ -40,6 +42,7 @@ export class Application {
 
     bindRoutes(): void {
         // Notre application utilise le routeur de notre API `Index`
+        this.app.use('/api', this.defController.router);
         this.app.use('/api/index', this.indexController.router);
         this.app.use('/api/date', this.dateController.router);
         this.app.use('/api/drawings', this.drawingController.router);

@@ -9,4 +9,6 @@ export default {
     DrawingService: Symbol('DrawingService'),
     TagService: Symbol('TagService'),
     TagController: Symbol('TagController'),
+    DefService: Symbol('DefService'),
+    DefController: Symbol('DefController'),
 };
