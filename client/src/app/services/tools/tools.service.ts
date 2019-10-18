@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { IObjects } from 'src/app/objects/IObjects';
-import { DrawingService } from '../drawing/drawing.service';
 import { BrushToolService } from './brush-tool/brush-tool.service';
 import { EtampeToolService } from './etampe-tool/etampe-tool.service';
+import { GridService } from './grid-tool/grid.sevice';
 import { ITools } from './ITools';
+import { LineToolService } from './line-tool/line-tool.service';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { PipetteToolService } from './pipette-tool/pipette-tool.service';
 import { SelectionToolService } from './selection-tool/selection-tool.service';
@@ -19,14 +19,11 @@ import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-
   providedIn: 'root',
 })
 export class ToolsService {
-
   private isPressed = false;
   selectedToolId = 0;
-  currentObject: null | IObjects;
-  tools: ITools[] = [];
+  tools: Map<number, ITools> = new Map<number, ITools>();
 
   constructor(
-    private drawing: DrawingService,
     private pencilTool: PencilToolService,
     private brushTool: BrushToolService,
     private colorApplicator: ToolsApplierColorsService,
@@ -34,64 +31,98 @@ export class ToolsService {
     private ellipseTool: ToolEllipseService,
     private pipetteTool: PipetteToolService,
     private etampeService: EtampeToolService,
+    private gridService: GridService,
+    private lineTool: LineToolService,
     private selectionTool: SelectionToolService,
-
   ) {
     this.initTools();
+    this.onKeyTriggered();
   }
 
   /// Initialiser la liste d'outil
   private initTools(): void {
-    this.tools.push(this.pencilTool);
-    this.tools.push(this.brushTool);
-    this.tools.push(this.colorApplicator);
-    this.tools.push(this.rectangleTool);
-    this.tools.push(this.ellipseTool);
-    this.tools.push(this.pipetteTool);
-    this.tools.push(this.etampeService);
-    this.tools.push(this.selectionTool);
-
+    this.tools.set(this.pencilTool.id, this.pencilTool);
+    this.tools.set(this.brushTool.id, this.brushTool);
+    this.tools.set(this.colorApplicator.id, this.colorApplicator);
+    this.tools.set(this.rectangleTool.id, this.rectangleTool);
+    this.tools.set(this.ellipseTool.id, this.ellipseTool);
+    this.tools.set(this.lineTool.id, this.lineTool);
+    this.tools.set(this.pipetteTool.id, this.pipetteTool);
+    this.tools.set(this.etampeService.id, this.etampeService);
+    this.tools.set(this.gridService.id, this.gridService);
+    this.tools.set(this.lineTool.id, this.lineTool);
+    this.tools.set(this.selectionTool.id, this.selectionTool);
   }
 
   /// Selectionner un outil avec son id
   selectTool(id: number): void {
-    this.currentObject = null;
     this.selectedToolId = id;
+    this.lineTool.changeTool();
   }
 
   /// Retourner l'outil presentement selectionné
-  get selectedTool(): ITools {
-    return this.tools[this.selectedToolId];
+  get selectedTool(): ITools | undefined {
+    return this.tools.get(this.selectedToolId);
   }
 
   /// Appeller la fonction onPressed du bon outil et ajoute un objet au dessin si nécéssaire
   onPressed(event: MouseEvent): void {
-    if (this.selectedToolId !== ToolIdConstants.SELECTION_ID) {
-      (this.tools[ToolIdConstants.SELECTION_ID] as SelectionToolService).removeSelection();
+    const tool = this.selectedTool;
+    if (!tool) {
+      return;
     }
 
-    this.currentObject = this.selectedTool.onPressed(event);
-    this.isPressed = true;
-    if (this.currentObject) {
-      this.drawing.addObject(this.currentObject);
+    if (tool.id !== ToolIdConstants.SELECTION_ID) {
+      this.selectionTool.removeSelection();
     }
+
+    tool.onPressed(event);
+    this.isPressed = true;
   }
 
   /// Appelle la fonction onRelease du bon outil et annule les entrée d'évenement souris
   onRelease(event: MouseEvent): void {
-    if (this.isPressed) {
-      this.selectedTool.onRelease(event);
-      this.currentObject = null;
-      this.drawing.draw();
+    const tool = this.selectedTool;
+    if (!tool) {
+      return;
+    }
+    if (this.isPressed || tool.id === ToolIdConstants.LINE_ID) {
+      tool.onRelease(event);
     }
     this.isPressed = false;
+
   }
 
   /// Appelle la fonction onMove du bon outil si les entrée d'évenement souris son activé
   onMove(event: MouseEvent): void {
-    if (this.isPressed) {
-      this.selectedTool.onMove(event);
-      this.drawing.draw();
+    const tool = this.selectedTool;
+    if (!tool) {
+      return;
+    }
+    if (this.isPressed || tool.id === ToolIdConstants.LINE_ID) {
+      tool.onMove(event);
     }
   }
+
+  onKeyTriggered(): void {
+    window.addEventListener('keydown', (event) => {
+      const tool = this.selectedTool;
+      if (!tool) {
+        return;
+      }
+      if (this.isPressed || tool.id === ToolIdConstants.LINE_ID) {
+        tool.onKeyDown(event);
+      }
+    });
+    window.addEventListener('keyup', (event) => {
+      const tool = this.selectedTool;
+      if (!tool) {
+        return;
+      }
+      if (this.isPressed || tool.id === ToolIdConstants.LINE_ID) {
+        tool.onKeyUp(event);
+      }
+    });
+  }
+
 }

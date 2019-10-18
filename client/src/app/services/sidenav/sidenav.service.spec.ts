@@ -7,8 +7,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { WelcomeDialogModule } from 'src/app/components/welcome-dialog/welcome-dialog.module';
-import { IObjects } from 'src/app/objects/IObjects';
-import { RectangleObject } from 'src/app/objects/object-rectangle/rectangle';
 import { HotkeysFichierService } from '../hotkeys/hotkeys-fichier/hotkeys-fichier.service';
 import { HotkeysOutilService } from '../hotkeys/hotkeys-outil/hotkeys-outil.service';
 import { HotkeysSelectionService } from '../hotkeys/hotkeys-selection/hotkeys-selection.service';
@@ -69,7 +67,7 @@ describe('SidenavService', () => {
   it('should get tool list length when selectedParameter is called and isControlMenu is true', () => {
     const service: SidenavService = TestBed.get(SidenavService);
     service.isControlMenu = true;
-    toolServiceSpy.tools = [new MockItool()];
+    toolServiceSpy.tools = new Map([[1, new MockItool()]]);
     expect(service.selectedParameter).toEqual(1);
   });
 
@@ -140,16 +138,22 @@ class MockItool implements ITools {
   readonly faIcon: IconDefinition;
   readonly toolName: 'brush';
   parameters: FormGroup;
-  onPressed(event: MouseEvent): IObjects | null {
+  onPressed(event: MouseEvent) {
     if (event.button === 0) {
       return null;
     }
-    return new RectangleObject(0, 0, 0, '');
+    return;
   }
   // tslint:disable-next-line: no-empty
   onRelease(event: MouseEvent): void {
   }
   // tslint:disable-next-line: no-empty
   onMove(event: MouseEvent): void {
+  }
+  // tslint:disable-next-line: no-empty
+  onKeyDown(event: KeyboardEvent): void {
+  }
+  // tslint:disable-next-line: no-empty
+  onKeyUp(event: KeyboardEvent): void {
   }
 }

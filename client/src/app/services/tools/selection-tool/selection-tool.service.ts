@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faPoo } from '@fortawesome/free-solid-svg-icons';
-import { IObjects } from '../../../objects/IObjects';
-import { RectangleObject } from '../../../objects/object-rectangle/rectangle';
 import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
+import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root',
@@ -19,89 +18,99 @@ export class SelectionToolService implements ITools {
   parameters: FormGroup;
 
   gotSelection = false;
+
   rectID: number[] = [];
-  rectSelection: RectangleObject;
-  object: IObjects[] = [];
+  rectSelection: SVGRectElement;
+  rectSelectionId: number;
+  rectInversement: SVGRectElement;
+  rectInversementId: number;
+  firstInvObj: SVGElement | null;
+  recStrokeWidth = 1;
+
+  objects: SVGElement[] = [];
   tmpX: number;
   tmpY: number;
   wasMoved = false;
   isIn = false;
 
-  constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService) { this.setRectSelection(); }
+  first = true;
+
+  constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService) { }
 
   onPressed(event: MouseEvent) {
+    if (this.first) {
+      this.setRectSelection();
+      this.setRectInversement();
+      this.first = false;
+    }
     if (event.button === 0 || event.button === 2) {
       const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
       this.tmpX = offset.x;
       this.tmpY = offset.y;
 
-      const target = event.target as Element;
+      const target = event.target as SVGElement;
       const obj = this.drawingService.getObject(Number(target.id));
 
       if (event.button === 0) {
-        if (obj !== undefined && !this.rectID.includes(obj.id) && (this.object.length < 2 || !this.object.includes(obj))) {
+        if (obj && !this.rectID.includes(Number(obj.getAttribute('id'))) && (this.objects.length < 2 || !this.objects.includes(obj))) {
           this.removeSelection();
-          this.object.push(obj);
+          this.objects.push(obj);
           this.setSelection();
           this.isIn = true;
-          this.rectID.push(this.drawingService.lastObjectId + 1);
-          return this.rectSelection;
+          this.rectSelectionId = this.drawingService.addObject(this.rectSelection);
+          this.rectID.push(this.rectSelectionId);
+          return;
         } else if (this.isInside(offset.x, offset.y)) {
           this.isIn = true;
         } else {
           this.removeSelection();
         }
-      }
-
-      else if (event.button === 2) {
-        if (obj !== undefined && !this.rectID.includes(obj.id)) {
-          if (this.object.includes(obj)) {
-            const index = this.object.indexOf(obj, 0);
-            if (index > -1) {
-              this.object.splice(index, 1);
-            }
-          } else {
-            this.object.push(obj);
-          }
+      } else if (event.button === 2) {
+        if (obj && !this.rectID.includes(Number(obj.id))) {
+          this.firstInvObj = obj;
         }
+        this.rectInversementId = this.drawingService.addObject(this.rectInversement);
+
         this.wasMoved = true;
       }
 
-
       if (this.gotSelection) {
-        return null;
+        return;
       }
-      this.rectID.push(this.drawingService.lastObjectId + 1);
-      return this.rectSelection;
+
+      this.rectSelectionId = this.drawingService.addObject(this.rectSelection);
+      this.rectID.push(this.rectSelectionId);
     }
-    return null;
   }
 
   onRelease(event: MouseEvent): void {
     if (event.button === 0 || event.button === 2) {
       if (event.button === 0) {
         if (this.wasMoved && !this.gotSelection) {
-          this.findObjects();
-        } else if (!this.wasMoved && this.object.length > 1
+          this.findObjects(this.rectSelection);
+        } else if (!this.wasMoved && this.objects.length >= 1
           && this.isIn) {
-          this.object = [];
-          const target = event.target as Element;
+          this.objects = [];
+          const target = event.target as SVGElement;
           const obj = this.drawingService.getObject(Number(target.id));
-          if (obj !== undefined) {
-            this.object.push(obj);
+          if (obj) {
+            this.objects.push(obj);
           }
         }
-      }/* else if (event.button === 2) {
-      this.drawingService.removeObject(this.rectID);
-    }*/
+      } else if (event.button === 2) {
+        this.findObjects(this.rectInversement);
+        this.drawingService.removeObject(this.rectInversementId);
+        this.setRectInversement();
+      }
 
-      if (this.object.length > 0) {
+      if (this.objects.length > 0) {
         this.setSelection();
       } else {
         this.removeSelection();
         this.setRectSelection();
       }
 
+      this.firstInvObj = null;
       this.wasMoved = false;
       this.isIn = false;
     }
@@ -114,98 +123,208 @@ export class SelectionToolService implements ITools {
         this.moveObjects(event.movementX, event.movementY);
         this.wasMoved = true;
       } else {
-        this.setSize(offset.x, offset.y);
+        this.setSize(offset.x, offset.y, this.rectSelection);
         this.wasMoved = true;
+      }
+    } else if (event.buttons === 2) {
+      this.setSize(offset.x, offset.y, this.rectInversement);
+    }
+  }
+
+  // tslint:disable-next-line: no-empty
+  onKeyDown(event: KeyboardEvent): void { }
+
+  // tslint:disable-next-line: no-empty
+  onKeyUp(event: KeyboardEvent): void { }
+
+  private setSize(x: number, y: number, rectUsing: SVGRectElement): void {
+    let width = x - this.tmpX - this.recStrokeWidth;
+    let height = y - this.tmpY - this.recStrokeWidth;
+
+    this.drawingService.renderer.setAttribute(rectUsing, 'x', (this.tmpX + this.recStrokeWidth / 2).toString());
+    this.drawingService.renderer.setAttribute(rectUsing, 'y', (this.tmpY + this.recStrokeWidth / 2).toString());
+
+    if (width < 0) {
+      this.drawingService.renderer.setAttribute(rectUsing, 'x', (x + this.recStrokeWidth / 2).toString());
+      width = Math.abs(width) - 2 * this.recStrokeWidth;
+    }
+    if (height < 0) {
+      this.drawingService.renderer.setAttribute(rectUsing, 'y', (y + this.recStrokeWidth / 2).toString());
+      height = Math.abs(height) - 2 * this.recStrokeWidth;
+    }
+
+    if (width < 0) {
+      width = 0;
+    }
+    if (height < 0) {
+      height = 0;
+    }
+
+    this.drawingService.renderer.setAttribute(rectUsing, 'height', (height).toString());
+    this.drawingService.renderer.setAttribute(rectUsing, 'width', (width).toString());
+  }
+
+  private findObjects(rectUsing: SVGRectElement) {
+    // const a = this.drawingService.drawing as SVGSVGElement;
+    // const r = a.createSVGRect();
+    // r.x = Number(rectUsing.getAttribute('x'));
+    // r.y = Number(rectUsing.getAttribute('y'));
+    // r.width = Number(rectUsing.getAttribute('width'));
+    // r.height = Number(rectUsing.getAttribute('height'));
+
+    const allObject: SVGElement[] = [];
+    this.drawingService.objectList.forEach((value) => {
+      if (!this.rectID.includes(Number(value.getAttribute('id'))) || Number(value.getAttribute('id'))) {
+        allObject.push(value);
+      }
+    });
+    allObject.splice(0, 2);
+    console.log(allObject);
+
+    const rectBox = rectUsing.getBoundingClientRect();
+
+    if (rectUsing === this.rectSelection) {
+      allObject.forEach((obj) => {
+        const box = obj.getBoundingClientRect();
+        if (!(rectBox.left > box.right || rectBox.right < box.left || rectBox.top > box.bottom || rectBox.bottom < box.top)) {
+          this.objects.push(obj);
+        }
+      });
+
+      //   a.getIntersectionList(r, a)
+      //     .forEach((element) => {
+      //       const obj = this.drawingService.getObject(Number(element.id)) as SVGElement;
+      //       this.objects.push(obj);
+      //     });
+    } else if (rectUsing === this.rectInversement) {
+      allObject.pop();
+      allObject.forEach((obj) => {
+        const box = obj.getBoundingClientRect();
+        if (!(rectBox.left > box.right || rectBox.right < box.left || rectBox.top > box.bottom || rectBox.bottom < box.top)) {
+          if (obj && obj !== this.firstInvObj && !this.rectID.includes(Number(obj.getAttribute('id')))) {
+            if (this.objects.includes(obj)) {
+              this.objects.splice(this.objects.indexOf(obj, 0), 1);
+            } else {
+              this.objects.push(obj);
+            }
+          }
+        }
+      });
+
+      //   a.getIntersectionList(r, a)
+      //     .forEach((element) => {
+      //       const obj = this.drawingService.getObject(Number(element.id));
+      //       if (obj && obj !== this.firstInvObj) {
+      //         if (this.objects.includes(obj)) {
+      //           this.objects.splice(this.objects.indexOf(obj, 0), 1);
+      //         } else {
+      //           this.objects.push(obj);
+      //         }
+      //       }
+      //     });
+      if (this.firstInvObj) {
+        if (this.objects.includes(this.firstInvObj)) {
+          this.objects.splice(this.objects.indexOf(this.firstInvObj, 0), 1);
+        } else {
+          this.objects.push(this.firstInvObj);
+        }
       }
     }
   }
 
-  private setSize(x: number, y: number): void {
-    this.rectSelection.x = this.tmpX;
-    this.rectSelection.y = this.tmpY;
-    this.rectSelection.width = x - this.tmpX;
-    this.rectSelection.height = y - this.tmpY;
-
-    if (this.rectSelection.width < 0) {
-      this.rectSelection.x = x;
-      this.rectSelection.width = this.tmpX - x;
-    }
-    if (this.rectSelection.height < 0) {
-      this.rectSelection.y = y;
-      this.rectSelection.height = this.tmpY - y;
-    }
-  }
-
-  private findObjects() {
-    if (this.rectSelection) {
-      const a = (document.getElementById('svgCanvas') as unknown) as SVGSVGElement;
-      console.log(a);
-      const r = a.createSVGRect();
-      r.x = this.rectSelection.x;
-      r.y = this.rectSelection.y;
-      r.width = this.rectSelection.width;
-      r.height = this.rectSelection.height;
-
-      a.getIntersectionList(r, a)
-        .forEach((element) => {
-          const obj = this.drawingService.getObject(Number(element.id));
-          if (obj !== undefined) {
-            this.object.push(obj);
-          }
-        });
-      this.object.pop();
-    }
-  }
-
   private moveObjects(x: number, y: number) {
-    this.rectSelection.x += x;
-    this.rectSelection.y += y;
-    this.object.forEach((obj) => {
-      obj.x += x;
-      obj.y += y;
+    let transform = this.rectSelection.getAttribute('transform');
+    if (transform) {
+      const translate = transform.replace(/[^-?\d]+/g, ',').split(',').filter((el) => el !== '');
+      this.drawingService.renderer.setAttribute(this.rectSelection, 'transform',
+        `translate(${Number(translate[0]) + x} ${Number(translate[1]) + y})`);
+    } else {
+      this.drawingService.renderer.setAttribute(this.rectSelection, 'transform', `translate(${x} ${y})`);
+    }
+    this.objects.forEach((obj) => {
+      transform = obj.getAttribute('transform');
+      if (transform) {
+        const translate = transform.replace(/[^-?\d]+/g, ',').split(',').filter((el) => el !== '');
+        this.drawingService.renderer.setAttribute(obj, 'transform', `translate(${Number(translate[0]) + x} ${Number(translate[1]) + y})`);
+      } else {
+        this.drawingService.renderer.setAttribute(obj, 'transform', `translate(${x} ${y})`);
+      }
     });
   }
 
   private setSelection() {
     this.gotSelection = true;
-    if (this.object.length === 1 || !this.wasMoved) {
-      this.rectSelection.x = this.object[0].x - this.object[0].strokeWidth / 2;
-      this.rectSelection.y = this.object[0].y - this.object[0].strokeWidth / 2;
+    const XFactor = (this.drawingService.drawing as SVGSVGElement).getBoundingClientRect().left;
+    this.drawingService.renderer.setAttribute(this.rectSelection, 'transform', `translate(0 0)`);
+    let boundingRect = this.objects[0].getBoundingClientRect();
 
-      this.rectSelection.width = this.object[0].width + this.object[0].strokeWidth;
-      this.rectSelection.height = this.object[0].height + this.object[0].strokeWidth;
+    if (this.objects.length === 1 || !this.wasMoved) {
+      this.drawingService.renderer
+        .setAttribute(
+          this.rectSelection, 'x',
+          `${boundingRect.left - XFactor - this.strToNum(this.objects[0].style.strokeWidth) / 2}`,
+        );
+
+      this.drawingService.renderer
+        .setAttribute(
+          this.rectSelection, 'y',
+          `${boundingRect.top - this.strToNum(this.objects[0].style.strokeWidth) / 2}`,
+        );
+
+      this.drawingService.renderer
+        .setAttribute(
+          this.rectSelection, 'width',
+          `${boundingRect.width + this.strToNum(this.objects[0].style.strokeWidth)}`,
+        );
+
+      this.drawingService.renderer
+        .setAttribute(
+          this.rectSelection, 'height',
+          `${boundingRect.height + this.strToNum(this.objects[0].style.strokeWidth)}`,
+        );
+
     } else {
-      let xL = this.object[0].x - this.object[0].strokeWidth / 2;
-      let xR = this.object[0].width + this.object[0].x + this.object[0].strokeWidth / 2;
+      let xL = boundingRect.left - this.strToNum(this.objects[0].style.strokeWidth) / 2;
+      let xR = boundingRect.right + this.strToNum(this.objects[0].style.strokeWidth) / 2;
 
-      let yT = this.object[0].y - this.object[0].strokeWidth / 2;
-      let yB = this.object[0].height + this.object[0].y + this.object[0].strokeWidth / 2;
+      let yT = boundingRect.top - this.strToNum(this.objects[0].style.strokeWidth) / 2;
+      let yB = boundingRect.bottom + this.strToNum(this.objects[0].style.strokeWidth) / 2;
 
-      this.object.forEach((elm) => {
-        if (elm.x - elm.strokeWidth / 2 < xL) {
-          xL = elm.x - elm.strokeWidth / 2;
+      this.objects.forEach((elm) => {
+        let value;
+        boundingRect = elm.getBoundingClientRect();
+
+        value = boundingRect.left - this.strToNum(elm.style.strokeWidth) / 2;
+        if (value < xL) {
+          xL = value;
         }
-        if (elm.width + elm.x + elm.strokeWidth / 2 > xR) {
-          xR = elm.width + elm.x + elm.strokeWidth / 2;
+
+        value = boundingRect.right + this.strToNum(this.objects[0].style.strokeWidth) / 2;
+        if (value > xR) {
+          xR = value;
         }
-        if (elm.y - elm.strokeWidth / 2 < yT) {
-          yT = elm.y - elm.strokeWidth / 2;
+
+        value = boundingRect.top - this.strToNum(this.objects[0].style.strokeWidth) / 2;
+        if (value < yT) {
+          yT = value;
         }
-        if (elm.height + elm.y + elm.strokeWidth / 2 > yB) {
-          yB = elm.height + elm.y + elm.strokeWidth / 2;
+
+        value = boundingRect.bottom + this.strToNum(this.objects[0].style.strokeWidth) / 2;
+        if (value > yB) {
+          yB = value;
         }
       });
 
-      this.rectSelection.x = xL;
-      this.rectSelection.y = yT;
+      this.drawingService.renderer.setAttribute(this.rectSelection, 'x', `${xL - XFactor}`);
+      this.drawingService.renderer.setAttribute(this.rectSelection, 'y', `${yT}`);
 
-      this.rectSelection.width = xR - xL;
-      this.rectSelection.height = yB - yT;
+      this.drawingService.renderer.setAttribute(this.rectSelection, 'width', `${xR - xL}`);
+      this.drawingService.renderer.setAttribute(this.rectSelection, 'height', `${yB - yT}`);
     }
   }
 
   removeSelection() {
-    this.object = [];
+    this.objects = [];
     this.rectID.forEach((id) => {
       this.drawingService.removeObject(id);
     });
@@ -213,14 +332,34 @@ export class SelectionToolService implements ITools {
     this.gotSelection = false;
   }
 
-  private setRectSelection(x: number = 0, y: number = 0) {
-    this.rectSelection = new RectangleObject(x, y, 5, 'border');
-    this.rectSelection.primaryColor = { rgb: { r: 0, g: 0, b: 150 }, a: 0.25 };
-    this.rectSelection.secondaryColor = { rgb: { r: 0, g: 0, b: 200 }, a: 1 };
+  private setRectSelection() {
+    this.rectSelection = this.drawingService.renderer.createElement('rect', 'svg');
+    this.drawingService.renderer.setStyle(this.rectSelection, 'stroke', `rgba(0, 0, 200, 1)`);
+    this.drawingService.renderer.setStyle(this.rectSelection, 'stroke-width', `${this.recStrokeWidth}`);
+    this.drawingService.renderer.setStyle(this.rectSelection, 'stroke-dasharray', `10,10`);
+    this.drawingService.renderer.setStyle(this.rectSelection, 'd', `M5 40 l215 0`);
+    this.drawingService.renderer.setStyle(this.rectSelection, 'fill', `none`);
+    this.drawingService.renderer.setAttribute(this.rectSelection, 'pointer-events', 'none');
+  }
+
+  private setRectInversement() {
+    this.rectInversement = this.drawingService.renderer.createElement('rect', 'svg');
+    this.drawingService.renderer.setStyle(this.rectInversement, 'stroke', `rgba(200, 0, 0, 1)`);
+    this.drawingService.renderer.setStyle(this.rectInversement, 'stroke-width', `${this.recStrokeWidth}`);
+    this.drawingService.renderer.setStyle(this.rectInversement, 'stroke-dasharray', `10,10`);
+    this.drawingService.renderer.setStyle(this.rectInversement, 'd', `M5 40 l215 0`);
+    this.drawingService.renderer.setStyle(this.rectInversement, 'fill', `none`);
+    this.drawingService.renderer.setAttribute(this.rectInversement, 'pointer-events', 'none');
   }
 
   private isInside(x: number, y: number) {
-    return x >= this.rectSelection.x && x <= (this.rectSelection.x + this.rectSelection.width)
-      && y >= this.rectSelection.y && y <= (this.rectSelection.y + this.rectSelection.height);
+    return x >= (Number(this.rectSelection.getAttribute('x')) - this.recStrokeWidth / 2)
+      && x <= (Number(this.rectSelection.getAttribute('x')) + Number(this.rectSelection.getAttribute('width')) + this.recStrokeWidth / 2)
+      && y >= (Number(this.rectSelection.getAttribute('y')) - this.recStrokeWidth / 2)
+      && y <= (Number(this.rectSelection.getAttribute('y')) + Number(this.rectSelection.getAttribute('height')) + this.recStrokeWidth / 2);
+  }
+
+  private strToNum(str: string | null) {
+    return str ? +str.replace(/[^-?\d]+/g, ',').split(',').filter((el) => el !== '') : 0;
   }
 }

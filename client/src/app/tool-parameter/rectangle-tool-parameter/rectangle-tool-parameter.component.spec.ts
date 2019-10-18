@@ -34,7 +34,7 @@ describe('RectangleToolParameterComponent', () => {
 
   it('should patch rect value in form', () => {
     component.form = new FormGroup({ rectStyle: new FormControl('fill') });
-    const spy = spyOn(component.form, 'patchValue').and.callThrough();
+    const spy = spyOn(component.form, 'patchValue');
     component.selectStyle(1);
     expect(spy).toHaveBeenCalled();
   });

@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -39,7 +40,7 @@ describe('SaveDrawingComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SaveDrawingComponent],
-      imports: [MaterialModules, FormsModule, ReactiveFormsModule, BrowserAnimationsModule],
+      imports: [MaterialModules, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, HttpClientModule],
       providers: [Renderer2,
         { provide: SaveDrawingService, useValue: saveDrawingServiceSpy },
         { provide: DrawingService, useValue: drawingServiceSpy },

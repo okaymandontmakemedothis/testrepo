@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
-import { IObjects } from 'src/app/objects/IObjects';
-import { EllipseObject } from 'src/app/objects/object-ellipse/ellipse';
 import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
@@ -20,7 +18,9 @@ export class ToolEllipseService implements ITools {
   readonly toolName = 'Outil Ellipse';
   readonly id = ToolIdConstants.ELLIPSE_ID;
 
-  private object: EllipseObject | null;
+  private object: SVGEllipseElement | null;
+  private contour: SVGRectElement | null;
+  private contourId: number;
 
   parameters: FormGroup;
   private strokeWidth: FormControl;
@@ -29,115 +29,231 @@ export class ToolEllipseService implements ITools {
   private isCircle = false;
   oldX = 0;
   oldY = 0;
-  firstX: number;
-  firstY: number;
+  x: number;
+  y: number;
 
-  constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService, private colorTool: ToolsColorService) {
+  constructor(private offsetManager: OffsetManagerService, private colorTool: ToolsColorService, private drawingService: DrawingService) {
     this.strokeWidth = new FormControl(1, Validators.min(1));
     this.ellipseStyle = new FormControl('fill');
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,
       ellipseStyle: this.ellipseStyle,
     });
-    this.registerEventListenerOnShift();
-  }
-
-  /// Quand le bouton shift et peser, l'ellipse se transforme en cercle et quand on lache le bouton, il redevient ellipse.
-  private registerEventListenerOnShift() {
-    window.addEventListener('keydown', (event) => {
-      if (event.shiftKey && this.object) {
-        this.setCircle();
-        this.drawingService.draw();
-      }
-    });
-
-    window.addEventListener('keyup', (event) => {
-      if (!event.shiftKey && this.object) {
-        this.unsetCircle();
-        this.drawingService.draw();
-      }
-    });
   }
 
   /// Quand le bouton de la sourie est enfoncé, on crée un ellipse et on le retourne
   /// en sortie et est inceré dans l'objet courrant de l'outil.
-  onPressed(event: MouseEvent): IObjects {
-    const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
-    this.firstX = offset.x;
-    this.firstY = offset.y;
-    this.object = new EllipseObject(offset.x, offset.y, this.firstY - offset.y, this.firstX - offset.x,
-      this.strokeWidth.value, this.ellipseStyle.value);
-    if (event.button === 0) {
-      this.object.primaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
-      this.object.secondaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
-    } else {
-      this.object.primaryColor = { rgb: this.colorTool.secondaryColor, a: this.colorTool.secondaryAlpha };
-      this.object.secondaryColor = { rgb: this.colorTool.primaryColor, a: this.colorTool.primaryAlpha };
+  onPressed(event: MouseEvent): void {
+    if (event.button === 0 || event.button === 2) {
+      this.contour = this.drawingService.renderer.createElement('rect', 'svg');
+      this.drawingService.renderer.setStyle(this.contour, 'stroke', `rgba(0, 0, 0, 1)`);
+      this.drawingService.renderer.setStyle(this.contour, 'stroke-width', `1`);
+      this.drawingService.renderer.setStyle(this.contour, 'stroke-dasharray', `10,10`);
+      this.drawingService.renderer.setStyle(this.contour, 'd', `M5 40 l215 0`);
+      this.drawingService.renderer.setStyle(this.contour, 'fill', `none`);
+      if (this.contour) {
+        this.contourId = this.drawingService.addObject(this.contour);
+      }
+
+      const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
+
+      this.x = offset.x;
+      this.y = offset.y;
+      this.oldX = offset.x;
+      this.oldY = offset.y;
+
+      this.object = this.drawingService.renderer.createElement('ellipse', 'svg');
+      this.drawingService.renderer.setAttribute(this.object, 'cx', this.x.toString());
+      this.drawingService.renderer.setAttribute(this.object, 'cy', this.y.toString());
+
+      this.drawingService.renderer.setStyle(this.object, 'stroke-width', this.strokeWidth.value.toString());
+      this.drawingService.renderer.setStyle(this.object, 'stroke-alignment', 'outer');
+
+      if (event.button === 0) {
+        this.setStyle();
+      } else {
+        this.setStyle(false);
+      }
+      if (this.object) {
+        this.drawingService.addObject(this.object);
+      }
     }
-    return this.object;
   }
 
   /// Quand le bouton de la sourie est relaché, l'objet courrant de l'outil est mis a null.
   onRelease(event: MouseEvent): void {
-    this.object = null;
+    if (event.button === 0 || event.button === 2) {
+      this.object = null;
+      this.isCircle = false;
+      if (this.contour) {
+        this.drawingService.removeObject(this.contourId);
+        this.contourId = 0;
+      }
+    }
   }
 
   /// Quand le bouton de la sourie est apuyé et on bouge celle-ci, l'objet courrant subit des modifications.
   onMove(event: MouseEvent): void {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
-    this.setSize(offset.x, offset.y);
+    if (this.object) {
+      this.setSize(offset.x, offset.y);
+    }
   }
 
-  /// Active le mode cercle et assigne le size.
-  private setCircle() {
-    this.isCircle = true;
-    this.setSize(this.oldX, this.oldY);
+  onKeyDown(event: KeyboardEvent) {
+    if (event.shiftKey && this.object) {
+      this.isCircle = true;
+      this.setSize(this.oldX, this.oldY);
+    }
   }
-
-  /// Désactive le mode cercle et assigne le size.
-  private unsetCircle() {
-    this.isCircle = false;
-    this.setSize(this.oldX, this.oldY);
+  onKeyUp(event: KeyboardEvent) {
+    if (!event.shiftKey && this.object) {
+      this.isCircle = false;
+      this.setSize(this.oldX, this.oldY);
+    }
   }
 
   /// Transforme le size de l'objet courrant avec un x et un y en entrée
-  private setSize(x: number, y: number): void {
+  private setSize(mouseX: number, mouseY: number): void {
     if (this.object) {
-      this.oldX = x;
-      this.oldY = y;
+      this.oldX = mouseX;
+      this.oldY = mouseY;
 
-      this.object.width = x - this.firstX;
-      this.object.height = y - this.firstY;
+      let width = mouseX - this.x - this.strokeWidth.value;
+      let height = mouseY - this.y - this.strokeWidth.value;
 
-      if (this.object.width < 0) {
-        this.object.x = x;
-        this.object.width = this.firstX - this.object.x;
+      const cx = this.x + width / 2;
+      const cy = this.y + height / 2;
+
+      this.drawingService.renderer.setAttribute(this.object, 'cx', (cx + this.strokeWidth.value / 2).toString());
+      this.drawingService.renderer.setAttribute(this.object, 'cy', (cy + this.strokeWidth.value / 2).toString());
+
+      this.drawingService.renderer.setAttribute(this.contour, 'x', (this.x).toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'y', (this.y).toString());
+
+      if (width < 0) {
+        this.drawingService.renderer.setAttribute(this.object, 'cx', (cx + this.strokeWidth.value / 2).toString());
+        this.drawingService.renderer.setAttribute(this.contour, 'x', (mouseX).toString());
+        width = Math.abs(width) - 2 * this.strokeWidth.value;
       }
-      if (this.object.height < 0) {
-        this.object.y = y;
-        this.object.height = this.firstY - this.object.y;
+      if (height < 0) {
+        this.drawingService.renderer.setAttribute(this.object, 'cy', (cy + this.strokeWidth.value / 2).toString());
+        this.drawingService.renderer.setAttribute(this.contour, 'y', (mouseY).toString());
+        height = Math.abs(height) - 2 * this.strokeWidth.value;
       }
 
       if (this.isCircle) {
-        if (y < this.firstY && x < this.firstX) {
-          if (this.object.width < this.object.height) {
-            this.object.height = this.object.width;
-            this.object.y = this.firstY - this.object.width;
+        if (mouseY < this.y && mouseX < this.x) {
+          if (width < height) {
+            height = width;
+            this.drawingService.renderer.setAttribute(this.object, 'cy', (this.y - width / 2 - this.strokeWidth.value / 2).toString());
+            this.drawingService.renderer.setAttribute(this.contour, 'y', (this.y - width - this.strokeWidth.value).toString());
           } else {
-            this.object.width = this.object.height;
-            this.object.x = this.firstX - this.object.height;
+            width = height;
+            this.drawingService.renderer.setAttribute(this.object, 'cx', (this.x - height / 2 - this.strokeWidth.value / 2).toString());
+            this.drawingService.renderer.setAttribute(this.contour, 'x', (this.x - height - this.strokeWidth.value).toString());
           }
-        } else if (this.object.width < this.object.height) {
-          this.object.height = this.object.width;
-          if (y < this.firstY) {
-            this.object.y = this.firstX + this.firstY - x;
+        } else if (width < height) {
+          height = width;
+          if (mouseY < this.y) {
+            this.drawingService.renderer.setAttribute(this.object, 'cy',
+              (this.x + this.y - mouseX + width / 2 + this.strokeWidth.value / 2).toString());
+            this.drawingService.renderer.setAttribute(this.contour, 'y',
+              (this.x + this.y - mouseX).toString());
+          } else {
+            this.drawingService.renderer.setAttribute(this.object, 'cy',
+              (this.y + width / 2 + this.strokeWidth.value / 2).toString());
           }
         } else {
-          this.object.width = this.object.height;
-          if (x < this.firstX) {
-            this.object.x = this.firstX + this.firstY - y;
+          width = height;
+          if (mouseX < this.x) {
+            this.drawingService.renderer.setAttribute(this.object, 'cx',
+              (this.x + this.y - mouseY + height / 2 + this.strokeWidth.value / 2).toString());
+            this.drawingService.renderer.setAttribute(this.contour, 'x',
+              (this.x + this.y - mouseY).toString());
+          } else {
+            this.drawingService.renderer.setAttribute(this.object, 'cx',
+              (this.x + height / 2 + this.strokeWidth.value / 2).toString());
           }
         }
+      }
+
+      if (width < 0) {
+        width = 0;
+      }
+      if (height < 0) {
+        height = 0;
+      }
+
+      this.drawingService.renderer.setAttribute(this.object, 'rx', (width / 2).toString());
+      this.drawingService.renderer.setAttribute(this.object, 'ry', (height / 2).toString());
+
+      this.drawingService.renderer.setAttribute(this.contour, 'width', (width + this.strokeWidth.value).toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'height', (height + this.strokeWidth.value).toString());
+    }
+  }
+
+  private setStyle(isLeft: boolean = true) {
+    switch (this.ellipseStyle.value) {
+      case 'center': {
+        if (isLeft) {
+          this.drawingService.renderer.setStyle(this.object, 'fill',
+            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
+        } else {
+          this.drawingService.renderer.setStyle(this.object, 'fill',
+            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
+        }
+        return;
+      }
+      case 'border': {
+        this.drawingService.renderer.setStyle(this.object, 'fill', `none`);
+        if (isLeft) {
+          this.drawingService.renderer.setStyle(this.object, 'stroke',
+            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
+        } else {
+          this.drawingService.renderer.setStyle(this.object, 'stroke',
+            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
+        }
+        return;
+      }
+      case 'fill': {
+        if (isLeft) {
+          this.drawingService.renderer.setStyle(this.object, 'fill',
+            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b})`);
+          this.drawingService.renderer.setStyle(this.object, 'stroke',
+            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
+          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
+        } else {
+          this.drawingService.renderer.setStyle(this.object, 'stroke',
+            `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b})`);
+          this.drawingService.renderer.setStyle(this.object, 'fill',
+            `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
+          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
+        }
+        return;
+      }
+      default: {
+        return;
       }
     }
   }

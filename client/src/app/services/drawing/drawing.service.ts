@@ -1,8 +1,6 @@
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { EventEmitter, Injectable, Output, Renderer2 } from '@angular/core';
 import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
 import { DEFAULT_ALPHA, RGBA } from 'src/app/model/rgba.model';
-import { IObjects } from 'src/app/objects/IObjects';
-import { DrawingObject } from '../../../../../common/communication/drawing';
 
 /// Service qui contient les fonction pour dessiner a l'écran
 @Injectable({
@@ -10,8 +8,10 @@ import { DrawingObject } from '../../../../../common/communication/drawing';
 })
 export class DrawingService {
 
-  /// Emit the SVG elements string
   @Output()
+  drawingEmit = new EventEmitter<SVGElement>();
+
+  renderer: Renderer2;
   svgString = new EventEmitter<string>();
   isSaved = false;
   lastObjectId = 0;
@@ -20,13 +20,13 @@ export class DrawingService {
   alpha: number = DEFAULT_ALPHA;
   width = 0;
   height = 0;
+  drawing: SVGElement;
 
-  private objectList: Map<number, IObjects>;
+  objectList: Map<number, SVGElement>;
 
   constructor() {
-    this.objectList = new Map<number, IObjects>();
+    this.objectList = new Map<number, SVGElement>();
   }
-
   get rgbColorString() {
     return 'rgb(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ')';
   }
@@ -37,51 +37,32 @@ export class DrawingService {
 
   /// Retrait d'un objet selon son ID
   removeObject(id: number): void {
+    this.renderer.removeChild(this.drawing, this.objectList.get(id));
     this.isSaved = false;
     this.objectList.delete(id);
-    this.draw();
   }
 
   /// Ajout d'un objet dans la map d'objet du dessin
-  addObject(obj: IObjects) {
+  addObject(obj: SVGElement): number {
     this.isSaved = false;
     this.lastObjectId++;
-    obj.id = this.lastObjectId;
-    this.objectList.set(obj.id, obj);
-    this.draw();
+    this.renderer.setProperty(obj, 'id', this.lastObjectId);
+    this.objectList.set(this.lastObjectId, obj);
+    this.renderer.insertBefore(this.drawing, obj, this.drawing.lastElementChild);
+    return this.lastObjectId;
   }
 
   /// Récupère un objet selon son id dans la map d'objet
-  getObject(id: number): IObjects | undefined {
+  getObject(id: number): SVGElement | undefined {
     return this.objectList.get(id);
-  }
-
-  drawString(): string {
-    let drawResult = '';
-    for (const obj of this.objectList.values()) {
-      drawResult += obj.draw();
-    }
-    return drawResult;
-  }
-
-  /// Retourn un string avec tout les éléments svg des objets
-  draw() {
-    this.isSaved = false;
-    this.svgString.emit(this.drawString());
-  }
-
-  drawingObjectList(): DrawingObject[] {
-    const drawingObjectList: DrawingObject[] = [];
-    for (const obj of this.objectList.values()) {
-      drawingObjectList.push(obj.toDrawingObject());
-    }
-    return drawingObjectList;
   }
 
   /// Redéfini la dimension du dessin
   setDimension(width: number, height: number) {
     this.width = width;
     this.height = height;
+    this.renderer.setAttribute(this.drawing, 'width', width.toString());
+    this.renderer.setAttribute(this.drawing, 'height', height.toString());
   }
 
   /// Change la couleur du fond d'écran
@@ -95,8 +76,9 @@ export class DrawingService {
     this.isSaved = false;
     this.objectList.clear();
     this.lastObjectId = 0;
+    this.drawing = this.renderer.createElement('svg', 'svg');
     this.setDimension(width, height);
     this.setDrawingColor(rgba);
-    this.draw();
+    this.drawingEmit.emit(this.drawing);
   }
 }
