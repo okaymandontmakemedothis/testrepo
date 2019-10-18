@@ -133,6 +133,14 @@ describe('ToolEllipseService', () => {
     service.onMove(moveEvent);
   });
 
+    it('should not addObject if contour doesnt exist ', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 10 });
+    service.onPressed(new MouseEvent('mousedown', { button: 0 }));
+    expect(drawingServiceSpy.addObject).not.toHaveBeenCalledWith('rect');
+
+  });
+
   it('should create an object with good color on both click when ellipseStyle is center', () => {
     const service: ToolEllipseService = TestBed.get(ToolEllipseService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
@@ -222,7 +230,7 @@ describe('ToolEllipseService', () => {
     expect(rendererSpy.createElement).not.toHaveBeenCalled();
   });
 
-  it('should not call add object if object is undefined', () => {
+  it('should not call add object if object is undefined onMove', () => {
     const service: ToolEllipseService = TestBed.get(ToolEllipseService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
     rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
@@ -236,7 +244,26 @@ describe('ToolEllipseService', () => {
     service.onMove(moveEvent);
     expect(drawingServiceSpy.addObject).not.toHaveBeenCalled();
     expect(setSizeSpy).not.toHaveBeenCalled();
+  });
 
+  it('should call remove object if object exist onRelease', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+    rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
+    rendererSpy.createElement.withArgs('ellipse', 'svg').and.returnValue('ellipse');
+    service.onPressed(new MouseEvent('mousedown', { button: 0 }));
+    service.onRelease(new MouseEvent('mouseup'));
+    expect(drawingServiceSpy.removeObject).toHaveBeenCalled();
+    
+  });
+
+   it('should not call remove object if object is undefined onRelease', () => {
+    const service: ToolEllipseService = TestBed.get(ToolEllipseService);
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+    service.onPressed(new MouseEvent('mousedown', { button: 0 }));
+    service.onRelease(new MouseEvent('mouseup'));
+
+    expect(drawingServiceSpy.removeObject).not.toHaveBeenCalled();
   });
 
   it('should set size of object on mouse move', () => {
