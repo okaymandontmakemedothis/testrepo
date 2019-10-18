@@ -7,8 +7,8 @@ import { DEFAULT_RGB_COLOR } from 'src/app/model/rgb.model';
 import { DEFAULT_ALPHA } from 'src/app/model/rgba.model';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { NewDrawingService } from 'src/app/services/new-drawing/new-drawing.service';
+import { GridService } from 'src/app/services/tools/grid-tool/grid.service';
 import { NewDrawingAlertComponent } from './new-drawing-alert/new-drawing-alert.component';
-import { GridService } from 'src/app/services/tools/grid-tool/grid.sevice';
 
 const ONE_SECOND = 1000;
 @Component({

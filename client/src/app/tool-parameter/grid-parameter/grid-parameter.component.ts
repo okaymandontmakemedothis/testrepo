@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { gridColor } from 'src/app/model/grid-model';
-import { GridService } from 'src/app/services/tools/grid-tool/grid.sevice';
+import { GridService } from 'src/app/services/tools/grid-tool/grid.service';
 
 const NOIR = 0;
 const BLANC = 1;
