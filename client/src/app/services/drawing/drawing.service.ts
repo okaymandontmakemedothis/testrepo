@@ -22,7 +22,7 @@ export class DrawingService {
   height = 0;
   drawing: SVGElement;
 
-  private objectList: Map<number, SVGElement>;
+  objectList: Map<number, SVGElement>;
 
   constructor() {
     this.objectList = new Map<number, SVGElement>();
@@ -55,7 +55,7 @@ export class DrawingService {
     this.lastObjectId++;
     this.renderer.setProperty(obj, 'id', this.lastObjectId);
     this.objectList.set(this.lastObjectId, obj);
-    this.renderer.appendChild(this.drawing, obj);
+    this.renderer.insertBefore(this.drawing, obj, this.drawing.lastElementChild);
     return this.lastObjectId;
   }
 

@@ -94,7 +94,6 @@ export class SaveDrawingService {
 
   async save(): Promise<boolean> {
     this.saveEnabled = false;
-    // const drawingObjectsList: DrawingObject[] = this.drawingService.drawingObjectList();
     const drawing: Drawing = {
       id: this.drawingService.id,
       name: this.nameCtrl.value,
@@ -109,7 +108,8 @@ export class SaveDrawingService {
         drawing, { observe: 'response' },
       ).toPromise();
     } catch {
-      this.errorMessage.showError('Test', 'Error');
+      this.errorMessage.showError('Test', 'Erreur de sauvegarde de dessin sur le serveur');
+      this.saveEnabled = true;
       return false;
     }
     this.saveEnabled = true;

@@ -4,8 +4,8 @@ export interface Message {
 }
 
 export interface WelcomeMessage {
-    'body': string;
-    'end': string;
+    body: string;
+    end: string;
 }
 
 export interface ShortcutClavier {
