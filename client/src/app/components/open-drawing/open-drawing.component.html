@@ -30,17 +30,19 @@
                 <p mat-line> {{preview.tags}} </p>
             </mat-list-item>
         </mat-list> -->
-        <div *ngFor="let preview of drawingPreview.value">
-            <mat-card class="example-card" (click)="openDrawing(preview)">
+
+
+        <div *ngFor="let preview of dataObs | async">
+            <mat-card *ngIf="containsTag(preview)" class="example-card" (click)="selectDrawing(preview)"
+                [style.background]='getBackgroundSelected(preview)' style="float: left;">
                 <mat-card-header>
                     <mat-card-title>{{preview.name}}</mat-card-title>
                 </mat-card-header>
-                <div [id]=preview.name [style.background]="getBackground(preview)"></div>
-                <!-- <div class="wrapper"> -->
-                <svg height="150" width="150">
-                    {{getThumbnail(preview)}}
-                </svg>
-                <!-- </div> -->
+                <div [id]=preview.name [style.background]="getBackground(preview)" style="height: 150px; width: 150px;">
+                    <svg height="100%" width="100%">
+                        {{getThumbnail(preview)}}
+                    </svg>
+                </div>
                 <mat-card-content>
                     <p *ngFor="let tag of preview.tags">
                         {{tag}}
@@ -48,7 +50,9 @@
                 </mat-card-content>
             </mat-card>
         </div>
+        <mat-paginator [length]="drawingPreview.length" [pageSize]="8">
+        </mat-paginator>
     </div>
     <button mat-raised-button color="primary" (click)="close()">Fermer</button>
-    <button mat-raised-button color="primary" (click)="close()">Ouvrir</button>
+    <button mat-raised-button color="primary" (click)="accept()" [disabled]="!selectedDrawing">Ouvrir</button>
 </div>

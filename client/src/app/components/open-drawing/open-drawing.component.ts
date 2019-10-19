@@ -1,19 +1,21 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
-import { BehaviorSubject } from 'rxjs';
+import { MatDialogRef, MatDialog, MatTableDataSource } from '@angular/material';
+// import { BehaviorSubject } from 'rxjs';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { Drawing } from '../../../../../common/communication/drawing';
 import { OpenDrawingService } from 'src/app/services/open-drawing/open-drawing.service';
 import { RGBA } from 'src/app/model/rgba.model';
+import { NewDrawingAlertComponent } from '../new-drawing/new-drawing-alert/new-drawing-alert.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-open-drawing',
   templateUrl: './open-drawing.component.html',
   styleUrls: ['./open-drawing.component.scss'],
 })
-export class OpenDrawingComponent {
+export class OpenDrawingComponent implements OnInit {
 
   tagCtrl = new FormControl();
   visible = true;
@@ -21,25 +23,45 @@ export class OpenDrawingComponent {
   removable = true;
   addOnBlur = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
+  selectedTags: string[] = [];
 
   @ViewChild('tagInput', { static: false }) tagInput: ElementRef<HTMLInputElement>;
 
-  selectedDrawing: Drawing;
-  drawingPreview = new BehaviorSubject<Drawing[]>([{
-    id: '0',
-    name: '', tags: [''], width: 0, height: 0, backGroundColor: { rgb: { r: 0, g: 0, b: 0 }, a: 1 },
-    svg: '',
-  }]);
+  selectedDrawing: Drawing | null;
+  drawingPreview: Drawing[] = [];
   isLoaded = false;
+
+  dataSource: MatTableDataSource<Drawing> = new MatTableDataSource<Drawing>();
+  dataObs: BehaviorSubject<Drawing[]>;
+
   constructor(
     public dialogRef: MatDialogRef<OpenDrawingComponent>,
     private openDrawingService: OpenDrawingService,
     public drawingService: DrawingService,
     private renderer: Renderer2,
+    public dialog: MatDialog,
   ) {
-    this.openDrawingService.getDrawings()
-      .subscribe(this.drawingPreview);
-    this.drawingPreview.subscribe(() => this.isLoaded = true);
+    this.dataSource = new MatTableDataSource<Drawing>();
+    this.dialogRef.afterOpened().subscribe(() => {
+      this.openDrawingService.getDrawings()
+        .subscribe((drawings: Drawing[]) => {
+          this.dataSource.data = drawings;
+          this.drawingPreview = drawings;
+          this.isLoaded = true;
+        });
+    });
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.isLoaded = false;
+      this.selectedDrawing = null;
+    });
+  }
+
+  ngOnInit(): void {
+    this.dataObs = this.dataSource.connect();
+  }
+
+  ngOnDestroy(): void {
+    if (this.dataSource) { this.dataSource.disconnect(); }
   }
 
   getBackground(drawing: Drawing): string {
@@ -48,24 +70,63 @@ export class OpenDrawingComponent {
   }
 
   getThumbnail(drawingObject: Drawing) {
-    const container = document.getElementById(drawingObject.name);
-    const svgThumbnail: SVGElement = this.renderer.createElement('svg', 'svg');
-    this.renderer.setAttribute(svgThumbnail, 'viewBox', `0 0 ${drawingObject.width} ${drawingObject.height}`);
-    svgThumbnail.innerHTML = `${drawingObject.svg}`;
+    const container: HTMLElement | null = document.getElementById(drawingObject.name);
     if (container) {
-      this.renderer.appendChild(container, svgThumbnail);
-      console.log(container.innerHTML);
+      const svgThumbnail: Element | null = container.children.item(0);
+      if (svgThumbnail) {
+        this.renderer.setAttribute(svgThumbnail, 'viewBox', `0 0 ${drawingObject.width} ${drawingObject.height}`);
+        svgThumbnail.innerHTML = `${drawingObject.svg}`;
+      }
     }
   }
 
-  // ouvre un nouveau dessin  avec l'ancien drawing
-  openDrawing(drawing: Drawing) {
-    console.log('open drawing');
-    this.drawingService.isCreated = true;
-    this.drawingService.openDrawing(drawing);
-    this.dialogRef.close();
-
+  getBackgroundSelected(drawing: Drawing): string {
+    return (this.selectedDrawing && this.selectedDrawing.name === drawing.name) ? 'grey' : 'white';
   }
+
+  selectDrawing(drawing: Drawing) {
+    this.selectedDrawing = drawing;
+  }
+
+  containsTag(drawing: Drawing): boolean {
+    if (this.selectedTags.length < 1) {
+      return true;
+    }
+    let containsTag = false;
+    for (const tag of drawing.tags) {
+      containsTag = this.selectedTags.includes(tag);
+      if (containsTag) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // ouvre un nouveau dessin  avec l'ancien drawing
+  accept(): void {
+    if (!this.selectedDrawing) { return; }
+    if (this.drawingService.isCreated) {
+      const alert = this.dialog.open(NewDrawingAlertComponent, {
+        role: 'alertdialog',
+      });
+      alert.afterClosed().subscribe((result: boolean) => {
+        if (result) {
+          this.openDrawing();
+        }
+      });
+    } else {
+      this.openDrawing();
+    }
+  }
+
+  openDrawing(): void {
+    if (!this.selectedDrawing) { return; }
+    this.drawingService.isCreated = true;
+    this.drawingService.openDrawing(this.selectedDrawing);
+    this.dialogRef.close();
+  }
+
+
   close(): void {
     this.dialogRef.close();
   }
