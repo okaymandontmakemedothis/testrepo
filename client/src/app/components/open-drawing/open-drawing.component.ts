@@ -51,24 +51,18 @@ export class OpenDrawingComponent implements OnInit {
     private tagService: TagService,
   ) {
     this.dataSource = new MatTableDataSource<Drawing>();
-  }
-
-  ngOnInit(): void {
-    console.log(this.paginator);
-    this.dataSource.filterPredicate = ((data: Drawing, filter: string) => this.containsTag(data));
     this.dialogRef.afterOpened().subscribe(() => {
       this.openDrawingService.getDrawings()
         .subscribe((drawings: Drawing[]) => {
           this.dataSource.data = drawings;
           this.drawingPreview = drawings;
           this.isLoaded = true;
-          this.dataSource.paginator = this.paginator;
           this.selectedTags = [];
           this.tagService.retrieveTags().subscribe((tags: string[]) => this.allTags = tags);
           this.filteredTags = this.tagCtrl.valueChanges.pipe(
             startWith(null),
             map((tag: string | null) => tag ? this.filter(tag) : this.allTags.slice()));
-          this.paginator.firstPage();
+          this.dataSource.filter = '';
         });
     });
     this.dialogRef.afterClosed().subscribe(() => {
@@ -76,12 +70,22 @@ export class OpenDrawingComponent implements OnInit {
       this.selectedDrawing = null;
       this.selectedTags = [];
     });
+  }
+
+  ngOnInit(): void {
+    console.log(this.paginator);
+    this.dataSource.filterPredicate = ((data: Drawing, filter: string) => this.containsTag(data));
+
     this.dataObs = this.dataSource.connect();
 
   }
 
   ngOnDestroy(): void {
     if (this.dataSource) { this.dataSource.disconnect(); }
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
   }
 
   getBackground(drawing: Drawing): string {
@@ -175,6 +179,7 @@ export class OpenDrawingComponent implements OnInit {
 
       this.tagCtrl.setValue(null);
     }
+    this.selectedDrawing = null;
     this.dataSource.filter = this.selectedTags.toString();
   }
 
@@ -184,6 +189,7 @@ export class OpenDrawingComponent implements OnInit {
     if (index >= 0) {
       this.selectedTags.splice(index, 1);
     }
+    this.selectedDrawing = null;
     this.dataSource.filter = this.selectedTags.toString();
   }
 
@@ -191,6 +197,7 @@ export class OpenDrawingComponent implements OnInit {
     this.selectedTags.push(event.option.viewValue);
     this.tagCtrl.setValue(null);
     this.tagInput.nativeElement.value = '';
+    this.selectedDrawing = null;
     this.dataSource.filter = this.selectedTags.toString();
   }
 
