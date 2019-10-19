@@ -1,14 +1,16 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialogRef, MatDialog, MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatDialogRef, MatDialog, MatTableDataSource, MatPaginator, MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material';
 // import { BehaviorSubject } from 'rxjs';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { Drawing } from '../../../../../common/communication/drawing';
 import { OpenDrawingService } from 'src/app/services/open-drawing/open-drawing.service';
 import { RGBA } from 'src/app/model/rgba.model';
 import { NewDrawingAlertComponent } from '../new-drawing/new-drawing-alert/new-drawing-alert.component';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { TagService } from 'src/app/services/tag/tag.service';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-open-drawing',
@@ -23,11 +25,14 @@ export class OpenDrawingComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  selectedTags: string[] = [];
   pageIndex = 0;
 
-  @ViewChild('tagInput', { static: false }) tagInput: ElementRef<HTMLInputElement>;
+  filteredTags: Observable<string[]>;
+  selectedTags: string[] = [];
+  allTags: string[] = [];
 
+  @ViewChild('tagInput', { static: false }) tagInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   selectedDrawing: Drawing | null;
@@ -43,6 +48,7 @@ export class OpenDrawingComponent implements OnInit {
     public drawingService: DrawingService,
     private renderer: Renderer2,
     public dialog: MatDialog,
+    private tagService: TagService,
   ) {
     this.dataSource = new MatTableDataSource<Drawing>();
     this.dialogRef.afterOpened().subscribe(() => {
@@ -51,16 +57,24 @@ export class OpenDrawingComponent implements OnInit {
           this.dataSource.data = drawings;
           this.drawingPreview = drawings;
           this.isLoaded = true;
+          this.selectedTags = [];
+          this.tagService.retrieveTags().subscribe((tags: string[]) => this.allTags = tags);
+          this.filteredTags = this.tagCtrl.valueChanges.pipe(
+            startWith(null),
+            map((tag: string | null) => tag ? this.filter(tag) : this.allTags.slice()));
+          console.log(this.dataSource.filteredData);
         });
     });
     this.dialogRef.afterClosed().subscribe(() => {
       this.isLoaded = false;
       this.selectedDrawing = null;
+      this.selectedTags = [];
     });
   }
 
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.filterPredicate = ((data: Drawing, filter: string) => this.containsTag(data));
     this.dataObs = this.dataSource.connect();
   }
 
@@ -86,6 +100,10 @@ export class OpenDrawingComponent implements OnInit {
 
   getBackgroundSelected(drawing: Drawing): string {
     return (this.selectedDrawing && this.selectedDrawing.name === drawing.name) ? 'grey' : 'white';
+  }
+
+  test() {
+    this.dataSource.filter = Math.random().toString();
   }
 
   selectDrawing(drawing: Drawing) {
@@ -130,8 +148,53 @@ export class OpenDrawingComponent implements OnInit {
     this.dialogRef.close();
   }
 
-
   close(): void {
     this.dialogRef.close();
   }
+
+  add(event: MatChipInputEvent): void {
+    // Add tag only when MatAutocomplete is not open
+    // To make sure this does not conflict with OptionSelected Event
+    if (!this.matAutocomplete.isOpen) {
+      const input = event.input;
+      const value = event.value;
+
+      // Add our tag
+      if ((value || '').trim()) {
+        if (!this.selectedTags.includes(value.trim())) {
+          this.selectedTags.push(value.trim());
+        }
+      }
+
+      // Reset the input value
+      if (input) {
+        input.value = '';
+      }
+
+      this.tagCtrl.setValue(null);
+    }
+    this.dataSource.filter = this.selectedTags.toString();
+  }
+
+  remove(tag: string): void {
+    const index = this.selectedTags.indexOf(tag);
+
+    if (index >= 0) {
+      this.selectedTags.splice(index, 1);
+    }
+    this.dataSource.filter = this.selectedTags.toString();
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.selectedTags.push(event.option.viewValue);
+    this.tagCtrl.setValue(null);
+    this.tagInput.nativeElement.value = '';
+    this.dataSource.filter = this.selectedTags.toString();
+  }
+
+  private filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.allTags.filter((tag) => tag.toLowerCase().indexOf(filterValue) === 0);
+  }
+
 }

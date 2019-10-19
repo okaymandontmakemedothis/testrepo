@@ -10,15 +10,20 @@
         <div>
             <mat-form-field class="tag-list">
                 <mat-chip-list #chipList aria-label="Sélection d'étiquette">
-                    <!-- <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
+                    <mat-chip *ngFor="let tag of selectedTags" [selectable]="selectable" [removable]="removable"
                         (removed)="remove(tag)">
                         {{tag}}
                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
-                    <input placeholder="Étiquette(s)..." #tagInput [formControl]="tagCtrl" [matChipInputFor]="chipList"
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
-                        (matChipInputTokenEnd)="add($event)"> -->
+                    <input placeholder="Étiquette(s)..." #tagInput [formControl]="tagCtrl" [matAutocomplete]="auto"
+                        [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
                 </mat-chip-list>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                    <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                        {{tag}}
+                    </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
         </div>
         <!-- <mat-list>
@@ -31,28 +36,34 @@
             </mat-list-item>
         </mat-list> -->
 
-        <mat-paginator [length]="drawingPreview.length" [pageSize]="2" [pageIndex]="pageIndex"
+        <mat-paginator [length]="dataObs.value.length" [pageSize]="2" [pageIndex]="pageIndex"
             (page)="pageEvent = $event;">
         </mat-paginator>
-        <div *ngFor=" let preview of dataObs | async">
-            <mat-card *ngIf="containsTag(preview)" class="example-card" (click)="selectDrawing(preview)"
-                [style.background]='getBackgroundSelected(preview)' style="float: left;">
-                <mat-card-header>
-                    <mat-card-title>{{preview.name}}</mat-card-title>
-                </mat-card-header>
-                <div [id]=preview.name [style.background]="getBackground(preview)" style="height: 150px; width: 150px;">
-                    <svg height="100%" width="100%">
-                        {{getThumbnail(preview)}}
-                    </svg>
-                </div>
-                <mat-card-content>
-                    <p *ngFor="let tag of preview.tags">
-                        {{tag}}
-                    </p>
-                </mat-card-content>
-            </mat-card>
+        <div *ngIf="dataObs.value">
+            <div *ngFor="let preview of dataObs | async">
+                <!-- <mat-card *ngIf="containsTag(preview)" class="example-card" (click)="selectDrawing(preview)" -->
+                <mat-card class="example-card" (click)="selectDrawing(preview)" (click)="test()"
+                    [style.background]='getBackgroundSelected(preview)' style="float: left;">
+                    <mat-card-header>
+                        <mat-card-title>{{preview.name}}</mat-card-title>
+                    </mat-card-header>
+                    <div [id]=preview.name [style.background]="getBackground(preview)"
+                        style="height: 150px; width: 150px;">
+                        <svg height="100%" width="100%">
+                            {{getThumbnail(preview)}}
+                        </svg>
+                    </div>
+                    <mat-card-content>
+                        <p *ngFor="let tag of preview.tags">
+                            {{tag}}
+                        </p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
         </div>
-
+        <div *ngIf="!dataObs.value">
+            <h3>Aucun dessin ne correspond aux filtrage demandé</h3>
+        </div>
     </div>
     <button mat-raised-button color="primary" (click)="close()">Fermer</button>
     <button mat-raised-button color="primary" (click)="accept()" [disabled]="!selectedDrawing">Ouvrir</button>
