@@ -6,6 +6,8 @@
             </mat-progress-spinner>
         </div>
     </div>
+    <mat-paginator [length]="dataObs.value.length" [pageSize]="2" [pageIndex]="pageIndex" (page)="pageEvent = $event;">
+    </mat-paginator>
     <div *ngIf="isLoaded">
         <div>
             <mat-form-field class="tag-list">
@@ -36,10 +38,7 @@
             </mat-list-item>
         </mat-list> -->
 
-        <mat-paginator [length]="dataObs.value.length" [pageSize]="2" [pageIndex]="pageIndex"
-            (page)="pageEvent = $event;">
-        </mat-paginator>
-        <div *ngIf="dataObs.value">
+        <div *ngIf="dataObs.value.length !== 0">
             <div *ngFor="let preview of dataObs | async">
                 <!-- <mat-card *ngIf="containsTag(preview)" class="example-card" (click)="selectDrawing(preview)" -->
                 <mat-card class="example-card" (click)="selectDrawing(preview)" (click)="test()"
@@ -61,7 +60,7 @@
                 </mat-card>
             </div>
         </div>
-        <div *ngIf="!dataObs.value">
+        <div *ngIf="dataObs.value.length === 0">
             <h3>Aucun dessin ne correspond aux filtrage demandé</h3>
         </div>
     </div>

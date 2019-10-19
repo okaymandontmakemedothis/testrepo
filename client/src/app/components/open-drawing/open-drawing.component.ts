@@ -51,18 +51,24 @@ export class OpenDrawingComponent implements OnInit {
     private tagService: TagService,
   ) {
     this.dataSource = new MatTableDataSource<Drawing>();
+  }
+
+  ngOnInit(): void {
+    console.log(this.paginator);
+    this.dataSource.filterPredicate = ((data: Drawing, filter: string) => this.containsTag(data));
     this.dialogRef.afterOpened().subscribe(() => {
       this.openDrawingService.getDrawings()
         .subscribe((drawings: Drawing[]) => {
           this.dataSource.data = drawings;
           this.drawingPreview = drawings;
           this.isLoaded = true;
+          this.dataSource.paginator = this.paginator;
           this.selectedTags = [];
           this.tagService.retrieveTags().subscribe((tags: string[]) => this.allTags = tags);
           this.filteredTags = this.tagCtrl.valueChanges.pipe(
             startWith(null),
             map((tag: string | null) => tag ? this.filter(tag) : this.allTags.slice()));
-          console.log(this.dataSource.filteredData);
+          this.paginator.firstPage();
         });
     });
     this.dialogRef.afterClosed().subscribe(() => {
@@ -70,12 +76,8 @@ export class OpenDrawingComponent implements OnInit {
       this.selectedDrawing = null;
       this.selectedTags = [];
     });
-  }
-
-  ngOnInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.filterPredicate = ((data: Drawing, filter: string) => this.containsTag(data));
     this.dataObs = this.dataSource.connect();
+
   }
 
   ngOnDestroy(): void {
