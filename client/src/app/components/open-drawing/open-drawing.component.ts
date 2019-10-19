@@ -1,7 +1,7 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialogRef, MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialogRef, MatDialog, MatTableDataSource, MatPaginator } from '@angular/material';
 // import { BehaviorSubject } from 'rxjs';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { Drawing } from '../../../../../common/communication/drawing';
@@ -24,8 +24,11 @@ export class OpenDrawingComponent implements OnInit {
   addOnBlur = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   selectedTags: string[] = [];
+  pageIndex = 0;
 
   @ViewChild('tagInput', { static: false }) tagInput: ElementRef<HTMLInputElement>;
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   selectedDrawing: Drawing | null;
   drawingPreview: Drawing[] = [];
@@ -57,6 +60,7 @@ export class OpenDrawingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataSource.paginator = this.paginator;
     this.dataObs = this.dataSource.connect();
   }
 
