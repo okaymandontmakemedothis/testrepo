@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -34,7 +34,7 @@ describe('OpenDrawingComponent', () => {
     const spyDrawing = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList']);
     TestBed.configureTestingModule({
       declarations: [OpenDrawingComponent],
-      imports: [MaterialModules, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, HttpClientModule],
+      imports: [MaterialModules, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, HttpClientModule,HttpClient],
       providers: [{ provide: MatDialogRef, useValue: dialogRefSpyObj }, { provide: DrawingService, useValue: spyDrawing }],
     });
     spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);

@@ -35,7 +35,7 @@ describe('Testing drawing.service', () => {
 
     afterEach(() => {
         mongoDbConnectionService.getMongoClient().then((mc: MongoClient) => {
-            const db: Db = mc.db(mongoDbConnectionService.getDatabaseName());
+            // const db: Db = mc.db(mongoDbConnectionService.getDatabaseName());
             //db.dropDatabase();
             mc.close();
         });
