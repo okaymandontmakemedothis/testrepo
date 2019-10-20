@@ -29,19 +29,19 @@
     </mat-paginator>
     <div *ngIf="isLoaded" class="drawing-list">
         <div *ngIf="dataObs.value.length !== 0">
-            <div *ngFor="let preview of dataObs | async" style="margin: 10px;">
-                <mat-card class="drawing-card" (click)="selectDrawing(preview)"
-                    [style.background]='getBackgroundSelected(preview)'>
+            <div *ngFor="let drawing of dataObs | async" style="margin: 10px;">
+                <mat-card class="drawing-card" (click)="selectDrawing(drawing)"
+                    [style.background]='getBackgroundSelected(drawing)'>
                     <mat-card-header>
-                        <mat-card-title>{{preview.name}}</mat-card-title>
+                        <mat-card-title>{{drawing.name}}</mat-card-title>
                     </mat-card-header>
-                    <div [id]=preview.name class="thumbnail">
-                        <svg [style.background]="getBackground(preview)">
-                            {{getThumbnail(preview)}}
+                    <div [id]=drawing.name class="thumbnail">
+                        <svg [style.background]="getBackground(drawing)">
+                            {{getThumbnail(drawing)}}
                         </svg>
                     </div>
                     <mat-card-content>
-                        <p *ngFor="let tag of preview.tags">
+                        <p *ngFor="let tag of drawing.tags">
                             {{tag}}
                         </p>
                     </mat-card-content>

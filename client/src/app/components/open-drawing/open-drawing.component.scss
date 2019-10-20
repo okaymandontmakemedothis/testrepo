@@ -18,8 +18,6 @@
 }
 
 .thumbnail {
-  // justify-self: center;
-  // text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,5 +31,9 @@
 
 .drawing-list {
   height: 400px;
+  width: 100%;
+}
+
+.tag-list {
   width: 100%;
 }

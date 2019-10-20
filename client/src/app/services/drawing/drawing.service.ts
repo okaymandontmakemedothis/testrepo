@@ -109,31 +109,4 @@ export class DrawingService {
     }
     this.drawingEmit.emit(this.drawing);
   }
-
-  // toRectangleObject(drawing: any) {
-  //   const rectangleObject = new RectangleObject(drawing.x, drawing.y, drawing.strokeWidth, drawing.style);
-  //   rectangleObject.id = drawing.objectId;
-  //   rectangleObject.height = drawing.height;
-  //   rectangleObject.width = drawing.width;
-  //   rectangleObject.primaryColor = drawing.primaryRGBA;
-  //   rectangleObject.secondaryColor = drawing.secondaryRGBA;
-  //   return rectangleObject;
-  // }
-
-  // toPolyLineObject(drawingObject: any): Polyline {
-  //   const texture = this.textureService.returnTexture(drawingObject.testureId);
-  //   const polylineObject = new Polyline(drawingObject.pointsList[0], drawingObject.strokeWidth, texture);
-  //   polylineObject.pointsList = drawingObject.pointsList;
-
-  //   polylineObject.id = drawingObject.objectId;
-  //   polylineObject.x = drawingObject.x;
-  //   polylineObject.y = drawingObject.y;
-  //   polylineObject.height = drawingObject.height;
-  //   polylineObject.width = drawingObject.width;
-  //   polylineObject.primaryColor = drawingObject.primaryRGBA;
-  //   polylineObject.secondaryColor = drawingObject.secondaryRGBA;
-  //   polylineObject.pointsList = drawingObject.pointsList;
-
-  //   return polylineObject;
-  // }
 }

@@ -10,6 +10,7 @@ import { Drawing } from '../../../../../common/communication/drawing';
 import { Message } from '../../../../../common/communication/message';
 import { ErrorMessageService } from '../error-message/error-message.service';
 import { TagService } from '../tag/tag.service';
+import { GridService } from '../tools/grid-tool/grid.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,7 @@ export class SaveDrawingService {
 
   constructor(
     private drawingService: DrawingService,
+    private gridService: GridService,
     private tagService: TagService,
     private http: HttpClient,
     private errorMessage: ErrorMessageService,
@@ -94,6 +96,9 @@ export class SaveDrawingService {
 
   async save(): Promise<boolean> {
     this.saveEnabled = false;
+    if (this.gridService.activerGrille.value) {
+      this.gridService.hideGrid();
+    }
     const drawing: Drawing = {
       id: this.drawingService.id,
       name: this.nameCtrl.value,
@@ -103,6 +108,9 @@ export class SaveDrawingService {
       backGroundColor: { rgb: this.drawingService.color, a: this.drawingService.alpha },
       svg: this.drawingService.drawing.innerHTML,
     };
+    if (this.gridService.activerGrille.value) {
+      this.gridService.showGrid();
+    }
     try {
       await this.http.post<Message>('http://localhost:3000/api/drawings/',
         drawing, { observe: 'response' },
