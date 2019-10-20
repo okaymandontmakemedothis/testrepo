@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material';
-import { HotkeysService } from '../hotkeys/hotkeys.service';
 import { ToggleDrawerService } from '../toggle-drawer/toggle-drawer.service';
 import { ITools } from '../tools/ITools';
 import { ToolsService } from '../tools/tools.service';
@@ -13,15 +12,11 @@ import { ToolsService } from '../tools/tools.service';
 export class SidenavService {
 
   isControlMenu = false;
-  canClick = false;
 
   constructor(
     private toggleDrawerService: ToggleDrawerService,
-    private hotkeysService: HotkeysService,
     private toolService: ToolsService,
   ) {
-    this.eventListenerOnInput();
-    this.hotkeysService.hotkeysListener();
   }
 
   /// Retourne la liste d'outils
@@ -40,17 +35,6 @@ export class SidenavService {
       return this.toolList.size;
     }
     return this.toolService.selectedToolId;
-  }
-
-  /// Verifie si on doit appeller les hotkeys
-  private eventListenerOnInput() {
-    window.addEventListener('mousedown', (event) => {
-      if ((event.target as HTMLInputElement).value !== undefined) {
-        this.hotkeysService.disableHotkeys();
-      } else if (this.canClick) {
-        this.hotkeysService.enableHotkeys();
-      }
-    });
   }
 
   /// Ouvre le drawer de paramètre

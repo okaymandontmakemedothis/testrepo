@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { HotkeysService } from 'src/app/services/hotkeys/hotkeys.service';
-import { SidenavService } from 'src/app/services/sidenav/sidenav.service';
 import { WelcomeDialogService } from 'src/app/services/welcome-dialog/welcome-dialog.service';
 import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
 import { WelcomeDialogComponent } from '../welcome-dialog/welcome-dialog/welcome-dialog.component';
+import { HotkeysService } from 'src/app/services/hotkeys/hotkeys.service';
 
 @Component({
   selector: 'app-root',
@@ -20,19 +19,13 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     private welcomeDialogService: WelcomeDialogService,
-    private hotkeysService: HotkeysService,
-    private sideNavService: SidenavService,
+    private hotkeyService: HotkeysService,
   ) {
-    this.dialog.afterAllClosed.subscribe(() => {
-      this.hotkeysService.enableHotkeys();
-      this.sideNavService.canClick = true;
-    });
+    this.hotkeyService.hotkeysListener();
   }
 
   // Fonction qui ouvre le mat Dialog de bienvenue
   openDialog() {
-    this.hotkeysService.disableHotkeys();
-    this.sideNavService.canClick = false;
 
     this.welcomeDialogRef = this.dialog.open(WelcomeDialogComponent, {
       hasBackdrop: true,
@@ -43,9 +36,6 @@ export class AppComponent implements OnInit, OnDestroy {
       maxWidth: 500,
     });
     this.welcomeDialogSub = this.welcomeDialogRef.afterClosed().subscribe(() => {
-      this.hotkeysService.disableHotkeys();
-      this.sideNavService.canClick = false;
-
       this.dialog.open(NewDrawingComponent);
     });
   }

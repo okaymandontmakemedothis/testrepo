@@ -14,7 +14,10 @@ import { DIALOG_PROPERTIES, WelcomeDialogComponent } from '../welcome-dialog/wel
 })
 export class ControlMenuComponent {
 
-  constructor(private dialog: MatDialog, private drawingService: DrawingService) {
+  constructor(
+    private dialog: MatDialog,
+    private drawingService: DrawingService,
+  ) {
   }
 
   get isSaved(): boolean {
@@ -24,7 +27,7 @@ export class ControlMenuComponent {
   openNewDrawing(): void {
     this.dialog.open(NewDrawingComponent, {});
   }
-  /// Ouvre le message de vienvenue
+  /// Ouvre le message de bienvenue
   openWelcomeMessage(): void {
     this.dialog.open(WelcomeDialogComponent, DIALOG_PROPERTIES);
   }
@@ -36,6 +39,6 @@ export class ControlMenuComponent {
 
   /// Ouvrir le dialog d'ouverture de fichier
   openOpenDrawing(): void {
-    this.dialog.open(OpenDrawingComponent, {maxHeight: 800});
+    this.dialog.open(OpenDrawingComponent, { maxHeight: 800 });
   }
 }

@@ -107,10 +107,12 @@ export class GridService implements ITools {
     }
 
     hideGrid() {
+        this.activerGrille.setValue(false);
         this.drawingService.renderer.setStyle(this.rect, 'visibility', 'hidden');
     }
 
     showGrid() {
+        this.activerGrille.setValue(true);
         this.drawingService.renderer.setStyle(this.rect, 'visibility', 'visible');
     }
 
