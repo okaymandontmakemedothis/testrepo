@@ -36,7 +36,7 @@
                         <mat-card-title>{{drawing.name}}</mat-card-title>
                     </mat-card-header>
                     <div [id]=drawing.name class="thumbnail">
-                        <svg [style.background]="getBackground(drawing)">
+                        <svg [style.background]="getBackground(drawing)" width="100%" height="100%">
                             {{getThumbnail(drawing)}}
                         </svg>
                     </div>

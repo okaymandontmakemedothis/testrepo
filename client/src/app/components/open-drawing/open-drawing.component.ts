@@ -100,8 +100,6 @@ export class OpenDrawingComponent implements OnInit {
 
       if (svgThumbnail) {
         this.renderer.setAttribute(svgThumbnail, 'viewBox', `0 0 ${drawingObject.width} ${drawingObject.height}`);
-        this.renderer.setAttribute(svgThumbnail, 'height', `100%`);
-        this.renderer.setAttribute(svgThumbnail, 'width', `100%`);
 
         svgThumbnail.innerHTML = `${drawingObject.svg}`;
       }
