@@ -45,26 +45,24 @@ export class GridService implements ITools {
         this.screenSizeY = window.innerHeight;
     }
 
-    onPressed(event: MouseEvent) {
-        return;
-    }
-    onRelease(event: MouseEvent) {
-        return;
-    }
-    onMove(event: MouseEvent) {
-        return;
-    }
-    onKeyDown(event: KeyboardEvent): void {
-        return;
-     }
-    onKeyUp(event: KeyboardEvent): void {
-        return;
-    }
+    // tslint:disable-next-line: no-empty
+    onPressed(event: MouseEvent) { }
+    // tslint:disable-next-line: no-empty
+    onRelease(event: MouseEvent) { }
+    // tslint:disable-next-line: no-empty
+    onMove(event: MouseEvent) { }
+    // tslint:disable-next-line: no-empty
+    onKeyDown(event: KeyboardEvent): void { }
+
+    // tslint:disable-next-line: no-empty
+    onKeyUp(event: KeyboardEvent): void { }
 
     createPatternGrid() {
         this.x = 0;
         this.y = 0;
         const grid: SVGDefsElement = this.drawingService.renderer.createElement('defs', 'svg');
+        this.drawingService.renderer.setAttribute(grid, 'pointer-events', 'none');
+
         this.pattern = this.drawingService.renderer.createElement('pattern', 'svg');
         this.drawingService.renderer.setProperty(this.pattern, 'id', 'Pattern');
         this.drawingService.renderer.setAttribute(this.pattern, 'width', (this.sizeCell.value).toString());
@@ -78,6 +76,7 @@ export class GridService implements ITools {
         this.drawingService.renderer.setAttribute(this.rect, 'y', this.y.toString());
         this.drawingService.renderer.setAttribute(this.rect, 'width', this.sizeCell.value.toString());
         this.drawingService.renderer.setAttribute(this.rect, 'height', this.sizeCell.value.toString());
+        this.drawingService.renderer.setAttribute(this.rect, 'pointer-events', 'none');
         this.setStyle();
         this.drawingService.renderer.appendChild(grid, this.pattern);
 
@@ -89,6 +88,7 @@ export class GridService implements ITools {
         this.drawingService.renderer.setAttribute(overallRect, 'pointer-events', 'none');
         this.drawingService.renderer.setAttribute(overallRect, 'width', this.screenSizeX.toString());
         this.drawingService.renderer.setAttribute(overallRect, 'height', this.screenSizeY.toString());
+
         this.drawingService.addObject(overallRect);
         this.drawingService.addObject(grid);
     }
@@ -102,10 +102,12 @@ export class GridService implements ITools {
     }
 
     hideGrid() {
+        this.activerGrille.setValue(false);
         this.drawingService.renderer.setStyle(this.rect, 'visibility', 'hidden');
     }
 
     showGrid() {
+        this.activerGrille.setValue(true);
         this.drawingService.renderer.setStyle(this.rect, 'visibility', 'visible');
     }
 

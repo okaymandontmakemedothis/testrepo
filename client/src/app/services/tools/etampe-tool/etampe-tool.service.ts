@@ -56,6 +56,7 @@ export class EtampeToolService implements ITools {
       this.y = offset.y - this.facteurSize.value / 2;
 
       this.object = this.drawingService.renderer.createElement('image', 'svg');
+      this.drawingService.renderer.setAttribute(this.object, 'name', 'stamp');
       this.drawingService.renderer.setAttribute(this.object, 'x', this.x.toString());
       this.drawingService.renderer.setAttribute(this.object, 'y', this.y.toString());
       this.drawingService.renderer.setAttribute(this.object, 'height', (this.facteurSize.value).toString());

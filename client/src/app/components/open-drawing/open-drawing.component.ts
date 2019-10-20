@@ -20,7 +20,9 @@ export class OpenDrawingComponent {
   constructor(
 
     public dialogRef: MatDialogRef<OpenDrawingComponent>,
-    private openDrawingService: OpenDrawingService, public drawingService: DrawingService) {
+    private openDrawingService: OpenDrawingService,
+    public drawingService: DrawingService,
+  ) {
     this.drawingPreview = this.openDrawingService.drawingList;
   }
   // loader le thumbnail

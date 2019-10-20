@@ -56,6 +56,7 @@ export class ToolRectangleService implements ITools {
       this.oldY = offset.y;
 
       this.object = this.drawingService.renderer.createElement('rect', 'svg');
+      this.drawingService.renderer.setAttribute(this.object, 'name', 'rectangle');
       this.drawingService.renderer.setAttribute(this.object, 'x', this.x.toString());
       this.drawingService.renderer.setAttribute(this.object, 'y', this.y.toString());
 

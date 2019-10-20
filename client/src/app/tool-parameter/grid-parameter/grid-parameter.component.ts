@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { gridColor } from 'src/app/model/grid-model';
-import { GridService } from 'src/app/services/tools/grid-tool/grid.sevice';
+import { GridColor } from 'src/app/model/grid-model';
+import { GridService } from 'src/app/services/tools/grid-tool/grid.service';
 
-const NOIR = 0;
-const BLANC = 1;
+const BLACK_ID = 0;
+const WHITE_ID = 1;
 
 @Component({
   selector: 'app-grid-parameter',
@@ -15,17 +15,17 @@ export class GridParameterComponent implements OnInit {
   form: FormGroup;
   gridAlreadyCreated = false;
   constructor(private gridService: GridService) { }
-  currentColor = 0;
-  styles: gridColor[] = [
+  currentColor = BLACK_ID;
+  styles: GridColor[] = [
     {
-      id: NOIR,
+      id: BLACK_ID,
       style: 'black',
       tooltip: 'Noir',
     },
     {
-      id: BLANC,
+      id: WHITE_ID,
       style: 'white',
-      tooltip: 'blanc',
+      tooltip: 'Blanc',
     },
   ];
 
@@ -68,7 +68,6 @@ export class GridParameterComponent implements OnInit {
   }
 
   onSelection() {
-    console.log((this.form.get('activerGrille') as FormControl).value);
     if ((this.form.get('activerGrille') as FormControl).value === true) {
       this.gridService.showGrid();
     } else {

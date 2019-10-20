@@ -25,7 +25,8 @@ export class IndexService {
   /// Transmet le message contenue dans le JSON file pour le message de bienvenue
   welcomeGet(): Observable<WelcomeMessage> {
     return this.http.get<WelcomeMessage>('http://localhost:3000/api/index/text').pipe(
-      catchError(this.handleError<WelcomeMessage>('welcomeGet')),
+      catchError(this.handleError<WelcomeMessage>('welcomeGet',
+        { body: 'Erreur de lecture serveur', end: 'Erreur de lecture serveur' })),
     );
   }
   // GET tout les dessins du backend

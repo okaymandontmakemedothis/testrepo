@@ -125,7 +125,7 @@ describe('HotkeysOutilService', () => {
 
     service.hotkeysOutil(keyBoardEvent);
 
-    expect(eventEmited).toBe('2');
+    expect(eventEmited).toBe(EmitReturn.ELLIPSE);
   });
 
   it('2 (numpad) should emit', () => {
@@ -138,7 +138,7 @@ describe('HotkeysOutilService', () => {
 
     service.hotkeysOutil(keyBoardEvent);
 
-    expect(eventEmited).toBe('2');
+    expect(eventEmited).toBe(EmitReturn.ELLIPSE);
   });
 
   it('3 should emit', () => {
@@ -151,7 +151,7 @@ describe('HotkeysOutilService', () => {
 
     service.hotkeysOutil(keyBoardEvent);
 
-    expect(eventEmited).toBe('3');
+    expect(eventEmited).toBe(EmitReturn.POLYGONE);
   });
 
   it('3 (numpad) should emit', () => {
@@ -164,7 +164,7 @@ describe('HotkeysOutilService', () => {
 
     service.hotkeysOutil(keyBoardEvent);
 
-    expect(eventEmited).toBe('3');
+    expect(eventEmited).toBe(EmitReturn.POLYGONE);
   });
 
   it('L should emit', () => {
@@ -177,7 +177,7 @@ describe('HotkeysOutilService', () => {
 
     service.hotkeysOutil(keyBoardEvent);
 
-    expect(eventEmited).toBe('L');
+    expect(eventEmited).toBe(EmitReturn.LINE);
   });
 
   it('T should emit', () => {
@@ -242,7 +242,7 @@ describe('HotkeysOutilService', () => {
 
     service.hotkeysOutil(keyBoardEvent);
 
-    expect(eventEmited).toBe('I');
+    expect(eventEmited).toBe(EmitReturn.PIPETTE);
   });
 
   it('S should emit', () => {
@@ -255,7 +255,7 @@ describe('HotkeysOutilService', () => {
 
     service.hotkeysOutil(keyBoardEvent);
 
-    expect(eventEmited).toBe('S');
+    expect(eventEmited).toBe(EmitReturn.SELECTION);
   });
 
   it('F should not emit', () => {

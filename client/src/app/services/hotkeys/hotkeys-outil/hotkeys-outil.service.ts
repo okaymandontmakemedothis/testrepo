@@ -50,17 +50,17 @@ export class HotkeysOutilService {
 
       if (event.code === KeyCodes.b2 || event.code === KeyCodes.np2) {
         event.preventDefault();
-        this.hotkeysOutilEmitter.emit('2');
+        this.hotkeysOutilEmitter.emit(EmitReturn.ELLIPSE);
       }
 
       if (event.code === KeyCodes.b3 || event.code === KeyCodes.np3) {
         event.preventDefault();
-        this.hotkeysOutilEmitter.emit('3');
+        this.hotkeysOutilEmitter.emit(EmitReturn.POLYGONE);
       }
 
       if (event.code === KeyCodes.l) {
         event.preventDefault();
-        this.hotkeysOutilEmitter.emit('L');
+        this.hotkeysOutilEmitter.emit(EmitReturn.LINE);
       }
 
       if (event.code === KeyCodes.t) {
@@ -85,12 +85,12 @@ export class HotkeysOutilService {
 
       if (event.code === KeyCodes.i) {
         event.preventDefault();
-        this.hotkeysOutilEmitter.emit('I');
+        this.hotkeysOutilEmitter.emit(EmitReturn.PIPETTE);
       }
 
       if (event.code === KeyCodes.s) {
         event.preventDefault();
-        this.hotkeysOutilEmitter.emit('S');
+        this.hotkeysOutilEmitter.emit(EmitReturn.SELECTION);
       }
     }
   }

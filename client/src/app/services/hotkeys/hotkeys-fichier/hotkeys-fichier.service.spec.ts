@@ -48,7 +48,7 @@ describe('HotkeysFichierService', () => {
 
     service.hotkeysFichier(keyBoardEvent);
 
-    expect(eventEmited).toBe('CS');
+    expect(eventEmited).toBe(EmitReturn.SAVE_DRAWING);
   });
 
   it('CTRL-G should emit', () => {
@@ -61,7 +61,7 @@ describe('HotkeysFichierService', () => {
 
     service.hotkeysFichier(keyBoardEvent);
 
-    expect(eventEmited).toBe('CG');
+    expect(eventEmited).toBe(EmitReturn.OPEN_DRAWING);
   });
 
   it('CTRL-E should emit', () => {

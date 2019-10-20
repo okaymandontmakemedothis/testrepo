@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faTint } from '@fortawesome/free-solid-svg-icons';
-import { ObjectAtributeStructure } from 'src/app/model/object-structure.model';
+import { OBJECT_ATTRIBUTE_STRUCTURE } from 'src/app/model/object-structure.model';
 import { RGB } from 'src/app/model/rgb.model';
 import { DrawingService } from '../../drawing/drawing.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
@@ -26,38 +26,71 @@ export class ToolsApplierColorsService implements ITools {
   onPressed(event: MouseEvent): void {
     if (event.button === 0 || event.button === 2) {
       const target = event.target as SVGElement;
-      this.object = this.drawingService.getObject(Number(target.id));
+      const targetName: string | null = target.getAttribute('name');
+      if (!targetName) {
+        return;
+      }
+      console.log(targetName);
+      const propertyMap: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[targetName];
+      if (!propertyMap) {
+        return;
+      }
+      console.log(propertyMap);
+      const primaryColorAttribute: string | undefined = propertyMap.primaryColor;
+      const primaryAlphaAttribute: string | undefined = propertyMap.primaryOpacity;
+      if (!primaryColorAttribute || !primaryAlphaAttribute) {
+        return;
+      }
+      const actualValue = target.style.getPropertyValue(primaryColorAttribute);
 
-      const propertyMap = ObjectAtributeStructure[target.tagName];
-      let property: string;
-
+      if (actualValue.startsWith('url')) {
+        this.object = (((document.getElementById(actualValue.replace('url("#', '').replace('")', '')) as HTMLElement)
+          .children.item(0) as SVGElement)
+          .children.item(0) as SVGElement);
+      } else {
+        this.object = this.drawingService.getObject(Number(target.id));
+      }
+      let colorString;
+      let alphaString;
+      if (event.button === 0) {
+        colorString = 'primaryColor';
+        alphaString = 'primaryOpacity';
+      } else {
+        colorString = 'secondaryColor';
+        alphaString = 'secondaryOpacity';
+      }
       if (this.object) {
-        property = propertyMap ? propertyMap.primaryColor : '';
-        if (event.button === 0 && target.style.getPropertyValue(property) !== 'none') { // left click so set fill to a color
-          this.setColors(this.toolsColorService.primaryColor, property);
-          // this.drawingService.renderer.setStyle(this.object, property,
-          //   `rgb(${this.toolsColorService.primaryColor.r},${this.toolsColorService.primaryColor.g},
-          // ${this.toolsColorService.primaryColor.b})`);
+        const objectName: string | null = this.object.getAttribute('name');
+        const attributeName: string = objectName ? objectName : 'rectangle';
+        const property: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[attributeName];
+        if (!property) {
+          return;
+        }
+        const colorAtribute: string | undefined = property[colorString];
+        const alphaAtribute: string | undefined = property[alphaString];
+        if (!colorAtribute || !alphaAtribute) {
+          return;
+        }
+        this.drawingService.renderer.setStyle(this.object, colorAtribute,
+          `rgb(${this.toolsColorService.primaryColor.r},${this.toolsColorService.primaryColor.g},
+          ${this.toolsColorService.primaryColor.b})`);
+        this.drawingService.renderer.setStyle(this.object, alphaAtribute, `${this.toolsColorService.primaryAlpha}`);
+        const markerID: string | null = this.object.getAttribute('marker-mid');
+        if (markerID) {
+          const markerEl: HTMLElement | null = document.getElementById(
+            markerID.replace('url(#', '').replace(')', ''));
+          if (markerEl) {
+            this.drawingService.renderer.setStyle(markerEl.firstChild, 'fill',
+              `rgb(${this.toolsColorService.primaryColor.r},${this.toolsColorService.primaryColor.g},
+              ${this.toolsColorService.primaryColor.b})`);
+            this.drawingService.renderer.setStyle(markerEl.firstChild, 'fillOpacity', `${this.toolsColorService.primaryAlpha}`);
 
-          property = propertyMap ? propertyMap.primaryOpacity : '';
-          this.setOpacity(this.toolsColorService.primaryAlpha, property);
-          // this.drawingService.renderer.setStyle(this.object, property, `${this.toolsColorService.primaryAlpha}`);
-        } else {
-          property = propertyMap ? propertyMap.secondaryColor : '';
-          if (event.button === 2 && target.style.getPropertyValue(property) !== '') {     // right click so set stroke to a color
-            this.setColors(this.toolsColorService.secondaryColor, property);
-            // this.drawingService.renderer.setStyle(this.object, property,
-            //   `rgb(${this.toolsColorService.secondaryColor.r},${this.toolsColorService.secondaryColor.g},
-            // ${this.toolsColorService.secondaryColor.b})`);
-
-            property = propertyMap ? propertyMap.secondaryOpacity : '';
-            this.setOpacity(this.toolsColorService.secondaryAlpha, property);
-
-            // this.drawingService.renderer.setStyle(this.object, property, `${this.toolsColorService.secondaryAlpha}`);
           }
         }
       }
+
     }
+
   }
 
   setColors(rgb: RGB, property: string) {
