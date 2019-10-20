@@ -97,8 +97,12 @@ export class OpenDrawingComponent implements OnInit {
     const container: HTMLElement | null = document.getElementById(drawingObject.name);
     if (container) {
       const svgThumbnail: Element | null = container.children.item(0);
+
       if (svgThumbnail) {
         this.renderer.setAttribute(svgThumbnail, 'viewBox', `0 0 ${drawingObject.width} ${drawingObject.height}`);
+        this.renderer.setAttribute(svgThumbnail, 'height', `100%`);
+        this.renderer.setAttribute(svgThumbnail, 'width', `100%`);
+
         svgThumbnail.innerHTML = `${drawingObject.svg}`;
       }
     }
