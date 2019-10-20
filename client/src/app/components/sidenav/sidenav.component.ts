@@ -17,7 +17,7 @@ export class SidenavComponent {
     return this.toolService.selectedToolId;
   }
 
-  get toolList(): ITools[] {
+  get toolList(): Map<number, ITools> {
     return this.sideNavService.toolList;
   }
 

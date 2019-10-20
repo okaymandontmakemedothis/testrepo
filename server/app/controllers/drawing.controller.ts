@@ -15,17 +15,17 @@ export class DrawingController {
 
     private configureRouter() {
         this.router = Router();
+
         this.router.get('/',
+
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                this.drawingService.getAllDrawings().then((d: Drawing[]) => {
+                this.drawingService.getAllDrawingsPreviews().then((d: Drawing[]) => {
                     console.log(d);
+
                     res.json(d);
                 }).catch((reason: unknown) => {
-                    const errorMessage: Drawing = {
-                        name: `Error`,
-                    };
-                    res.json(errorMessage);
+                    res.json('error');
                 });
             });
 
@@ -36,25 +36,41 @@ export class DrawingController {
                     console.log(d);
                     res.json(d);
                 }).catch((reason: unknown) => {
-                    const errorMessage: Drawing = {
-                        name: `Error`,
-                    };
-                    res.json(errorMessage);
+                    res.json('error');
+                });
+            });
+        this.router.post('/by-id',
+            (req: Request, res: Response, next: NextFunction) => {
+                // Send the request to the service and send the response
+
+                this.drawingService.getDrawingsById(req.body.id).then((d: Drawing) => {
+                    console.log(d);
+                    res.json(d);
+                }).catch((reason: unknown) => {
+                    res.json('error');
+                });
+            });
+        this.router.post('/by-tag',
+            (req: Request, res: Response, next: NextFunction) => {
+                // Send the request to the service and send the response
+                const tags: string[] = req.body.tags;
+                this.drawingService.getDrawingsByTags(tags).then((d: Drawing[]) => {
+                    // console.log(d);
+                    res.json(d);
+                }).catch((reason: unknown) => {
+                    res.json('error');
                 });
             });
 
         this.router.post('/',
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                const drawing: Drawing = { name: req.body.name };
+                const drawing: Drawing = req.body;
                 this.drawingService.setDrawing(drawing).then((m: string) => {
                     console.log(m);
                     res.json(m);
                 }).catch((reason: unknown) => {
-                    const errorMessage: Drawing = {
-                        name: `Error`,
-                    };
-                    res.json(errorMessage);
+                    res.json('error');
                 });
             });
 
@@ -65,10 +81,7 @@ export class DrawingController {
                     console.log(m);
                     res.json(m);
                 }).catch((reason: unknown) => {
-                    const errorMessage: Drawing = {
-                        name: `Error`,
-                    };
-                    res.json(errorMessage);
+                    res.json('error');
                 });
             });
     }

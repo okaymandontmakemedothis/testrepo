@@ -25,7 +25,7 @@ export class SidenavService {
   }
 
   /// Retourne la liste d'outils
-  get toolList(): ITools[] {
+  get toolList(): Map<number, ITools> {
     return this.toolService.tools;
   }
 
@@ -37,7 +37,7 @@ export class SidenavService {
   /// Retourne un indexe detourner pour le numero d'outil choisi
   get selectedParameter(): number {
     if (this.isControlMenu) {
-      return this.toolList.length;
+      return this.toolList.size;
     }
     return this.toolService.selectedToolId;
   }

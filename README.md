@@ -21,8 +21,6 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
@@ -33,7 +31,7 @@
   <h3 align="center">PolyDessin LOG2990  - Projet de logiciel d’application Web</h3>
 
   <p align="center">
-    Le projet consiste à créer une application Web de dessin vectoriel. 
+    Le projet consiste à créer une application Web de dessin vectoriel avec le MEAN stack. 
   </p>
 </p>
 
@@ -72,12 +70,12 @@ Cette section énumère les technologies principales utilisées afin de construi
 
 
 
-<!-- GETTING STARTED -->
+<!-- GETTING STARTED 
 ## demarrer-le-projet
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
-
+-->
 ### prerequis
 
 * npm
@@ -102,14 +100,15 @@ L'application se relancera automatiquement si vous modifiez le code source de ce
 
 
 
-<!-- USAGE EXAMPLES -->
+<!-- 
+USAGE EXAMPLES 
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
-
+-->
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -129,16 +128,14 @@ Voir sur trello les issues [open issues](https://trello.com/b/wCeGjPCQ/log2990-a
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=flat-square
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=flat-square
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=flat-square
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=flat-square
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=flat-square
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
+[contributors-shield]: https://img.shields.io/github/contributors/phturb/PolyDessin-E16.svg?style=flat-square
+[contributors-url]: https://github.com/phturb/PolyDessin-E16/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/phturb/PolyDessin-E16.svg?style=flat-square
+[forks-url]: https://github.com/phturb/PolyDessin-E16/network/members
+[stars-shield]: https://img.shields.io/github/stars/phturb/PolyDessin-E16.svg?style=flat-square
+[stars-url]: https://github.com/phturb/PolyDessin-E16/stargazers
+[issues-shield]: https://img.shields.io/github/issues/phturb/PolyDessin-E16.svg?style=flat-square
+[issues-url]: https://github.com/phturb/PolyDessin-E16/issues
+[license-shield]: https://img.shields.io/github/license/phturb/PolyDessin-E16.svg?style=flat-square
+[license-url]: https://github.com/phturb/PolyDessin-E16/blob/master/LICENSE.txt
 [product-screenshot]: images/screenshot.png

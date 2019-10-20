@@ -1,0 +1,83 @@
+<div class="parameter">
+    <h4>{{toolName}}</h4>
+</div>
+<div  [formGroup]='form'>
+ <mat-grid-list cols="4" rowHeight="70px">
+ <mat-grid-tile [colspan]="3">
+            <mat-form-field>
+                <mat-label>Facteur de mise a l'echelle</mat-label>
+                    <input matInput formControlName='facteurSize' type="number" step ="any" placeholder="Facteur de mise a l'echelle" min="0.00"
+                        oninput="validity.valid||(value='');" onblur="validity.valid||(value='');">
+        </mat-form-field>
+    </mat-grid-tile>
+     </mat-grid-list>
+</div>
+<div>
+    <mat-label>Etampes</mat-label> </div>
+    <mat-button-toggle-group  vertical = 'true' #group="matButtonToggleGroup"> 
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[0].tooltip" [value]="styles[0].id"
+          (click)="selectEtampe(styles[0].id)">
+          <svg width=20 height=20>
+           <svg width="100%" heigth="100%" >
+            <image xlink:href = "https://cdn.shopify.com/s/files/1/1061/1924/products/Smiling_Face_Emoji_large.png?v=1480481056" x="0" y="0" width="100%" height="100%"> </image>
+           </svg>
+          </svg>
+        </mat-button-toggle>
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[1].tooltip" [value]="styles[1].id"
+          (click)="selectEtampe(styles[1].id)">
+          <svg width=20 height=20>
+           <svg width="100%" heigth="100%">
+            <image xlink:href = "https://cdn.shopify.com/s/files/1/1061/1924/products/Sad_Face_Emoji_large.png?v=1480481055" x="0" y="0" width="100%" height="100%"> </image>
+           </svg>
+          </svg>
+        </mat-button-toggle>
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[2].tooltip" [value]="styles[2].id"
+          (click)="selectEtampe(styles[2].id)">
+          <svg width=20 height=20>
+           <svg width="100%" heigth="100%">
+            <image xlink:href = "http://cdn.shopify.com/s/files/1/1061/1924/products/Very_Mad_Emoji_grande.png?v=1480481060" x="0" y="0" width="100%" height="100%"> </image>
+           </svg>
+          </svg>
+        </mat-button-toggle>
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[3].tooltip" [value]="styles[3].id"
+          (click)="selectEtampe(styles[3].id)">
+          <svg width=20 height=20>
+           <svg width="100%" heigth="100%">
+            <image xlink:href = "https://cdn.emojidex.com/emoji/seal/heart.png?1417137894" x="0" y="0" width="100%" height="100%"> </image>
+           </svg>
+          </svg>
+        </mat-button-toggle>
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[4].tooltip" [value]="styles[4].id"
+          (click)="selectEtampe(styles[4].id)">
+          <svg width=20 height=20>
+           <svg width="100%" heigth="100%">
+            <image xlink:href = "https://cdn.shopify.com/s/files/1/1061/1924/products/Thumbs_Up_Hand_Sign_Emoji_large.png?v=1480481047" x="0" y="0" width="100%" height="100%"> </image>
+           </svg>
+          </svg>
+        </mat-button-toggle>
+         <mat-button-toggle mat-icon-button [matTooltip]="styles[5].tooltip" [value]="styles[5].id"
+          (click)="selectEtampe(styles[5].id)">
+          <svg width=20 height=20>
+           <svg width="100%" heigth="100%">
+            <image xlink:href = "https://cdn.shopify.com/s/files/1/1061/1924/products/Ghost_Emoji_large.png?v=1480481053" x="0" y="0" width="100%" height="100%"> </image>
+           </svg>
+          </svg>
+        </mat-button-toggle>
+        <mat-button-toggle mat-icon-button [matTooltip]="styles[6].tooltip" [value]="styles[6].id"
+          (click)="selectEtampe(styles[6].id)">
+          <svg width=20 height=20>
+           <svg width="100%" heigth="100%">
+            <image xlink:href = "http://cdn.shopify.com/s/files/1/1061/1924/products/Tongue_Out_Emoji_with_Winking_Eye_876290ec-609b-498e-84ae-b195218ea438_grande.png?v=1480481058" x="0" y="0" width="100%" height="100%"> </image>
+           </svg>
+          </svg>
+        </mat-button-toggle>
+         <mat-button-toggle mat-icon-button [matTooltip]="styles[7].tooltip" [value]="styles[7].id"
+          (click)="selectEtampe(styles[7].id)">
+          <svg width=20 height=20>
+           <svg width="100%" heigth="100%">
+            <image xlink:href = "https://cdn.shopify.com/s/files/1/1061/1924/products/Kiss_Emoji_Icon_2_large.png?v=1542435998" x="0" y="0" width="100%" height="100%"> </image>
+           </svg>
+          </svg>
+        </mat-button-toggle>
+</mat-button-toggle-group>
+

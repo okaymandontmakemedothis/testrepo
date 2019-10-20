@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { TextureOptions } from 'src/app/model/texture-options.model';
 import { TexturesService } from 'src/app/services/textures/textures.service';
 import { BrushToolService } from 'src/app/services/tools/brush-tool/brush-tool.service';
@@ -33,7 +33,7 @@ export class BrushToolParameterComponent implements OnInit {
   }
 
   get strokeWidthValue() {
-    return this.brushToolService.strokeWidth.value;
+    return (this.form.get('strokeWidth') as FormControl).value;
   }
 
 }

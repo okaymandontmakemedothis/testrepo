@@ -1,0 +1,20 @@
+
+
+<div *ngFor="let preview of drawingPreview.value" >
+    <button (click)="openDrawing(preview)">
+
+    <p>{{preview.name}}</p>
+    <div *ngFor="let tag of preview.tags">
+
+        <p>{{tag}}</p>
+    </div>
+            <div [id]=preview.name  class="wrapper">
+                    {{getThumbnail(preview)}}
+            </div> 
+
+    </button>
+</div>
+<button (click)="close()">Close</button>
+<button (click)="close()">Open</button>
+
+

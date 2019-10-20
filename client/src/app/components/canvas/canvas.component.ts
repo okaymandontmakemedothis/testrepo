@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 
 /// S'occuppe d'afficher le svg dans un component
@@ -8,15 +8,24 @@ import { DrawingService } from 'src/app/services/drawing/drawing.service';
   styleUrls: ['./canvas.component.scss'],
 })
 export class CanvasComponent implements AfterViewInit {
-  @ViewChild('svg', { static: false })
-  svg: ElementRef;
+  @ViewChild('svgCanvas', { static: false })
+  canvasDiv: ElementRef;
 
-  constructor(private drawingService: DrawingService) { }
+  svg: SVGElement;
+
+  constructor(private drawingService: DrawingService, private renderer: Renderer2) {
+    this.drawingService.renderer = this.renderer;
+  }
 
   /// À l'initialisation, le canvas s'abonne au service de dessin pour reçevoir en string le svg
   ngAfterViewInit() {
-    this.drawingService.svgString.subscribe((svgString: string) => {
-      this.svg.nativeElement.innerHTML = svgString;
+
+    this.drawingService.drawingEmit.subscribe((el: SVGElement) => {
+      if (this.svg) {
+        this.renderer.removeChild(this.canvasDiv.nativeElement, this.svg);
+      }
+      this.svg = el;
+      this.renderer.appendChild(this.canvasDiv.nativeElement, this.svg);
     });
   }
 
