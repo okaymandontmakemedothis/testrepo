@@ -11,4 +11,5 @@ export default {
     TagController: Symbol('TagController'),
     DefService: Symbol('DefService'),
     DefController: Symbol('DefController'),
+    MongoDbConnectionService: Symbol('MongoDbConnectionService'),
 };

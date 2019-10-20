@@ -1,17 +1,22 @@
-import { injectable } from 'inversify';
-import { MongoClient } from 'mongodb';
+import { injectable, inject } from 'inversify';
+import { MongoClient, Db, Collection } from 'mongodb';
 import 'reflect-metadata';
 import { Drawing, Tag } from '../../../common/communication/drawing';
-import { DATABASE_NAME, DRAWING_COLLECTION, MONGODB_URL, TAG_COLLECTION } from '../res/environement';
+import { DRAWING_COLLECTION, TAG_COLLECTION } from '../res/environement';
+import { MongoDbConnectionService } from './mongodb-connection.service';
+import Types from '../types';
 
 @injectable()
 export class DrawingService {
 
+    constructor(@inject(Types.MongoDbConnectionService) private mongoDbConnection: MongoDbConnectionService) {
+    }
+
     /// retourne tous les dessins sur la base de donnée de mongodb
     async getAllDrawings(): Promise<Drawing[]> {
-        return MongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
-            const db = mc.db(DATABASE_NAME);
-            const drawingsCollection = db.collection(DRAWING_COLLECTION);
+        return this.mongoDbConnection.getMongoClient().then(async (mc: MongoClient) => {
+            const db: Db = mc.db(this.mongoDbConnection.getDatabaseName());
+            const drawingsCollection: Collection<Drawing> = db.collection(DRAWING_COLLECTION);
             return drawingsCollection.find().toArray().then((arr) => {
                 mc.close();
                 return arr;
@@ -21,10 +26,10 @@ export class DrawingService {
 
     /// Ajoute un drawing dans la base de donnée et ajuste les tag en conséquence
     async setDrawing(drawing: Drawing): Promise<Drawing> {
-        return MongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
-            const db = mc.db(DATABASE_NAME);
-            const tagCollection = db.collection(TAG_COLLECTION);
-            const drawingsCollection = db.collection(DRAWING_COLLECTION);
+        return this.mongoDbConnection.getMongoClient().then(async (mc: MongoClient) => {
+            const db: Db = mc.db(this.mongoDbConnection.getDatabaseName());
+            const tagCollection: Collection<Tag> = db.collection(TAG_COLLECTION);
+            const drawingsCollection: Collection<Drawing> = db.collection(DRAWING_COLLECTION);
             console.log('Saving : \x1b[34m%s\x1b[0m', drawing.name);
             for (const tag of drawing.tags) {
                 console.log('Verifying tag with name : \x1b[34m%s\x1b[0m', tag);
@@ -35,7 +40,7 @@ export class DrawingService {
                         if (err) {
                             throw err;
                         }
-                        console.log(res);
+                        console.log(res.result);
                     });
                 } else {
                     console.log(tag + 'does not exist in the database');

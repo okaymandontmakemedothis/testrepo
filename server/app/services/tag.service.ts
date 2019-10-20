@@ -2,7 +2,7 @@ import { injectable } from 'inversify';
 import { MongoClient, } from 'mongodb';
 import 'reflect-metadata';
 import { Tag } from '../../../common/communication/drawing';
-import { MONGODB_URL, DATABASE_NAME, TAG_COLLECTION } from '../res/environement';
+import { DATABASE_NAME, MONGODB_URL, TAG_COLLECTION } from '../res/environement';
 
 @injectable()
 export class TagService {
