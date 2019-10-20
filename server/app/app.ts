@@ -10,6 +10,7 @@ import { DrawingController } from './controllers/drawing.controller';
 import { IndexController } from './controllers/index.controller';
 import { TagController } from './controllers/tag.controller';
 import Types from './types';
+import { BASE_ROUTE, CONFIG_API_DEF } from './res/environement';
 
 @injectable()
 export class Application {
@@ -42,11 +43,11 @@ export class Application {
 
     bindRoutes(): void {
         // Notre application utilise le routeur de notre API `Index`
-        this.app.use('/api', this.defController.router);
-        this.app.use('/api/index', this.indexController.router);
-        this.app.use('/api/date', this.dateController.router);
-        this.app.use('/api/drawings', this.drawingController.router);
-        this.app.use('/api/tags', this.tagController.router);
+        this.app.use(BASE_ROUTE, this.defController.router);
+        this.app.use(`${BASE_ROUTE}/${CONFIG_API_DEF.index}`, this.indexController.router);
+        this.app.use(`${BASE_ROUTE}/${CONFIG_API_DEF.date}`, this.dateController.router);
+        this.app.use(`${BASE_ROUTE}/${CONFIG_API_DEF.drawing}`, this.drawingController.router);
+        this.app.use(`${BASE_ROUTE}/${CONFIG_API_DEF.tag}`, this.tagController.router);
         this.errorHandling();
     }
 

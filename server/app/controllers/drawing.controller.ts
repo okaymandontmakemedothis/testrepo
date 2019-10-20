@@ -16,8 +16,8 @@ export class DrawingController {
     private configureRouter() {
         this.router = Router();
 
+        /// Retourne tous les dessins
         this.router.get('/',
-
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
                 this.drawingService.getAllDrawings().then((drawings: Drawing[]) => {
@@ -27,34 +27,7 @@ export class DrawingController {
                 });
             });
 
-        this.router.get('/:drawingName',
-            (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
-                this.drawingService.getDrawingByName(req.params.drawingName).then((drawing: Drawing) => {
-                    res.json(drawing);
-                }).catch(() => {
-                    res.sendStatus(500);
-                });
-            });
-        this.router.get('/by-id/:id', async (req: Request, res: Response, next: NextFunction) => {
-            // Send the request to the service and send the response
-            this.drawingService.getDrawingById(req.params.id).then((drawing: Drawing) => {
-                res.json(drawing);
-            }).catch(() => {
-                res.sendStatus(500);
-            });
-        });
-        this.router.post('/by-tag',
-            (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
-                const tags: string[] = req.body.tags;
-                this.drawingService.getDrawingsByTags(tags).then((drawings: Drawing[]) => {
-                    res.json(drawings);
-                }).catch(() => {
-                    res.sendStatus(500);
-                });
-            });
-
+        /// Ajoute un dessin
         this.router.post('/',
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
@@ -66,14 +39,42 @@ export class DrawingController {
 
             });
 
-        this.router.delete('/:drawingName',
-            (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
-                this.drawingService.deleteDrawing(req.params.drawingName).then((m: string) => {
-                    res.json(m);
-                }).catch(() => {
-                    res.sendStatus(500);
-                });
-            });
+        // this.router.get('/:drawingName',
+        //     (req: Request, res: Response, next: NextFunction) => {
+        //         // Send the request to the service and send the response
+        //         this.drawingService.getDrawingByName(req.params.drawingName).then((drawing: Drawing) => {
+        //             res.json(drawing);
+        //         }).catch(() => {
+        //             res.sendStatus(500);
+        //         });
+        //     });
+        // this.router.get('/by-id/:id', async (req: Request, res: Response, next: NextFunction) => {
+        //     // Send the request to the service and send the response
+        //     this.drawingService.getDrawingById(req.params.id).then((drawing: Drawing) => {
+        //         res.json(drawing);
+        //     }).catch(() => {
+        //         res.sendStatus(500);
+        //     });
+        // });
+        // this.router.post('/by-tag',
+        //     (req: Request, res: Response, next: NextFunction) => {
+        //         // Send the request to the service and send the response
+        //         const tags: string[] = req.body.tags;
+        //         this.drawingService.getDrawingsByTags(tags).then((drawings: Drawing[]) => {
+        //             res.json(drawings);
+        //         }).catch(() => {
+        //             res.sendStatus(500);
+        //         });
+        //     });
+
+        // this.router.delete('/:drawingName',
+        //     (req: Request, res: Response, next: NextFunction) => {
+        //         // Send the request to the service and send the response
+        //         this.drawingService.deleteDrawing(req.params.drawingName).then((m: string) => {
+        //             res.json(m);
+        //         }).catch(() => {
+        //             res.sendStatus(500);
+        //         });
+        //     });
     }
 }

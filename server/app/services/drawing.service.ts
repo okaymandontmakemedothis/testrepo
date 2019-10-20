@@ -1,61 +1,30 @@
 import { injectable } from 'inversify';
-import { MongoClient, ObjectId } from 'mongodb';
+import { MongoClient } from 'mongodb';
 import 'reflect-metadata';
 import { Drawing, Tag } from '../../../common/communication/drawing';
-const MONGODB_URL = 'mongodb://localhost:27017/polydessin';
-const mongoClient = MongoClient;
+import { DATABASE_NAME, DRAWING_COLLECTION, MONGODB_URL, TAG_COLLECTION } from '../res/environement';
 
 @injectable()
 export class DrawingService {
+
+    /// retourne tous les dessins sur la base de donnée de mongodb
     async getAllDrawings(): Promise<Drawing[]> {
-        return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
-            const db = mc.db('polydessin');
-            const drawingsCollection = db.collection('drawings');
+        return MongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
+            const db = mc.db(DATABASE_NAME);
+            const drawingsCollection = db.collection(DRAWING_COLLECTION);
             return drawingsCollection.find().toArray().then((arr) => {
                 mc.close();
                 return arr;
             });
         });
     }
-    async getDrawingsByTags(tagCollection: string[]): Promise<Drawing[]> {
-        return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
-            const db = mc.db('polydessin');
-            const drawingsCollection = db.collection('drawings');
-            return drawingsCollection.find({ tags: { $in: tagCollection } }).toArray().then((arr) => {
-                mc.close();
-                return arr;
-            });
-        });
-    }
-    async getDrawingById(id: string): Promise<Drawing> {
-        return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
-            const db = mc.db('polydessin');
-            const drawingsCollection = db.collection('drawings');
-            const objectId = new ObjectId(id);
-            return drawingsCollection.findOne({ _id: objectId }).then((value) => {
-                mc.close();
-                return value;
-            });
-        });
-    }
 
-    async getDrawingByName(name: string): Promise<Drawing> {
-        return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
-            const db = mc.db('polydessin');
-            const drawingsCollection = db.collection('drawings');
-            return drawingsCollection.findOne({ name: { $eq: name } }).then((value) => {
-                mc.close();
-                return value;
-            });
-        });
-    }
-
+    /// Ajoute un drawing dans la base de donnée et ajuste les tag en conséquence
     async setDrawing(drawing: Drawing): Promise<Drawing> {
-
-        return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
-            const db = mc.db('polydessin');
-            const tagCollection = db.collection('tags');
-            const drawingsCollection = db.collection('drawings');
+        return MongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
+            const db = mc.db(DATABASE_NAME);
+            const tagCollection = db.collection(TAG_COLLECTION);
+            const drawingsCollection = db.collection(DRAWING_COLLECTION);
             console.log('Saving : \x1b[34m%s\x1b[0m', drawing.name);
             for (const tag of drawing.tags) {
                 console.log('Verifying tag with name : \x1b[34m%s\x1b[0m', tag);
@@ -111,39 +80,73 @@ export class DrawingService {
         });
     }
 
-    async deleteDrawing(name: string): Promise<string> {
-        return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
-            const db = mc.db('polydessin');
-            const tagCollection = db.collection('tags');
-            const drawingsCollection = db.collection('drawings');
-            const d = await drawingsCollection.findOne({ name: { $eq: name } }).then((value: Drawing) => value);
-            if (!d) {
-                return 'err';
-            }
-            for (const tag of d.tags) {
-                const t: Tag | null = await tagCollection.findOne({ name: { $eq: tag } });
-                if (t) {
-                    console.log(t + ' exist');
-                    const nbUses = t.numberOfUses -= 1;
-                    tagCollection.updateOne({ name: { $eq: tag } }, { $set: { numberOfUses: nbUses } }, (err, res) => {
-                        if (err) {
-                            throw err;
-                        }
-                        console.log(res.result);
-                    });
-                } else {
-                    console.log('err');
-                }
+    // async getDrawingsByTags(tagCollection: string[]): Promise<Drawing[]> {
+    //     return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
+    //         const db = mc.db(DATABASE_NAME);
+    //         const drawingsCollection = db.collection(DRAWING_COLLECTION);
+    //         return drawingsCollection.find({ tags: { $in: tagCollection } }).toArray().then((arr) => {
+    //             mc.close();
+    //             return arr;
+    //         });
+    //     });
+    // }
 
-            }
-            drawingsCollection.deleteOne({ name }, (err, res) => {
-                if (err) {
-                    throw err;
-                }
-                console.log(res.result);
-            });
-            mc.close();
-            return 'Test';
-        });
-    }
+    // async getDrawingById(id: string): Promise<Drawing> {
+    //     return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
+    //         const db = mc.db(DATABASE_NAME);
+    //         const drawingsCollection = db.collection(DRAWING_COLLECTION);
+    //         const objectId = new ObjectId(id);
+    //         return drawingsCollection.findOne({ _id: objectId }).then((value) => {
+    //             mc.close();
+    //             return value;
+    //         });
+    //     });
+    // }
+
+    // async getDrawingByName(name: string): Promise<Drawing> {
+    //     return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
+    //         const db = mc.db(DATABASE_NAME);
+    //         const drawingsCollection = db.collection(DRAWING_COLLECTION);
+    //         return drawingsCollection.findOne({ name: { $eq: name } }).then((value) => {
+    //             mc.close();
+    //             return value;
+    //         });
+    //     });
+    // }
+
+    // async deleteDrawing(name: string): Promise<string> {
+    //     return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
+    //         const db = mc.db(DATABASE_NAME);
+    //         const tagCollection = db.collection(TAG_COLLECTION);
+    //         const drawingsCollection = db.collection(DRAWING_COLLECTION);
+    //         const d = await drawingsCollection.findOne({ name: { $eq: name } }).then((value: Drawing) => value);
+    //         if (!d) {
+    //             return 'err';
+    //         }
+    //         for (const tag of d.tags) {
+    //             const t: Tag | null = await tagCollection.findOne({ name: { $eq: tag } });
+    //             if (t) {
+    //                 console.log(t + ' exist');
+    //                 const nbUses = t.numberOfUses -= 1;
+    //                 tagCollection.updateOne({ name: { $eq: tag } }, { $set: { numberOfUses: nbUses } }, (err, res) => {
+    //                     if (err) {
+    //                         throw err;
+    //                     }
+    //                     console.log(res.result);
+    //                 });
+    //             } else {
+    //                 console.log('err');
+    //             }
+
+    //         }
+    //         drawingsCollection.deleteOne({ name }, (err, res) => {
+    //             if (err) {
+    //                 throw err;
+    //             }
+    //             console.log(res.result);
+    //         });
+    //         mc.close();
+    //         return 'Test';
+    //     });
+    // }
 }
