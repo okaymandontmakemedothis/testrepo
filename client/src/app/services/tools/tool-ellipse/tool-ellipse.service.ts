@@ -63,6 +63,7 @@ export class ToolEllipseService implements ITools {
       this.oldY = offset.y;
 
       this.object = this.drawingService.renderer.createElement('ellipse', 'svg');
+      this.drawingService.renderer.setAttribute(this.object, 'name', 'ellipse');
       this.drawingService.renderer.setAttribute(this.object, 'cx', this.x.toString());
       this.drawingService.renderer.setAttribute(this.object, 'cy', this.y.toString());
 

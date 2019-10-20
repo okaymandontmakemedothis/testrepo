@@ -1,5 +1,5 @@
 export const OBJECT_ATTRIBUTE_STRUCTURE: Record<string, Record<string, string>> = {
-    polyline: {
+    pencil: {
         primaryColor: 'stroke',
         primaryOpacity: 'stroke-opacity',
         secondaryColor: 'none',
@@ -10,7 +10,29 @@ export const OBJECT_ATTRIBUTE_STRUCTURE: Record<string, Record<string, string>> 
         height: 'height',
     },
 
-    rect: {
+    brush: {
+        primaryColor: 'stroke',
+        primaryOpacity: 'stroke-opacity',
+        secondaryColor: 'none',
+        secondaryOpacity: 'none',
+        x: 'x',
+        y: 'y',
+        width: 'width',
+        height: 'height',
+    },
+
+    line: {
+        primaryColor: 'stroke',
+        primaryOpacity: 'stroke-opacity',
+        secondaryColor: 'none',
+        secondaryOpacity: 'none',
+        x: 'x',
+        y: 'y',
+        width: 'width',
+        height: 'height',
+    },
+
+    rectangle: {
         primaryColor: 'fill',
         primaryOpacity: 'fill-opacity',
         secondaryColor: 'stroke',
