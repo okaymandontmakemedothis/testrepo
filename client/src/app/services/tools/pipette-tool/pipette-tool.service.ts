@@ -27,7 +27,11 @@ export class PipetteToolService implements ITools {
     if (event.button === 0 || event.button === 2) {
       console.log(event);
       const target = event.target as SVGElement;
-      const propertyMap: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[target.tagName];
+      const targetName: string | null = target.getAttribute('name');
+      if (!targetName) {
+        return;
+      }
+      const propertyMap: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[targetName];
       if (!propertyMap) {
         return;
       }

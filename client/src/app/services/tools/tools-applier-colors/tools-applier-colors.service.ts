@@ -26,11 +26,16 @@ export class ToolsApplierColorsService implements ITools {
   onPressed(event: MouseEvent): void {
     if (event.button === 0 || event.button === 2) {
       const target = event.target as SVGElement;
-
-      const propertyMap: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[target.tagName];
+      const targetName: string | null = target.getAttribute('name');
+      if (!targetName) {
+        return;
+      }
+      console.log(targetName);
+      const propertyMap: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[targetName];
       if (!propertyMap) {
         return;
       }
+      console.log(propertyMap);
       const primaryColorAttribute: string | undefined = propertyMap.primaryColor;
       const primaryAlphaAttribute: string | undefined = propertyMap.primaryOpacity;
       if (!primaryColorAttribute || !primaryAlphaAttribute) {
@@ -55,8 +60,9 @@ export class ToolsApplierColorsService implements ITools {
         alphaString = 'secondaryOpacity';
       }
       if (this.object) {
-        const tag: string = this.object.tagName === 'g' ? 'rect' : this.object.tagName;
-        const property: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[tag];
+        const objectName: string | null = this.object.getAttribute('name');
+        const attributeName: string = objectName ? objectName : 'rectangle';
+        const property: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[attributeName];
         if (!property) {
           return;
         }
@@ -69,8 +75,24 @@ export class ToolsApplierColorsService implements ITools {
           `rgb(${this.toolsColorService.primaryColor.r},${this.toolsColorService.primaryColor.g},
           ${this.toolsColorService.primaryColor.b})`);
         this.drawingService.renderer.setStyle(this.object, alphaAtribute, `${this.toolsColorService.primaryAlpha}`);
+        const markerID: string | null = this.object.getAttribute('marker-mid');
+        console.log(markerID);
+        if (markerID) {
+          const markerEl: HTMLElement | null = document.getElementById(
+            markerID.replace('url(#', '').replace(')', ''));
+          console.log(markerEl);
+          if (markerEl) {
+            this.drawingService.renderer.setStyle(markerEl.firstChild, 'fill',
+              `rgb(${this.toolsColorService.primaryColor.r},${this.toolsColorService.primaryColor.g},
+              ${this.toolsColorService.primaryColor.b})`);
+            this.drawingService.renderer.setStyle(markerEl.firstChild, 'fillOpacity', `${this.toolsColorService.primaryAlpha}`);
+
+          }
+        }
       }
+
     }
+
   }
 
   setColors(rgb: RGB, property: string) {
