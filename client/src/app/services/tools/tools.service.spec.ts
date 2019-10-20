@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import { BrushToolService } from './brush-tool/brush-tool.service';
 import { EtampeToolService } from './etampe-tool/etampe-tool.service';
-import { GridService } from './grid-tool/grid.sevice';
+import { GridService } from './grid-tool/grid.service';
 import { ITools } from './ITools';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { PipetteToolService } from './pipette-tool/pipette-tool.service';

@@ -7,7 +7,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { WelcomeDialogModule } from 'src/app/components/welcome-dialog/welcome-dialog.module';
-import { HotkeysService } from '../hotkeys/hotkeys.service';
 import { ToggleDrawerService } from '../toggle-drawer/toggle-drawer.service';
 import { ITools } from '../tools/ITools';
 import { ToolsService } from '../tools/tools.service';
@@ -16,21 +15,17 @@ import { SidenavService } from './sidenav.service';
 describe('SidenavService', () => {
   let toggleDrawerServiceSpy: jasmine.SpyObj<ToggleDrawerService>;
   let toolServiceSpy: jasmine.SpyObj<ToolsService>;
-  let hotkeyServiceSpy: jasmine.SpyObj<HotkeysService>;
 
   beforeEach(() => {
     const toogleSpy = jasmine.createSpyObj('ToggleDrawerService', ['open', 'close']);
     const toolSpy = jasmine.createSpyObj('ToolsService', ['selectTool']);
-    const hotkeySpy = jasmine.createSpyObj('HotkeysService', ['hotkeysListener', 'disableHotkeys', 'enableHotkeys']);
     TestBed.configureTestingModule({
       imports: [MatDialogModule, BrowserAnimationsModule, WelcomeDialogModule, HttpClientModule, MatButtonToggleModule],
       providers: [{ provide: ToggleDrawerService, useValue: toogleSpy },
-      { provide: ToolsService, useValue: toolSpy },
-      { provide: HotkeysService, useValue: hotkeySpy }],
+      { provide: ToolsService, useValue: toolSpy }],
     });
     toggleDrawerServiceSpy = TestBed.get(ToggleDrawerService);
     toolServiceSpy = TestBed.get(ToolsService);
-    hotkeyServiceSpy = TestBed.get(HotkeysService);
   });
 
   it('sidenav service should be created', () => {
@@ -83,25 +78,6 @@ describe('SidenavService', () => {
     service.openControlMenu();
     expect(service.open).toHaveBeenCalled();
     expect(service.isControlMenu).toEqual(true);
-  });
-
-  it('should call eventListenerOnInput and execute hotkeys if canClick is true', () => {
-    const service: SidenavService = TestBed.get(SidenavService);
-    const mouseEvent = new MouseEvent('mousedown');
-    service.canClick = true;
-    window.dispatchEvent(mouseEvent);
-    expect(hotkeyServiceSpy.enableHotkeys).toHaveBeenCalled();
-  });
-
-  it('should call eventListenerOnInput and not execute hotkeys if target is not undefined', () => {
-    const service: SidenavService = TestBed.get(SidenavService);
-    const mouseEvent = new MouseEvent('mousedown');
-    service.canClick = true;
-    const input = document.createElement('input');
-    input.value = '2';
-    spyOnProperty(mouseEvent, 'target').and.returnValue(input);
-    window.dispatchEvent(mouseEvent);
-    expect(hotkeyServiceSpy.disableHotkeys).toHaveBeenCalled();
   });
 
   it('should get tool list', () => {
