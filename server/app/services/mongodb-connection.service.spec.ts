@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { stub } from 'sinon';
+import { MongoClient } from 'mongodb';
+import { spy } from 'sinon';
 import { DATABASE_NAME } from '../res/environement';
 import { MongoDbConnectionService } from './mongodb-connection.service';
 
@@ -10,11 +11,12 @@ describe('Testing mongodb-connnection.service', () => {
         done();
     });
 
-    it('#getMongoClient should return a connect mongoClient', (done) => {
+    it('#getMongoClient should return a connect mongoClient', async (done) => {
         const mongoService: MongoDbConnectionService = new MongoDbConnectionService();
-        const mockMS = stub(mongoService.mongoClient, 'connect');
-        mockMS.returns();
-        expect(mockMS.calledOnce).to.be.equal(true);
+        const mongoClient = MongoClient;
+        const connect = spy(mongoClient, 'connect');
+        mongoService.getMongoClient();
+        expect(connect.calledOnce).to.be.equal(true);
         done();
     });
 });
