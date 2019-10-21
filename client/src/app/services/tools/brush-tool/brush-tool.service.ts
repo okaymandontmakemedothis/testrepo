@@ -25,7 +25,7 @@ export class BrushToolService implements ITools {
   private strokeWidth: FormControl;
   texture: FormControl;
   private lastPoint: Point;
-  private dotId: number;
+  dotId = -1;
   private pointsList: Point[] = [];
 
   constructor(
@@ -44,10 +44,8 @@ export class BrushToolService implements ITools {
 
   /// Ajout d'un point dans la liste de point du Polyline
   private addPoint(point: Point) {
-    if (this.object) {
-      this.lastPoint = point;
-      this.pointsList.push(this.lastPoint);
-    }
+    this.lastPoint = point;
+    this.pointsList.push(this.lastPoint);
   }
 
   /// Création d'un polyline selon la position de l'evenement de souris, choisi les bonnes couleurs selon le clique de souris
@@ -55,48 +53,47 @@ export class BrushToolService implements ITools {
   onPressed(event: MouseEvent): void {
     if (event.button === 0 || event.button === 2) {
       if (this.strokeWidth.value && this.strokeWidth.value > 0) {
+        const polyline: SVGPolylineElement = this.drawingService.renderer.createElement('polyline', 'svg');
+        const dot: SVGEllipseElement = this.drawingService.renderer.createElement('ellipse', 'svg');
+        this.drawingService.renderer.setAttribute(polyline, 'name', 'brush');
+        this.drawingService.renderer.setAttribute(dot, 'name', 'dot');
+
         const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
         this.lastPoint = { x: offset.x, y: offset.y };
-        const point: SVGEllipseElement = this.drawingService.renderer.createElement('ellipse', 'svg');
-        this.drawingService.renderer.setAttribute(point, 'cx', this.lastPoint.x.toString());
-        this.drawingService.renderer.setAttribute(point, 'cy', this.lastPoint.y.toString());
-        this.drawingService.renderer.setAttribute(point, 'ry', (this.strokeWidth.value / 2).toString());
-        this.drawingService.renderer.setAttribute(point, 'rx', (this.strokeWidth.value / 2).toString());
-        this.drawingService.renderer.setStyle(point, 'stroke', `none`);
-        this.dotId = this.drawingService.addObject(point);
-        this.object = this.drawingService.renderer.createElement('polyline', 'svg');
+        this.drawingService.renderer.setAttribute(dot, 'cx', this.lastPoint.x.toString());
+        this.drawingService.renderer.setAttribute(dot, 'cy', this.lastPoint.y.toString());
+        this.drawingService.renderer.setAttribute(dot, 'ry', (this.strokeWidth.value / 2).toString());
+        this.drawingService.renderer.setAttribute(dot, 'rx', (this.strokeWidth.value / 2).toString());
+        this.drawingService.renderer.setStyle(dot, 'stroke', `none`);
 
-        if (this.object) {
-          this.drawingService.renderer.setStyle(this.object, 'stroke-width', this.strokeWidth.value.toString());
-          this.drawingService.renderer.setAttribute(this.object, 'points', `${this.lastPoint.x} ${this.lastPoint.y}`);
-          this.drawingService.renderer.setStyle(this.object, 'stroke-linecap', `round`);
-          this.drawingService.renderer.setStyle(this.object, 'stroke-linejoin', `round`);
-          this.drawingService.renderer.setStyle(this.object, 'fill', `none`);
-        }
+        this.drawingService.renderer.setStyle(polyline, 'stroke-width', this.strokeWidth.value.toString());
+        this.drawingService.renderer.setAttribute(polyline, 'points', `${this.lastPoint.x} ${this.lastPoint.y}`);
+        this.drawingService.renderer.setStyle(polyline, 'stroke-linecap', `round`);
+        this.drawingService.renderer.setStyle(polyline, 'stroke-linejoin', `round`);
+        this.drawingService.renderer.setStyle(polyline, 'fill', `none`);
+        this.object = polyline;
+        this.dotId = this.drawingService.addObject(dot);
         if (event.button === 0) {
-          this.setColors(this.colorTool.primaryColor, this.colorTool.primaryAlpha, point);
+          this.setColors(this.colorTool.primaryColor, this.colorTool.primaryAlpha, dot);
         } else {
-          this.setColors(this.colorTool.secondaryColor, this.colorTool.secondaryAlpha, point);
+          this.setColors(this.colorTool.secondaryColor, this.colorTool.secondaryAlpha, dot);
         }
       }
     }
   }
 
   /// Définir les couleurs des objets
-  private setColors(rgb: RGB, a: number, point: SVGElement) {
+  setColors(rgb: RGB, a: number, dot: SVGElement) {
     const texture: SVGDefsElement | null = this.texturesService.getTextureElement(
       this.texture.value, { rgb, a }, this.lastPoint.x, this.lastPoint.y, this.drawingService.renderer);
     if (texture) {
       this.drawingService.addObject(texture);
       const texturePattern: SVGPatternElement = texture.children.item(0) as SVGPatternElement;
-      let textureId = '';
-      if (texturePattern) {
-        textureId = texturePattern.id;
-      }
+      const textureId: string = texturePattern.id;
       this.drawingService.renderer.setStyle(
         this.object, 'stroke', `url(#${textureId})`);
       this.drawingService.renderer.setStyle(
-        point, 'fill', `url(#${texture.id})`);
+        dot, 'fill', `url(#${texture.id})`);
     }
   }
 
@@ -109,15 +106,15 @@ export class BrushToolService implements ITools {
 
   /// Ajout d'un point seulon le déplacement de la souris
   onMove(event: MouseEvent): void {
-    this.addPoint(this.offsetManager.offsetFromMouseEvent(event));
-    let pointString = '';
-    for (const point of this.pointsList) {
-      pointString += `${point.x} ${point.y},`;
-    }
-    pointString = pointString.substring(0, pointString.length - 1);
-    this.drawingService.renderer.setAttribute(this.object, 'points', pointString);
-    if (this.dotId !== -1) {
-      if (this.object) {
+    if (this.object) {
+      this.addPoint(this.offsetManager.offsetFromMouseEvent(event));
+      let pointString = '';
+      for (const point of this.pointsList) {
+        pointString += `${point.x} ${point.y},`;
+      }
+      pointString = pointString.substring(0, pointString.length - 1);
+      this.drawingService.renderer.setAttribute(this.object, 'points', pointString);
+      if (this.dotId !== -1) {
         this.drawingService.removeObject(this.dotId);
         this.drawingService.addObject(this.object);
         this.dotId = -1;

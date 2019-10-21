@@ -9,9 +9,9 @@ import { DrawingService } from 'src/app/services/drawing/drawing.service';
 })
 export class CanvasComponent implements AfterViewInit {
   @ViewChild('svgCanvas', { static: false })
-  svg: ElementRef;
+  canvasDiv: ElementRef;
 
-  rect: ElementRef;
+  svg: SVGElement;
 
   constructor(private drawingService: DrawingService, private renderer: Renderer2) {
     this.drawingService.renderer = this.renderer;
@@ -19,10 +19,13 @@ export class CanvasComponent implements AfterViewInit {
 
   /// À l'initialisation, le canvas s'abonne au service de dessin pour reçevoir en string le svg
   ngAfterViewInit() {
-
-    this.drawingService.drawingEmit.subscribe((el: ElementRef) => {
-      this.renderer.appendChild(this.svg.nativeElement, el);
-      // this.svg.nativeElement = el;
+    this.drawingService.drawingEmit.subscribe((el: SVGElement) => {
+      console.log('allo');
+      if (this.svg) {
+        this.renderer.removeChild(this.canvasDiv.nativeElement, this.svg);
+      }
+      this.svg = el;
+      this.renderer.appendChild(this.canvasDiv.nativeElement, this.svg);
     });
   }
 

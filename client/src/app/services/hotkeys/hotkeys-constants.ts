@@ -11,6 +11,8 @@ export const enum KeyCodes {
     altL = 'AltLeft',
     altR = 'AltRight',
     tab = 'Tab',
+    esc = 'Escape',
+    backSpace = 'Backspace',
 
     b0 = 'Digit0',
     b1 = 'Digit1',
@@ -64,8 +66,21 @@ export const enum KeyCodes {
 
 export const enum EmitReturn {
     NEW_DRAWING = 'newDrawing',
+    SAVE_DRAWING = 'saveDrawing',
+    OPEN_DRAWING = 'openDrawing',
+
     PENCIL = 'pencil',
     BRUSH = 'brush',
     APPLICATEUR = 'applicateur',
+    PIPETTE = 'pipette',
     RECTANGLE = 'rectangle',
+    ELLIPSE = 'ellipse',
+    POLYGONE = 'polygone',
+    LINE = 'line',
+    SELECTION = 'selection',
+
+    ENABLE_GRID = 'enableGrid',
+    DISABLE_GRID = 'disableGrid',
+    ADD5_GRID = 'add5Grid',
+    SUB5_GRID = 'sub5Grid',
 }

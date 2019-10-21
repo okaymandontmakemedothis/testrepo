@@ -24,7 +24,7 @@ export class EtampeToolService implements ITools {
   parameters: FormGroup;
   private etampe: FormControl;
   private facteurSize: FormControl;
-  private object: SVGImageElement | null;
+  private object: SVGElement | undefined;
   OldX: number;
   OldY: number;
   x: number;
@@ -39,22 +39,11 @@ export class EtampeToolService implements ITools {
       etampe: this.etampe,
       facteurSize: this.facteurSize,
     });
-
+    this.setAngle = this.setAngle.bind(this);
   }
 
   registerEventListenerOnScroll() {
-    if (this.object) {
-      this.object.addEventListener('wheel', (eventWheel) => {
-        eventWheel.preventDefault();
-        if (eventWheel.target === this.object) {
-          if (eventWheel.deltaY < 0) {
-            this.setAngleBackward();
-          } else {
-            this.setAngle();
-          }
-        }
-      });
-    }
+    window.addEventListener('wheel', this.setAngle);
   }
 
   onPressed(event: MouseEvent): void {
@@ -67,6 +56,7 @@ export class EtampeToolService implements ITools {
       this.y = offset.y - this.facteurSize.value / 2;
 
       this.object = this.drawingService.renderer.createElement('image', 'svg');
+      this.drawingService.renderer.setAttribute(this.object, 'name', 'stamp');
       this.drawingService.renderer.setAttribute(this.object, 'x', this.x.toString());
       this.drawingService.renderer.setAttribute(this.object, 'y', this.y.toString());
       this.drawingService.renderer.setAttribute(this.object, 'height', (this.facteurSize.value).toString());
@@ -80,6 +70,7 @@ export class EtampeToolService implements ITools {
     }
   }
   onRelease(event: MouseEvent) {
+    window.removeEventListener('wheel', this.setAngle);
     return;
   }
   onMove(event: MouseEvent) {
@@ -104,19 +95,24 @@ export class EtampeToolService implements ITools {
     return 'rotate(' + angle + ',' + this.OldX + ',' + this.OldY + ')';
   }
 
-  setAngle() {
+  setAngle(eventWheel: WheelEvent) {
+    eventWheel.preventDefault();
     if (this.object) {
-      this.angleRotation += this.intervaleDegresRotation;
-      this.drawingService.renderer.setAttribute(this.object, 'transform', this.getRotation(this.angleRotation));
-
+      if (eventWheel.deltaY < 0) {
+        this.setAngleBackward();
+      } else {
+        this.setAngleForward();
+      }
     }
   }
 
   setAngleBackward() {
-    if (this.object) {
-      this.angleRotation -= this.intervaleDegresRotation;
-      this.drawingService.renderer.setAttribute(this.object, 'transform', this.getRotation(this.angleRotation));
+    this.angleRotation -= this.intervaleDegresRotation;
+    this.drawingService.renderer.setAttribute(this.object, 'transform', this.getRotation(this.angleRotation));
+  }
 
-    }
+  setAngleForward() {
+    this.angleRotation += this.intervaleDegresRotation;
+    this.drawingService.renderer.setAttribute(this.object, 'transform', this.getRotation(this.angleRotation));
   }
 }

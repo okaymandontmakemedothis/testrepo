@@ -4,7 +4,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { KeyCodes } from '../hotkeys-constants';
+import { EmitReturn, KeyCodes } from '../hotkeys-constants';
 
 /// Service de hotkey pour les fonctions de travail
 @Injectable({
@@ -20,19 +20,19 @@ export class HotkeysTravailService {
     if (this.canExecute) {
       if (event.code === KeyCodes.g) {
         event.preventDefault();
-        this.hotkeysTravailEmitter.emit('G');
+        this.hotkeysTravailEmitter.emit(EmitReturn.ENABLE_GRID);
       }
       if (event.code === KeyCodes.m) {
         event.preventDefault();
-        this.hotkeysTravailEmitter.emit('M');
+        this.hotkeysTravailEmitter.emit(EmitReturn.DISABLE_GRID);
       }
       if (event.code === KeyCodes.addNP || (event.shiftKey && event.code === KeyCodes.equal)) {
         event.preventDefault();
-        this.hotkeysTravailEmitter.emit('+');
+        this.hotkeysTravailEmitter.emit(EmitReturn.ADD5_GRID);
       }
       if (event.code === KeyCodes.minus || event.code === KeyCodes.minusNP) {
         event.preventDefault();
-        this.hotkeysTravailEmitter.emit('-');
+        this.hotkeysTravailEmitter.emit(EmitReturn.SUB5_GRID);
       }
     }
   }

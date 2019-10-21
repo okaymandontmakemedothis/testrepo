@@ -35,6 +35,10 @@ export class DrawingService {
     return 'rgb(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ',' + this.alpha + ')';
   }
 
+  getObjectList() {
+    return this.objectList;
+  }
+
   /// Retrait d'un objet selon son ID
   removeObject(id: number): void {
     this.renderer.removeChild(this.drawing, this.objectList.get(id));
@@ -48,7 +52,7 @@ export class DrawingService {
     this.lastObjectId++;
     this.renderer.setProperty(obj, 'id', this.lastObjectId);
     this.objectList.set(this.lastObjectId, obj);
-    this.renderer.appendChild(this.drawing, obj);
+    this.renderer.insertBefore(this.drawing, obj, this.drawing.lastElementChild);
     return this.lastObjectId;
   }
 

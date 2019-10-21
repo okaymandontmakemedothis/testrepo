@@ -7,6 +7,7 @@ import { DEFAULT_RGB_COLOR } from 'src/app/model/rgb.model';
 import { DEFAULT_ALPHA } from 'src/app/model/rgba.model';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { NewDrawingService } from 'src/app/services/new-drawing/new-drawing.service';
+import { GridService } from 'src/app/services/tools/grid-tool/grid.service';
 import { NewDrawingAlertComponent } from './new-drawing-alert/new-drawing-alert.component';
 
 const ONE_SECOND = 1000;
@@ -27,7 +28,9 @@ export class NewDrawingComponent implements OnInit {
     private newDrawingService: NewDrawingService,
     private drawingService: DrawingService,
     private dialog: MatDialog,
-    private colorPickerService: ColorPickerService) { }
+    private colorPickerService: ColorPickerService,
+    private gridService: GridService,
+  ) { }
 
   /// Créer un nouveau form avec les dimension et la couleur
   ngOnInit(): void {
@@ -60,6 +63,7 @@ export class NewDrawingComponent implements OnInit {
     } else {
       this.newDrawing();
     }
+    this.gridService.createPatternGrid();
   }
 
   /// Cre un nouveau dessin
