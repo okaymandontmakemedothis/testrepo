@@ -1,10 +1,10 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
 import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
-import { ToolRectangleService } from './tool-rectangle.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
-import { FormControl } from '@angular/forms';
+import { ToolRectangleService } from './tool-rectangle.service';
 
 describe('ToolRectangleService', () => {
   let offsetManagerServiceSpy: jasmine.SpyObj<OffsetManagerService>;
@@ -13,7 +13,7 @@ describe('ToolRectangleService', () => {
   let rendererSpy: jasmine.SpyObj<Renderer2>;
 
   beforeEach(() => {
-    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle',]);
+    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', ]);
     const spyOffset = jasmine.createSpyObj('OffsetManagerService', ['offsetFromMouseEvent']);
     const spyColor = jasmine.createSpyObj('ToolsColorService', ['']);
     let spyDrawingService = jasmine.createSpyObj('DrawingService', ['addObject', 'removeObject']);
@@ -265,7 +265,6 @@ describe('ToolRectangleService', () => {
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'width', '9');
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('rect', 'height', '9');
   });
-
 
   it('should change y when mouseX and MouseY < x and y and width < height on square mode', () => {
     const service: ToolRectangleService = TestBed.get(ToolRectangleService);
