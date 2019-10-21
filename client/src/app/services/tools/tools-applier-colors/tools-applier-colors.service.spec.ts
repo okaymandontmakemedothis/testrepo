@@ -34,14 +34,52 @@ describe('ToolsApplierColorsService', () => {
     expect(service).toBeTruthy();
   });
 
+  // it('should do nothing if the click is not left or right', () => {
+  //   const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
+  //   const event = new MouseEvent('mousedown', { button: 1 });
+
+  //   service.onPressed(event);
+
+  //   expect(colorToolServiceSpy.setPrimaryColor).not.toHaveBeenCalled();
+  //   expect(colorToolServiceSpy.setSecondaryColor).not.toHaveBeenCalled();
+  // });
+  it('should do nothing if targetname does not exist', () => {
+    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
+    const event = new MouseEvent('mousedown', { button: 1 });
+    const svg = document.createElement('rect');
+    svg.setAttribute('name', '');
+    spyOnProperty(event, 'target').and.returnValue(svg);
+
+    service.onPressed(event);
+
+    expect(service.onPressed(event)).toBeUndefined();
+  });
+
+  it('should do nothing if propertymap does not exist', () => {
+    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
+    const event = new MouseEvent('mousedown', { button: 1 });
+    const svg = document.createElement('rect');
+    svg.setAttribute('name', 'string');
+    spyOnProperty(event, 'target').and.returnValue(svg);
+
+    service.onPressed(event);
+
+    expect(service.onPressed(event)).toBeUndefined();
+  });
+
   it('should change the primary color of the object on left click', () => {
     const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
     const mouseEvent = new MouseEvent('mousedown', { button: 0 });
-    colorToolServiceSpy.primaryColor = { r: 255, g: 0, b: 0 };
-    colorToolServiceSpy.primaryAlpha = 0.5;
+    colorToolServiceSpy.primaryColor = { r: 0, g: 0, b: 0 };
+    colorToolServiceSpy.primaryAlpha = 0;
+    colorToolServiceSpy.setPrimaryColor.and.callFake((rgb, a) => {
+      colorToolServiceSpy.primaryColor = rgb;
+      colorToolServiceSpy.primaryAlpha = a;
+    });
 
-    rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
-    // spyOnProperty(mouseEvent, 'target').and.returnValue(svg);
+    const svg = document.createElement('svg');
+    spyOnProperty(mouseEvent, 'target').and.returnValue(svg);
+
     const setColorsSpy = spyOn(service, 'setColors');
     const setOpacitySpy = spyOn(service, 'setOpacity');
 
