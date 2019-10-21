@@ -4,6 +4,7 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faEyeDropper } from '@fortawesome/free-solid-svg-icons';
 import { OBJECT_ATTRIBUTE_STRUCTURE } from 'src/app/model/object-structure.model';
 import { RGB } from 'src/app/model/rgb.model';
+import { DrawingService } from '../../drawing/drawing.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
@@ -20,15 +21,19 @@ export class PipetteToolService implements ITools {
   parameters: FormGroup;
   object: SVGAElement | undefined;
 
-  constructor(private toolsColorService: ToolsColorService) { }
+  constructor(private toolsColorService: ToolsColorService, private drawingService: DrawingService) { }
 
   /// À l'appuis d'un clique de souris, on récupère l'objet cliqué et on modifie sa couleur
   onPressed(event: MouseEvent): void {
     if (event.button === 0 || event.button === 2) {
-      console.log(event);
       const target = event.target as SVGElement;
       const targetName: string | null = target.getAttribute('name');
       if (!targetName) {
+        if (event.button === 0) { // left click so set primary color to color of object
+          this.toolsColorService.setPrimaryColor(this.drawingService.color, this.drawingService.alpha);
+        } else {     // right click so set secondary color to color of object
+          this.toolsColorService.setSecondaryColor(this.drawingService.color, this.drawingService.alpha);
+        }
         return;
       }
       const propertyMap: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[targetName];

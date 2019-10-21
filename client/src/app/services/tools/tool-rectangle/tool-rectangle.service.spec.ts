@@ -13,7 +13,11 @@ describe('ToolRectangleService', () => {
   let rendererSpy: jasmine.SpyObj<Renderer2>;
 
   beforeEach(() => {
+<<<<<<< HEAD
     rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', ]);
+=======
+    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle']);
+>>>>>>> 14ef1b63d9f558fdc6c458c6ec46f5e0135928ce
     const spyOffset = jasmine.createSpyObj('OffsetManagerService', ['offsetFromMouseEvent']);
     const spyColor = jasmine.createSpyObj('ToolsColorService', ['']);
     let spyDrawingService = jasmine.createSpyObj('DrawingService', ['addObject', 'removeObject']);
@@ -170,9 +174,9 @@ describe('ToolRectangleService', () => {
     service.onPressed(new MouseEvent('mousedown', { button: 0 }));
 
     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('rect', 'fill',
-      `rgb(${colorToolServiceSpy.primaryColor.r},${ colorToolServiceSpy.primaryColor.g},${colorToolServiceSpy.primaryColor.b})`);
+      `rgb(${colorToolServiceSpy.primaryColor.r},${colorToolServiceSpy.primaryColor.g},${colorToolServiceSpy.primaryColor.b})`);
     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('rect', 'stroke',
-      `rgb(${colorToolServiceSpy.secondaryColor.r},${ colorToolServiceSpy.secondaryColor.g},${colorToolServiceSpy.secondaryColor.b})`);
+      `rgb(${colorToolServiceSpy.secondaryColor.r},${colorToolServiceSpy.secondaryColor.g},${colorToolServiceSpy.secondaryColor.b})`);
     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('rect', 'fillOpacity', colorToolServiceSpy.primaryAlpha.toString());
     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('rect', 'strokeOpacity',
       colorToolServiceSpy.secondaryAlpha.toString());
@@ -180,10 +184,10 @@ describe('ToolRectangleService', () => {
     service.onPressed(new MouseEvent('mousedown', { button: 2 }));
 
     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('rect', 'fill',
-      `rgb(${colorToolServiceSpy.secondaryColor.r},${ colorToolServiceSpy.secondaryColor.g},${colorToolServiceSpy.secondaryColor.b})`);
+      `rgb(${colorToolServiceSpy.secondaryColor.r},${colorToolServiceSpy.secondaryColor.g},${colorToolServiceSpy.secondaryColor.b})`);
     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('rect', 'fillOpacity', colorToolServiceSpy.secondaryAlpha.toString());
     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('rect', 'stroke',
-      `rgb(${colorToolServiceSpy.primaryColor.r},${ colorToolServiceSpy.primaryColor.g},${colorToolServiceSpy.primaryColor.b})`);
+      `rgb(${colorToolServiceSpy.primaryColor.r},${colorToolServiceSpy.primaryColor.g},${colorToolServiceSpy.primaryColor.b})`);
     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('rect', 'strokeOpacity', colorToolServiceSpy.primaryAlpha.toString());
   });
 
@@ -209,7 +213,7 @@ describe('ToolRectangleService', () => {
     rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
     const moveEvent = new MouseEvent('mousemove', { movementX: 2, movementY: 2 });
     const setSizeSpy = spyOn(service as any, 'setSize');
-    service.onPressed(new MouseEvent('mousedown', {button: 0}));
+    service.onPressed(new MouseEvent('mousedown', { button: 0 }));
     service.onRelease(new MouseEvent('mouseup'));
     drawingServiceSpy.addObject.calls.reset();
 
