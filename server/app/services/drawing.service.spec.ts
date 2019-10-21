@@ -7,11 +7,9 @@ import { DrawingService } from './drawing.service';
 import { MongoDbConnectionService } from './mongodb-connection.service';
 
 describe('Testing drawing.service', () => {
-    let mongoDbConnectionService: MongoDbConnectionService;
     let mongoDbConnectionServiceStub: SinonStubbedInstance<MongoDbConnectionService>;
     before((done) => {
-        mongoDbConnectionService = new MongoDbConnectionService();
-        mongoDbConnectionServiceStub = stub(mongoDbConnectionService);
+        mongoDbConnectionServiceStub = stub(new MongoDbConnectionService());
         mongoDbConnectionServiceStub.getDatabaseName.returns('test');
         mongoDbConnectionServiceStub.getMongoClient.callThrough();
         mongoDbConnectionServiceStub.getMongoClient().then((mc: MongoClient) => {
@@ -35,8 +33,8 @@ describe('Testing drawing.service', () => {
     });
 
     after((done) => {
-        mongoDbConnectionService.getMongoClient().then((mc: MongoClient) => {
-            const db: Db = mc.db(mongoDbConnectionService.getDatabaseName());
+        mongoDbConnectionServiceStub.getMongoClient().then((mc: MongoClient) => {
+            const db: Db = mc.db(mongoDbConnectionServiceStub.getDatabaseName());
             db.dropDatabase();
             mc.close();
             done();
@@ -58,6 +56,40 @@ describe('Testing drawing.service', () => {
             id: '',
             name: 'name',
             tags: ['tag1', 'tag2'],
+            width: 10,
+            height: 10,
+            backGroundColor: { rgb: { r: 200, g: 100, b: 0 }, a: 0.75 },
+            svg: '<rect x="1" y="1" width="1" height="1" id="1"></rect>',
+        };
+        drawingService.setDrawing(drawing).then((d: Drawing) => {
+            expect(d);
+            done();
+        });
+    });
+
+    it('#setDrawing should set the new drawing with new tags', (done) => {
+        const drawingService: DrawingService = new DrawingService(mongoDbConnectionServiceStub);
+        const drawing: Drawing = {
+            id: '',
+            name: 'nameUnknownTag',
+            tags: ['unknownTag'],
+            width: 10,
+            height: 10,
+            backGroundColor: { rgb: { r: 200, g: 100, b: 0 }, a: 0.75 },
+            svg: '<rect x="1" y="1" width="1" height="1" id="1"></rect>',
+        };
+        drawingService.setDrawing(drawing).then((d: Drawing) => {
+            expect(d);
+            done();
+        });
+    });
+
+    it('#setDrawing should set the new drawing without any tags', (done) => {
+        const drawingService: DrawingService = new DrawingService(mongoDbConnectionServiceStub);
+        const drawing: Drawing = {
+            id: '',
+            name: 'nameUnknownTag',
+            tags: [],
             width: 10,
             height: 10,
             backGroundColor: { rgb: { r: 200, g: 100, b: 0 }, a: 0.75 },

@@ -6,17 +6,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable, of } from 'rxjs';
 import { MaterialModules } from 'src/app/app-material.module';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
-// import { Drawing } from '../../../../../common/communication/drawing';
-import { OpenDrawingComponent } from './open-drawing.component';
 import { OpenDrawingService } from 'src/app/services/open-drawing/open-drawing.service';
 import { TagService } from 'src/app/services/tag/tag.service';
 import { Drawing } from '../../../../../common/communication/drawing';
+// import { Drawing } from '../../../../../common/communication/drawing';
+import { OpenDrawingComponent } from './open-drawing.component';
 
 describe('OpenDrawingComponent', () => {
   let component: OpenDrawingComponent;
   let fixture: ComponentFixture<OpenDrawingComponent>;
   let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
-  let openDrawingService:jasmine.SpyObj<DrawingService>;
+  let openDrawingService: jasmine.SpyObj<DrawingService>;
   const mockDrawing: Drawing = {
     id: '2',
     name: 'mock',
@@ -44,14 +44,16 @@ describe('OpenDrawingComponent', () => {
       declarations: [OpenDrawingComponent],
       imports: [MaterialModules, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, HttpClientModule],
       providers: [{ provide: MatDialogRef, useValue: dialogRefSpyObj }, { provide: DrawingService, useValue: spyDrawingService }
-        ,{ provide: TagService, useValue: spyTagService }
+        , { provide: TagService, useValue: spyTagService },
       ],
     });
 
     spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
-    spyOn(TestBed.get(OpenDrawingService), 'getDrawings').and.returnValue({ subscribe: ():Observable<Drawing[]> => {
-      return   of(new Array(mockDrawing));
-    } })
+    spyOn(TestBed.get(OpenDrawingService), 'getDrawings').and.returnValue({
+      subscribe: (): Observable<Drawing[]> => {
+        return of(new Array(mockDrawing));
+      }
+    });
 
     TestBed.compileComponents();
   }));
@@ -115,7 +117,7 @@ describe('OpenDrawingComponent', () => {
     inputEventSpy.value="mockTag"
     component.add(inputEventSpy)
     component.remove("mockTag")
-    expect(component.selectedTags).("mockTag")
+    expect(component.selectedTags).not.toContain("mockTag")
     expect(component.selectedDrawing).toBe(null)
   })
 

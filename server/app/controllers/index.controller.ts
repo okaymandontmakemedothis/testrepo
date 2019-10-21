@@ -15,6 +15,7 @@ export class IndexController {
 
     private configureRouter(): void {
         this.router = Router();
+        // Retourner le text de bienvenu avec une requete HTTP Get
         this.router.get('/text',
             (req: Request, res: Response, next: NextFunction) => {
                 res.json(this.indexService.getTextRessource('/../../../../app/res/text/welcome_text2.json'));

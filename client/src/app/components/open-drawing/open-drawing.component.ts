@@ -1,23 +1,26 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialogRef, MatDialog, MatTableDataSource, MatPaginator, MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material';
+import {
+  MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent,
+  MatDialog, MatDialogRef, MatPaginator, MatTableDataSource
+} from '@angular/material';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { RGBA } from 'src/app/model/rgba.model';
 // import { BehaviorSubject } from 'rxjs';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
-import { Drawing } from '../../../../../common/communication/drawing';
 import { OpenDrawingService } from 'src/app/services/open-drawing/open-drawing.service';
-import { RGBA } from 'src/app/model/rgba.model';
-import { NewDrawingAlertComponent } from '../new-drawing/new-drawing-alert/new-drawing-alert.component';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { TagService } from 'src/app/services/tag/tag.service';
-import { startWith, map } from 'rxjs/operators';
+import { Drawing } from '../../../../../common/communication/drawing';
+import { NewDrawingAlertComponent } from '../new-drawing/new-drawing-alert/new-drawing-alert.component';
 
 @Component({
   selector: 'app-open-drawing',
   templateUrl: './open-drawing.component.html',
   styleUrls: ['./open-drawing.component.scss'],
 })
-export class OpenDrawingComponent implements OnInit {
+export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   tagCtrl = new FormControl();
   visible = true;

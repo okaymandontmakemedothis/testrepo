@@ -16,10 +16,9 @@ export class TagController {
     private configureRouter() {
         this.router = Router();
 
-        // Get all tags
+        // Retourner tout les tags sous une demande HTTP Get
         this.router.get('/',
             (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
                 this.tagService.getAllTags().then((tag: Tag[]) => {
                     res.json(tag);
                 }).catch((reason: unknown) => {

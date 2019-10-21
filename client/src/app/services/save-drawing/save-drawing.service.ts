@@ -1,5 +1,3 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material';
@@ -7,20 +5,16 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { Drawing } from '../../../../../common/communication/drawing';
-import { Message } from '../../../../../common/communication/message';
 import { ErrorMessageService } from '../error-message/error-message.service';
+import { SaveRequestService } from '../save-request/save-request.service';
 import { TagService } from '../tag/tag.service';
 import { GridService } from '../tools/grid-tool/grid.service';
 
+/// Service s'occuppant de la gestion de l'enregistrement du dessin sur le serveur
 @Injectable({
   providedIn: 'root',
 })
 export class SaveDrawingService {
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl();
   nameCtrl = new FormControl();
   filteredTags: Observable<string[]>;
@@ -32,17 +26,19 @@ export class SaveDrawingService {
     private drawingService: DrawingService,
     private gridService: GridService,
     private tagService: TagService,
-    private http: HttpClient,
+    private saveRequestService: SaveRequestService,
     private errorMessage: ErrorMessageService,
   ) {
     this.nameCtrl.setValidators([Validators.required]);
     this.reset();
   }
 
+  /// Retourne tout les tags
   getAllTags(): string[] {
     return this.allTags;
   }
 
+  /// Réinitialise les information de save-drawing
   reset(): void {
     this.tagCtrl.reset();
     this.nameCtrl.reset();
@@ -53,21 +49,15 @@ export class SaveDrawingService {
       map((tag: string | null) => tag ? this.filter(tag) : this.allTags.slice()));
   }
 
+  /// Ajoute un tag dans la list de tag choisi
   add(event: MatChipInputEvent, isMatAutoCompleteOpen: boolean): void {
-    // Add tag only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
     if (!isMatAutoCompleteOpen) {
       const input = event.input;
       const value = event.value;
+      if ((value || '').trim() && !this.tags.includes(value.trim())) {
+        this.tags.push(value.trim());
 
-      // Add our tag
-      if ((value || '').trim()) {
-        if (!this.tags.includes(value.trim())) {
-          this.tags.push(value.trim());
-        }
       }
-
-      // Reset the input value
       if (input) {
         input.value = '';
       }
@@ -76,6 +66,7 @@ export class SaveDrawingService {
     }
   }
 
+  /// Retrait d'un tag
   remove(tag: string): void {
     const index = this.tags.indexOf(tag);
 
@@ -84,16 +75,19 @@ export class SaveDrawingService {
     }
   }
 
+  /// Selection d'un tag
   selected(tagValue: string): void {
     this.tags.push(tagValue);
     this.tagCtrl.setValue(null);
   }
 
-  private filter(value: string): string[] {
+  /// Filtrer les tag pour avoir seulement un de chaque
+  filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.allTags.filter((tag) => tag.toLowerCase().indexOf(filterValue) === 0);
   }
 
+  /// Sauvegarder le dessins sur le serveur
   async save(): Promise<boolean> {
     this.saveEnabled = false;
     if (this.gridService.activerGrille.value) {
@@ -112,9 +106,7 @@ export class SaveDrawingService {
       this.gridService.showGrid();
     }
     try {
-      await this.http.post<Message>('http://localhost:3000/api/drawings/',
-        drawing, { observe: 'response' },
-      ).toPromise();
+      await this.saveRequestService.addDrawing(drawing);
     } catch {
       this.errorMessage.showError('Test', 'Erreur de sauvegarde de dessin sur le serveur');
       this.saveEnabled = true;

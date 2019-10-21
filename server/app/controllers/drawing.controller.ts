@@ -19,7 +19,6 @@ export class DrawingController {
         /// Retourne tous les dessins
         this.router.get('/',
             (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
                 this.drawingService.getAllDrawings().then((drawings: Drawing[]) => {
                     res.json(drawings);
                 }).catch(() => {
