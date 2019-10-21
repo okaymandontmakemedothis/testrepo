@@ -7,11 +7,9 @@ import { DrawingService } from './drawing.service';
 import { MongoDbConnectionService } from './mongodb-connection.service';
 
 describe('Testing drawing.service', () => {
-    let mongoDbConnectionService: MongoDbConnectionService;
     let mongoDbConnectionServiceStub: SinonStubbedInstance<MongoDbConnectionService>;
     before((done) => {
-        mongoDbConnectionService = new MongoDbConnectionService();
-        mongoDbConnectionServiceStub = stub(mongoDbConnectionService);
+        mongoDbConnectionServiceStub = stub(new MongoDbConnectionService());
         mongoDbConnectionServiceStub.getDatabaseName.returns('test');
         mongoDbConnectionServiceStub.getMongoClient.callThrough();
         mongoDbConnectionServiceStub.getMongoClient().then((mc: MongoClient) => {
@@ -35,8 +33,8 @@ describe('Testing drawing.service', () => {
     });
 
     after((done) => {
-        mongoDbConnectionService.getMongoClient().then((mc: MongoClient) => {
-            const db: Db = mc.db(mongoDbConnectionService.getDatabaseName());
+        mongoDbConnectionServiceStub.getMongoClient().then((mc: MongoClient) => {
+            const db: Db = mc.db(mongoDbConnectionServiceStub.getDatabaseName());
             db.dropDatabase();
             mc.close();
             done();

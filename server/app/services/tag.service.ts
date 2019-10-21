@@ -17,10 +17,13 @@ export class TagService {
         return this.mongoDbConnection.getMongoClient().then(async (mc: MongoClient) => {
             const db = mc.db(DATABASE_NAME);
             const tags = db.collection(TAG_COLLECTION);
+            console.log('Request for all the tags');
             return tags.find().toArray().then((arr) => {
-                console.log(arr);
                 mc.close();
                 return arr;
+            }).catch((reason) => {
+                mc.close();
+                throw reason;
             });
         });
     }

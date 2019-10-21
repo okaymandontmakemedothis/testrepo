@@ -7,11 +7,9 @@ import { MongoDbConnectionService } from './mongodb-connection.service';
 import { TagService } from './tag.service';
 
 describe('Testing tag.service', () => {
-    let mongoDbConnectionService: MongoDbConnectionService;
     let mongoDbConnectionServiceStub: SinonStubbedInstance<MongoDbConnectionService>;
     before((done) => {
-        mongoDbConnectionService = new MongoDbConnectionService();
-        mongoDbConnectionServiceStub = stub(mongoDbConnectionService);
+        mongoDbConnectionServiceStub = stub(new MongoDbConnectionService());
         mongoDbConnectionServiceStub.getDatabaseName.returns('test');
         mongoDbConnectionServiceStub.getMongoClient.callThrough();
         mongoDbConnectionServiceStub.getMongoClient().then((mc: MongoClient) => {
@@ -24,8 +22,8 @@ describe('Testing tag.service', () => {
     });
 
     after((done) => {
-        mongoDbConnectionService.getMongoClient().then((mc: MongoClient) => {
-            const db: Db = mc.db(mongoDbConnectionService.getDatabaseName());
+        mongoDbConnectionServiceStub.getMongoClient().then((mc: MongoClient) => {
+            const db: Db = mc.db(mongoDbConnectionServiceStub.getDatabaseName());
             db.dropDatabase();
             mc.close();
             done();
