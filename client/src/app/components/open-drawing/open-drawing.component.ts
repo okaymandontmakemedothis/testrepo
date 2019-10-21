@@ -74,7 +74,7 @@ export class OpenDrawingComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.paginator);
-    this.dataSource.filterPredicate = ((data: Drawing, filter: string) => this.containsTag(data));
+    this.dataSource.filterPredicate = ((data: Drawing, filter: string) => this.tagService.containsTag(data,this.selectedTags));
 
     this.dataObs = this.dataSource.connect();
 
@@ -89,8 +89,7 @@ export class OpenDrawingComponent implements OnInit {
   }
 
   getBackground(drawing: Drawing): string {
-    const rgba: RGBA = drawing.backGroundColor;
-    return `rgba(${rgba.rgb.r},${rgba.rgb.g},${rgba.rgb.b},${rgba.a})`;
+    return this.openDrawingService.getBackground(drawing)
   }
 
   getThumbnail(drawingObject: Drawing) {
@@ -118,19 +117,6 @@ export class OpenDrawingComponent implements OnInit {
     this.selectedDrawing = drawing;
   }
 
-  containsTag(drawing: Drawing): boolean {
-    if (this.selectedTags.length < 1) {
-      return true;
-    }
-    let containsTag = false;
-    for (const tag of drawing.tags) {
-      containsTag = this.selectedTags.includes(tag);
-      if (containsTag) {
-        return true;
-      }
-    }
-    return false;
-  }
 
   // ouvre un nouveau dessin  avec l'ancien drawing
   accept(): void {
