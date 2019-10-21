@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { faDrawPolygon, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { Point } from 'src/app/model/point.model';
 import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
-import { Point } from 'src/app/model/point.model';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +29,8 @@ export class PolygonToolService implements ITools {
   private contourId: number;
   x: number;
   y: number;
+  xPolygon: number;
+  yPolygon: number;
   firstX: number;
   firstY: number;
   center: Point;
@@ -65,8 +67,8 @@ export class PolygonToolService implements ITools {
       const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
       this.x = offset.x;
       this.y = offset.y;
-      this.firstX = offset.x.valueOf();
-      this.firstY = offset.y.valueOf();
+      this.firstX = offset.x;
+      this.firstY = offset.y;
 
       this.object = this.drawingService.renderer.createElement('polygon', 'svg');
 
@@ -115,6 +117,10 @@ export class PolygonToolService implements ITools {
   private getPoints(size: number, center: Point) {
     /// reset array from previous values
     this.points = [];
+
+    if ( size === 0 ) {
+      return;
+    }
     /// determine circle angles
     const angle = 360 / this.vertexNumber.value;
     /// set initial angle if square
@@ -126,18 +132,18 @@ export class PolygonToolService implements ITools {
     /// determine radius
     const radius = size / 2;
     /// determine x and y from origin and initial angle
-    this.getPointsXandY(radius, 0, size);
+    this.getPointsXandY(radius, 0, center);
     /// repeat last step but add angle as you go for the n-1 remaining sides/points
     let angleToAdd = 0;
     for (let i = 1; i < this.vertexNumber.value; i++ ) {
       angleToAdd += angle;
-      this.getPointsXandY(radius, angleToAdd, size);
+      this.getPointsXandY(radius, angleToAdd, center);
     }
   }
 
-  private getPointsXandY(radius: number, angleToAdd: number, width: number) {
-    const y = this.y + width / 2 + radius * Math.sin(this.getRAD((this.initialAngle + angleToAdd) % 360));
-    const x = this.x + width / 2 + radius * Math.cos(this.getRAD((this.initialAngle + angleToAdd) % 360));
+  private getPointsXandY(radius: number, angleToAdd: number, center: Point) {
+    const y = center.y + (radius - this.strokeWidth.value) * Math.sin(this.getRAD((this.initialAngle + angleToAdd) % 360));
+    const x = center.x + (radius - this.strokeWidth.value) * Math.cos(this.getRAD((this.initialAngle + angleToAdd) % 360));
     this.points.push({x, y});
   }
 
@@ -153,201 +159,165 @@ export class PolygonToolService implements ITools {
     return tempString;
   }
 
-  private adjustCoordinates(points: Point[], size: number, center: Point) {
-    /// Get center point
-    let smallestDistanceCenterContour = Infinity;
-    const distanceCenterContourArray: number[] = [];
-    let distanceCenterContour: number;
-    let closestQuadrantSides: {X: Point, Y: Point};
-    const closestPointArray: Point[] = [];
-    let closestPoint: Point;
-    /// For each point
-    for (const point of points) {
-      /// Find in which quadrant the point belongs to
+  private setSize(mouseX: number, mouseY: number): void {
+    if (this.object) {
+      this.center = {x: NaN, y: NaN};
+
+      let size: number;
+
+      const width = mouseX - this.firstX - (this.strokeWidth.value * 2);
+      const height = mouseY - this.firstY - (this.strokeWidth.value * 2);
+
+      console.log(height);
+
+      if (Math.abs(width) < Math.abs(height)) {
+        size = Math.abs(width);
+      } else {
+        size = Math.abs(height);
+      }
+
+      if (width < 0) {
+        if (Math.abs(width) > Math.abs(height)) {
+          this.x = this.firstX - size - this.strokeWidth.value;
+        } else {
+          this.x = mouseX;
+        }
+      }
+      if (height < 0) {
+        if (Math.abs(width) < Math.abs(height)) {
+          this.y = this.firstY - size - this.strokeWidth.value;
+        } else {
+          this.y = mouseY;
+        }
+      }
+
+      const contourOffset: Point = {x: 0, y: 0};
+      if ( this.x >= this.firstX && this.y >= this.firstY ) {
+        this.center.x = this.firstX + size / 2 + this.strokeWidth.value;
+        this.center.y = this.firstY + size / 2 + this.strokeWidth.value;
+        contourOffset.x = - Math.abs(this.firstX - this.x);
+        contourOffset.y = - Math.abs(this.firstY - this.y);
+      } else if ( this.x >= this.firstX && this.y < this.firstY ) {
+        this.center.x = this.firstX + size / 2 + this.strokeWidth.value;
+        this.center.y = this.firstY - size / 2 - this.strokeWidth.value;
+        // contourOffset.x = - Math.abs(this.firstX - this.x);
+        // contourOffset.y = Math.abs(this.firstY - this.y);
+      } else if ( this.x < this.firstX && this.y >= this.firstY ) {
+        this.center.x = this.firstX - size / 2 - this.strokeWidth.value;
+        this.center.y = this.firstY + size / 2 + this.strokeWidth.value;
+        // contourOffset.x = Math.abs(this.firstX - this.x);
+        // contourOffset.y = - Math.abs(this.firstY - this.y);
+      } else {
+        this.center.x = this.firstX - size / 2 - this.strokeWidth.value;
+        this.center.y = this.firstY - size / 2 - this.strokeWidth.value;
+        // contourOffset.x = Math.abs(this.firstX - this.x);
+        // contourOffset.y = Math.abs(this.firstY - this.y);
+      }
+
+      if (size < 0) {
+        size = 0;
+      }
+
+      this.drawingService.renderer.setAttribute(this.contour, 'x', (this.x + contourOffset.x).toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'y', (this.y + contourOffset.y).toString());
+
+      this.drawingService.renderer.setAttribute(this.contour, 'width', (size + this.strokeWidth.value * 2).toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'height', (size + this.strokeWidth.value * 2).toString());
+
+      this.getPoints(size, this.center);
+
+      this.drawingService.renderer.setAttribute(this.object, 'points', this.getPointsString());
+
+
+      const polygonDimensions = this.getDimensions();
+      let ratio: number = Math.min(size / polygonDimensions.x, size / polygonDimensions.y);
+      ratio = (ratio < 1 ? 1 : ratio);
+      const initialOffset = this.findSmallestDeltasBetween(this.points, {x: this.firstX, y: this.firstY});
+      // const ratiodOffset = this.findSmallestDeltasBetween(this.returnRatiodPoints(ratio), {x: this.firstX, y: this.firstY});
+      const totalOffsetX = ///ratiodOffset.x + Math.sign(ratiodOffset.x) * this.strokeWidth.value;
+      -(polygonDimensions.x * (ratio - 1) * this.firstX / size) + initialOffset.x
+      - (Math.sign(contourOffset.x) * this.strokeWidth.value);
+      const totalOffsetY = ///ratiodOffset.y + Math.sign(ratiodOffset.y) * this.strokeWidth.value;
+      -(polygonDimensions.y * (ratio - 1) * this.firstY / size) + initialOffset.y
+      - (Math.sign(contourOffset.y) * this.strokeWidth.value);
+
+
       // console.log('start');
-      closestQuadrantSides = this.findPointClosestQuadrantSides(point, center, size);
-      // distanceCenterPoint.push(distance.valueOf());
-      /// Find the closest distance between the point and either mouseY or mouseX
-        /// Find the two intercepts with the 2 (mouseX and mouseY) slopes
-      this.getPointInterceptFrom(center, point, closestQuadrantSides.X);
-      this.getPointInterceptFrom(center, point, closestQuadrantSides.Y);
-        /// Find the closest of the two points
-      const mouseXDistance = this.pythagore(closestQuadrantSides.X, point);
-      // console.log('mouse distance');
-      // console.log(mouseXDistance);
-      const mouseYDistance = this.pythagore(closestQuadrantSides.Y, point);
-      // console.log(mouseYDistance);
-      if (mouseXDistance < mouseYDistance) {
-        closestPoint = closestQuadrantSides.X;
-      } else { /// X > Y or X == Y
-        closestPoint = closestQuadrantSides.Y;
-      }
-      closestPointArray.push(closestPoint);
-      // console.log('closestPoint');
-      // console.log(closestPoint);
-      /// Get distance from center to closest point/countour
-      distanceCenterContour = this.pythagore(closestPoint, center);
-      distanceCenterContourArray.push(distanceCenterContour);
-      // console.log('end');
-    }
-    for ( const distance of distanceCenterContourArray) {
-      if (distance < smallestDistanceCenterContour) {
-        smallestDistanceCenterContour = distance;
-      }
-    }
-    // console.log('getPoints called in adjust');
-    // console.log(smallestDistanceCenterContour);
-    // console.log(points[distanceCenterContourArray.indexOf(smallestDistanceCenterContour)]);
-    // console.log(closestPointArray[distanceCenterContourArray.indexOf(smallestDistanceCenterContour)]);
-    if (this.vertexNumber.value === 4) {
-      const index = distanceCenterContourArray.indexOf(smallestDistanceCenterContour);
-      const seed: Point = closestPointArray[index];
-      this.points[0] = seed;
-      /// Calculate all the other points from the seed
-      if ( seed.x > center.x && seed.y > center.y) {
-        // console.log('seed.x >, seed.y >'); console.log(seed);
-        this.points[1] = {x: seed.x, y: seed.y - size - this.strokeWidth.value };
-        this.points[2] = {x: seed.x - size - this.strokeWidth.value, y: seed.y - size - this.strokeWidth.value };
-        this.points[3] = {x: seed.x - size - this.strokeWidth.value, y: seed.y };
-      } else if ( seed.x > center.x && seed.y <= center.y ) {
-        this.points[1] = {x: seed.x - size - this.strokeWidth.value , y: seed.y };
-        this.points[2] = {x: seed.x - size - this.strokeWidth.value , y: seed.y + size + this.strokeWidth.value };
-        this.points[3] = {x: seed.x, y: seed.y + size + this.strokeWidth.value };
-      } else if ( seed.x <= center.x && seed.y > center.y ) {
-        this.points[1] = {x: seed.x + this.strokeWidth.value + size, y: seed.y };
-        this.points[2] = {x: seed.x + size + this.strokeWidth.value, y: seed.y - size - this.strokeWidth.value };
-        this.points[3] = {x: seed.x, y: seed.y - size - this.strokeWidth.value };
-      } else { /// seed.x <= center.x && seed.y <= center.y
-        /// seed.x === this.firstX && seed.y === this.firstY
-        this.points[1] = {x: seed.x, y: seed.y + size + this.strokeWidth.value };
-        this.points[2] = {x: seed.x + size + this.strokeWidth.value, y: seed.y + size + this.strokeWidth.value };
-        this.points[3] = {x: seed.x + size + this.strokeWidth.value, y: seed.y };
-      }
-    } else {
-      this.getPoints(smallestDistanceCenterContour * 2, center);
+      // console.log(polygonDimensions.x, polygonDimensions.y);
+      // console.log(initialOffset.x, initialOffset.y);
+      // console.log(this.firstX, this.firstY);
+      // console.log(totalOffsetX, totalOffsetY);
+      // console.log(this.firstX / size, this.firstY / size);
+
+      // console.log(totalOffsetX, totalOffsetY);
+      // console.log(Math.sign(ratiodOffset.x) * this.strokeWidth.value, Math.sign(ratiodOffset.y) * this.strokeWidth.value);
+      // console.log(ratiodOffset.x, ratiodOffset.y);
+
+      this.drawingService.renderer.setAttribute(this.object, 'transform',
+      'scale(' + ratio + ',' + ratio + ') translate (' + totalOffsetX + ',' + totalOffsetY + ')' );
+
+      // console.log('returnratiodpoints');
+      // console.log(this.returnRatiodPoints(ratio));
+
     }
   }
 
-  private findPointClosestQuadrantSides(point: Point, center: Point, size: number): {X: Point, Y: Point} {
-    const pointWithKnownX: Point = {x: NaN, y: NaN};
-    const pointWithKnownY: Point = {x: NaN, y: NaN};
-    if ( this.x > this.firstX && this.y > this.firstY ) {
-      if (point.x >= center.x && point.y >= center.y) {
-        pointWithKnownX.x = this.firstX + this.strokeWidth.value + size;
-        pointWithKnownY.y = this.firstY + this.strokeWidth.value + size;
-      } else if (point.x >= center.x && point.y < center.y) {
-        pointWithKnownX.x = this.firstX + this.strokeWidth.value + size;
-        pointWithKnownY.y = this.firstY;
-      } else if (point.x < center.x && point.y >= center.y) {
-        pointWithKnownX.x = this.firstX;
-        pointWithKnownY.y = this.firstY + this.strokeWidth.value + size;
-      } else {// (point.x < center.x && point.y < center.y) {
-        pointWithKnownX.x = this.firstX;
-        pointWithKnownY.y = this.firstY;
+  // private returnRatiodPoints(ratio: number){
+  //   const newArray: Point[] = [];
+  //   if ( this.points === []) {
+  //     newArray.push({x: NaN, y: NaN});
+  //   }
+  //   for ( const point of this.points ) {
+  //     newArray.push({x: point.x.valueOf() * ratio, y: point.y.valueOf() * ratio});
+  //   }
+  //   return newArray;
+  // }
+
+  private getDimensions(): Point {
+    let highest = -Infinity;
+    let lowest = Infinity;
+    let leftmost = Infinity;
+    let rightmost = -Infinity;
+    for ( const point of this.points ) {
+      if ( point.x < leftmost ) {
+        leftmost = point.x;
       }
-    } else if ( this.x > this.firstX && this.y <= this.firstY ) {
-      if (point.x >= center.x && point.y >= center.y) {
-        pointWithKnownX.x = this.firstX + this.strokeWidth.value + size;
-        pointWithKnownY.y = this.firstY;
-      } else if (point.x >= center.x && point.y < center.y) {
-        pointWithKnownX.x = this.firstX + this.strokeWidth.value + size;
-        pointWithKnownY.y = this.firstY - this.strokeWidth.value - size;
-      } else if (point.x < center.x && point.y >= center.y) {
-        pointWithKnownX.x = this.firstX;
-        pointWithKnownY.y = this.firstY;
-      } else {// (point.x < center.x && point.y < center.y) {
-        pointWithKnownX.x = this.firstX;
-        pointWithKnownY.y = this.firstY - this.strokeWidth.value - size;
+      if ( point.x > rightmost ) {
+        rightmost = point.x;
       }
-    } else if ( this.x <= this.firstX && this.y > this.firstY) {
-      if (point.x >= center.x && point.y >= center.y) {
-        pointWithKnownX.x = this.firstX;
-        pointWithKnownY.y = this.firstY + this.strokeWidth.value + size;
-      } else if (point.x >= center.x && point.y < center.y) {
-        pointWithKnownX.x = this.firstX;
-        pointWithKnownY.y = this.firstY;
-      } else if (point.x < center.x && point.y >= center.y) {
-        pointWithKnownX.x = this.firstX - this.strokeWidth.value - size;
-        pointWithKnownY.y = this.firstY + this.strokeWidth.value + size;
-      } else {// (point.x < center.x && point.y < center.y) {
-        pointWithKnownX.x = this.firstX - this.strokeWidth.value - size;
-        pointWithKnownY.y = this.firstY;
+      if ( point.y > highest ) {
+        highest = point.y;
       }
-    } else { /// this.x <= this.firstX && this.y <= this.firstY
-      if (point.x >= center.x && point.y >= center.y) {
-        pointWithKnownX.x = this.firstX;
-        pointWithKnownY.y = this.firstY;
-      } else if (point.x >= center.x && point.y < center.y) {
-        pointWithKnownX.x = this.firstX;
-        pointWithKnownY.y = this.firstY - this.strokeWidth.value - size;
-      } else if (point.x < center.x && point.y >= center.y) {
-        pointWithKnownX.x = this.firstX - this.strokeWidth.value - size;
-        pointWithKnownY.y = this.firstY;
-      } else {// (point.x < center.x && point.y < center.y) {
-        pointWithKnownX.x = this.firstX - this.strokeWidth.value - size;
-        pointWithKnownY.y = this.firstY - this.strokeWidth.value - size;
+      if ( point.y < lowest ) {
+        lowest = point.y;
       }
     }
-    /// idea here would be to use this.x and this.y to determine in which quadrant we are! compared to this.firstX and this.firstY!
-    /// this.x and this.y are always two of the sides, the other two will depend.
-    /// need to make another if surrounding this same if
-    // console.log('start');
-    // console.log(size); console.log('/');
-    // console.log(this.x, this.y); console.log('/'); console.log( this.firstX, this.firstY); console.log('/'); console.log(pointWithKnownX.x, pointWithKnownY.y);
-    return {X: pointWithKnownX, Y: pointWithKnownY};
+    return {x: (rightmost - leftmost), y: (highest - lowest)};
   }
 
-  private pythagore(pointDestination: Point, pointOrigin: Point): number {
-    return Math.sqrt(Math.pow((pointDestination.x - pointOrigin.x), 2) + Math.pow((pointDestination.y - pointOrigin.y), 2));
-  }
-
-  private getPointInterceptFrom(point1: Point, point2: Point, intercept: Point) {
-    /// Get Slope
-    const a = (point2.y - point1.y) / (point2.x - point1.x);
-    /// Get intercept
-    const b =  point1.y - (a * point1.x);
-    /// Find new point
-    if ( isNaN(intercept.x) ) {
-      intercept.x = (intercept.y - b) / a;
-    } else {
-      intercept.y = (a * intercept.x) + b;
-    }
-    // console.log('inside get point intercept');
-    // console.log(a, b);
-    // console.log(point1, point2, intercept);
-  }
-
-  private putPolygonInCorner(points: Point[]){
-    const offset: {x: number, y: number} = this.findClosestXandY(points);
-    for ( const point of points ) {
-      point.x += offset.x;
-      point.y += offset.y;
-    }
-  }
-
-  private findClosestXandY(points: {x: number, y: number}[]): {x: number, y: number} {
+  private findSmallestDeltasBetween(compared: {x: number, y: number}[], comparand: Point): Point {
     let smallestXDelta = Infinity;
     let smallestYDelta = Infinity;
     let isXNegative = false;
     let isYNegative = false;
 
-    for ( const point of this.points) {
+    for ( const point of compared) {
       /// Calculate the deltas
-      const tempXDelta = Math.abs(this.firstX - point.x);
+      const tempXDelta = Math.abs(comparand.x - point.x);
       if ( tempXDelta < smallestXDelta ) {
         smallestXDelta = tempXDelta;
         /// Determine the signs
-        if ( point.x > this.firstX ) {
+        if ( point.x > comparand.x ) {
           isXNegative = true;
         } else {
           isXNegative = false;
         }
       }
-      const tempYDelta = Math.abs(this.firstY - point.y);
+      const tempYDelta = Math.abs(comparand.y - point.y);
       if ( tempYDelta < smallestYDelta ) {
         smallestYDelta = tempYDelta;
         /// Determine the signs
-        if ( point.y > this.firstY ) {
+        if ( point.y > comparand.y ) {
           isYNegative = true;
         } else {
           isYNegative = false;
@@ -363,91 +333,6 @@ export class PolygonToolService implements ITools {
     return { x: smallestXDelta, y: smallestYDelta };
   }
 
-  private setSize(mouseX: number, mouseY: number): void {
-    if (this.object) {
-
-      let size: number;
-
-      const width = mouseX - this.firstX.valueOf() - this.strokeWidth.value * 2;
-      const height = mouseY - this.firstY.valueOf() - this.strokeWidth.value * 2;
-
-      if (Math.abs(width) < Math.abs(height)) {
-        size = Math.abs(width);
-      } else {
-        size = Math.abs(height);
-      }
-
-      // if ( width < 0 && height < 0) {
-      //   if (Math.abs(width) > Math.abs(height)) {
-      //     this.y = mouseY.valueOf();
-      //     this.x = this.y;
-      //   } else {
-      //     this.x = mouseX.valueOf();
-      //     this.y = this.x;
-      //   }
-      // } else if ( width < 0 && height >= 0 ) {
-      //   if (Math.abs(width) > Math.abs(height)) {
-      //     this.y = this.firstY.valueOf();
-      //     this.x = this.y;
-      //   } else {
-      //     this.x = mouseX.valueOf();
-      //     this.y = this.x;
-      //   }
-      // } else if ( width >= 0 && height < 0 ) {
-      //   if (Math.abs(width) > Math.abs(height)) {
-      //     this.y = mouseY.valueOf();
-      //     this.x = this.y;
-      //   } else {
-      //     this.x = this.firstX.valueOf();
-      //     this.y = this.x;
-      //   }
-      // } else {
-      //   if (Math.abs(width) > Math.abs(height)) {
-      //     this.y = this.firstY.valueOf() + mouseY.valueOf();
-      //     this.x = this.y;
-      //   } else {
-      //     this.x = this.firstX.valueOf() + mouseX.valueOf();
-      //     this.y = this.x;
-      //   }
-      // }
-      // this.x = this.x/2;
-      // this.y = this.y/2;
-
-      if (width < 0) {
-        if (Math.abs(width) > Math.abs(height)) {
-          this.x = this.firstX - size;
-        } else {
-          this.x = mouseX;
-        }
-      }
-      if (height < 0) {
-        if (Math.abs(width) < Math.abs(height)) {
-          this.y = this.firstY - size;
-        } else {
-          this.y = mouseY;
-        }
-      }
-
-
-      this.center = {x: this.x + size / 2 + this.strokeWidth.value , y: this.y + size/2 + this.strokeWidth.value }
-
-      if (size < 0) {
-        size = 0;
-      }
-
-      this.drawingService.renderer.setAttribute(this.contour, 'x', (this.x).toString());
-      this.drawingService.renderer.setAttribute(this.contour, 'y', (this.y).toString());
-
-      this.drawingService.renderer.setAttribute(this.contour, 'width', (size).toString());
-      this.drawingService.renderer.setAttribute(this.contour, 'height', (size).toString());
-
-      this.getPoints(size, this.center);
-      this.adjustCoordinates(this.points, size, this.center);
-      this.putPolygonInCorner(this.points);
-
-      this.drawingService.renderer.setAttribute(this.object, 'points', this.getPointsString());
-    }
-  }
 
   private setStyle(isLeft: boolean = true) {
     switch (this.polygonStyle.value) {
