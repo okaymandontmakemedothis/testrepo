@@ -23,10 +23,12 @@ export class ControlMenuComponent {
   get isSaved(): boolean {
     return this.drawingService.isSaved;
   }
+
   /// Ouvre une nouveau dialog de creation de dessin
   openNewDrawing(): void {
     this.dialog.open(NewDrawingComponent, {});
   }
+
   /// Ouvre le message de bienvenue
   openWelcomeMessage(): void {
     this.dialog.open(WelcomeDialogComponent, DIALOG_PROPERTIES);
