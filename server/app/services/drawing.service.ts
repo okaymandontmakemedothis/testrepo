@@ -1,11 +1,12 @@
-import { injectable, inject } from 'inversify';
-import { MongoClient, Db, Collection } from 'mongodb';
+import { inject, injectable } from 'inversify';
+import { Collection, Db, MongoClient } from 'mongodb';
 import 'reflect-metadata';
 import { Drawing, Tag } from '../../../common/communication/drawing';
 import { DRAWING_COLLECTION, TAG_COLLECTION } from '../res/environement';
-import { MongoDbConnectionService } from './mongodb-connection.service';
 import Types from '../types';
+import { MongoDbConnectionService } from './mongodb-connection.service';
 
+/// Service pour offrir l'interaction avec la base de donnée de dessins
 @injectable()
 export class DrawingService {
 
