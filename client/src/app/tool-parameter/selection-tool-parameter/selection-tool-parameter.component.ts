@@ -4,7 +4,7 @@ import { SelectionToolService } from 'src/app/services/tools/selection-tool/sele
 @Component({
   selector: 'app-selection-tool-parameter',
   templateUrl: './selection-tool-parameter.component.html',
-  styleUrls: ['./selection-tool-parameter.component.scss']
+  styleUrls: ['./selection-tool-parameter.component.scss'],
 })
 export class SelectionToolParameterComponent {
 

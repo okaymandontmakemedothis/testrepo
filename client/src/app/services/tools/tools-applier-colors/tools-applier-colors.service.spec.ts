@@ -80,7 +80,7 @@ describe('ToolsApplierColorsService', () => {
     const event = new MouseEvent('mousedown', { button: 0 });
     const spySetColor = spyOn(service, 'setColors');
     const spySetOpacity = spyOn(service, 'setOpacity');
-    
+
     const texture = document.createElement('defs');
     const pattern = document.createElement('pattern');
     pattern.setAttribute('id', '1');
@@ -306,7 +306,7 @@ describe('ToolsApplierColorsService', () => {
 
     service.setColors(svg, colorToolServiceSpy.primaryColor, 'fill');
 
-    expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith(svg, 'fill', 
+    expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith(svg, 'fill',
       `rgb(${colorToolServiceSpy.primaryColor.r}, ${colorToolServiceSpy.primaryColor.g},
         ${ colorToolServiceSpy.primaryColor.b})`);
   });

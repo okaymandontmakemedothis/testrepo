@@ -1,8 +1,8 @@
+import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { DrawingService } from '../../drawing/drawing.service';
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { PipetteToolService } from './pipette-tool.service';
-import { Renderer2 } from '@angular/core';
 
 describe('PipetteToolService', () => {
   let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
@@ -10,7 +10,7 @@ describe('PipetteToolService', () => {
   let rendererSpy: jasmine.SpyObj<Renderer2>;
 
   beforeEach(() => {
-    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle',]);
+    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', ]);
     const spyColor = jasmine.createSpyObj('ToolsColorService', ['setPrimaryColor', 'setSecondaryColor']);
     let spyDrawingService = jasmine.createSpyObj('DrawingService', ['addObject', 'removeObject']);
     spyDrawingService = {
@@ -272,7 +272,5 @@ describe('PipetteToolService', () => {
 
     expect().nothing();
   });
-
-  
 
 });
