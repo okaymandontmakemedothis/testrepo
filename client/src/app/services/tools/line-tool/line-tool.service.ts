@@ -39,8 +39,11 @@ export class LineToolService implements ITools {
   private rectStyleMotif: FormControl;
   private rectStyleJonction: FormControl;
 
-  constructor(private offsetManager: OffsetManagerService, private colorTool: ToolsColorService, private drawingService: DrawingService) {
-    // this.begin = false;
+  constructor(
+    private offsetManager: OffsetManagerService, 
+    private colorTool: ToolsColorService, 
+    private drawingService: DrawingService,
+    ) {
     this.clickNumber = 0;
     this.strokeWidth = new FormControl(INITIAL_WIDTH);
     this.diameter = new FormControl(3 * INITIAL_WIDTH);
@@ -56,6 +59,33 @@ export class LineToolService implements ITools {
     this.isShiftPressed = false;
   }
 
+  private defineMarker(id: number): void {
+    const markerDefs: SVGDefsElement = this.drawingService.renderer.createElement('defs', 'svg');
+    const marker = this.drawingService.renderer.createElement('marker', 'svg');
+
+    this.drawingService.renderer.setAttribute(marker, 'markerUnits', 'userSpaceOnUse');
+    this.drawingService.renderer.setAttribute(marker, 'markerHeight', (this.diameter.value).toString());
+    this.drawingService.renderer.setAttribute(marker, 'markerWidth', (this.diameter.value).toString());
+
+    this.drawingService.renderer.setProperty(marker, 'id', `Marker${id.toString()}`);
+    this.drawingService.renderer.setAttribute(marker, 'viewBox',
+      `0 0 ${this.diameter.value} ${this.diameter.value}`);
+    this.drawingService.renderer.setAttribute(marker, 'refX', (this.diameter.value / 2).toString());
+    this.drawingService.renderer.setAttribute(marker, 'refY', (this.diameter.value / 2).toString());
+
+    this.circle = this.drawingService.renderer.createElement('circle', 'svg');
+    this.drawingService.renderer.setAttribute(this.circle, 'cx', (this.diameter.value / 2).toString());
+    this.drawingService.renderer.setAttribute(this.circle, 'cy', (this.diameter.value / 2).toString());
+    this.drawingService.renderer.setAttribute(this.circle, 'r', (this.diameter.value / 2).toString());
+    this.drawingService.renderer.setAttribute(this.circle, 'visibility', 'hidden');
+
+    this.drawingService.renderer.appendChild(markerDefs, marker);
+
+    this.drawingService.renderer.appendChild(marker, this.circle);
+
+    this.drawingService.addObject(markerDefs);
+  }
+
   /// Création d'un polyline selon la position de l'evenement de souris, choisi les bonnes couleurs selon le clique de souris
   onPressed(event: MouseEvent): void {
     if (event.button === 0 || event.button === 2) {
@@ -63,6 +93,7 @@ export class LineToolService implements ITools {
         this.onDoublePressed();
         return;
       }
+
       const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
       if (!this.object) {
         if (this.strokeWidth.value > 0) {
@@ -221,39 +252,12 @@ export class LineToolService implements ITools {
     /// mettre a jour la liste de points contenant les segments
     this.pointsList.splice(0);
     this.updatelistPoint();
-
-    if (this.object) {
+   /* if (this.object) {
       this.object = null;
-    }
+    }*/
   }
 
-  private defineMarker(id: number): void {
-    const markerDefs: SVGDefsElement = this.drawingService.renderer.createElement('defs', 'svg');
-    const marker = this.drawingService.renderer.createElement('marker', 'svg');
-
-    this.drawingService.renderer.setAttribute(marker, 'markerUnits', 'userSpaceOnUse');
-    this.drawingService.renderer.setAttribute(marker, 'markerHeight', (this.diameter.value).toString());
-    this.drawingService.renderer.setAttribute(marker, 'markerWidth', (this.diameter.value).toString());
-
-    this.drawingService.renderer.setProperty(marker, 'id', `Marker${id.toString()}`);
-    this.drawingService.renderer.setAttribute(marker, 'viewBox',
-      `0 0 ${this.diameter.value} ${this.diameter.value}`);
-    this.drawingService.renderer.setAttribute(marker, 'refX', (this.diameter.value / 2).toString());
-    this.drawingService.renderer.setAttribute(marker, 'refY', (this.diameter.value / 2).toString());
-
-    this.circle = this.drawingService.renderer.createElement('circle', 'svg');
-    this.drawingService.renderer.setAttribute(this.circle, 'cx', (this.diameter.value / 2).toString());
-    this.drawingService.renderer.setAttribute(this.circle, 'cy', (this.diameter.value / 2).toString());
-    this.drawingService.renderer.setAttribute(this.circle, 'r', (this.diameter.value / 2).toString());
-    this.drawingService.renderer.setAttribute(this.circle, 'visibility', 'hidden');
-
-    this.drawingService.renderer.appendChild(markerDefs, marker);
-
-    this.drawingService.renderer.appendChild(marker, this.circle);
-
-    this.drawingService.addObject(markerDefs);
-  }
-
+ 
   changeTool(): void {
     this.onDoublePressed();
   }

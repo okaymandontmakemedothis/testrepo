@@ -1,13 +1,8 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-<<<<<<< HEAD
-import { GridService } from './grid.service';
-
-=======
 import { FormControl } from '@angular/forms';
 import { DrawingService } from '../../drawing/drawing.service';
 import { GridService } from './grid.service';
->>>>>>> old-state
 
 describe('GridService', () => {
     let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
@@ -51,10 +46,7 @@ describe('GridService', () => {
         expect(service.onMove(moveEvent)).toBeUndefined();
     });
 
-    it('should do nothing on onKeyUp', () => {
-        const service: GridService = TestBed.get(GridService);
-        expect(service.onKeyUp(new KeyboardEvent('keyup'))).toBeUndefined();
-    });
+
 
     it('should do nothing on onKeyDown', () => {
         const service: GridService = TestBed.get(GridService);
