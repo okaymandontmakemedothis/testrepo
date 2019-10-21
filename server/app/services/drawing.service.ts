@@ -39,6 +39,7 @@ export class DrawingService {
                     console.log('\x1b[34m%s\x1b[0m exist', t);
                     tagCollection.updateOne({ name: { $eq: tag } }, { $inc: { numberOfUses: 1 } }, (err, res) => {
                         if (err) {
+                            console.log('\x1b[31m%s\x1b[0m', 'Updating error', tag);
                             throw err;
                         }
                         console.log('Tag \x1b[32m%s\x1b[0m has been incremented', tag);
@@ -68,78 +69,7 @@ export class DrawingService {
                 drawing.id = res.insertedId.toHexString();
             });
             mc.close();
-            console.log(drawing);
             return drawing;
         });
     }
-
-    // async getDrawingsByTags(tagCollection: string[]): Promise<Drawing[]> {
-    //     return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
-    //         const db = mc.db(DATABASE_NAME);
-    //         const drawingsCollection = db.collection(DRAWING_COLLECTION);
-    //         return drawingsCollection.find({ tags: { $in: tagCollection } }).toArray().then((arr) => {
-    //             mc.close();
-    //             return arr;
-    //         });
-    //     });
-    // }
-
-    // async getDrawingById(id: string): Promise<Drawing> {
-    //     return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
-    //         const db = mc.db(DATABASE_NAME);
-    //         const drawingsCollection = db.collection(DRAWING_COLLECTION);
-    //         const objectId = new ObjectId(id);
-    //         return drawingsCollection.findOne({ _id: objectId }).then((value) => {
-    //             mc.close();
-    //             return value;
-    //         });
-    //     });
-    // }
-
-    // async getDrawingByName(name: string): Promise<Drawing> {
-    //     return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
-    //         const db = mc.db(DATABASE_NAME);
-    //         const drawingsCollection = db.collection(DRAWING_COLLECTION);
-    //         return drawingsCollection.findOne({ name: { $eq: name } }).then((value) => {
-    //             mc.close();
-    //             return value;
-    //         });
-    //     });
-    // }
-
-    // async deleteDrawing(name: string): Promise<string> {
-    //     return mongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(async (mc: MongoClient) => {
-    //         const db = mc.db(DATABASE_NAME);
-    //         const tagCollection = db.collection(TAG_COLLECTION);
-    //         const drawingsCollection = db.collection(DRAWING_COLLECTION);
-    //         const d = await drawingsCollection.findOne({ name: { $eq: name } }).then((value: Drawing) => value);
-    //         if (!d) {
-    //             return 'err';
-    //         }
-    //         for (const tag of d.tags) {
-    //             const t: Tag | null = await tagCollection.findOne({ name: { $eq: tag } });
-    //             if (t) {
-    //                 console.log(t + ' exist');
-    //                 const nbUses = t.numberOfUses -= 1;
-    //                 tagCollection.updateOne({ name: { $eq: tag } }, { $set: { numberOfUses: nbUses } }, (err, res) => {
-    //                     if (err) {
-    //                         throw err;
-    //                     }
-    //                     console.log(res.result);
-    //                 });
-    //             } else {
-    //                 console.log('err');
-    //             }
-
-    //         }
-    //         drawingsCollection.deleteOne({ name }, (err, res) => {
-    //             if (err) {
-    //                 throw err;
-    //             }
-    //             console.log(res.result);
-    //         });
-    //         mc.close();
-    //         return 'Test';
-    //     });
-    // }
 }

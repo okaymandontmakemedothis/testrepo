@@ -16,10 +16,9 @@ export class DefController {
     private configureRouter() {
         this.router = Router();
 
-        // Get all Defs
+        // Retourne le fichier de definition de l'api
         this.router.get('/',
             (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
                 this.defService.getDef().then((api: ApiDef) => {
                     res.json(api);
                 }).catch((reason: unknown) => {

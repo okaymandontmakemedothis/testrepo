@@ -68,4 +68,38 @@ describe('Testing drawing.service', () => {
             done();
         });
     });
+
+    it('#setDrawing should set the new drawing with new tags', (done) => {
+        const drawingService: DrawingService = new DrawingService(mongoDbConnectionServiceStub);
+        const drawing: Drawing = {
+            id: '',
+            name: 'nameUnknownTag',
+            tags: ['unknownTag'],
+            width: 10,
+            height: 10,
+            backGroundColor: { rgb: { r: 200, g: 100, b: 0 }, a: 0.75 },
+            svg: '<rect x="1" y="1" width="1" height="1" id="1"></rect>',
+        };
+        drawingService.setDrawing(drawing).then((d: Drawing) => {
+            expect(d);
+            done();
+        });
+    });
+
+    it('#setDrawing should set the new drawing without any tags', (done) => {
+        const drawingService: DrawingService = new DrawingService(mongoDbConnectionServiceStub);
+        const drawing: Drawing = {
+            id: '',
+            name: 'nameUnknownTag',
+            tags: [],
+            width: 10,
+            height: 10,
+            backGroundColor: { rgb: { r: 200, g: 100, b: 0 }, a: 0.75 },
+            svg: '<rect x="1" y="1" width="1" height="1" id="1"></rect>',
+        };
+        drawingService.setDrawing(drawing).then((d: Drawing) => {
+            expect(d);
+            done();
+        });
+    });
 });
