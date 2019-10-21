@@ -50,14 +50,6 @@ describe('LineToolService', () => {
 
   it('line service should be created', () => {
     const service: LineToolService = TestBed.get(LineToolService);
-    rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
-    rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
-    rendererSpy.createElement.withArgs('circle','svg').and.returnValue('circle');
-    rendererSpy.createElement.withArgs('polyline','svg').and.returnValue('polyline');
-    const form = service.parameters.get('rectStyleJonction') as FormControl;
-    form.patchValue('avec point');
-    const form2 = service.parameters.get('rectStyleMotif') as FormControl;
-    form2.patchValue('ligne');
     expect(service).toBeTruthy();
   });
   it('should return null if object exist', () => {
@@ -93,6 +85,63 @@ describe('LineToolService', () => {
     service2.onPressed(new MouseEvent('mousedown'));
     expect(service2).toBeTruthy();
   });
+  
+  it('should call onDoublePressed',()=>{
+    const service: LineToolService = TestBed.get(LineToolService);
+    rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
+    rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
+    rendererSpy.createElement.withArgs('circle','svg').and.returnValue('circle');
+    rendererSpy.createElement.withArgs('polyline','svg').and.returnValue('polyline');
+    
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
+    service.onPressed(new MouseEvent('mousedown') );
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
+    service.onPressed(new MouseEvent('mousedown') );
+
+    //expect(service.onPressed).toBeUndefined;//toHaveBeenCalled();
+    expect(drawingServiceSpy.addObject).toHaveBeenCalled();
+
+  })
+  it('should call onDoublePressed with shift',()=>{
+    const service: LineToolService = TestBed.get(LineToolService);
+    rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
+    rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
+    rendererSpy.createElement.withArgs('circle','svg').and.returnValue('circle');
+    rendererSpy.createElement.withArgs('polyline','svg').and.returnValue('polyline');
+    
+   
+    //faire un double clic
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
+    service.onPressed(new MouseEvent('mousedown') );
+    //presser le shift
+    const eventKeyDown = new KeyboardEvent('keydown',{ shiftKey:true});
+    expect(service.onKeyDown(eventKeyDown)).toBeUndefined();
+
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
+    service.onPressed(new MouseEvent('mousedown') );
+    expect(drawingServiceSpy.addObject).toHaveBeenCalled();
+
+    
+
+  })
+  it('should pressed with button 1',() =>{
+    const service: LineToolService = TestBed.get(LineToolService);
+    rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
+    rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
+    rendererSpy.createElement.withArgs('circle','svg').and.returnValue('circle');
+    rendererSpy.createElement.withArgs('polyline','svg').and.returnValue('polyline');
+    
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
+    service.onPressed(new MouseEvent('mousedown', {button: 0}) );
+
+    expect(drawingServiceSpy.addObject).toHaveBeenCalled();
+
+    service.onPressed(new MouseEvent('mousedown', {button: 1}) );
+
+    expect(drawingServiceSpy.addObject).toHaveBeenCalled();
+
+  })
 /*
   it('should remove dot and add the polyline on the first move', () => {
     const service: LineToolService = TestBed.get(LineToolService);
@@ -145,8 +194,6 @@ describe('LineToolService', () => {
     (marker, 'refX', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
     (marker, 'refY', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-
-
   });
   /*
   it('should add point to the current polyline', () => {
@@ -352,7 +399,7 @@ describe('LineToolService', () => {
     expect(drawingServiceSpy.addObject).toHaveBeenCalled();
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith(undefined,'points','100 12');
   });
-  it('should not  move to the current polyline if object do not exist ', () => {
+  it('should not move to the current polyline if object do not exist ', () => {
     const service: LineToolService = TestBed.get(LineToolService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 100, y: 12 });
     const form = service.parameters.get('strokeWidth') as FormControl;
@@ -415,14 +462,27 @@ describe('LineToolService', () => {
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalled();
    });
 
-   it('should return null if  object do not exist',()=>{
+   it('should execute  onKeyDown if shift is pressed and object exist ', () => {
+    const service: LineToolService = TestBed.get(LineToolService);
+    const eventKeyDown = new KeyboardEvent('keydown',{ shiftKey:true});
+    //crrer un objet avec le clic
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 100, y: 12 });
+    const form = service.parameters.get('strokeWidth') as FormControl;
+    form.patchValue(4);
+    expect(service.onPressed(new MouseEvent('mousedown'))).toBeUndefined();
+
+    expect(service.onKeyDown(eventKeyDown)).toBeUndefined();
+    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalled();
+   });
+
+   it('should return null if object do not exist',()=>{
     const service: LineToolService = TestBed.get(LineToolService);
      service.changeTool();
      expect(drawingServiceSpy.renderer.setAttribute).not.toHaveBeenCalled();
 
    })
 
-   it('should update point if object  exist',()=>{
+   it('should update point if object exist',()=>{
     const service: LineToolService = TestBed.get(LineToolService);
     //creer l'objet
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 100, y: 12 });
