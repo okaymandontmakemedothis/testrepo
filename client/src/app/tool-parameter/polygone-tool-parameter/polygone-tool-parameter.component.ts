@@ -42,7 +42,7 @@ export class PolygonToolParameterComponent implements OnInit {
   selectStyle(id: number): void {
     this.currentStyle = id;
     this.form.patchValue({
-      polygoneStyle: this.styles[id].type,
+      polygonStyle: this.styles[id].type,
     });
   }
 

@@ -45,7 +45,7 @@ export class PolygonToolService implements ITools {
     this.vertexNumber = new FormControl(3, Validators.min(3));
     this.parameters = new FormGroup({
       strokeWidth: this.strokeWidth,
-      rectStyle: this.polygonStyle,
+      polygonStyle: this.polygonStyle,
       vertexNumber: this.vertexNumber,
     });
   }
@@ -76,6 +76,7 @@ export class PolygonToolService implements ITools {
       this.drawingService.renderer.setStyle(this.object, 'stroke-alignment', 'outer');
 
       if (event.button === 0) {
+        console.log('owo');
         this.setStyle();
       } else {
         this.setStyle(false);
@@ -114,51 +115,6 @@ export class PolygonToolService implements ITools {
   // tslint:disable-next-line: no-empty
   onKeyUp(event: KeyboardEvent): void {}
 
-  private getPoints(size: number, center: Point) {
-    /// reset array from previous values
-    this.points = [];
-
-    if ( size === 0 ) {
-      return;
-    }
-    /// determine circle angles
-    const angle = 360 / this.vertexNumber.value;
-    /// set initial angle if square
-    if (this.vertexNumber.value === 4) {
-      this.initialAngle = 315;
-    } else {
-      this.initialAngle = 270;
-    }
-    /// determine radius
-    const radius = size / 2;
-    /// determine x and y from origin and initial angle
-    this.getPointsXandY(radius, 0, center);
-    /// repeat last step but add angle as you go for the n-1 remaining sides/points
-    let angleToAdd = 0;
-    for (let i = 1; i < this.vertexNumber.value; i++ ) {
-      angleToAdd += angle;
-      this.getPointsXandY(radius, angleToAdd, center);
-    }
-  }
-
-  private getPointsXandY(radius: number, angleToAdd: number, center: Point) {
-    const y = center.y + (radius - this.strokeWidth.value) * Math.sin(this.getRAD((this.initialAngle + angleToAdd) % 360));
-    const x = center.x + (radius - this.strokeWidth.value) * Math.cos(this.getRAD((this.initialAngle + angleToAdd) % 360));
-    this.points.push({x, y});
-  }
-
-  private getRAD(angle: number) {
-    return angle * Math.PI / 180;
-  }
-
-  private getPointsString() {
-    let tempString = '';
-    for (const point of this.points) {
-      tempString += point.x + ',' + point.y + ' ';
-    }
-    return tempString;
-  }
-
   private setSize(mouseX: number, mouseY: number): void {
     if (this.object) {
       this.center = {x: NaN, y: NaN};
@@ -167,8 +123,6 @@ export class PolygonToolService implements ITools {
 
       const width = mouseX - this.firstX - (this.strokeWidth.value * 2);
       const height = mouseY - this.firstY - (this.strokeWidth.value * 2);
-
-      console.log(height);
 
       if (Math.abs(width) < Math.abs(height)) {
         size = Math.abs(width);
@@ -261,6 +215,74 @@ export class PolygonToolService implements ITools {
     }
   }
 
+  private setStyle(isLeft: boolean = true) {
+    switch (this.polygonStyle.value) {
+      case 'center': {
+        console.log('owo1');
+        if (isLeft) {
+          this.drawingService.renderer.setStyle(this.object, 'fill',
+            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
+        } else {
+          this.drawingService.renderer.setStyle(this.object, 'fill',
+            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
+        }
+        return;
+      }
+      case 'border': {
+        console.log('owo2');
+        this.drawingService.renderer.setStyle(this.object, 'fill', `none`);
+        if (isLeft) {
+          this.drawingService.renderer.setStyle(this.object, 'stroke',
+            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
+        } else {
+          this.drawingService.renderer.setStyle(this.object, 'stroke',
+            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
+        }
+        return;
+      }
+      case 'fill': {
+        console.log('owo3');
+        if (isLeft) {
+          this.drawingService.renderer.setStyle(this.object, 'fill',
+            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b})`);
+          this.drawingService.renderer.setStyle(this.object, 'stroke',
+            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
+          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
+        } else {
+          this.drawingService.renderer.setStyle(this.object, 'stroke',
+            `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
+          ${this.colorTool.primaryColor.b})`);
+          this.drawingService.renderer.setStyle(this.object, 'fill',
+            `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
+            ${this.colorTool.secondaryColor.b})`);
+
+          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
+          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
+        }
+        return;
+      }
+      default: {
+        return;
+      }
+    }
+  }
+
   private getDimensions(): Point {
     let highest = -Infinity;
     let lowest = Infinity;
@@ -321,69 +343,48 @@ export class PolygonToolService implements ITools {
     return { x: smallestXDelta, y: smallestYDelta };
   }
 
+  private getPoints(size: number, center: Point) {
+    /// reset array from previous values
+    this.points = [];
 
-  private setStyle(isLeft: boolean = true) {
-    switch (this.polygonStyle.value) {
-      case 'center': {
-        if (isLeft) {
-          this.drawingService.renderer.setStyle(this.object, 'fill',
-            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b})`);
-
-          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
-        } else {
-          this.drawingService.renderer.setStyle(this.object, 'fill',
-            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b})`);
-
-          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
-        }
-        return;
-      }
-      case 'border': {
-        this.drawingService.renderer.setStyle(this.object, 'fill', `none`);
-        if (isLeft) {
-          this.drawingService.renderer.setStyle(this.object, 'stroke',
-            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b})`);
-
-          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
-        } else {
-          this.drawingService.renderer.setStyle(this.object, 'stroke',
-            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b})`);
-
-          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
-        }
-        return;
-      }
-      case 'fill': {
-        if (isLeft) {
-          this.drawingService.renderer.setStyle(this.object, 'fill',
-            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b})`);
-          this.drawingService.renderer.setStyle(this.object, 'stroke',
-            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b})`);
-
-          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
-          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
-        } else {
-          this.drawingService.renderer.setStyle(this.object, 'stroke',
-            `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b})`);
-          this.drawingService.renderer.setStyle(this.object, 'fill',
-            `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b})`);
-
-          this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
-          this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
-        }
-        return;
-      }
-      default: {
-        return;
-      }
+    if ( size === 0 ) {
+      return;
     }
+    /// determine circle angles
+    const angle = 360 / this.vertexNumber.value;
+    /// set initial angle if square
+    if (this.vertexNumber.value === 4) {
+      this.initialAngle = 315;
+    } else {
+      this.initialAngle = 270;
+    }
+    /// determine radius
+    const radius = size / 2;
+    /// determine x and y from origin and initial angle
+    this.getPointsXandY(radius, 0, center);
+    /// repeat last step but add angle as you go for the n-1 remaining sides/points
+    let angleToAdd = 0;
+    for (let i = 1; i < this.vertexNumber.value; i++ ) {
+      angleToAdd += angle;
+      this.getPointsXandY(radius, angleToAdd, center);
+    }
+  }
+
+  private getPointsXandY(radius: number, angleToAdd: number, center: Point) {
+    const y = center.y + (radius - this.strokeWidth.value) * Math.sin(this.getRAD((this.initialAngle + angleToAdd) % 360));
+    const x = center.x + (radius - this.strokeWidth.value) * Math.cos(this.getRAD((this.initialAngle + angleToAdd) % 360));
+    this.points.push({x, y});
+  }
+
+  private getRAD(angle: number) {
+    return angle * Math.PI / 180;
+  }
+
+  private getPointsString() {
+    let tempString = '';
+    for (const point of this.points) {
+      tempString += point.x + ',' + point.y + ' ';
+    }
+    return tempString;
   }
 }
