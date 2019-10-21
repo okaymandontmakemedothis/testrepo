@@ -3,12 +3,12 @@ import { CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { MaterialModules } from 'src/app/app-material.module';
-import { NewDrawingComponent } from './new-drawing.component';
-import { GridService } from 'src/app/services/tools/grid-tool/grid.service';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { GridService } from 'src/app/services/tools/grid-tool/grid.service';
+import { NewDrawingComponent } from './new-drawing.component';
 
 describe('NewDrawingComponent', () => {
   let component: NewDrawingComponent;
