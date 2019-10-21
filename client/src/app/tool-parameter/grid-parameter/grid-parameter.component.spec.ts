@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModules } from 'src/app/app-material.module';
-import { GridService } from 'src/app/services/tools/grid-tool/grid.sevice';
+import { GridService } from 'src/app/services/tools/grid-tool/grid.service';
 import { GridParameterComponent } from './grid-parameter.component';
 
 describe('GridParameterComponent', () => {

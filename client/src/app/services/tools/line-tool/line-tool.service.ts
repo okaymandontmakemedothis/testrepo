@@ -63,22 +63,17 @@ export class LineToolService implements ITools {
         this.onDoublePressed();
         return;
       }
-
       const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
       if (!this.object) {
         if (this.strokeWidth.value > 0) {
           this.firstPoint = { x: offset.x, y: offset.y };
           this.newPoint = this.firstPoint;
-
           this.defineMarker(this.markerId);
-
           this.object = this.drawingService.renderer.createElement('polyline', 'svg');
           this.drawingService.renderer.setAttribute(this.object, 'marker-start', `url(#Marker${this.markerId})`);
           this.drawingService.renderer.setAttribute(this.object, 'marker-mid', `url(#Marker${this.markerId})`);
           this.drawingService.renderer.setAttribute(this.object, 'marker-end', `url(#Marker${this.markerId})`);
-
           this.markerId++;
-
           this.drawingService.renderer.setStyle(this.object, 'stroke-width', this.strokeWidth.value.toString());
           this.drawingService.renderer.setAttribute(this.object, 'points', `${this.firstPoint.x} ${this.firstPoint.y}`);
 
