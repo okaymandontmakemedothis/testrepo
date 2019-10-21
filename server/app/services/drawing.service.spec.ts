@@ -1,15 +1,14 @@
 import { expect } from 'chai';
-import { stub } from 'sinon';
+import { Collection, Db, MongoClient } from 'mongodb';
+import { SinonStubbedInstance, stub } from 'sinon';
 import { Drawing, Tag } from '../../../common/communication/drawing';
+import { DRAWING_COLLECTION, TAG_COLLECTION } from '../res/environement';
 import { DrawingService } from './drawing.service';
 import { MongoDbConnectionService } from './mongodb-connection.service';
-import { MongoClient, Collection, Db } from 'mongodb';
-import { TAG_COLLECTION, DRAWING_COLLECTION } from '../res/environement';
-import Sinon = require('sinon');
 
 describe('Testing drawing.service', () => {
     let mongoDbConnectionService: MongoDbConnectionService;
-    let mongoDbConnectionServiceStub: Sinon.SinonStubbedInstance<MongoDbConnectionService>;
+    let mongoDbConnectionServiceStub: SinonStubbedInstance<MongoDbConnectionService>;
     before((done) => {
         mongoDbConnectionService = new MongoDbConnectionService();
         mongoDbConnectionServiceStub = stub(mongoDbConnectionService);
