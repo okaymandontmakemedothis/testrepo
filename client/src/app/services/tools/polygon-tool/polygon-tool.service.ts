@@ -221,18 +221,12 @@ export class PolygonToolService implements ITools {
       } else if ( this.x >= this.firstX && this.y < this.firstY ) {
         this.center.x = this.firstX + size / 2 + this.strokeWidth.value;
         this.center.y = this.firstY - size / 2 - this.strokeWidth.value;
-        // contourOffset.x = - Math.abs(this.firstX - this.x);
-        // contourOffset.y = Math.abs(this.firstY - this.y);
       } else if ( this.x < this.firstX && this.y >= this.firstY ) {
         this.center.x = this.firstX - size / 2 - this.strokeWidth.value;
         this.center.y = this.firstY + size / 2 + this.strokeWidth.value;
-        // contourOffset.x = Math.abs(this.firstX - this.x);
-        // contourOffset.y = - Math.abs(this.firstY - this.y);
       } else {
         this.center.x = this.firstX - size / 2 - this.strokeWidth.value;
         this.center.y = this.firstY - size / 2 - this.strokeWidth.value;
-        // contourOffset.x = Math.abs(this.firstX - this.x);
-        // contourOffset.y = Math.abs(this.firstY - this.y);
       }
 
       if (size < 0) {
@@ -262,37 +256,10 @@ export class PolygonToolService implements ITools {
       -(polygonDimensions.y * (ratio - 1) * this.firstY / size) + initialOffset.y
       - (Math.sign(contourOffset.y) * this.strokeWidth.value);
 
-
-      // console.log('start');
-      // console.log(polygonDimensions.x, polygonDimensions.y);
-      // console.log(initialOffset.x, initialOffset.y);
-      // console.log(this.firstX, this.firstY);
-      // console.log(totalOffsetX, totalOffsetY);
-      // console.log(this.firstX / size, this.firstY / size);
-
-      // console.log(totalOffsetX, totalOffsetY);
-      // console.log(Math.sign(ratiodOffset.x) * this.strokeWidth.value, Math.sign(ratiodOffset.y) * this.strokeWidth.value);
-      // console.log(ratiodOffset.x, ratiodOffset.y);
-
       this.drawingService.renderer.setAttribute(this.object, 'transform',
       'scale(' + ratio + ',' + ratio + ') translate (' + totalOffsetX + ',' + totalOffsetY + ')' );
-
-      // console.log('returnratiodpoints');
-      // console.log(this.returnRatiodPoints(ratio));
-
     }
   }
-
-  // private returnRatiodPoints(ratio: number){
-  //   const newArray: Point[] = [];
-  //   if ( this.points === []) {
-  //     newArray.push({x: NaN, y: NaN});
-  //   }
-  //   for ( const point of this.points ) {
-  //     newArray.push({x: point.x.valueOf() * ratio, y: point.y.valueOf() * ratio});
-  //   }
-  //   return newArray;
-  // }
 
   private getDimensions(): Point {
     let highest = -Infinity;
