@@ -1,19 +1,18 @@
-import { assert } from 'chai';
-// import * as chai from 'chai';
+import { expect } from 'chai';
+import { stub } from 'sinon';
+import { WelcomeMessage } from '../../../common/communication/message';
+import { IndexService } from '../services/index.service';
 
-// import 'chai-http'
-// let server = require('./../')
-
-// // const req = chai.request(server)
-
-// // //Configure chai
-// chai.use(require('chai-http'))
-
-// Sample test to check test framework functionality
-
-describe('/about', () => {
-    it('Sample test: should complete this test', (done) => {
-        assert.ok(true);
+describe('/text', () => {
+    it('#getAllTags should send all tags if success', async (done: Mocha.Done) => {
+        const indexService = stub(new IndexService());
+        const message: WelcomeMessage = {
+            body: 'body',
+            end: 'end',
+        };
+        indexService.getTextRessource.returns(message);
+        const res: Response = new Response();
+        expect(res.body).to.equal(message);
         done();
     });
 });
