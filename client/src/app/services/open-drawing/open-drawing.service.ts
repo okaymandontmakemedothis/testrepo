@@ -25,19 +25,5 @@ export class OpenDrawingService {
     const rgba: RGBA = drawing.backGroundColor;
     return `rgba(${rgba.rgb.r},${rgba.rgb.g},${rgba.rgb.b},${rgba.a})`;
   }
-  // getThumbnail(drawingObject: Drawing) {
-  //   const container: HTMLElement | null = document.getElementById(drawingObject.name);
-  //   if (container) {
-  //     const svgThumbnail: Element | null = container.children.item(0);
-
-  //     if (svgThumbnail) {
-  //       this.renderer.setAttribute(svgThumbnail, 'viewBox', `0 0 ${drawingObject.width} ${drawingObject.height}`);
-
-  //       svgThumbnail.innerHTML = `${drawingObject.svg}`;
-  //     }
-  //   }
-  // }
-
-
 
 }
