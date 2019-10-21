@@ -1,61 +1,84 @@
-import { expect } from 'chai';
-import { stub } from 'sinon';
+import { expect, request, use } from 'chai';
+// tslint:disable-next-line: no-require-imports
+import chaiHttp = require('chai-http');
 import { Drawing } from '../../../common/communication/drawing';
-import { DrawingService } from '../services/drawing.service';
-import { MongoDbConnectionService } from '../services/mongodb-connection.service';
+import { Application } from '../app';
+import { container } from '../inversify.config';
+import Types from '../types';
+import { DrawingServiceMock, DrawingServiceMockFail } from './drawing.controller.mock';
 
-describe('/drawings', () => {
-    it('#getAllDrawings should send all drawings if success', async (done: Mocha.Done) => {
-        const drawingService = stub(new DrawingService(new MongoDbConnectionService()));
-        const drawings: Drawing[] = [{
-            id: '',
-            name: 'name',
-            tags: ['tag1'],
-            width: 10,
-            height: 10,
-            backGroundColor: { rgb: { r: 200, g: 100, b: 0 }, a: 0.75 },
-            svg: '<rect x="1" y="1" width="1" height="1" id="1"></rect>',
-        }];
-        drawingService.getAllDrawings.returns(new Promise<Drawing[]>((resolve) => resolve(drawings)));
-        const res: Response = new Response();
-        expect(res.body).to.equal(drawings);
-        done();
-    });
-
-    it('#getAllDrawings should send status 500 if fails', async (done: Mocha.Done) => {
-        const drawingService = stub(new DrawingService(new MongoDbConnectionService()));
-        drawingService.getAllDrawings.returns(Promise.reject());
-        const res: Response = new Response();
-        expect(res.status).to.equal(500);
-        done();
-    });
-
-    it('#setDrawing should add new drawing and return new drawing with new id if success', async (done: Mocha.Done) => {
-        const drawingService = stub(new DrawingService(new MongoDbConnectionService()));
-        const drawing: Drawing = {
-            id: '',
-            name: 'name',
-            tags: ['tag1'],
-            width: 10,
-            height: 10,
-            backGroundColor: { rgb: { r: 200, g: 100, b: 0 }, a: 0.75 },
-            svg: '<rect x="1" y="1" width="1" height="1" id="1"></rect>',
-        };
-        drawingService.setDrawing.callsFake((d: Drawing) => {
-            d.id = 'changedId';
-            return new Promise<Drawing>((resolve) => resolve(d));
+use(chaiHttp);
+describe('drawing.controller', () => {
+    describe('/drawings', () => {
+        let app: Application;
+        it('get / should send all drawings if success', (done: Mocha.Done) => {
+            container.unbind(Types.DrawingService);
+            container.bind(Types.DrawingService).to(DrawingServiceMock);
+            app = container.get<Application>(Types.Application);
+            const drawings: Drawing[] = [{
+                id: '',
+                name: 'name',
+                tags: ['tag1'],
+                width: 10,
+                height: 10,
+                backGroundColor: { rgb: { r: 200, g: 100, b: 0 }, a: 0.75 },
+                svg: '<rect x="1" y="1" width="1" height="1" id="1"></rect>',
+            }];
+            request(app.app).get('/api/drawings').end((err, res) => {
+                expect(res.body).to.eql(drawings);
+                done();
+            });
         });
-        const res: Response = new Response();
-        drawing.id = 'changedId';
-        expect(res.body).to.equal(drawing);
-        done();
-    });
 
-    it('#setDrawing should send status 500 if fails', async (done: Mocha.Done) => {
-        const drawingService = stub(new DrawingService(new MongoDbConnectionService()));
-        drawingService.setDrawing.returns(Promise.reject());
-        const res: Response = new Response();
-        expect(res.status).to.equal(500);
-        done();
+        it('get / should send status 500 if fails', (done: Mocha.Done) => {
+            container.unbind(Types.DrawingService);
+            container.bind(Types.DrawingService).to(DrawingServiceMockFail);
+            app = container.get<Application>(Types.Application);
+            request(app.app).get('/api/drawings').end((err, res) => {
+                expect(res.status).to.equal(500);
+                done();
+            });
+        });
+
+        it('post / should add new drawing and return new drawing with new id if success', (done: Mocha.Done) => {
+            container.unbind(Types.DrawingService);
+            container.bind(Types.DrawingService).to(DrawingServiceMock);
+            app = container.get<Application>(Types.Application);
+            const drawing: Drawing = {
+                id: '',
+                name: 'name',
+                tags: ['tag1'],
+                width: 10,
+                height: 10,
+                backGroundColor: { rgb: { r: 200, g: 100, b: 0 }, a: 0.75 },
+                svg: '<rect x="1" y="1" width="1" height="1" id="1"></rect>',
+            };
+            request(app.app).post('/api/drawings').type('json')
+                .send(drawing).end((err, res) => {
+                    drawing.id = 'changedId';
+                    expect(res.body).to.eql(drawing);
+                    done();
+                });
+        });
+
+        it('post / should send status 500 if fails', (done: Mocha.Done) => {
+            container.unbind(Types.DrawingService);
+            container.bind(Types.DrawingService).to(DrawingServiceMockFail);
+            app = container.get<Application>(Types.Application);
+            const drawing: Drawing = {
+                id: '',
+                name: 'name',
+                tags: ['tag1'],
+                width: 10,
+                height: 10,
+                backGroundColor: { rgb: { r: 200, g: 100, b: 0 }, a: 0.75 },
+                svg: '<rect x="1" y="1" width="1" height="1" id="1"></rect>',
+            };
+            request(app.app).post('/api/drawings').type('json')
+                .send(drawing).end((err, res) => {
+                    expect(res.status).to.eql(500);
+                    done();
+                });
+        });
     });
 });

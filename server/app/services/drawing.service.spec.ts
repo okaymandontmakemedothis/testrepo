@@ -1,22 +1,21 @@
 import { expect } from 'chai';
-import { stub } from 'sinon';
+import { Collection, Db, MongoClient } from 'mongodb';
+import { SinonStubbedInstance, stub } from 'sinon';
 import { Drawing, Tag } from '../../../common/communication/drawing';
+import { DRAWING_COLLECTION, TAG_COLLECTION } from '../res/environement';
 import { DrawingService } from './drawing.service';
 import { MongoDbConnectionService } from './mongodb-connection.service';
-import { MongoClient, Collection, Db } from 'mongodb';
-import { TAG_COLLECTION, DRAWING_COLLECTION } from '../res/environement';
-import Sinon = require('sinon');
 
 describe('Testing drawing.service', () => {
     let mongoDbConnectionService: MongoDbConnectionService;
-    let mongoDbConnectionServiceStub: Sinon.SinonStubbedInstance<MongoDbConnectionService>;
-    beforeEach(() => {
+    let mongoDbConnectionServiceStub: SinonStubbedInstance<MongoDbConnectionService>;
+    before((done) => {
         mongoDbConnectionService = new MongoDbConnectionService();
         mongoDbConnectionServiceStub = stub(mongoDbConnectionService);
         mongoDbConnectionServiceStub.getDatabaseName.returns('test');
         mongoDbConnectionServiceStub.getMongoClient.callThrough();
-        mongoDbConnectionService.getMongoClient().then((mc: MongoClient) => {
-            const db: Db = mc.db('test');
+        mongoDbConnectionServiceStub.getMongoClient().then((mc: MongoClient) => {
+            const db: Db = mc.db(mongoDbConnectionServiceStub.getDatabaseName());
             const tagCollection: Collection<Tag> = db.collection(TAG_COLLECTION);
             const drawingsCollection: Collection<Drawing> = db.collection(DRAWING_COLLECTION);
             drawingsCollection.insertOne({
@@ -29,28 +28,32 @@ describe('Testing drawing.service', () => {
                 svg: '<rect x="1" y="1" width="1" height="1" id="1"></rect>',
             });
             tagCollection.insertOne({ name: 'tag1', numberOfUses: 1 });
+            // drawingsCollection.findOne({ name: { $eq: 'name' } }).then((res) => console.log(res));
             mc.close();
+            done();
         });
     });
 
-    afterEach(() => {
+    after((done) => {
         mongoDbConnectionService.getMongoClient().then((mc: MongoClient) => {
-            // const db: Db = mc.db(mongoDbConnectionService.getDatabaseName());
-            //db.dropDatabase();
+            const db: Db = mc.db(mongoDbConnectionService.getDatabaseName());
+            db.dropDatabase();
             mc.close();
+            done();
         });
     });
 
     it('#getAllDrawings should return all drawings', (done) => {
         const drawingService: DrawingService = new DrawingService(mongoDbConnectionServiceStub);
         drawingService.getAllDrawings().then((drawings: Drawing[]) => {
-            expect(drawings);
+            console.log(drawings);
+            expect(drawings.length).to.be.greaterThan(0);
             done();
         });
     });
 
     it('#setDrawing should set the new drawing', (done) => {
-        const drawingService: DrawingService = new DrawingService(mongoDbConnectionService);
+        const drawingService: DrawingService = new DrawingService(mongoDbConnectionServiceStub);
         const drawing: Drawing = {
             id: '',
             name: 'name',
@@ -62,7 +65,6 @@ describe('Testing drawing.service', () => {
         };
         drawingService.setDrawing(drawing).then((d: Drawing) => {
             expect(d);
-            expect(d.id).to.not.be('');
             done();
         });
     });

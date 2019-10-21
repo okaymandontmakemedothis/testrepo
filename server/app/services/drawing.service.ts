@@ -41,7 +41,7 @@ export class DrawingService {
                         if (err) {
                             throw err;
                         }
-                        console.log(res.result);
+                        console.log('Tag \x1b[32m%s\x1b[0m has been incremented', tag);
                     });
                 } else {
                     console.log(tag + 'does not exist in the database');
@@ -52,36 +52,23 @@ export class DrawingService {
                             console.log('\x1b[31m%s\x1b[0m', 'Inserting error :' + newTag.name);
                             throw err;
                         } else {
-                            console.log(res.result);
+                            console.log('Tag \x1b[32m%s\x1b[0m is now in the database', tag);
                         }
                     });
                 }
 
             }
             console.log('Inserting the drawing : \x1b[34m%s\x1b[0m', drawing.name);
-            const d: Drawing | null = await drawingsCollection.findOne<Drawing>({ id: { $eq: drawing.id } });
-            if (d && drawing.id) {
-                console.log('Drawing \x1b[34m%s\x1b[0m exist with drawing id \x1b[34m%s\x1b[0m', drawing.name, drawing.id);
-                drawingsCollection.updateOne({ id: drawing.id }, { $set: drawing }, (err, res) => {
-                    if (err) {
-                        console.error('\x1b[31m%s\x1b[0m', 'Updating error :' + drawing.name);
-                        console.error(err);
-                        throw err;
-                    }
-                    console.log('Drawing id \x1b[32m%s\x1b[0m updating', res.upsertedId);
-                });
-            } else {
-                console.log('Drawing ' + drawing.id + 'does not exist in the database');
-                drawingsCollection.insertOne(drawing, (err, res) => {
-                    if (err) {
-                        console.log('\x1b[31m%s\x1b[0m', 'Inserting error :' + drawing.name);
-                        throw err;
-                    }
-                    console.log('Drawing id \x1b[32m%s\x1b[0m inserted', res.insertedId);
-                    drawing.id = res.insertedId.toHexString();
-                });
-            }
+            drawingsCollection.insertOne(drawing, (err, res) => {
+                if (err) {
+                    console.log('\x1b[31m%s\x1b[0m', 'Inserting error :' + drawing.name);
+                    throw err;
+                }
+                console.log('Drawing id \x1b[32m%s\x1b[0m inserted', res.insertedId);
+                drawing.id = res.insertedId.toHexString();
+            });
             mc.close();
+            console.log(drawing);
             return drawing;
         });
     }

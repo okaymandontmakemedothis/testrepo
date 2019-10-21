@@ -7,7 +7,6 @@ import { DefService } from '../services/def.service';
 export class DefServiceMockFail implements DefService {
     getDef(): Promise<ApiDef> {
         throw Error();
-        return new Promise<ApiDef>((resolve) => resolve(CONFIG_API_DEF));
     }
 }
 

@@ -1,6 +1,6 @@
 import { ApiDef } from '../../../common/communication/api-def';
 
-export const MONGODB_URL = 
+export const MONGODB_URL =
 // 'mongodb+srv://polydessin:pde16@polydessin-rvndn.gcp.mongodb.net/test?retryWrites=true&w=majority';
 
 'mongodb://localhost:27017/polydessin';

@@ -1,23 +1,34 @@
-import { expect } from 'chai';
-import { stub } from 'sinon';
+import { expect, request } from 'chai';
 import { Tag } from '../../../common/communication/drawing';
-import { TagService } from '../services/tag.service';
+import { Application } from '../app';
+import { container } from '../inversify.config';
+import Types from '../types';
+import { TagServiceMock, TagServiceMockFail } from './tag.controller.mock';
 
-describe('/tag', () => {
-    it('#getAllTags should send all tags if success', async (done: Mocha.Done) => {
-        const tagService = stub(new TagService());
-        const tagList: Tag[] = [{ name: 'tag', numberOfUses: 4 }];
-        tagService.getAllTags.returns(new Promise<Tag[]>((resolve) => resolve(tagList)));
-        const res: Response = new Response();
-        expect(res.body).to.equal(tagList);
-        done();
-    });
+describe('tag.controller', () => {
+    describe('/tag', () => {
+        it('get / should send all tags if success', (done: Mocha.Done) => {
+            container.unbind(Types.TagService);
+            container.bind(Types.TagService).to(TagServiceMock);
+            const app: Application = container.get<Application>(Types.Application);
+            const tagList: Tag[] = [{
+                name: 'name',
+                numberOfUses: 0,
+            }];
+            request(app.app).get('/api/tags').end((err, res) => {
+                expect(res.body).to.eql(tagList);
+                done();
+            });
+        });
 
-    it('#getAllTags should send status 500 if fails', async (done: Mocha.Done) => {
-        const tagService = stub(new TagService());
-        tagService.getAllTags.returns(Promise.reject());
-        const res: Response = new Response();
-        expect(res.status).to.equal(500);
-        done();
+        it('get / should send status 500 if fails', (done: Mocha.Done) => {
+            container.unbind(Types.TagService);
+            container.bind(Types.TagService).to(TagServiceMockFail);
+            const app: Application = container.get<Application>(Types.Application);
+            request(app.app).get('/api/tags').end((err, res) => {
+                expect(res.status).to.eql(500);
+                done();
+            });
+        });
     });
 });
