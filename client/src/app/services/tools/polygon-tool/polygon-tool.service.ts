@@ -178,18 +178,39 @@ export class PolygonToolService implements ITools {
 
       if (width < 0) {
         if (Math.abs(width) > Math.abs(height)) {
-          this.x = this.firstX - size - this.strokeWidth.value;
+          this.x = this.firstX - size - this.strokeWidth.value * 2;
         } else {
           this.x = mouseX;
+        }
+      } else {
+        if (Math.abs(width) > Math.abs(height)) {
+          this.x = this.firstX;
+        } else {
+          if ( height < 0 ) {
+            this.x = this.firstX - size - this.strokeWidth.value * 2;
+          } else {
+            this.x = mouseX;
+          }
         }
       }
       if (height < 0) {
         if (Math.abs(width) < Math.abs(height)) {
-          this.y = this.firstY - size - this.strokeWidth.value;
+          this.y = this.firstY - size - this.strokeWidth.value * 2;
         } else {
           this.y = mouseY;
         }
+      } else {
+        if (Math.abs(width) < Math.abs(height)) {
+          this.y = this.firstY;
+        } else {
+          if ( width < 0 ) {
+            this.y = this.firstY - size - this.strokeWidth.value * 2;
+          } else {
+            this.y = mouseY;
+          }
+        }
       }
+
 
       const contourOffset: Point = {x: 0, y: 0};
       if ( this.x >= this.firstX && this.y >= this.firstY ) {
