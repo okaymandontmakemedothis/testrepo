@@ -30,6 +30,7 @@ export class LineToolParameterComponent implements OnInit {
 
     return (this.form.get('diameter') as FormControl).value;
   }
+
   currentStyleMotif = 0;
   currentStyleJonction = 0;
 
@@ -71,6 +72,12 @@ export class LineToolParameterComponent implements OnInit {
 
   form: FormGroup;
   formJonctionLigne: FormGroup;
+
+  ngOnInit() {
+    this.form = this.lineToolService.parameters;
+    this.formJonctionLigne = this.lineToolService.parameters;
+  }
+
   /// Selection du style selon le numero de id
   selectStyleMotif(id: number): void {
     this.currentStyleMotif = id;
@@ -88,20 +95,4 @@ export class LineToolParameterComponent implements OnInit {
     });
     this.lineToolService.selectStyleJonction();
   }
-  changeDiameter(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      this.lineToolService.changeDiameter();
-    }
-  }
-  changeStrokeWidth(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      this.lineToolService.changeStrokeWidth();
-    }
-  }
-
-  ngOnInit() {
-    this.form = this.lineToolService.parameters;
-    this.formJonctionLigne = this.lineToolService.parameters;
-  }
-
 }

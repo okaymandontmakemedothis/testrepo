@@ -11,6 +11,7 @@ import { LineToolParameterComponent } from './line-tool-parameter/line-tool-para
 import { PencilToolParameterComponent } from './pencil-tool-parameter/pencil-tool-parameter.component';
 import { PipetteToolParameterComponent } from './pipette-tool-parameter/pipette-tool-parameter.component';
 import { RectangleToolParameterComponent } from './rectangle-tool-parameter/rectangle-tool-parameter.component';
+import { SelectionToolParameterComponent } from './selection-tool-parameter/selection-tool-parameter.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { RectangleToolParameterComponent } from './rectangle-tool-parameter/rect
     EtampeToolParameterComponent,
     GridParameterComponent,
     LineToolParameterComponent,
+    SelectionToolParameterComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +42,8 @@ import { RectangleToolParameterComponent } from './rectangle-tool-parameter/rect
     PipetteToolParameterComponent,
     EtampeToolParameterComponent,
     GridParameterComponent,
+    LineToolParameterComponent,
+    SelectionToolParameterComponent,
 
   ],
 })

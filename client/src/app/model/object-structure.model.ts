@@ -1,7 +1,7 @@
-export const ObjectAtributeStructure: Record<string, Record<string, string>> = {
-    polyline: {
+export const OBJECT_ATTRIBUTE_STRUCTURE: Record<string, Record<string, string>> = {
+    pencil: {
         primaryColor: 'stroke',
-        primaryOpacity: 'stroke-Opacity',
+        primaryOpacity: 'stroke-opacity',
         secondaryColor: 'none',
         secondaryOpacity: 'none',
         x: 'x',
@@ -10,11 +10,33 @@ export const ObjectAtributeStructure: Record<string, Record<string, string>> = {
         height: 'height',
     },
 
-    rect: {
+    brush: {
+        primaryColor: 'stroke',
+        primaryOpacity: 'stroke-opacity',
+        secondaryColor: 'none',
+        secondaryOpacity: 'none',
+        x: 'x',
+        y: 'y',
+        width: 'width',
+        height: 'height',
+    },
+
+    line: {
+        primaryColor: 'stroke',
+        primaryOpacity: 'stroke-opacity',
+        secondaryColor: 'none',
+        secondaryOpacity: 'none',
+        x: 'x',
+        y: 'y',
+        width: 'width',
+        height: 'height',
+    },
+
+    rectangle: {
         primaryColor: 'fill',
-        primaryOpacity: 'fill-Opacity',
+        primaryOpacity: 'fill-opacity',
         secondaryColor: 'stroke',
-        secondaryOpacity: 'stroke-Opacity',
+        secondaryOpacity: 'stroke-opacity',
         x: 'x',
         y: 'y',
         width: 'width',
@@ -23,9 +45,9 @@ export const ObjectAtributeStructure: Record<string, Record<string, string>> = {
 
     ellipse: {
         primaryColor: 'fill',
-        primaryOpacity: 'fill-Opacity',
+        primaryOpacity: 'fill-opacity',
         secondaryColor: 'stroke',
-        secondaryOpacity: 'stroke-Opacity',
+        secondaryOpacity: 'stroke-opacity',
         x: 'cx',
         y: 'cy',
         width: 'width',

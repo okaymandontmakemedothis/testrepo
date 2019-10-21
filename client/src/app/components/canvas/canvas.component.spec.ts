@@ -62,11 +62,11 @@ describe('CanvasComponent', () => {
   });
 
   it(' ngAfterView should be called ', () => {
-    expect((component.svg.nativeElement as Element).innerHTML).toEqual('');
+    expect((component.canvasDiv.nativeElement as Element).innerHTML).toEqual('');
 
     drawingServiceSpy.svgString.emit('chaine');
 
-    expect((component.svg.nativeElement as Element).innerHTML).toEqual('chaine');
+    expect((component.canvasDiv.nativeElement as Element).innerHTML).toEqual('chaine');
   });
 
 });

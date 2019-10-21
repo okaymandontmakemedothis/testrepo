@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BrushToolService } from './brush-tool/brush-tool.service';
 import { EtampeToolService } from './etampe-tool/etampe-tool.service';
-import { GridService } from './grid-tool/grid.sevice';
+import { GridService } from './grid-tool/grid.service';
 import { ITools } from './ITools';
 import { LineToolService } from './line-tool/line-tool.service';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { PipetteToolService } from './pipette-tool/pipette-tool.service';
+import { SelectionToolService } from './selection-tool/selection-tool.service';
 import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
 import { ToolIdConstants } from './tool-id-constants';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
@@ -32,7 +33,7 @@ export class ToolsService {
     private etampeService: EtampeToolService,
     private gridService: GridService,
     private lineTool: LineToolService,
-
+    private selectionTool: SelectionToolService,
   ) {
     this.initTools();
     this.onKeyTriggered();
@@ -45,15 +46,18 @@ export class ToolsService {
     this.tools.set(this.colorApplicator.id, this.colorApplicator);
     this.tools.set(this.rectangleTool.id, this.rectangleTool);
     this.tools.set(this.ellipseTool.id, this.ellipseTool);
+    this.tools.set(this.lineTool.id, this.lineTool);
     this.tools.set(this.pipetteTool.id, this.pipetteTool);
     this.tools.set(this.etampeService.id, this.etampeService);
     this.tools.set(this.gridService.id, this.gridService);
     this.tools.set(this.lineTool.id, this.lineTool);
+    this.tools.set(this.selectionTool.id, this.selectionTool);
   }
 
   /// Selectionner un outil avec son id
   selectTool(id: number): void {
     this.selectedToolId = id;
+    this.lineTool.changeTool();
   }
 
   /// Retourner l'outil presentement selectionné
@@ -66,6 +70,10 @@ export class ToolsService {
     const tool = this.selectedTool;
     if (!tool) {
       return;
+    }
+
+    if (tool.id !== ToolIdConstants.SELECTION_ID) {
+      this.selectionTool.removeSelection();
     }
 
     tool.onPressed(event);
