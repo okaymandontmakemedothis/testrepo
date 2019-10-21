@@ -15,8 +15,8 @@ import { OpenDrawingComponent } from './open-drawing.component';
 describe('OpenDrawingComponent', () => {
   let component: OpenDrawingComponent;
   let fixture: ComponentFixture<OpenDrawingComponent>;
-  let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
-  let openDrawingService: jasmine.SpyObj<DrawingService>;
+  // let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
+  // let openDrawingService: jasmine.SpyObj<DrawingService>;
   const mockDrawing: Drawing = {
     id: '2',
     name: 'mock',
@@ -49,17 +49,19 @@ describe('OpenDrawingComponent', () => {
     });
 
     spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
-    spyOn(TestBed.get(OpenDrawingService), 'getDrawings').and.returnValue({ subscribe: (): Observable<Drawing[]> => {
-      return   of(new Array(mockDrawing));
-    } });
+    spyOn(TestBed.get(OpenDrawingService), 'getDrawings').and.returnValue({
+      subscribe: (): Observable<Drawing[]> => {
+        return of(new Array(mockDrawing));
+      }
+    });
 
     TestBed.compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OpenDrawingComponent);
-    drawingServiceSpy = TestBed.get(DrawingService);
-    openDrawingService = TestBed.get(OpenDrawingService);
+    // drawingServiceSpy = TestBed.get(DrawingService);
+    // openDrawingService = TestBed.get(OpenDrawingService);
 
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -78,8 +80,8 @@ describe('OpenDrawingComponent', () => {
 
   });
   it('should getBackground from drawing', () => {
-      const result = component.getBackground(mockDrawing);
-      expect(result).toEqual(`rgba(0,0,0,0)`);
+    const result = component.getBackground(mockDrawing);
+    expect(result).toEqual(`rgba(0,0,0,0)`);
 
   });
 

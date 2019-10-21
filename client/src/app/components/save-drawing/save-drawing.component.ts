@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { SaveDrawingService } from 'src/app/services/save-drawing/save-drawing.service';
 
+/// Component pour visualiser le tumbnail et enregistrer le dessin
 @Component({
   selector: 'app-save-drawing',
   templateUrl: './save-drawing.component.html',
@@ -36,7 +37,6 @@ export class SaveDrawingComponent implements AfterViewInit {
     this.dialogRef.afterOpened().subscribe(() => {
       this.renderer.setAttribute(this.svg.nativeElement, 'viewBox', '0 0 ' + this.drawingService.width + ' ' + this.drawingService.height);
       this.renderer.setStyle(this.svg.nativeElement, 'background', this.drawingService.rgbaColorString);
-
       this.svg.nativeElement.innerHTML = this.drawingService.drawing.innerHTML;
     });
     this.dialogRef.afterClosed().subscribe(() => {
@@ -64,23 +64,27 @@ export class SaveDrawingComponent implements AfterViewInit {
     return this.saveDrawingService.saveEnabled;
   }
 
+  /// Ajout d'un tag
   add(event: MatChipInputEvent): void {
     this.saveDrawingService.add(event, this.matAutocomplete.isOpen);
   }
 
+  /// Retrait d'un tag
   remove(tag: string): void {
     this.saveDrawingService.remove(tag);
   }
 
+  /// Selection d'un tag
   selected(event: MatAutocompleteSelectedEvent): void {
     this.saveDrawingService.selected(event.option.viewValue);
     this.tagInput.nativeElement.value = '';
   }
 
+  /// Enregistrement du dessin
   async save(): Promise<void> {
     const saveSucceed = await this.saveDrawingService.save();
     if (saveSucceed) {
-      this.dialogRef.close();
+      this.close();
     }
   }
 

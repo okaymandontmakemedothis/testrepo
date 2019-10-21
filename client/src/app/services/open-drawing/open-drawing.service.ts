@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-// import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment.prod';
 import { Drawing } from '../../../../../common/communication/drawing';
-// import { IndexService } from '../index/index.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +14,7 @@ export class OpenDrawingService {
   }
   getDrawings(): Observable<Drawing[]> {
     console.log('called');
-    return this.http.get<Drawing[]>('http://localhost:3000/api/drawings/').pipe(
+    return this.http.get<Drawing[]>(environment.serverURL + '/drawings/').pipe(
       catchError(() => of([])),
     );
 
