@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material';
-import { HotkeysFichierService } from 'src/app/services/hotkeys/hotkeys-fichier/hotkeys-fichier.service';
-import { HotkeysOutilService } from 'src/app/services/hotkeys/hotkeys-outil/hotkeys-outil.service';
-import { HotkeysSelectionService } from 'src/app/services/hotkeys/hotkeys-selection/hotkeys-selection.service';
-import { HotkeysTravailService } from 'src/app/services/hotkeys/hotkeys-travail/hotkeys-travail.service';
 import { ToggleDrawerService } from '../toggle-drawer/toggle-drawer.service';
 import { ITools } from '../tools/ITools';
 import { ToolsService } from '../tools/tools.service';
@@ -16,16 +12,12 @@ import { ToolsService } from '../tools/tools.service';
 export class SidenavService {
 
   isControlMenu = false;
-  canClick = false;
 
   constructor(
     private toggleDrawerService: ToggleDrawerService,
     private toolService: ToolsService,
-    private hotkeyOutil: HotkeysOutilService,
-    private hotkeyFichierService: HotkeysFichierService,
-    private hotkeySelectionService: HotkeysSelectionService,
-    private hotkeyTravailService: HotkeysTravailService,
-  ) { this.eventListenerOnInput(); }
+  ) {
+  }
 
   /// Retourne la liste d'outils
   get toolList(): Map<number, ITools> {
@@ -43,23 +35,6 @@ export class SidenavService {
       return this.toolList.size;
     }
     return this.toolService.selectedToolId;
-  }
-
-  /// Verifie si on doit appeller les hotkeys
-  private eventListenerOnInput() {
-    window.addEventListener('mousedown', (event) => {
-      if ((event.target as HTMLInputElement).value !== undefined) {
-        this.hotkeyOutil.canExecute = false;
-        this.hotkeyFichierService.canExecute = false;
-        this.hotkeySelectionService.canExecute = false;
-        this.hotkeyTravailService.canExecute = false;
-      } else if (this.canClick) {
-        this.hotkeyOutil.canExecute = true;
-        this.hotkeyFichierService.canExecute = true;
-        this.hotkeySelectionService.canExecute = true;
-        this.hotkeyTravailService.canExecute = true;
-      }
-    });
   }
 
   /// Ouvre le drawer de paramètre

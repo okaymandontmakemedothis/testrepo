@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { HotkeysTravailService } from './hotkeys-travail.service';
+import { EmitReturn } from '../hotkeys-constants';
 
 describe('HotkeysTravailService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
@@ -34,7 +35,7 @@ describe('HotkeysTravailService', () => {
 
     service.hotkeysTravail(keyBoardEvent);
 
-    expect(eventEmited).toBe('G');
+    expect(eventEmited).toBe(EmitReturn.ENABLE_GRID);
   });
 
   it('CTRL-M should emit', () => {
@@ -47,7 +48,7 @@ describe('HotkeysTravailService', () => {
 
     service.hotkeysTravail(keyBoardEvent);
 
-    expect(eventEmited).toBe('M');
+    expect(eventEmited).toBe(EmitReturn.DISABLE_GRID);
   });
 
   it('+ (numpad) should emit', () => {
@@ -60,7 +61,7 @@ describe('HotkeysTravailService', () => {
 
     service.hotkeysTravail(keyBoardEvent);
 
-    expect(eventEmited).toBe('+');
+    expect(eventEmited).toBe(EmitReturn.ADD5_GRID);
   });
 
   it('+ (SHIFT-=) should emit', () => {
@@ -73,7 +74,7 @@ describe('HotkeysTravailService', () => {
 
     service.hotkeysTravail(keyBoardEvent);
 
-    expect(eventEmited).toBe('+');
+    expect(eventEmited).toBe(EmitReturn.ADD5_GRID);
   });
 
   it('- (numpad) should emit', () => {
@@ -86,7 +87,7 @@ describe('HotkeysTravailService', () => {
 
     service.hotkeysTravail(keyBoardEvent);
 
-    expect(eventEmited).toBe('-');
+    expect(eventEmited).toBe(EmitReturn.SUB5_GRID);
   });
 
   it('when "-" is pressed should emit', () => {
@@ -99,7 +100,7 @@ describe('HotkeysTravailService', () => {
 
     service.hotkeysTravail(keyBoardEvent);
 
-    expect(eventEmited).toBe('-');
+    expect(eventEmited).toBe(EmitReturn.SUB5_GRID);
   });
 
   it('F should not emit', () => {

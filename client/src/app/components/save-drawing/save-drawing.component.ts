@@ -74,8 +74,9 @@ export class SaveDrawingComponent implements AfterViewInit {
   }
 
   save(): void {
-    this.saveDrawingService.save().then(() => { this.dialogRef.close(); });
-
+    this.saveDrawingService.save().then(() => {
+      this.dialogRef.close();
+    });
   }
 
   close(): void {

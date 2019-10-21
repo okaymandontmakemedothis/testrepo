@@ -54,6 +54,8 @@ export class PencilToolService implements ITools {
         this.dotId = this.drawingService.addObject(point);
 
         this.object = this.drawingService.renderer.createElement('polyline', 'svg');
+        this.drawingService.renderer.setAttribute(this.object, 'name', 'pencil');
+        this.drawingService.renderer.setAttribute(point, 'name', 'dot');
 
         this.drawingService.renderer.setStyle(this.object, 'stroke-width', this.strokeWidth.value.toString());
         this.drawingService.renderer.setAttribute(this.object, 'points', `${this.lastPoint.x} ${this.lastPoint.y}`);

@@ -11,28 +11,26 @@ import { ToolIdConstants } from '../tool-id-constants';
   providedIn: 'root',
 })
 export class SelectionToolService implements ITools {
-  id: number = ToolIdConstants.SELECTION_ID;
-  faIcon: IconDefinition = faPoo;
-  toolName: string;
+  readonly id: number = ToolIdConstants.SELECTION_ID;
+  readonly faIcon: IconDefinition = faPoo;
+  readonly toolName = 'Sélection';
   parameters: FormGroup;
 
-  gotSelection = false;
+  private gotSelection = false;
 
-  rectID: number[] = [];
-  rectSelection: SVGRectElement;
-  rectSelectionId: number;
-  rectInversement: SVGRectElement;
-  rectInversementId: number;
-  firstInvObj: SVGElement | null;
-  recStrokeWidth = 1;
+  private rectID: number[] = [];
+  private rectSelection: SVGRectElement;
+  private rectSelectionId: number;
+  private rectInversement: SVGRectElement;
+  private rectInversementId: number;
+  private firstInvObj: SVGElement | null;
+  private recStrokeWidth = 1;
 
-  objects: SVGElement[] = [];
-  tmpX: number;
-  tmpY: number;
-  wasMoved = false;
-  isIn = false;
-
-  first = true;
+  private objects: SVGElement[] = [];
+  private tmpX: number;
+  private tmpY: number;
+  private wasMoved = false;
+  private isIn = false;
 
   constructor(private drawingService: DrawingService, private offsetManager: OffsetManagerService) { }
 
@@ -167,16 +165,14 @@ export class SelectionToolService implements ITools {
     // r.height = Number(rectUsing.getAttribute('height'));
 
     const allObject: SVGElement[] = [];
-    this.drawingService.objectList.forEach((value) => {
+    this.drawingService.getObjectList().forEach((value) => {
       if (!this.rectID.includes(Number(value.getAttribute('id')))
         && Number(value.getAttribute('id')) !== this.rectInversementId
         && value.tagName !== 'defs') {
-        console.log(value);
         allObject.push(value);
       }
     });
     allObject.splice(0, 1);
-    console.log(allObject);
 
     const rectBox = rectUsing.getBoundingClientRect();
 

@@ -22,7 +22,7 @@ export class DrawingService {
   height = 0;
   drawing: SVGElement;
 
-  objectList: Map<number, SVGElement>;
+  private objectList: Map<number, SVGElement>;
 
   constructor() {
     this.objectList = new Map<number, SVGElement>();
@@ -33,6 +33,10 @@ export class DrawingService {
 
   get rgbaColorString() {
     return 'rgb(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ',' + this.alpha + ')';
+  }
+
+  getObjectList() {
+    return this.objectList;
   }
 
   /// Retrait d'un objet selon son ID

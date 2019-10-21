@@ -70,6 +70,7 @@ export class LineToolService implements ITools {
           this.newPoint = this.firstPoint;
           this.defineMarker(this.markerId);
           this.object = this.drawingService.renderer.createElement('polyline', 'svg');
+          this.drawingService.renderer.setAttribute(this.object, 'name', 'line');
           this.drawingService.renderer.setAttribute(this.object, 'marker-start', `url(#Marker${this.markerId})`);
           this.drawingService.renderer.setAttribute(this.object, 'marker-mid', `url(#Marker${this.markerId})`);
           this.drawingService.renderer.setAttribute(this.object, 'marker-end', `url(#Marker${this.markerId})`);
