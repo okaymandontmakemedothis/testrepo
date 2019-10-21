@@ -20,6 +20,6 @@ getTestBed().initTestEnvironment(
 );
 // Then we find all the tests.
 // const context = require.context('./', true, /.spec\.ts$/);
-const context = require.context('./', true, /pipette-tool.service.spec\.ts$/);
+const context = require.context('./', true, /tools-applier-colors.service.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);

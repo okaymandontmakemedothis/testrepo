@@ -97,7 +97,7 @@ describe('PipetteToolService', () => {
 
   it('should do nothing if propertymap does not exist', () => {
     const service: PipetteToolService = TestBed.get(PipetteToolService);
-    const event = new MouseEvent('mousedown', { button: 1 });
+    const event = new MouseEvent('mousedown', { button: 0 });
     const svg = document.createElement('rect');
     svg.setAttribute('name', 'string');
     spyOnProperty(event, 'target').and.returnValue(svg);
