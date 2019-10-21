@@ -1,10 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 // import { catchError } from 'rxjs/operators';
 import { Drawing } from '../../../../../common/communication/drawing';
-import { catchError } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material';
 // import { IndexService } from '../index/index.service';
 
 @Injectable({
