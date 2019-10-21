@@ -1,9 +1,7 @@
 import { expect } from 'chai';
-import { Tag } from '../../../common/communication/drawing';
-import { TagService } from './tag.service';
-import { MongoDbConnectionService } from './mongodb-connection.service';
+import { stub } from 'sinon';
 import { DATABASE_NAME } from '../res/environement';
-import { mock, stub } from 'sinon';
+import { MongoDbConnectionService } from './mongodb-connection.service';
 
 describe('Testing mongodb-connnection.service', () => {
     it('#getDatabaseName should return DATABASE_NAME', (done) => {

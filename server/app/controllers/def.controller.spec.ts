@@ -1,23 +1,36 @@
-import { expect } from 'chai';
-import { stub } from 'sinon';
-import { ApiDef } from '../../../common/communication/api-def';
+import { expect, request, use } from 'chai';
+// tslint:disable-next-line: no-require-imports
+import chaiHttp = require('chai-http');
+import { Application } from '../app';
+import { container } from '../inversify.config';
 import { CONFIG_API_DEF } from '../res/environement';
-import { DefService } from '../services/def.service';
+import Types from '../types';
+import { DefServiceMock, DefServiceMockFail } from './def.controller.mock';
 
+use(chaiHttp);
 describe('/def', () => {
-    it('#getDef should send apidef if success', async (done: Mocha.Done) => {
-        const defService = stub(new DefService());
-        defService.getDef.returns(new Promise<ApiDef>((resolve) => resolve(CONFIG_API_DEF)));
-        const res: Response = new Response();
-        expect(res.body).to.equal(CONFIG_API_DEF);
-        done();
+    let app: Application;
+    it('#getDef should send apidef if success', (done: Mocha.Done) => {
+        container.unbind(Types.DefService);
+        container.bind(Types.DefService).to(DefServiceMock);
+        app = container.get<Application>(Types.Application);
+        request(app.app).get('/api').end((err, res) => {
+            // tslint:disable-next-line: no-unused-expression
+            expect(res).to.have.status(200);
+            expect(res.body).to.be.eql(CONFIG_API_DEF);
+            done();
+        });
+
     });
 
-    it('#getDef should send status 500 if fails', async (done: Mocha.Done) => {
-        const defService = stub(new DefService());
-        defService.getDef.returns(Promise.reject());
-        const res: Response = new Response();
-        expect(res.status).to.equal(500);
-        done();
+    it('#getDef should send status 500 if fails', (done: Mocha.Done) => {
+        container.unbind(Types.DefService);
+        container.bind(Types.DefService).to(DefServiceMockFail);
+        app = container.get<Application>(Types.Application);
+        request(app.app).get('/api').end((err, res) => {
+            // tslint:disable-next-line: no-unused-expression
+            expect(res).to.have.status(500);
+            done();
+        });
     });
 });
