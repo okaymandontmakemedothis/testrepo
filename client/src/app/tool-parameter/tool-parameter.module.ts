@@ -47,7 +47,6 @@ import { SelectionToolParameterComponent } from './selection-tool-parameter/sele
     GridParameterComponent,
     LineToolParameterComponent,
     SelectionToolParameterComponent,
-
   ],
 })
 export class ToolParameterModule { }

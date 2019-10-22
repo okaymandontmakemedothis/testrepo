@@ -35,7 +35,7 @@ export class ToolsApplierColorsService implements ITools {
         return;
       }
       const primaryColorAttribute: string = propertyMap.primaryColor as string;
-      const primaryAlphaAttribute: string = propertyMap.primaryOpacity as string;
+      // const primaryAlphaAttribute: string = propertyMap.primaryOpacity as string;
 
       const actualValue = target.style.getPropertyValue(primaryColorAttribute);
 
@@ -80,7 +80,6 @@ export class ToolsApplierColorsService implements ITools {
               `rgb(${this.toolsColorService.primaryColor.r},${this.toolsColorService.primaryColor.g},
               ${this.toolsColorService.primaryColor.b})`);
             this.drawingService.renderer.setStyle(markerEl.firstChild, 'fillOpacity', `${this.toolsColorService.primaryAlpha}`);
-
           }
         }
       }

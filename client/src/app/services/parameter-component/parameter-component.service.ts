@@ -26,11 +26,11 @@ export class ParameterComponentService {
       ApplierToolParameterComponent,
       RectangleToolParameterComponent,
       EllipseToolParameterComponent,
+      PolygonToolParameterComponent,
       LineToolParameterComponent,
       PipetteToolParameterComponent,
       EtampeToolParameterComponent,
       GridParameterComponent,
-      PolygonToolParameterComponent,
       SelectionToolParameterComponent,
     );
     // Le push ce fait par la suite pour s'assurer qu'il s'agit de la derniere classe

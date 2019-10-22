@@ -17,6 +17,8 @@ export class PolygonToolService implements ITools {
   readonly id = ToolIdConstants.POLYGONE_ID;
 
   private object: SVGPolygonElement | null;
+  private contour: SVGRectElement | null;
+  private contourId: number;
 
   parameters: FormGroup;
   private strokeWidth: FormControl;
@@ -25,15 +27,11 @@ export class PolygonToolService implements ITools {
   private points: Point[];
   private initialAngle: number;
 
-  private contour: SVGRectElement | null;
-  private contourId: number;
-  x: number;
-  y: number;
-  xPolygon: number;
-  yPolygon: number;
-  firstX: number;
-  firstY: number;
-  center: Point;
+  private x: number;
+  private y: number;
+  private firstX: number;
+  private firstY: number;
+  private center: Point;
 
   constructor(
     private offsetManager: OffsetManagerService,
@@ -76,7 +74,6 @@ export class PolygonToolService implements ITools {
       this.drawingService.renderer.setStyle(this.object, 'stroke-alignment', 'outer');
 
       if (event.button === 0) {
-        console.log('owo');
         this.setStyle();
       } else {
         this.setStyle(false);
@@ -117,12 +114,13 @@ export class PolygonToolService implements ITools {
 
   private setSize(mouseX: number, mouseY: number): void {
     if (this.object) {
-      this.center = {x: NaN, y: NaN};
+
+      console.log(this.firstX, this.firstY);
 
       let size: number;
-
-      const width = mouseX - this.firstX - (this.strokeWidth.value * 2);
-      const height = mouseY - this.firstY - (this.strokeWidth.value * 2);
+      const strokeWidth: number = this.strokeWidth.value;
+      const width = mouseX - this.firstX - (strokeWidth * 2);
+      const height = mouseY - this.firstY - (strokeWidth * 2);
 
       if (Math.abs(width) < Math.abs(height)) {
         size = Math.abs(width);
@@ -132,7 +130,7 @@ export class PolygonToolService implements ITools {
 
       if (width < 0) {
         if (Math.abs(width) > Math.abs(height)) {
-          this.x = this.firstX - size - this.strokeWidth.value * 2;
+          this.x = this.firstX - size - strokeWidth * 2;
         } else {
           this.x = mouseX;
         }
@@ -141,7 +139,7 @@ export class PolygonToolService implements ITools {
           this.x = this.firstX;
         } else {
           if ( height < 0 ) {
-            this.x = this.firstX - size - this.strokeWidth.value * 2;
+            this.x = this.firstX - size - strokeWidth * 2;
           } else {
             this.x = mouseX;
           }
@@ -149,7 +147,7 @@ export class PolygonToolService implements ITools {
       }
       if (height < 0) {
         if (Math.abs(width) < Math.abs(height)) {
-          this.y = this.firstY - size - this.strokeWidth.value * 2;
+          this.y = this.firstY - size - strokeWidth * 2;
         } else {
           this.y = mouseY;
         }
@@ -158,29 +156,31 @@ export class PolygonToolService implements ITools {
           this.y = this.firstY;
         } else {
           if ( width < 0 ) {
-            this.y = this.firstY - size - this.strokeWidth.value * 2;
+            this.y = this.firstY - size - strokeWidth * 2;
           } else {
             this.y = mouseY;
           }
         }
       }
 
+      console.log(this.x, this.y);
 
+      this.center = {x: 0, y: 0};
       const contourOffset: Point = {x: 0, y: 0};
       if ( this.x >= this.firstX && this.y >= this.firstY ) {
-        this.center.x = this.firstX + size / 2 + this.strokeWidth.value;
-        this.center.y = this.firstY + size / 2 + this.strokeWidth.value;
+        this.center.x = this.firstX + size / 2 + strokeWidth;
+        this.center.y = this.firstY + size / 2 + strokeWidth;
         contourOffset.x = - Math.abs(this.firstX - this.x);
         contourOffset.y = - Math.abs(this.firstY - this.y);
       } else if ( this.x >= this.firstX && this.y < this.firstY ) {
-        this.center.x = this.firstX + size / 2 + this.strokeWidth.value;
-        this.center.y = this.firstY - size / 2 - this.strokeWidth.value;
+        this.center.x = this.firstX + size / 2 + strokeWidth;
+        this.center.y = this.firstY - size / 2 - strokeWidth;
       } else if ( this.x < this.firstX && this.y >= this.firstY ) {
-        this.center.x = this.firstX - size / 2 - this.strokeWidth.value;
-        this.center.y = this.firstY + size / 2 + this.strokeWidth.value;
+        this.center.x = this.firstX - size / 2 - strokeWidth;
+        this.center.y = this.firstY + size / 2 + strokeWidth;
       } else {
-        this.center.x = this.firstX - size / 2 - this.strokeWidth.value;
-        this.center.y = this.firstY - size / 2 - this.strokeWidth.value;
+        this.center.x = this.firstX - size / 2 - strokeWidth;
+        this.center.y = this.firstY - size / 2 - strokeWidth;
       }
 
       if (size < 0) {
@@ -190,25 +190,21 @@ export class PolygonToolService implements ITools {
       this.drawingService.renderer.setAttribute(this.contour, 'x', (this.x + contourOffset.x).toString());
       this.drawingService.renderer.setAttribute(this.contour, 'y', (this.y + contourOffset.y).toString());
 
-      this.drawingService.renderer.setAttribute(this.contour, 'width', (size + this.strokeWidth.value * 2).toString());
-      this.drawingService.renderer.setAttribute(this.contour, 'height', (size + this.strokeWidth.value * 2).toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'width', (size + strokeWidth * 2).toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'height', (size + strokeWidth * 2).toString());
 
       this.getPoints(size, this.center);
 
       this.drawingService.renderer.setAttribute(this.object, 'points', this.getPointsString());
 
-
       const polygonDimensions = this.getDimensions();
       let ratio: number = Math.min(size / polygonDimensions.x, size / polygonDimensions.y);
       ratio = (ratio < 1 ? 1 : ratio);
       const initialOffset = this.findSmallestDeltasBetween(this.points, {x: this.firstX, y: this.firstY});
-      // const ratiodOffset = this.findSmallestDeltasBetween(this.returnRatiodPoints(ratio), {x: this.firstX, y: this.firstY});
-      const totalOffsetX = ///ratiodOffset.x + Math.sign(ratiodOffset.x) * this.strokeWidth.value;
-      -(polygonDimensions.x * (ratio - 1) * this.firstX / size) + initialOffset.x
-      - (Math.sign(contourOffset.x) * this.strokeWidth.value);
-      const totalOffsetY = ///ratiodOffset.y + Math.sign(ratiodOffset.y) * this.strokeWidth.value;
-      -(polygonDimensions.y * (ratio - 1) * this.firstY / size) + initialOffset.y
-      - (Math.sign(contourOffset.y) * this.strokeWidth.value);
+      const totalOffsetX = -(polygonDimensions.x * (ratio - 1) * this.firstX / size) + initialOffset.x
+      - (Math.sign(contourOffset.x) * strokeWidth);
+      const totalOffsetY = -(polygonDimensions.y * (ratio - 1) * this.firstY / size) + initialOffset.y
+      - (Math.sign(contourOffset.y) * strokeWidth);
 
       this.drawingService.renderer.setAttribute(this.object, 'transform',
       'scale(' + ratio + ',' + ratio + ') translate (' + totalOffsetX + ',' + totalOffsetY + ')' );
@@ -218,59 +214,48 @@ export class PolygonToolService implements ITools {
   private setStyle(isLeft: boolean = true) {
     switch (this.polygonStyle.value) {
       case 'center': {
-        console.log('owo1');
         if (isLeft) {
           this.drawingService.renderer.setStyle(this.object, 'fill',
-            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b})`);
+            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},${this.colorTool.primaryColor.b})`);
 
           this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
         } else {
           this.drawingService.renderer.setStyle(this.object, 'fill',
-            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b})`);
+            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},${this.colorTool.secondaryColor.b})`);
 
           this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
         }
         return;
       }
       case 'border': {
-        console.log('owo2');
         this.drawingService.renderer.setStyle(this.object, 'fill', `none`);
         if (isLeft) {
           this.drawingService.renderer.setStyle(this.object, 'stroke',
-            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b})`);
+            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},${this.colorTool.secondaryColor.b})`);
 
           this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
         } else {
           this.drawingService.renderer.setStyle(this.object, 'stroke',
-            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b})`);
+            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},${this.colorTool.primaryColor.b})`);
 
           this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
         }
         return;
       }
       case 'fill': {
-        console.log('owo3');
         if (isLeft) {
           this.drawingService.renderer.setStyle(this.object, 'fill',
-            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b})`);
+            `rgb(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},${this.colorTool.primaryColor.b})`);
           this.drawingService.renderer.setStyle(this.object, 'stroke',
-            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b})`);
+            `rgb(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},${this.colorTool.secondaryColor.b})`);
 
           this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.primaryAlpha}`);
           this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.secondaryAlpha}`);
         } else {
           this.drawingService.renderer.setStyle(this.object, 'stroke',
-            `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},
-          ${this.colorTool.primaryColor.b})`);
+            `rgba(${this.colorTool.primaryColor.r},${this.colorTool.primaryColor.g},${this.colorTool.primaryColor.b})`);
           this.drawingService.renderer.setStyle(this.object, 'fill',
-            `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},
-            ${this.colorTool.secondaryColor.b})`);
+            `rgba(${this.colorTool.secondaryColor.r},${this.colorTool.secondaryColor.g},${this.colorTool.secondaryColor.b})`);
 
           this.drawingService.renderer.setStyle(this.object, 'strokeOpacity', `${this.colorTool.primaryAlpha}`);
           this.drawingService.renderer.setStyle(this.object, 'fillOpacity', `${this.colorTool.secondaryAlpha}`);
@@ -371,8 +356,9 @@ export class PolygonToolService implements ITools {
   }
 
   private getPointsXandY(radius: number, angleToAdd: number, center: Point) {
-    const y = center.y + (radius - this.strokeWidth.value) * Math.sin(this.getRAD((this.initialAngle + angleToAdd) % 360));
-    const x = center.x + (radius - this.strokeWidth.value) * Math.cos(this.getRAD((this.initialAngle + angleToAdd) % 360));
+    const strokeWidth = this.strokeWidth.value;
+    const y = center.y + (radius - strokeWidth) * Math.sin(this.getRAD((this.initialAngle + angleToAdd) % 360));
+    const x = center.x + (radius - strokeWidth) * Math.cos(this.getRAD((this.initialAngle + angleToAdd) % 360));
     this.points.push({x, y});
   }
 

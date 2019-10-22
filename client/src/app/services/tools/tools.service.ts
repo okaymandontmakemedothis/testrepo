@@ -45,15 +45,14 @@ export class ToolsService {
   private initTools(): void {
     this.tools.set(this.pencilTool.id, this.pencilTool);
     this.tools.set(this.brushTool.id, this.brushTool);
-    this.tools.set(this.colorApplicator.id, this.colorApplicator);
     this.tools.set(this.rectangleTool.id, this.rectangleTool);
     this.tools.set(this.ellipseTool.id, this.ellipseTool);
     this.tools.set(this.polygonService.id, this.polygonService);
     this.tools.set(this.lineTool.id, this.lineTool);
     this.tools.set(this.pipetteTool.id, this.pipetteTool);
+    this.tools.set(this.colorApplicator.id, this.colorApplicator);
     this.tools.set(this.etampeService.id, this.etampeService);
     this.tools.set(this.gridService.id, this.gridService);
-    this.tools.set(this.lineTool.id, this.lineTool);
     this.tools.set(this.selectionTool.id, this.selectionTool);
   }
 
