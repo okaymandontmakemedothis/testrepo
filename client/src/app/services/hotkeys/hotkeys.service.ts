@@ -18,6 +18,9 @@ import { HotkeysTravailService } from './hotkeys-travail/hotkeys-travail.service
 })
 export class HotkeysService {
 
+  private toolSelectorList: Map<string, number> = new Map<string, number>();
+  canClick = false;
+
   constructor(
     private dialog: MatDialog,
     private sideNavService: SidenavService,
@@ -32,6 +35,15 @@ export class HotkeysService {
     this.eventListenerOnInput();
     this.subscribeToHotkeys();
 
+    this.toolSelectorList.set(EmitReturn.PENCIL, ToolIdConstants.PENCIL_ID);
+    this.toolSelectorList.set(EmitReturn.BRUSH, ToolIdConstants.BRUSH_ID);
+    this.toolSelectorList.set(EmitReturn.APPLICATEUR, ToolIdConstants.APPLIER_ID);
+    this.toolSelectorList.set(EmitReturn.RECTANGLE, ToolIdConstants.RECTANGLE_ID);
+    this.toolSelectorList.set(EmitReturn.ELLIPSE, ToolIdConstants.ELLIPSE_ID);
+    this.toolSelectorList.set(EmitReturn.LINE, ToolIdConstants.LINE_ID);
+    this.toolSelectorList.set(EmitReturn.PIPETTE, ToolIdConstants.PIPETTE_ID);
+    this.toolSelectorList.set(EmitReturn.SELECTION, ToolIdConstants.SELECTION_ID);
+
     this.dialog.afterOpened.subscribe(() => {
       this.disableHotkeys();
       this.canClick = false;
@@ -41,8 +53,6 @@ export class HotkeysService {
       this.canClick = true;
     });
   }
-
-  private canClick = false;
 
   hotkeysListener() {
     window.addEventListener('keydown', (event) => {
@@ -66,38 +76,11 @@ export class HotkeysService {
     });
 
     this.hotkeysOutilService.hotkeysOutilEmitter.subscribe((value: string) => {
-      if (value === EmitReturn.PENCIL) {
+      const toolId = this.toolSelectorList.get(value);
+      if (toolId !== undefined) {
         this.sideNavService.open();
         this.sideNavService.isControlMenu = false;
-        this.toolsService.selectTool(ToolIdConstants.PENCIL_ID);
-      } else if (value === EmitReturn.BRUSH) {
-        this.sideNavService.open();
-        this.sideNavService.isControlMenu = false;
-        this.toolsService.selectTool(ToolIdConstants.BRUSH_ID);
-      } else if (value === EmitReturn.APPLICATEUR) {
-        this.sideNavService.open();
-        this.sideNavService.isControlMenu = false;
-        this.toolsService.selectTool(ToolIdConstants.APPLIER_ID);
-      } else if (value === EmitReturn.RECTANGLE) {
-        this.sideNavService.open();
-        this.sideNavService.isControlMenu = false;
-        this.toolsService.selectTool(ToolIdConstants.RECTANGLE_ID);
-      } else if (value === EmitReturn.ELLIPSE) {
-        this.sideNavService.open();
-        this.sideNavService.isControlMenu = false;
-        this.toolsService.selectTool(ToolIdConstants.ELLIPSE_ID);
-      } else if (value === EmitReturn.LINE) {
-        this.sideNavService.open();
-        this.sideNavService.isControlMenu = false;
-        this.toolsService.selectTool(ToolIdConstants.LINE_ID);
-      } else if (value === EmitReturn.PIPETTE) {
-        this.sideNavService.open();
-        this.sideNavService.isControlMenu = false;
-        this.toolsService.selectTool(ToolIdConstants.PIPETTE_ID);
-      } else if (value === EmitReturn.SELECTION) {
-        this.sideNavService.open();
-        this.sideNavService.isControlMenu = false;
-        this.toolsService.selectTool(ToolIdConstants.SELECTION_ID);
+        this.toolsService.selectTool(toolId);
       }
     });
 

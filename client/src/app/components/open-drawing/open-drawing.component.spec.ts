@@ -1,8 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent, MatDialog,
-   MatDialogRef, MatPaginator, MatTableDataSource } from '@angular/material';
+import {
+  MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent, MatDialog,
+  MatDialogRef, MatPaginator, MatTableDataSource
+} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable, of } from 'rxjs';
 import { MaterialModules } from 'src/app/app-material.module';
@@ -12,6 +14,7 @@ import { TagService } from 'src/app/services/tag/tag.service';
 import { Drawing } from '../../../../../common/communication/drawing';
 // import { Drawing } from '../../../../../common/communication/drawing';
 import { OpenDrawingComponent } from './open-drawing.component';
+import { Drawing } from '../../../../../common/communication/drawing';
 
 describe('OpenDrawingComponent', () => {
   let component: OpenDrawingComponent;
@@ -36,10 +39,11 @@ describe('OpenDrawingComponent', () => {
   dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(async(() => {
-    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing', ]);
+    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing',]);
 
     let spyOpenDrawingService = jasmine.createSpyObj('OpenDrawingService', ['getDrawings', 'selectDrawing', 'getBackgroundSelected',
     'getBackground', 'reset', 'add', 'remove', 'selectTag', 'accept', 'openDrawing','tagCtrl','filteredTags','allTags','selectedTags']);
+
 
     const spyTagService = jasmine.createSpyObj('TagService', ['containsTag']);
     const tagControl: FormControl = new FormControl('Test');
@@ -59,7 +63,6 @@ describe('OpenDrawingComponent', () => {
         , { provide: TagService, useValue: spyTagService }, { provide: OpenDrawingService, useValue: spyOpenDrawingService },
       ],
     });
-
     spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
     // spyOn(TestBed.get(OpenDrawingService), 'getDrawings').and.returnValue({
     //   subscribe: (): Observable<Drawing[]> => {
@@ -161,4 +164,17 @@ describe('OpenDrawingComponent', () => {
   //   expect(component.selectedDrawing).toBe(null);
   // });
 
+  it('#openDrawing should create a new drawing', () => {
+    const dialogRef = TestBed.get(MatDialogRef);
+    const drawing: Drawing = {
+      id: '0',
+      name: '', tags: [''], width: 0, height: 0, backGroundColor: { rgb: { r: 0, g: 0, b: 0 }, a: 1 },
+      svg: '',
+    };
+
+    component.openDrawing(drawing);
+
+    expect(drawingServiceSpy.newDrawing).toHaveBeenCalled();
+    expect(dialogRef.close).toHaveBeenCalled();
+  });
 });
