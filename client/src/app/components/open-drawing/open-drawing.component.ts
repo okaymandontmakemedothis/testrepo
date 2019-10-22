@@ -26,7 +26,7 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   visible = true;
   selectable = true;
   removable = true;
-  addOnBlur = true;
+  addOnBlur = false;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   pageIndex = 0;
 
@@ -38,7 +38,7 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  selectedDrawing: Drawing | null;
+  // selectedDrawing: Drawing | null;
   drawingPreview: Drawing[] = [];
   isLoaded = false;
 
@@ -66,20 +66,19 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     this.dialogRef.afterClosed().subscribe(() => {
       this.isLoaded = false;
-      this.selectedDrawing = null;
       this.openDrawingService.reset();
     });
   }
 
   ngOnInit(): void {
-    console.log(this.paginator);
-    this.dataSource.filterPredicate = ((data: Drawing, filter: string) => this.tagService.containsTag(data, this.openDrawingService.selectedTags));
-
+    // console.log(this.matAutocomplete.isOpen);
+    this.dataSource.filterPredicate = ((data: Drawing) => this.tagService.containsTag(data, this.openDrawingService.selectedTags));
     this.dataObs = this.dataSource.connect();
 
   }
 
   ngOnDestroy(): void {
+
     if (this.dataSource) { this.dataSource.disconnect(); }
   }
 
@@ -105,7 +104,7 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getBackgroundSelected(drawing: Drawing): string {
-    return (this.selectedDrawing && this.selectedDrawing.name === drawing.name) ? 'grey' : 'white';
+    return this.openDrawingService.getBackgroundSelected(drawing)
   }
 
   test() {
@@ -113,7 +112,7 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   selectDrawing(drawing: Drawing) {
-    this.selectedDrawing = drawing;
+    this.openDrawingService.selectDrawing(drawing);
   }
   get tagCtrl(): FormControl {
     return this.openDrawingService.tagCtrl;
@@ -128,29 +127,17 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.openDrawingService.allTags;
 
   }
+  get selectedDrawing():Drawing | null{
+    return this.openDrawingService.selectedDrawing;
+  }
 
   // ouvre un nouveau dessin  avec l'ancien drawing
   accept(): void {
-    if (!this.selectedDrawing) { return; }
-    if (this.drawingService.isCreated) {
-      const alert = this.dialog.open(NewDrawingAlertComponent, {
-        role: 'alertdialog',
-      });
-      alert.afterClosed().subscribe((result: boolean) => {
-        if (result) {
-          this.openDrawing();
-        }
-      });
-    } else {
-      this.openDrawing();
-    }
+      this.openDrawingService.accept(this.dialogRef,this.matAutocomplete)
   }
 
   openDrawing(): void {
-    if (!this.selectedDrawing) { return; }
-    this.drawingService.isCreated = true;
-    this.drawingService.openDrawing(this.selectedDrawing);
-    this.dialogRef.close();
+    this.openDrawingService.openDrawing(this.dialogRef,this.matAutocomplete);
   }
 
   close(): void {
@@ -158,30 +145,21 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   add(event: MatChipInputEvent): void {
-    // Add tag only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
     this.openDrawingService.add(event,this.matAutocomplete.isOpen)
-    this.selectedDrawing = null;
     this.dataSource.filter = this.openDrawingService.selectedTags.toString();
   }
 
   remove(tag: string): void {
     this.openDrawingService.remove(tag)
-    this.selectedDrawing = null;
     this.dataSource.filter = this.openDrawingService.selectedTags.toString();
   }
-
+  //Selecting a tag from suggestion
   selected(event: MatAutocompleteSelectedEvent): void {
-    console.log(this.openDrawingService.selectedTags)
-    this.openDrawingService.selectedTags.push(event.option.viewValue);
-    this.openDrawingService.tagCtrl.setValue(null);
+    console.log("Select Tag")
+    this.openDrawingService.selectTag(event);
     this.tagInput.nativeElement.value = '';
-    this.selectedDrawing = null;
     this.dataSource.filter = this.openDrawingService.selectedTags.toString();
   }
 
-  private filter(value: string): string[] {
-    return this.openDrawingService.filter(value);
-  }
 
 }
