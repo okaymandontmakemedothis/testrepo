@@ -37,6 +37,7 @@ describe('OpenDrawingComponent', () => {
 
   beforeEach(async(() => {
     const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing',]);
+
     let spyOpenDrawingService = jasmine.createSpyObj('OpenDrawingService', ['getDrawings','selectDrawing','getBackgroundSelected',
     'getBackground','reset','add','remove','selectTag','accept','openDrawing']);
 
@@ -51,8 +52,6 @@ describe('OpenDrawingComponent', () => {
       filteredTags: of(['test']),
       tags: [],
       allTags: [],
-
-
     }
     TestBed.configureTestingModule({
       declarations: [OpenDrawingComponent],
