@@ -131,4 +131,11 @@ describe('OpenDrawingService', () => {
     service.openDrawing(dialogRef);
     expect(drawingServiceSpy.openDrawing).toHaveBeenCalled();
   });
+
+  it('#openDrawing should not call openDrawing on drawing service if no selected drawing', () => {
+    const dialogRef = TestBed.get(MatDialogRef);
+
+    service.openDrawing(dialogRef);
+    expect(drawingServiceSpy.openDrawing).not.toHaveBeenCalled();
+  });
 });
