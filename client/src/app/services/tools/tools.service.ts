@@ -6,6 +6,7 @@ import { ITools } from './ITools';
 import { LineToolService } from './line-tool/line-tool.service';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { PipetteToolService } from './pipette-tool/pipette-tool.service';
+import { PolygonToolService } from './polygon-tool/polygon-tool.service';
 import { SelectionToolService } from './selection-tool/selection-tool.service';
 import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
 import { ToolIdConstants } from './tool-id-constants';
@@ -32,6 +33,7 @@ export class ToolsService {
     private pipetteTool: PipetteToolService,
     private etampeService: EtampeToolService,
     private gridService: GridService,
+    private polygonService: PolygonToolService,
     private lineTool: LineToolService,
     private selectionTool: SelectionToolService,
   ) {
@@ -43,14 +45,14 @@ export class ToolsService {
   private initTools(): void {
     this.tools.set(this.pencilTool.id, this.pencilTool);
     this.tools.set(this.brushTool.id, this.brushTool);
-    this.tools.set(this.colorApplicator.id, this.colorApplicator);
     this.tools.set(this.rectangleTool.id, this.rectangleTool);
     this.tools.set(this.ellipseTool.id, this.ellipseTool);
+    this.tools.set(this.polygonService.id, this.polygonService);
     this.tools.set(this.lineTool.id, this.lineTool);
     this.tools.set(this.pipetteTool.id, this.pipetteTool);
+    this.tools.set(this.colorApplicator.id, this.colorApplicator);
     this.tools.set(this.etampeService.id, this.etampeService);
     this.tools.set(this.gridService.id, this.gridService);
-    this.tools.set(this.lineTool.id, this.lineTool);
     this.tools.set(this.selectionTool.id, this.selectionTool);
   }
 

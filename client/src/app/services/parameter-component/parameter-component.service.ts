@@ -8,6 +8,7 @@ import { GridParameterComponent } from 'src/app/tool-parameter/grid-parameter/gr
 import { LineToolParameterComponent } from 'src/app/tool-parameter/line-tool-parameter/line-tool-parameter.component';
 import { PencilToolParameterComponent } from 'src/app/tool-parameter/pencil-tool-parameter/pencil-tool-parameter.component';
 import { PipetteToolParameterComponent } from 'src/app/tool-parameter/pipette-tool-parameter/pipette-tool-parameter.component';
+import { PolygonToolParameterComponent } from 'src/app/tool-parameter/polygone-tool-parameter/polygone-tool-parameter.component';
 import { RectangleToolParameterComponent } from 'src/app/tool-parameter/rectangle-tool-parameter/rectangle-tool-parameter.component';
 import { SelectionToolParameterComponent } from 'src/app/tool-parameter/selection-tool-parameter/selection-tool-parameter.component';
 
@@ -25,6 +26,7 @@ export class ParameterComponentService {
       ApplierToolParameterComponent,
       RectangleToolParameterComponent,
       EllipseToolParameterComponent,
+      PolygonToolParameterComponent,
       LineToolParameterComponent,
       PipetteToolParameterComponent,
       EtampeToolParameterComponent,

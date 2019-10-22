@@ -1,9 +1,9 @@
 <div>
     <h4>Control Menu:</h4>
-    <button mat-button id='welcome' matTooltip="Page Accueil" (click)="openWelcomeMessage()">Page Accueil</button>
-    <button mat-button id='drawing' matTooltip="Nouveau Dessin (ctrl+O)" (click)="openNewDrawing()">Nouveau
+    <button mat-flat-button id='welcome' matTooltip="Page Accueil" (click)="openWelcomeMessage()">Page Accueil</button>
+    <button mat-flat-button id='drawing' matTooltip="Nouveau Dessin (ctrl+O)" (click)="openNewDrawing()">Nouveau
         Dessin</button>
-    <button mat-button id='save' matTooltip="Sauvegarder" (click)="openSaveDrawing()"
+    <button mat-flat-button id='save' matTooltip="Sauvegarder" (click)="openSaveDrawing()"
         [disabled]="isSaved">Sauvegarder</button>
-    <button mat-button id='openDrawing' matTooltip="Ouvrir" (click)="openOpenDrawing()">Ouvrir</button>
+    <button mat-flat-button id='openDrawing' matTooltip="Ouvrir" (click)="openOpenDrawing()">Ouvrir</button>
 </div>

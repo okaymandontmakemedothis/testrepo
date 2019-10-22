@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
-import { faPoo } from '@fortawesome/free-solid-svg-icons';
+import { faMousePointer } from '@fortawesome/free-solid-svg-icons';
 import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ITools } from '../ITools';
@@ -12,7 +12,7 @@ import { ToolIdConstants } from '../tool-id-constants';
 })
 export class SelectionToolService implements ITools {
   readonly id: number = ToolIdConstants.SELECTION_ID;
-  readonly faIcon: IconDefinition = faPoo;
+  readonly faIcon: IconDefinition = faMousePointer;
   readonly toolName = 'Sélection';
   parameters: FormGroup;
 

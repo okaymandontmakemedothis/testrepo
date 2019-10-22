@@ -10,6 +10,7 @@ import { GridParameterComponent } from './grid-parameter/grid-parameter.componen
 import { LineToolParameterComponent } from './line-tool-parameter/line-tool-parameter.component';
 import { PencilToolParameterComponent } from './pencil-tool-parameter/pencil-tool-parameter.component';
 import { PipetteToolParameterComponent } from './pipette-tool-parameter/pipette-tool-parameter.component';
+import { PolygonToolParameterComponent } from './polygone-tool-parameter/polygone-tool-parameter.component';
 import { RectangleToolParameterComponent } from './rectangle-tool-parameter/rectangle-tool-parameter.component';
 import { SelectionToolParameterComponent } from './selection-tool-parameter/selection-tool-parameter.component';
 
@@ -22,6 +23,7 @@ import { SelectionToolParameterComponent } from './selection-tool-parameter/sele
     EllipseToolParameterComponent,
     PipetteToolParameterComponent,
     EtampeToolParameterComponent,
+    PolygonToolParameterComponent,
     GridParameterComponent,
     LineToolParameterComponent,
     SelectionToolParameterComponent,
@@ -41,10 +43,10 @@ import { SelectionToolParameterComponent } from './selection-tool-parameter/sele
     EllipseToolParameterComponent,
     PipetteToolParameterComponent,
     EtampeToolParameterComponent,
+    PolygonToolParameterComponent,
     GridParameterComponent,
     LineToolParameterComponent,
     SelectionToolParameterComponent,
-
   ],
 })
 export class ToolParameterModule { }
