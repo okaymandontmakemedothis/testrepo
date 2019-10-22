@@ -115,6 +115,11 @@ export class PolygonToolService implements ITools {
   private setSize(mouseX: number, mouseY: number): void {
     if (this.object) {
 
+      mouseX = 200;
+      mouseY = 200;
+      this.firstX = 100;
+      this.firstY = 100;
+
       let size: number;
       const strokeWidth: number = this.strokeWidth.value;
       const width = mouseX - this.firstX - (strokeWidth * 2);

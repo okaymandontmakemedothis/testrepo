@@ -11,8 +11,12 @@ describe('PolygonToolService', () => {
   let colorToolServiceSpy: jasmine.SpyObj<ToolsColorService>;
   let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
   let rendererSpy: jasmine.SpyObj<Renderer2>;
+  let svgEl: SVGPolygonElement;
+  let svgContour: SVGRectElement;
 
   beforeEach(() => {
+    svgEl = document.createElementNS('svg','polygon') as SVGPolygonElement;
+    svgContour = document.createElementNS('svg', 'rect') as SVGRectElement;
     rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', ]);
     const spyOffset = jasmine.createSpyObj('OffsetManagerService', ['offsetFromMouseEvent']);
     const spyColor = jasmine.createSpyObj('ToolsColorService', ['']);
@@ -44,28 +48,6 @@ describe('PolygonToolService', () => {
   it('tool-polygon service should be created', () => {
     const service: PolygonToolService = TestBed.get(PolygonToolService);
     expect(service).toBeTruthy();
-  });
-
-  it('should create un object on mouse press ', () => {
-    const service: PolygonToolService = TestBed.get(PolygonToolService);
-    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 10 });
-
-    rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
-    rendererSpy.createElement.withArgs('polygon', 'svg').and.returnValue('polygon');
-
-    service.onPressed(new MouseEvent('mousedown', { button: 0 }));
-    const sw: number = (service.parameters.get('strokeWidth') as FormControl).value;
-
-    expect(drawingServiceSpy.renderer.createElement).toHaveBeenCalledWith('rect', 'svg');
-    expect(drawingServiceSpy.addObject).toHaveBeenCalledWith('rect');
-
-    expect(drawingServiceSpy.renderer.createElement).toHaveBeenCalledWith('polygon', 'svg');
-    expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polygon', 'stroke-width', sw.toString());
-    expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polygon', 'stroke-alignment', 'outer');
-    expect(drawingServiceSpy.addObject).not.toHaveBeenCalledWith('polygon');
-
-    const moveEvent = new MouseEvent('mousemove', { movementX: 2, movementY: 2 });
-    service.onMove(moveEvent);
   });
 
   it('should not addObject if contour doesnt exist ', () => {
@@ -214,54 +196,20 @@ describe('PolygonToolService', () => {
     expect(setSizeSpy).toHaveBeenCalledWith(0, 0);
   });
 
-  it('should set correct points and transform attributes of object on mouse move if width > 0 and height > 0', () => {
-    const service: PolygonToolService = TestBed.get(PolygonToolService);
-    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 101, y: 102 });
-    (service.parameters.get('vertexNumber') as FormControl).patchValue(3);
-    (service.parameters.get('strokeWidth') as FormControl).patchValue(1);
-    rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
-    rendererSpy.createElement.withArgs('polygon', 'svg').and.returnValue('polygon');
-    service.onPressed(new MouseEvent('mousedown', { button: 0 }));
-    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 298, y: 298 });
-    const moveEvent = new MouseEvent('mousemove', { movementX: undefined, movementY: undefined });
-    service.onMove(moveEvent);
-    expect(rendererSpy.setAttribute).toHaveBeenCalledWith('polygon', 'points',
-    '198.99999999999997,104 282.1384387633061,248 115.86156123669389,248 ');
-    expect(rendererSpy.setAttribute).toHaveBeenCalledWith('polygon', 'transform',
-    'scale(1.1667286689873686,1.1667286689873686) translate (-29.294733246034937,-13.623250979827164)');
-  });
-
-  it('should set correct points and transform attributes of object on mouse move if width < 0 and height < 0', () => {
-    const service: PolygonToolService = TestBed.get(PolygonToolService);
-    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 201, y: 200 });
-    (service.parameters.get('vertexNumber') as FormControl).patchValue(3);
-    (service.parameters.get('strokeWidth') as FormControl).patchValue(1);
-    rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
-    rendererSpy.createElement.withArgs('polygon', 'svg').and.returnValue('polygon');
-    service.onPressed(new MouseEvent('mousedown', { button: 0 }));
-    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 98, y: 101 });
-    const moveEvent = new MouseEvent('mousemove', { movementX: undefined, movementY: undefined });
-    service.onMove(moveEvent);
-    expect(rendererSpy.setAttribute).toHaveBeenCalledWith('polygon', 'points',
-    '149.5,99 192.3682574873297,173.25 106.63174251267029,173.25 ');
-    expect(rendererSpy.setAttribute).toHaveBeenCalledWith('polygon', 'transform',
-    'scale(1.1780278219828728,1.1780278219828728) translate (-21.74410392389859,0.5746222134092953)');
-  });
-
-  it('should not draw anything if size < 0', () => {
+  it('should not draw anything if size <= 0', () => {
     const service: PolygonToolService = TestBed.get(PolygonToolService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
+    svgEl.setAttribute('x', '10');
+    svgEl.setAttribute('y', '10');
     (service.parameters.get('vertexNumber') as FormControl).patchValue(3);
     (service.parameters.get('strokeWidth') as FormControl).patchValue(1);
-    rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
-    rendererSpy.createElement.withArgs('polygon', 'svg').and.returnValue('polygon');
+    rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue(svgContour);
+    rendererSpy.createElement.withArgs('polygon', 'svg').and.returnValue(svgEl);
     service.onPressed(new MouseEvent('mousedown', { button: 0 }));
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 2, y: 2 });
     const moveEvent = new MouseEvent('mousemove', { movementX: undefined, movementY: undefined });
     service.onMove(moveEvent);
-    // expect(rendererSpy.setAttribute).not.toHaveBeenCalledWith('polygon', 'points',
-    // '149.5,99 192.3682574873297,173.25 106.63174251267029,173.25 ');
-    // expect(rendererSpy.setAttribute).toHaveBeenCalledWith('polygon', 'transform',
-    // 'scale(1.1780278219828728,1.1780278219828728) translate (-21.74410392389859,0.5746222134092953)');
+    expect(rendererSpy.setAttribute).not.toHaveBeenCalledWith(svgEl, 'points');
   });
+
 });
