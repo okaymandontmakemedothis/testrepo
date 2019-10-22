@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatDialog, MatChipInputEvent } from '@angular/material';
+import { FormControl } from '@angular/forms';
+import { MatChipInputEvent, MatDialog } from '@angular/material';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { RGBA } from 'src/app/model/rgba.model';
 // import { IndexService } from '../index/index.service';
 import { environment } from 'src/environments/environment.prod';
 import { Drawing } from '../../../../../common/communication/drawing';
-import { FormControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +33,7 @@ export class OpenDrawingService {
     return `rgba(${rgba.rgb.r},${rgba.rgb.g},${rgba.rgb.b},${rgba.a})`;
   }
 
-  add(event: MatChipInputEvent,isMatAutoCompleteOpen: boolean): void {
+  add(event: MatChipInputEvent, isMatAutoCompleteOpen: boolean): void {
     // Add tag only when MatAutocomplete is not open
     // To make sure this does not conflict with OptionSelected Event
     if (isMatAutoCompleteOpen) {
@@ -71,6 +71,5 @@ export class OpenDrawingService {
     const filterValue = value.toLowerCase();
     return this.allTags.filter((tag) => tag.toLowerCase().indexOf(filterValue) === 0);
   }
-
 
 }

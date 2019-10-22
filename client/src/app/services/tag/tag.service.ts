@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Tag, Drawing } from '../../../../../common/communication/drawing';
 import { environment } from 'src/environments/environment.prod';
+import { Drawing, Tag } from '../../../../../common/communication/drawing';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class TagService {
       .pipe(map((res: Tag[]) => res.map((tag) => tag.name)),
         catchError((err) => of([])));
   }
-  containsTag(drawing: Drawing, selectedTags:string[]): boolean {
+  containsTag(drawing: Drawing, selectedTags: string[]): boolean {
     if (selectedTags.length < 1) {
       return true;
     }

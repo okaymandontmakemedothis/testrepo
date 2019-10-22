@@ -77,7 +77,7 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     console.log(this.paginator);
-    this.dataSource.filterPredicate = ((data: Drawing, filter: string) => this.tagService.containsTag(data,this.selectedTags));
+    this.dataSource.filterPredicate = ((data: Drawing, filter: string) => this.tagService.containsTag(data, this.selectedTags));
 
     this.dataObs = this.dataSource.connect();
 
@@ -92,7 +92,7 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getBackground(drawing: Drawing): string {
-    return this.openDrawingService.getBackground(drawing)
+    return this.openDrawingService.getBackground(drawing);
   }
 
   getThumbnail(drawingObject: Drawing) {
@@ -119,7 +119,6 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   selectDrawing(drawing: Drawing) {
     this.selectedDrawing = drawing;
   }
-
 
   // ouvre un nouveau dessin  avec l'ancien drawing
   accept(): void {
