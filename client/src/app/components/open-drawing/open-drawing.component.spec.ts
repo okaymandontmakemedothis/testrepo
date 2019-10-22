@@ -14,7 +14,6 @@ import { TagService } from 'src/app/services/tag/tag.service';
 import { Drawing } from '../../../../../common/communication/drawing';
 // import { Drawing } from '../../../../../common/communication/drawing';
 import { OpenDrawingComponent } from './open-drawing.component';
-import { Drawing } from '../../../../../common/communication/drawing';
 
 describe('OpenDrawingComponent', () => {
   let component: OpenDrawingComponent;
@@ -172,7 +171,7 @@ describe('OpenDrawingComponent', () => {
       svg: '',
     };
 
-    component.openDrawing(drawing);
+    component.openDrawing();
 
     expect(drawingServiceSpy.newDrawing).toHaveBeenCalled();
     expect(dialogRef.close).toHaveBeenCalled();
