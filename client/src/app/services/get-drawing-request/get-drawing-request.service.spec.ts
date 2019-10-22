@@ -33,9 +33,9 @@ describe('GetDrawingRequestService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should sebd request to getDrawing',async  () => {
+  it('should sebd request to getDrawing', async  () => {
 
-    await service.getDrawings()
+    await service.getDrawings();
 
     httpMock.expectNone(`${environment.serverURL}/drawings/`);
     // expect(req.request.method).toBe('GET');

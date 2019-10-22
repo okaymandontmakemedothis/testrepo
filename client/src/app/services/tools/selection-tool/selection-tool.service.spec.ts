@@ -66,7 +66,6 @@ describe('SelectionToolService', () => {
     const spyRemoveSel = spyOn(service as any, 'removeSelection');
     const spySetRect = spyOn(service as any, 'setRectSelection');
 
-
     const svg = document.createElement('rect') as Element as SVGElement;
     svg.setAttribute('id', '1');
 

@@ -1,14 +1,11 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent, MatDialog, MatDialogRef } from '@angular/material';
-import { Observable, of } from 'rxjs';
-import { catchError, map, startWith } from 'rxjs/operators';
+import { MatChipInputEvent, MatDialog, MatDialogRef } from '@angular/material';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { NewDrawingAlertComponent } from 'src/app/components/new-drawing/new-drawing-alert/new-drawing-alert.component';
 import { OpenDrawingComponent } from 'src/app/components/open-drawing/open-drawing.component';
 import { RGBA } from 'src/app/model/rgba.model';
-// import { IndexService } from '../index/index.service';
-import { environment } from 'src/environments/environment.prod';
 import { Drawing } from '../../../../../common/communication/drawing';
 import { DrawingService } from '../drawing/drawing.service';
 import { GetDrawingRequestService } from '../get-drawing-request/get-drawing-request.service';

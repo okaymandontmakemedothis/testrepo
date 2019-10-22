@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,7 +34,7 @@ describe('OpenDrawingService', () => {
     svg: 'example',
   };
   beforeEach(() => {
-    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing',]);
+    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing', ]);
     const spyTagService = jasmine.createSpyObj('TagService', ['containsTag', 'retrieveTags']);
     const tagControl: FormControl = new FormControl('Test');
 
@@ -76,13 +76,13 @@ describe('OpenDrawingService', () => {
 
   });
   it('should return grey background color for selected', () => {
-    service.selectedDrawing = mockDrawing
+    service.selectedDrawing = mockDrawing;
     const result = service.getBackgroundSelected(mockDrawing);
-    expect(result).toEqual("grey");
+    expect(result).toEqual('grey');
 
   });
   it('should return white background color for not selected', () => {
-    service.selectedDrawing = null
+    service.selectedDrawing = null;
 
     const result = service.getBackgroundSelected(mockDrawing);
     expect(result).toEqual(`white`);

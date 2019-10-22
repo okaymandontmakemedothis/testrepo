@@ -6,14 +6,11 @@ import {
   MatDialog, MatDialogRef, MatPaginator, MatTableDataSource
 } from '@angular/material';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { RGBA } from 'src/app/model/rgba.model';
 // import { BehaviorSubject } from 'rxjs';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { OpenDrawingService } from 'src/app/services/open-drawing/open-drawing.service';
 import { TagService } from 'src/app/services/tag/tag.service';
 import { Drawing } from '../../../../../common/communication/drawing';
-import { NewDrawingAlertComponent } from '../new-drawing/new-drawing-alert/new-drawing-alert.component';
 
 @Component({
   selector: 'app-open-drawing',
