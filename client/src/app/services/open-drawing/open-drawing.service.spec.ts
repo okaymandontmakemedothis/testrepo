@@ -72,8 +72,26 @@ describe('OpenDrawingService', () => {
       expect(getDrawingRequestServiceSpy.getDrawings).toHaveBeenCalled();
       expect(drawingList).toEqual([mockDrawing]);
     });
+  });
+  it('should getBackground from drawing', () => {
+
+      const result = service.getBackground(mockDrawing);
+      expect(result).toEqual(`rgba(0,0,0,0)`);
 
   });
+  it('should return grey background color for selected', () => {
+    service.selectedDrawing=mockDrawing
+    const result = service.getBackgroundSelected(mockDrawing);
+    expect(result).toEqual("grey");
+
+});
+it('should return white background color for not selected', () => {
+  service.selectedDrawing=null
+
+  const result = service.getBackgroundSelected(mockDrawing);
+  expect(result).toEqual(`white`);
+
+});
   it('#reset should reset the values for the save drawing service', () => {
     service.reset();
     expect(service.tagCtrl.untouched).toBeTruthy();
@@ -137,4 +155,17 @@ describe('OpenDrawingService', () => {
     service.openDrawing(dialogRef);
     expect(drawingServiceSpy.openDrawing).not.toHaveBeenCalled();
   });
+
+  it('#remove should remove the tag if it exist', () => {
+    service.selectedTags = ['tag1', 'tag2'];
+    service.remove('tag2');
+    expect(service.selectedTags).toEqual(['tag1']);
+  });
+
+  it('#remove should not remove the tag if it doesnt exist', () => {
+    service.selectedTags = ['tag1', 'tag2'];
+    service.remove('tag3');
+    expect(service.selectedTags).toEqual(['tag1', 'tag2']);
+  });
+
 });
