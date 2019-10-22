@@ -35,7 +35,7 @@ describe('ToolsListService', () => {
   };
 
   beforeEach(() => {
-    const spyPencil = jasmine.createSpyObj('PencilToolService', ['onKeyDown','onKeyUp','onPressed']);
+    const spyPencil = jasmine.createSpyObj('PencilToolService', ['onKeyDown', 'onKeyUp', 'onPressed']);
     const spyBrush = jasmine.createSpyObj('BrushToolService', ['']);
     const spyApplier = jasmine.createSpyObj('ToolsApplierColorsService', ['']);
     const spyRect = jasmine.createSpyObj('ToolRectangleService', ['']);
@@ -49,17 +49,17 @@ describe('ToolsListService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        {provide: PencilToolService, useValue: spyPencil},
-        {provide: BrushToolService, useValue: spyBrush},
-        {provide: ToolsApplierColorsService, useValue: spyApplier},
-        {provide: ToolRectangleService, useValue: spyRect},
-        {provide: ToolEllipseService, useValue: spyEllipse},
-        {provide: PipetteToolService, useValue: spyPipette},
-        {provide: EtampeToolService, useValue: spyEtampe},
-        {provide: GridService, useValue: spyGrid},
-        {provide: PolygonToolService, useValue: spyPoly},
-        {provide: LineToolService, useValue: spyLine},
-        {provide: SelectionToolService, useValue: spySelection },
+        { provide: PencilToolService, useValue: spyPencil },
+        { provide: BrushToolService, useValue: spyBrush },
+        { provide: ToolsApplierColorsService, useValue: spyApplier },
+        { provide: ToolRectangleService, useValue: spyRect },
+        { provide: ToolEllipseService, useValue: spyEllipse },
+        { provide: PipetteToolService, useValue: spyPipette },
+        { provide: EtampeToolService, useValue: spyEtampe },
+        { provide: GridService, useValue: spyGrid },
+        { provide: PolygonToolService, useValue: spyPoly },
+        { provide: LineToolService, useValue: spyLine },
+        { provide: SelectionToolService, useValue: spySelection },
       ],
     });
     pencilToolServiceSpy = TestBed.get(PencilToolService);
@@ -73,8 +73,6 @@ describe('ToolsListService', () => {
     polyToolServiceSpy = TestBed.get(PolygonToolService);
     lineToolServiceSpy = TestBed.get(LineToolService);
     selectToolServiceSpy = TestBed.get(SelectionToolService);
-
-    
   });
 
   it('should be created', () => {
@@ -250,7 +248,7 @@ describe('ToolsListService', () => {
     service.selectTool(1);
     service.onPressed(mouseEvent);
 
-    window.dispatchEvent(keyEvent);
+    //     window.dispatchEvent(keyEvent);
 
     expect(pencilToolServiceSpy.onKeyDown).not.toHaveBeenCalled();
   });

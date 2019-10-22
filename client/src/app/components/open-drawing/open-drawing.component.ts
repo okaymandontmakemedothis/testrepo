@@ -58,10 +58,8 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dialogRef.afterOpened().subscribe(() => {
       this.openDrawingService.getDrawings()
         .subscribe((drawings: Drawing[]) => {
-          console.log(drawings);
           this.numPages = drawings.length;
           this.dataSource.data = drawings;
-          console.log(this.dataSource.filteredData);
 
           this.drawingPreview = drawings;
           this.isLoaded = true;
@@ -138,7 +136,7 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // ouvre un nouveau dessin  avec l'ancien drawing
   accept(): void {
-      this.openDrawingService.accept(this.dialogRef);
+    this.openDrawingService.accept(this.dialogRef);
   }
 
   openDrawing(): void {
@@ -160,7 +158,6 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   // Selecting a tag from suggestion
   selected(event: MatAutocompleteSelectedEvent): void {
-    console.log('Select Tag');
     this.openDrawingService.selectTag(event.option.viewValue);
     this.tagInput.nativeElement.value = '';
     this.dataSource.filter = this.openDrawingService.selectedTags.toString();

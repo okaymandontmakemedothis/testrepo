@@ -46,11 +46,6 @@ describe('GridService', () => {
         expect(service.onMove(moveEvent)).toBeUndefined();
     });
 
-    it('should do nothing on onKeyUp', () => {
-        const service: GridService = TestBed.get(GridService);
-        expect(service.onKeyUp(new KeyboardEvent('keyup'))).toBeUndefined();
-    });
-
     it('should do nothing on onKeyDown', () => {
         const service: GridService = TestBed.get(GridService);
         expect(service.onKeyDown(new KeyboardEvent('keydown'))).toBeUndefined();

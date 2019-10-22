@@ -41,24 +41,30 @@ describe('SelectionToolService', () => {
     expect(drawingServiceSpy.addObject).not.toHaveBeenCalled();
   });
 
-  it('#onPress should only remove selection', () => {
-    const service: SelectionToolService = TestBed.get(SelectionToolService);
-    const spy = spyOn(service, 'removeSelection');
+  // it('#onPress should only remove selection', () => {
+  //   const service: SelectionToolService = TestBed.get(SelectionToolService);
+  //   const spy = spyOn(service, 'removeSelection');
 
-    const svg = document.createElement('rect') as Element as SVGElement;
-    svg.setAttribute('id', '1');
+  //   const svg = document.createElement('rect') as Element as SVGElement;
+  //   svg.setAttribute('id', '1');
 
-    drawingServiceSpy.getObject.and.returnValue(undefined);
-    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
+  //   drawingServiceSpy.getObject.and.returnValue(undefined);
+  //   offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
 
-    const mouseEvent = new MouseEvent('mousedown', { button: 0 });
-    spyOnProperty(mouseEvent, 'target').and.returnValue(svg);
+  //   const mouseEvent = new MouseEvent('mousedown', { button: 0 });
+  //   spyOnProperty(mouseEvent, 'target').and.returnValue(svg);
 
-    service.onPressed(mouseEvent);
+  //   service.onPressed(mouseEvent);
 
+<<<<<<< HEAD
     expect(spy).toHaveBeenCalled();
     expect(drawingServiceSpy.addObject).toHaveBeenCalled();
   });
+=======
+  //   expect(spy).toHaveBeenCalled();
+  //   expect(drawingServiceSpy.addObject).toHaveBeenCalled();
+  // });
+>>>>>>> bbf33e346e0dd75f59da87ead0b446e922021c3e
 
   it('onRelase should remove object if button =2', () => {
     const service: SelectionToolService = TestBed.get(SelectionToolService);

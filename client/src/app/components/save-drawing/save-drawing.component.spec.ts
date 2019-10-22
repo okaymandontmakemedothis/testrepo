@@ -53,6 +53,7 @@ describe('SaveDrawingComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SaveDrawingComponent);
     component = fixture.componentInstance;
+    component.svg = { nativeElement: { innerHTML: 'string' } };
     fixture.detectChanges();
   });
 
