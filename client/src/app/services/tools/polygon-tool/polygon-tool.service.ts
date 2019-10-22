@@ -144,15 +144,12 @@ export class PolygonToolService implements ITools {
         }
       }
 
-      console.log(this.x, this.y);
+      console.log(this.x + size + strokeWidth * 2, this.y + size + strokeWidth * 2);
 
       this.center = {x: 0, y: 0};
-      const contourOffset: Point = {x: 0, y: 0};
       if ( this.x >= this.firstX && this.y >= this.firstY ) {
         this.center.x = this.firstX + size / 2 + strokeWidth;
         this.center.y = this.firstY + size / 2 + strokeWidth;
-        contourOffset.x = - Math.abs(this.firstX - this.x);
-        contourOffset.y = - Math.abs(this.firstY - this.y);
       } else if ( this.x >= this.firstX && this.y < this.firstY ) {
         this.center.x = this.firstX + size / 2 + strokeWidth;
         this.center.y = this.firstY - size / 2 - strokeWidth;
@@ -168,8 +165,8 @@ export class PolygonToolService implements ITools {
         return;
       }
 
-      this.drawingService.renderer.setAttribute(this.contour, 'x', (this.x + contourOffset.x).toString());
-      this.drawingService.renderer.setAttribute(this.contour, 'y', (this.y + contourOffset.y).toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'x', this.x.toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'y', this.y.toString());
 
       this.drawingService.renderer.setAttribute(this.contour, 'width', (size + strokeWidth * 2).toString());
       this.drawingService.renderer.setAttribute(this.contour, 'height', (size + strokeWidth * 2).toString());
@@ -182,10 +179,8 @@ export class PolygonToolService implements ITools {
       let ratio: number = Math.min(size / polygonDimensions.x, size / polygonDimensions.y);
       ratio = (ratio < 1 ? 1 : ratio);
       const initialOffset = this.findSmallestDeltasBetween(this.points, {x: this.firstX, y: this.firstY});
-      const totalOffsetX = -(polygonDimensions.x * (ratio - 1) * this.firstX / size) + initialOffset.x
-      - (Math.sign(contourOffset.x) * strokeWidth);
-      const totalOffsetY = -(polygonDimensions.y * (ratio - 1) * this.firstY / size) + initialOffset.y
-      - (Math.sign(contourOffset.y) * strokeWidth);
+      const totalOffsetX = -(polygonDimensions.x * (ratio - 1) * this.firstX / size) + initialOffset.x;
+      const totalOffsetY = -(polygonDimensions.y * (ratio - 1) * this.firstY / size) + initialOffset.y;
 
       this.drawingService.renderer.setAttribute(this.object, 'transform',
       'scale(' + ratio + ',' + ratio + ') translate (' + totalOffsetX + ',' + totalOffsetY + ')' );
@@ -313,9 +308,6 @@ export class PolygonToolService implements ITools {
     /// reset array from previous values
     this.points = [];
 
-    if ( size === 0 ) {
-      return;
-    }
     /// determine circle angles
     const angle = 360 / this.vertexNumber.value;
     /// set initial angle if square

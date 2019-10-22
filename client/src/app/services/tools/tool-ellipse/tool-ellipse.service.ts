@@ -19,6 +19,8 @@ export class ToolEllipseService implements ITools {
   readonly id = ToolIdConstants.ELLIPSE_ID;
 
   private object: SVGEllipseElement | null;
+  isAdded = false;
+
   private contour: SVGRectElement | null;
   private contourId: number;
 
@@ -82,6 +84,7 @@ export class ToolEllipseService implements ITools {
   onRelease(event: MouseEvent): void {
     this.object = null;
     this.isCircle = false;
+    this.isAdded = false;
     if (this.contour) {
       this.drawingService.removeObject(this.contourId);
       this.contourId = 0;
@@ -91,10 +94,11 @@ export class ToolEllipseService implements ITools {
   /// Quand le bouton de la sourie est apuyé et on bouge celle-ci, l'objet courrant subit des modifications.
   onMove(event: MouseEvent): void {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
-    if (this.object) {
-      this.setSize(offset.x, offset.y);
+    if (!this.isAdded && this.object) {
       this.drawingService.addObject(this.object);
+      this.isAdded = true;
     }
+    this.setSize(offset.x, offset.y);
   }
 
   onKeyDown(event: KeyboardEvent) {
