@@ -71,7 +71,6 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // console.log(this.matAutocomplete.isOpen);
     this.dataSource.filterPredicate = ((data: Drawing) => this.tagService.containsTag(data, this.openDrawingService.selectedTags));
     this.dataObs = this.dataSource.connect();
 
@@ -84,6 +83,23 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+  }
+
+  get tagCtrl(): FormControl {
+    return this.openDrawingService.tagCtrl;
+  }
+  get filteredTags(): Observable<string[]> {
+    return this.openDrawingService.filteredTags;
+  }
+  get selectedTags(): string[] {
+    return this.openDrawingService.selectedTags;
+  }
+  get allTags(): string[] {
+    return this.openDrawingService.allTags;
+
+  }
+  get selectedDrawing(): Drawing | null {
+    return this.openDrawingService.selectedDrawing;
   }
 
   getBackground(drawing: Drawing): string {
@@ -104,7 +120,7 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getBackgroundSelected(drawing: Drawing): string {
-    return this.openDrawingService.getBackgroundSelected(drawing)
+    return this.openDrawingService.getBackgroundSelected(drawing);
   }
 
   test() {
@@ -114,30 +130,14 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   selectDrawing(drawing: Drawing) {
     this.openDrawingService.selectDrawing(drawing);
   }
-  get tagCtrl(): FormControl {
-    return this.openDrawingService.tagCtrl;
-  }
-  get filteredTags(): Observable<string[]> {
-    return this.openDrawingService.filteredTags;
-  }
-  get selectedTags(): string[] {
-    return this.openDrawingService.selectedTags;
-  }
-  get allTags():string[]{
-    return this.openDrawingService.allTags;
-
-  }
-  get selectedDrawing():Drawing | null{
-    return this.openDrawingService.selectedDrawing;
-  }
 
   // ouvre un nouveau dessin  avec l'ancien drawing
   accept(): void {
-      this.openDrawingService.accept(this.dialogRef,this.matAutocomplete)
+      this.openDrawingService.accept(this.dialogRef, this.matAutocomplete);
   }
 
   openDrawing(): void {
-    this.openDrawingService.openDrawing(this.dialogRef,this.matAutocomplete);
+    this.openDrawingService.openDrawing(this.dialogRef, this.matAutocomplete);
   }
 
   close(): void {
@@ -145,21 +145,20 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   add(event: MatChipInputEvent): void {
-    this.openDrawingService.add(event,this.matAutocomplete.isOpen)
+    this.openDrawingService.add(event, this.matAutocomplete.isOpen);
     this.dataSource.filter = this.openDrawingService.selectedTags.toString();
   }
 
   remove(tag: string): void {
-    this.openDrawingService.remove(tag)
+    this.openDrawingService.remove(tag);
     this.dataSource.filter = this.openDrawingService.selectedTags.toString();
   }
-  //Selecting a tag from suggestion
+  // Selecting a tag from suggestion
   selected(event: MatAutocompleteSelectedEvent): void {
-    console.log("Select Tag")
+    console.log('Select Tag');
     this.openDrawingService.selectTag(event);
     this.tagInput.nativeElement.value = '';
     this.dataSource.filter = this.openDrawingService.selectedTags.toString();
   }
-
 
 }

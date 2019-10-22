@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatChipInputEvent, MatDialog, MatAutocompleteSelectedEvent, MatDialogRef, MatAutocomplete } from '@angular/material';
+import { MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent, MatDialog, MatDialogRef } from '@angular/material';
 import { Observable, of } from 'rxjs';
-import { catchError, startWith, map } from 'rxjs/operators';
+import { catchError, map, startWith } from 'rxjs/operators';
+import { NewDrawingAlertComponent } from 'src/app/components/new-drawing/new-drawing-alert/new-drawing-alert.component';
+import { OpenDrawingComponent } from 'src/app/components/open-drawing/open-drawing.component';
 import { RGBA } from 'src/app/model/rgba.model';
 // import { IndexService } from '../index/index.service';
 import { environment } from 'src/environments/environment.prod';
 import { Drawing } from '../../../../../common/communication/drawing';
-import { TagService } from '../tag/tag.service';
 import { DrawingService } from '../drawing/drawing.service';
-import { NewDrawingAlertComponent } from 'src/app/components/new-drawing/new-drawing-alert/new-drawing-alert.component';
-import { OpenDrawingComponent } from 'src/app/components/open-drawing/open-drawing.component';
+import { TagService } from '../tag/tag.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,16 +19,13 @@ import { OpenDrawingComponent } from 'src/app/components/open-drawing/open-drawi
 export class OpenDrawingService {
   selectedDrawing: Drawing | null;
 
-
   tagCtrl = new FormControl();
 
   filteredTags: Observable<string[]>;
   selectedTags: string[] = [];
   allTags: string[] = [];
 
-
-
-  constructor(private http: HttpClient, public dialog: MatDialog,private tagService: TagService,private drawingService:DrawingService) {
+  constructor(private http: HttpClient, public dialog: MatDialog, private tagService: TagService, private drawingService: DrawingService) {
     this.selectedTags = [];
     this.tagService.retrieveTags().subscribe((tags: string[]) => this.allTags = tags);
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
@@ -87,19 +84,18 @@ export class OpenDrawingService {
     }
     this.selectedDrawing = null;
 
-
   }
   filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.allTags.filter((tag) => tag.toLowerCase().indexOf(filterValue) === 0);
   }
-  reset():void{
+  reset(): void {
     this.selectedTags = [];
     this.selectedDrawing = null;
 
   }
-    //Selecting a tag from suggestion
-  selectTag(event:MatAutocompleteSelectedEvent):void{
+    // Selecting a tag from suggestion
+  selectTag(event: MatAutocompleteSelectedEvent): void {
     this.selectedTags.push(event.option.viewValue);
     this.tagCtrl.setValue(null);
     this.selectedDrawing = null;
@@ -107,7 +103,7 @@ export class OpenDrawingService {
   }
 
     // ouvre un nouveau dessin  avec l'ancien drawing
-    accept(dialogRef:MatDialogRef<OpenDrawingComponent>,matAutocomplete:MatAutocomplete): void {
+    accept(dialogRef: MatDialogRef<OpenDrawingComponent>, matAutocomplete: MatAutocomplete): void {
       if (!this.selectedDrawing) { return; }
       if (this.drawingService.isCreated) {
         const alert = this.dialog.open(NewDrawingAlertComponent, {
@@ -115,21 +111,20 @@ export class OpenDrawingService {
         });
         alert.afterClosed().subscribe((result: boolean) => {
           if (result) {
-            this.openDrawing(dialogRef,matAutocomplete);
+            this.openDrawing(dialogRef, matAutocomplete);
           }
         });
       } else {
-        this.openDrawing(dialogRef,matAutocomplete);
+        this.openDrawing(dialogRef, matAutocomplete);
       }
     }
-  
-    openDrawing(dialogRef:MatDialogRef<OpenDrawingComponent>,matAutocomplete:MatAutocomplete): void {
+
+    openDrawing(dialogRef: MatDialogRef<OpenDrawingComponent>, matAutocomplete: MatAutocomplete): void {
       if (!this.selectedDrawing) { return; }
       this.drawingService.isCreated = true;
       this.drawingService.openDrawing(this.selectedDrawing);
-      console.log(matAutocomplete.isOpen)
+      console.log(matAutocomplete.isOpen);
       dialogRef.close();
     }
-  
 
 }
