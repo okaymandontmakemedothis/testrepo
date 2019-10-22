@@ -101,7 +101,7 @@ export class OpenDrawingService {
   }
 
     // ouvre un nouveau dessin  avec l'ancien drawing
-    accept(dialogRef: MatDialogRef<OpenDrawingComponent>, matAutocompleteIsOpen: Boolean): void {
+    accept(dialogRef: MatDialogRef<OpenDrawingComponent>): void {
       if (!this.selectedDrawing) { return; }
       if (this.drawingService.isCreated) {
         const alert = this.dialog.open(NewDrawingAlertComponent, {
@@ -109,15 +109,15 @@ export class OpenDrawingService {
         });
         alert.afterClosed().subscribe((result: boolean) => {
           if (result) {
-            this.openDrawing(dialogRef, matAutocompleteIsOpen);
+            this.openDrawing(dialogRef);
           }
         });
       } else {
-        this.openDrawing(dialogRef, matAutocompleteIsOpen);
+        this.openDrawing(dialogRef);
       }
     }
 
-    openDrawing(dialogRef: MatDialogRef<OpenDrawingComponent>, matAutocompleteIsOpen: Boolean): void {
+    openDrawing(dialogRef: MatDialogRef<OpenDrawingComponent>): void {
       if (!this.selectedDrawing) { return; }
       this.drawingService.isCreated = true;
       this.drawingService.openDrawing(this.selectedDrawing);

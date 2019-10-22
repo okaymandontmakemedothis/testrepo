@@ -123,14 +123,14 @@ describe('OpenDrawingService', () => {
   it('#accept should not open drawing if no drawing selected',()=>{
     service.selectedDrawing=null;
     const dialogRef = TestBed.get(MatDialogRef)
-    expect(service.accept(dialogRef,false)).not.toBeDefined()
+    expect(service.accept(dialogRef)).not.toBeDefined()
   })
 
   it('#openDrawing should  call openDrawing on drawing service',()=>{
     const dialogRef = TestBed.get(MatDialogRef)
     service.selectedDrawing=mockDrawing;
 
-    service.openDrawing(dialogRef,true)
+    service.openDrawing(dialogRef)
     expect(drawingServiceSpy.openDrawing).toHaveBeenCalled()
   })
 });

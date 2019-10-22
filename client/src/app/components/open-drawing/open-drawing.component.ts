@@ -139,11 +139,11 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // ouvre un nouveau dessin  avec l'ancien drawing
   accept(): void {
-      this.openDrawingService.accept(this.dialogRef, this.matAutocomplete.isOpen);
+      this.openDrawingService.accept(this.dialogRef);
   }
 
   openDrawing(): void {
-    this.openDrawingService.openDrawing(this.dialogRef, this.matAutocomplete.isOpen);
+    this.openDrawingService.openDrawing(this.dialogRef);
   }
 
   close(): void {
