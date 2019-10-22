@@ -11,8 +11,8 @@ import { MaterialModules } from 'src/app/app-material.module';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { OpenDrawingService } from 'src/app/services/open-drawing/open-drawing.service';
 import { TagService } from 'src/app/services/tag/tag.service';
-import { OpenDrawingComponent } from './open-drawing.component';
 import { Drawing } from '../../../../../common/communication/drawing';
+import { OpenDrawingComponent } from './open-drawing.component';
 
 describe('OpenDrawingComponent', () => {
   let component: OpenDrawingComponent;
@@ -37,7 +37,7 @@ describe('OpenDrawingComponent', () => {
   dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(async(() => {
-    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing',]);
+    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing']);
 
     let spyOpenDrawingService = jasmine.createSpyObj('OpenDrawingService', ['getDrawings', 'selectDrawing', 'getBackgroundSelected',
       'getBackground', 'reset', 'add', 'remove', 'selectTag', 'accept', 'openDrawing', 'tagCtrl', 'filteredTags', 'allTags', 'selectedTags']);
@@ -124,7 +124,6 @@ describe('OpenDrawingComponent', () => {
   // });
   // it('should getBackground from drawing', () => {
   //     const result = component.getBackground(mockDrawing);
-  //     console.log(result);
   //     expect(result).toEqual(`rgba(0,0,0,0)`);
 
   // });

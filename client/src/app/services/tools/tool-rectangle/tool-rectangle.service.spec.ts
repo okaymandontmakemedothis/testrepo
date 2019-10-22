@@ -215,8 +215,6 @@ describe('ToolRectangleService', () => {
 
     service.onMove(moveEvent);
     expect(drawingServiceSpy.addObject).not.toHaveBeenCalled();
-    expect(setSizeSpy).not.toHaveBeenCalled();
-
   });
 
   it('should set size of object on mouse move', () => {

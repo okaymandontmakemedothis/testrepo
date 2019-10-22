@@ -57,7 +57,6 @@ export class NewDrawingComponent implements OnInit {
       });
       alert.afterClosed().subscribe((result: boolean) => {
         if (result) {
-          console.log(1);
           this.newDrawing();
         }
       });
