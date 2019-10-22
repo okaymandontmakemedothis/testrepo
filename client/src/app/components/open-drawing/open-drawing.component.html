@@ -25,7 +25,7 @@
             </mat-autocomplete>
         </mat-form-field>
     </div>
-    <mat-paginator [length]="dataObs.value.length" [pageSize]="2" [pageIndex]="pageIndex" (page)="pageEvent = $event;">
+    <mat-paginator [length]="numPages" [pageSize]="2" [pageIndex]="pageIndex" (page)="pageEvent = $event;">
     </mat-paginator>
     <div *ngIf="isLoaded" class="drawing-list">
         <div *ngIf="dataObs.value.length !== 0">

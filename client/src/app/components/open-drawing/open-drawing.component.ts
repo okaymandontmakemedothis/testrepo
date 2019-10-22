@@ -41,6 +41,7 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   // selectedDrawing: Drawing | null;
   drawingPreview: Drawing[] = [];
   isLoaded = false;
+  numPages=0
 
   dataSource: MatTableDataSource<Drawing> = new MatTableDataSource<Drawing>();
   dataObs: BehaviorSubject<Drawing[]>;
@@ -57,7 +58,12 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dialogRef.afterOpened().subscribe(() => {
       this.openDrawingService.getDrawings()
         .subscribe((drawings: Drawing[]) => {
+          console.log(drawings)
+          this.numPages=drawings.length
           this.dataSource.data = drawings;
+          console.log(this.dataSource.filteredData)
+
+
           this.drawingPreview = drawings;
           this.isLoaded = true;
 
@@ -71,7 +77,7 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.dataSource.filterPredicate = ((data: Drawing) => this.tagService.containsTag(data, this.openDrawingService.selectedTags));
+    this.dataSource.filterPredicate = ((data: Drawing) => this.tagService.containsTag(data, this.selectedTags));
     this.dataObs = this.dataSource.connect();
 
   }
