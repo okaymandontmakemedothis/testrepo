@@ -10,7 +10,7 @@ import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 import { INITIAL_WIDTH } from '../tools-constants';
 
-/// Service de l'outil pencil, permet de créer des polyline en svg
+/// Service de l'outil ligne, permet de créer des polyline en svg
 /// Il est possible d'ajuster le stroke width dans le form
 @Injectable({
   providedIn: 'root',
@@ -147,7 +147,7 @@ export class LineToolService implements ITools {
   }
 
   /// Réinitialisation de l'outil après avoir laisser le clique de la souris
-  // tslint:disable-next-line: no-empty
+
   onRelease(event: MouseEvent): void { }
 
   /// Ajout d'un point seulon le déplacement de la souris
@@ -186,10 +186,10 @@ export class LineToolService implements ITools {
   }
 
   private changePoint(point: Point): void {
-    if (this.object) {
+   // if (this.object) {
       this.pointsList.pop();
       this.pointsList.push(point);
-    }
+    //}
   }
 
   /// mettre a jour la liste de points reliant les segments
@@ -207,7 +207,7 @@ export class LineToolService implements ITools {
     this.clickNumber++;
     /// verification apres un delai
     if (this.clickNumber === 1) {
-      /// ares 1/2 seconde on remet le nombre d'evement a zero
+      /// apres 1/2 seconde on remet le nombre d'evement a zero
       setTimeout(() => { this.clickNumber = 0; },
         200);
     }
@@ -239,12 +239,14 @@ export class LineToolService implements ITools {
   }
 
   /// mettre a jour la liste de points contenant les lignes
+
   private removeRecentPoint(): void {
     if (this.pointsList.length > 2) {
       const obj = this.pointsList.pop();
       this.pointsList.pop();
       this.pointsList.push(obj as Point);
     }
+
     this.updatelistPoint();
   }
 
@@ -289,3 +291,4 @@ export class LineToolService implements ITools {
     }
   }
 }
+
