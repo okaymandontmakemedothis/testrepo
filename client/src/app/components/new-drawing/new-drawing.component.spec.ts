@@ -17,7 +17,7 @@ describe('NewDrawingComponent', () => {
 
   // let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
   let rendererSpy: jasmine.SpyObj<Renderer2>;
-
+  let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
   const dialogRefSpyObj = jasmine.createSpyObj({
     afterClosed: of({}),
     afterOpened: of({}),
@@ -44,8 +44,10 @@ describe('NewDrawingComponent', () => {
         { provide: MatDialogRef, useValue: dialogRefSpyObj }],
     });
     TestBed.compileComponents();
+
     dialogSpy = spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
-    // drawingServiceSpy = TestBed.get(DrawingService);
+    drawingServiceSpy = TestBed.get(DrawingService);
+    drawingServiceSpy.drawing = document.createElementNS('svg', 'svg') as SVGElement;
   }));
 
   beforeEach(() => {
