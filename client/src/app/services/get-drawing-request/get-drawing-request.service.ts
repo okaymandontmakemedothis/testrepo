@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Drawing } from '../../../../../common/communication/drawing';
 import { Message } from '../../../../../common/communication/message';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,5 @@ export class GetDrawingRequestService {
       catchError(() => of([])),
     );
   }
-
 
 }

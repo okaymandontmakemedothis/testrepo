@@ -44,7 +44,7 @@ export class ControlMenuComponent {
     this.dialog.open(OpenDrawingComponent, {
       width: '800px',
       maxHeight: '800px',
-      autoFocus: false
+      autoFocus: false,
 
     });
   }

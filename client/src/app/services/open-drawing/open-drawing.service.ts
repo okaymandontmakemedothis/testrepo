@@ -11,8 +11,8 @@ import { RGBA } from 'src/app/model/rgba.model';
 import { environment } from 'src/environments/environment.prod';
 import { Drawing } from '../../../../../common/communication/drawing';
 import { DrawingService } from '../drawing/drawing.service';
-import { TagService } from '../tag/tag.service';
 import { GetDrawingRequestService } from '../get-drawing-request/get-drawing-request.service';
+import { TagService } from '../tag/tag.service';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +38,7 @@ export class OpenDrawingService {
     this.selectedDrawing = drawing;
   }
   getDrawings(): Observable<Drawing[]> {
-    return this.getDrawingRequestService.getDrawings()
+    return this.getDrawingRequestService.getDrawings();
 
   }
   getBackgroundSelected(drawing: Drawing): string {
