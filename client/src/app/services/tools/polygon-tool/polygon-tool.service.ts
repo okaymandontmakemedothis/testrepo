@@ -69,6 +69,7 @@ export class PolygonToolService implements ITools {
       this.firstY = offset.y;
 
       this.object = this.drawingService.renderer.createElement('polygon', 'svg');
+      this.drawingService.renderer.setAttribute(this.object, 'name', 'polygon');
 
       this.drawingService.renderer.setStyle(this.object, 'stroke-width', this.strokeWidth.value.toString());
       this.drawingService.renderer.setStyle(this.object, 'stroke-alignment', 'outer');

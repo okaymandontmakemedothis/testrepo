@@ -36,6 +36,7 @@ export class TextureFour implements ITexture {
         renderer.setProperty(g2, 'id', 'morphing-diamonds');
         renderer.setAttribute(g2, 'fill', `rgb(${primaryColor.rgb.r},${primaryColor.rgb.g},${primaryColor.rgb.b})`);
         renderer.setAttribute(g2, 'fill-opacity', `${primaryColor.a}`);
+        renderer.setAttribute(g2, 'name', 'texture');
         const path: SVGPathElement = renderer.createElement('path', 'svg');
         renderer.setAttribute(path, 'd',
             `M9,0 L11,0 L11,20 L9,20 L9,0 Z M34.1339746,0.839745962 L35.8660254,1.83974596

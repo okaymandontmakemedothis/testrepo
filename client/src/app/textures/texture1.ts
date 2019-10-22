@@ -33,6 +33,7 @@ export class TextureOne implements ITexture {
         const g2: SVGGElement = renderer.createElement('g', 'svg');
         renderer.setAttribute(g2, 'fill', `rgb(${primaryColor.rgb.r},${primaryColor.rgb.g},${primaryColor.rgb.b})`);
         renderer.setAttribute(g2, 'fill-opacity', `${primaryColor.a}`);
+        renderer.setAttribute(g2, 'name', 'texture');
         const path: SVGPathElement = renderer.createElement('path', 'svg');
         renderer.setAttribute(path, 'd',
             'M2 0h2v12H2V0zm1 20c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM9 8c1.105 ' +

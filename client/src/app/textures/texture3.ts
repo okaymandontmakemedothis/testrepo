@@ -35,6 +35,7 @@ export class TextureThree implements ITexture {
         renderer.setProperty(g2, 'id', 'morphing-diamonds');
         renderer.setAttribute(g2, 'fill', `rgb(${primaryColor.rgb.r},${primaryColor.rgb.g},${primaryColor.rgb.b})`);
         renderer.setAttribute(g2, 'fill-opacity', `${primaryColor.a}`);
+        renderer.setAttribute(g2, 'name', 'texture');
         const path: SVGPathElement = renderer.createElement('path', 'svg');
         renderer.setAttribute(path, 'd',
             `M6,12 C6,11.3784524 5.90549098,10.7789786 5.73005951,10.2151652 C6.81793291,11.3170865
