@@ -70,15 +70,15 @@ describe('CanvasComponent', () => {
     expect(component.isDrawingCreated).toEqual(false);
   });
 
-  it(' ngAfterView should be called ', () => {
-    // component.ngAfterViewInit();
-    // rendererSpy.appendChild.withArgs('svg', 'rect');
-    // const elm = SVGElement.prototype;
+  // it(' ngAfterView should be called ', () => {
+  // component.ngAfterViewInit();
+  // rendererSpy.appendChild.withArgs('svg', 'rect');
+  // const elm = SVGElement.prototype;
 
-    // component.canvasDiv = ElementRef.prototype;
-    // drawingServiceSpy.drawingEmit.emit();
+  // component.canvasDiv = ElementRef.prototype;
+  // drawingServiceSpy.drawingEmit.emit();
 
-    // expect(component.svg).toEqual(elm);
-  });
+  // expect(component.svg).toEqual(elm);
+  // });
 
 });

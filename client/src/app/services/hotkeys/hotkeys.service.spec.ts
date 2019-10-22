@@ -235,9 +235,9 @@ describe('HotkeysService', () => {
     expect(dialogSpy).not.toHaveBeenCalled();
   });
 
-  it('should disable hotkey on dialog open', () => {
-  });
+  // it('should disable hotkey on dialog open', () => {
+  // });
 
-  it('should disable hotkey after all dialog close', () => {
-  });
+  // it('should disable hotkey after all dialog close', () => {
+  // });
 });
