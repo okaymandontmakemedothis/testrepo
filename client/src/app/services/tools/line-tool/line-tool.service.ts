@@ -254,9 +254,9 @@ export class LineToolService implements ITools {
     /// mettre a jour la liste de points contenant les segments
     this.pointsList.splice(0);
     this.updatelistPoint();
-   /* if (this.object) {
+    if (this.object) {
       this.object = null;
-    }*/
+    }
   }
 
   changeTool(): void {

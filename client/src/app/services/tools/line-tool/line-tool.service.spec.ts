@@ -53,33 +53,17 @@ describe('LineToolService', () => {
     service.onPressed(new MouseEvent('mousedown'));
     service.onRelease(new MouseEvent('mouseup'));
     setTimeout(() => {}, 10 );
-    //offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
     service.onPressed(new MouseEvent('mousedown'));
-    //
+    
     service.onPressed(new MouseEvent('mousedown'));
     service.onRelease(new MouseEvent('mouseup'));
     setTimeout(() => {}, 10 );
-    //offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
     service.onPressed(new MouseEvent('mousedown'));
     expect(service).toBeTruthy();
   });
 
-  it('-------------------------------------should be created', () => {
-    const service: LineToolService = TestBed.get(LineToolService);
-    rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
-    rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
-    rendererSpy.createElement.withArgs('circle','svg').and.returnValue('circle');
-    rendererSpy.createElement.withArgs('polyline','svg').and.returnValue('polyline');
-    
-    drawingServiceSpy.removeObject(0);
-    expect(drawingServiceSpy.removeObject).toHaveBeenCalled();
-    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
-    service.onPressed(new MouseEvent('mousedown') );
-    const service2 :LineToolService = new LineToolService(offsetManagerServiceSpy,colorToolServiceSpy,drawingServiceSpy);
-    expect(service).toBeTruthy();
-    service2.onPressed(new MouseEvent('mousedown'));
-    expect(service2).toBeTruthy();
-  });
   
   it('should not execute onDoublePressed',()=>{
     const service: LineToolService = TestBed.get(LineToolService);
@@ -111,11 +95,9 @@ describe('LineToolService', () => {
 
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
     service.onPressed(new MouseEvent('mousedown') );
-
-    //expect(service.onPressed).toBeUndefined;//toHaveBeenCalled();
     expect(drawingServiceSpy.addObject).toHaveBeenCalled();
-
   })
+
   it('should execute onDoublePressed with shift',()=>{
     const service: LineToolService = TestBed.get(LineToolService);
     rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
@@ -133,10 +115,8 @@ describe('LineToolService', () => {
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
     service.onPressed(new MouseEvent('mousedown') );
     expect(drawingServiceSpy.addObject).toHaveBeenCalled();
-
-    
-
   })
+
   it('should pressed with button 1',() =>{
     const service: LineToolService = TestBed.get(LineToolService);
     rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
@@ -154,59 +134,6 @@ describe('LineToolService', () => {
     expect(drawingServiceSpy.addObject).toHaveBeenCalled();
 
   })
-/*
-  it('should remove dot and add the polyline on the first move', () => {
-    const service: LineToolService = TestBed.get(LineToolService);
-    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
-    //rendererSpy.createElement.withArgs('polyline', 'svg').and.returnValue('polyline');
-    //rendererSpy.createElement.withArgs('ellipse', 'svg').and.returnValue('ellipse');
-    const moveEvent = new MouseEvent('mousemove', { movementX: 2, movementY: 2 });
-    service.onPressed(new MouseEvent('mousedown'));
-    service.onMove(moveEvent);
-    expect(drawingServiceSpy.addObject).toHaveBeenCalled();
-    expect(drawingServiceSpy.removeObject).not.toHaveBeenCalled();
-    rendererSpy.setAttribute.calls.reset();
-    drawingServiceSpy.addObject.calls.reset();
-    drawingServiceSpy.removeObject.calls.reset();
-    service.onMove(moveEvent);
-    //expect(drawingServiceSpy.addObject).not.toHaveBeenCalled();
-    //expect(drawingServiceSpy.removeObject).not.toHaveBeenCalled();
-    //expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalled();
-  });
-*/
-  it('should define marker',() => {
-    const service: LineToolService = TestBed.get(LineToolService);
-    const marker = rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
-    rendererSpy.setAttribute(marker, 'markerUnits', 'userSpaceOnUse');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith(marker, 'markerUnits', 'userSpaceOnUse');
-
-    drawingServiceSpy.renderer.setAttribute(marker, 'markerHeight', ((service.parameters.get('diameter') as FormControl).value).toString());
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'markerHeight', ((service.parameters.get('diameter') as FormControl).value).toString());
-    drawingServiceSpy.renderer.setAttribute(marker, 'markerWidth', ((service.parameters.get('diameter') as FormControl).value).toString());
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'markerHeight', ((service.parameters.get('diameter') as FormControl).value).toString());
-
-     const id = 0;
-    drawingServiceSpy.renderer.setProperty(marker, 'id', `Marker${id.toString()}`);
-    expect(drawingServiceSpy.renderer.setProperty).toHaveBeenCalledWith
-    (marker, 'id', 'Marker0');
-    drawingServiceSpy.renderer.setAttribute(marker, 'viewBox',
-      `0 0 ${((service.parameters.get('diameter') as FormControl).value)} ${((service.parameters.get('diameter') as FormControl).value)}`);
-    drawingServiceSpy.renderer.setAttribute
-    (marker, 'refX', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-    drawingServiceSpy.renderer.setAttribute
-    (marker, 'refY', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'viewBox',
-      `0 0 ${((service.parameters.get('diameter') as FormControl).value)} ${((service.parameters.get('diameter') as FormControl).value)}`);
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'refX', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'refY', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-  });
 
   it('should add point to the current polyline if bouton pressed is 0', () => {
     const service: LineToolService = TestBed.get(LineToolService);
@@ -222,62 +149,6 @@ describe('LineToolService', () => {
     service.onMove(moveEvent);
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalled();
   });
-/*
-  it('should remove dot and add the polyline on the first move', () => {
-    const service: LineToolService = TestBed.get(LineToolService);
-    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
-    rendererSpy.createElement.withArgs('polyline', 'svg').and.returnValue('polyline');
-    rendererSpy.createElement.withArgs('ellipse', 'svg').and.returnValue('ellipse');
-    const moveEvent = new MouseEvent('mousemove', { movementX: 2, movementY: 2 });
-    service.onPressed(new MouseEvent('mousedown'));
-    service.onMove(moveEvent);
-    expect(drawingServiceSpy.addObject).toHaveBeenCalled();
-    expect(drawingServiceSpy.removeObject).toHaveBeenCalled();
-    rendererSpy.setAttribute.calls.reset();
-    drawingServiceSpy.addObject.calls.reset();
-    drawingServiceSpy.removeObject.calls.reset();
-    service.onMove(moveEvent);
-    expect(drawingServiceSpy.addObject).not.toHaveBeenCalled();
-    expect(drawingServiceSpy.removeObject).not.toHaveBeenCalled();
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalled();
-  });*/
-/*
-  it('should create an object with good color on left click', () => {
-    const service: LineToolService = TestBed.get(LineToolService);
-    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
-    rendererSpy.createElement.withArgs('polyline', 'svg').and.returnValue('polyline');
-    rendererSpy.createElement.withArgs('ellipse', 'svg').and.returnValue('ellipse');
-    const setColorsSpy = spyOn(service, 'setColors');
-
-    service.onPressed(new MouseEvent('mousedown', { button: 0 }));
-    const sw: number = (service.parameters.get('strokeWidth') as FormControl).value;
-    expect(rendererSpy.setStyle).toHaveBeenCalledWith('polyline', 'stroke-width', sw.toString());
-    expect(setColorsSpy).toHaveBeenCalledWith({ r: 0, g: 0, b: 0 }, 0, 'ellipse');
-
-    service.onPressed(new MouseEvent('mousedown', { button: 2 }));
-
-    expect(setColorsSpy).toHaveBeenCalledWith({ r: 255, g: 255, b: 255 }, 1, 'ellipse');
-
-  });
-*/
-//---------------------------------------------------------
-//------------------------------------------------------------------
-//-------------------------------------------------------------------
-/*it('should addobject  if bouton pressed equal 1', () =>{
-  const service: LineToolService = TestBed.get(LineToolService);
-  rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
-  rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
-  rendererSpy.createElement.withArgs('circle','svg').and.returnValue('circle');
-  rendererSpy.createElement.withArgs('polyline','svg').and.returnValue('polyline');
-  offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 100, y: 12 });
-  const form = service.parameters.get('strokeWidth') as FormControl;
-  form.patchValue(0);
-  service.onPressed(new MouseEvent('mousedown', { button: 2 }));
-  expect(drawingServiceSpy.addObject).not.toHaveBeenCalled();
-  expect(service.onPressed(new MouseEvent('mousedown', { button: 2 }))).toBeUndefined();
-
-})*/
-
 
   it('should return null if bouton pressed equal 1', () =>{
     const service: LineToolService = TestBed.get(LineToolService);
@@ -326,21 +197,30 @@ describe('LineToolService', () => {
     const mouseEvent = new MouseEvent('mouseup');
     expect(service.onRelease(mouseEvent)).toBeUndefined();
   });
-  it('should move to the current polyline if object exist ', () => {
+  it('should move  the current polyline if object exist ', () => {
     const service: LineToolService = TestBed.get(LineToolService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 100, y: 12 });
+    rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
+    rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
+    rendererSpy.createElement.withArgs('circle','svg').and.returnValue('circle');
+    rendererSpy.createElement.withArgs('polyline','svg').and.returnValue('polyline');
     const form = service.parameters.get('strokeWidth') as FormControl;
     form.patchValue(4);
+
     const moveEvent = new MouseEvent('mousemove', { movementX: 2, movementY: 2 });
     service.onPressed(new MouseEvent('mousedown', { button: 0 }));//creer l'objet
-    //const setSizeSpy = spyOn(service as any, 'setSize');
+  
     service.onMove(moveEvent);
     expect(service.onPressed(new MouseEvent('mousedown'))).toBeUndefined();
     expect(drawingServiceSpy.addObject).toHaveBeenCalled();
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith(undefined,'points','100 12');
+    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('polyline','points','100 12');
   });
-  it('should not move to the current polyline if object do not exist ', () => {
+  it('should not move  the current polyline  ', () => {
     const service: LineToolService = TestBed.get(LineToolService);
+    rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
+    rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
+    rendererSpy.createElement.withArgs('circle','svg').and.returnValue('circle');
+    rendererSpy.createElement.withArgs('polyline','svg').and.returnValue('polyline');
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 100, y: 12 });
     const form = service.parameters.get('strokeWidth') as FormControl;
     form.patchValue(4);
@@ -352,14 +232,17 @@ describe('LineToolService', () => {
   it('should execute onKeyUp if event is shiftKey', () => {
     const service: LineToolService = TestBed.get(LineToolService);
     const eventKeyUp = new KeyboardEvent('keyup', { shiftKey: true });
+    const spy = spyOn(service,'onKeyUp')
     service.onKeyUp(eventKeyUp);
-    expect(service.onKeyUp(eventKeyUp)).toBeUndefined();
+    expect(spy).toHaveBeenCalled();
     expect(drawingServiceSpy.renderer.setAttribute).not.toHaveBeenCalledWith();
   });
   it('should not execute onKeyUp if event is not shiftKey', () => {
     const service: LineToolService = TestBed.get(LineToolService);
     const eventKeyUp = new KeyboardEvent('keyup', { shiftKey: false });
+    const spy = spyOn(service,'onKeyUp');
     service.onKeyUp(eventKeyUp);
+    expect(spy).toHaveBeenCalled();
     expect(service.onKeyUp(eventKeyUp)).toBeUndefined();
   });
    it('should do nothing on onKeyUp if keyboard is not pressed', () => {
@@ -385,8 +268,8 @@ describe('LineToolService', () => {
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 12 });
     const form = service.parameters.get('strokeWidth') as FormControl;
     form.patchValue(4);
-   // expect(service.onPressed(new MouseEvent('mousedown'))).toBeUndefined();
-   //crrer 3 points
+
+   //creer 3 points
     service.onPressed(new MouseEvent('mousedown', {button: 0}) );
     service.onRelease(new MouseEvent('mouseup', {button: 0}) );
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 100, y: 12 });
@@ -436,10 +319,9 @@ describe('LineToolService', () => {
 
     service.onRelease(new MouseEvent('mouseup', {button: 0}) );
    
-    // const spyKeyDown = spyOn(service,'onKeyDown').and.callThrough();
-      service.onKeyDown(eventKeyDown);
-      
-      //expect(spyKeyDown).toHaveBeenCalledWith('object KeyboardEvent');
+  
+    service.onKeyDown(eventKeyDown);
+ 
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalled();
    });
 
@@ -479,19 +361,15 @@ describe('LineToolService', () => {
     form.patchValue(4);
     expect(service.onPressed(new MouseEvent('mousedown'))).toBeUndefined();
 
-     service.changeTool();
-
-     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalled();
-      offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 100, y: 12 });
-      form.patchValue(0);
-      
-      service.onPressed(new MouseEvent('mousedown', { button: 0 }));
-      expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalled();
-     
+    service.changeTool();
+    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalled();
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 100, y: 12 });
+    form.patchValue(0);
+    service.onPressed(new MouseEvent('mousedown', { button: 0 }));
+    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalled();
+    
    })
 
-
-//****************************************************************** */
   it('should do nothing if mouse button is not left or right', () => {
     const service: LineToolService = TestBed.get(LineToolService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
@@ -501,225 +379,40 @@ describe('LineToolService', () => {
     expect(rendererSpy.createElement).not.toHaveBeenCalled();
   });
 
-  it('should select stylemotif ligne', () => {
+  it('should select stylemotif en pointille-trait', () => {
     const service: LineToolService = TestBed.get(LineToolService);
+
     //ajouter les attributs en relation avec le marqueur
-    const markerDefs = rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
-    const marker = rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
-
-        rendererSpy.setAttribute(marker, 'markerUnits', 'userSpaceOnUse');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith(marker, 'markerUnits', 'userSpaceOnUse');
-
-    drawingServiceSpy.renderer.setAttribute(marker, 'markerHeight', ((service.parameters.get('diameter') as FormControl).value).toString());
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'markerHeight', ((service.parameters.get('diameter') as FormControl).value).toString());
-    drawingServiceSpy.renderer.setAttribute(marker, 'markerWidth', ((service.parameters.get('diameter') as FormControl).value).toString());
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'markerHeight', ((service.parameters.get('diameter') as FormControl).value).toString());
-
-     const id  = 0;
-    drawingServiceSpy.renderer.setProperty(marker, 'id', `Marker${id.toString()}`);
-    expect(drawingServiceSpy.renderer.setProperty).toHaveBeenCalledWith
-    (marker, 'id', 'Marker0');
-    drawingServiceSpy.renderer.setAttribute(marker, 'viewBox',
-      `0 0 ${((service.parameters.get('diameter') as FormControl).value)} ${((service.parameters.get('diameter') as FormControl).value)}`);
-    drawingServiceSpy.renderer.setAttribute
-    (marker, 'refX', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-    drawingServiceSpy.renderer.setAttribute
-    (marker, 'refY', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'viewBox',
-      `0 0 ${((service.parameters.get('diameter') as FormControl).value)} ${((service.parameters.get('diameter') as FormControl).value)}`);
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'refX', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'refY', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-
-    const  circle = rendererSpy.createElement.withArgs('circle', 'svg');//.and.returnValue('circle');
-    rendererSpy.setAttribute(circle, 'cx', (service.parameters.get('diameter') as FormControl).value.toString());
-    rendererSpy.setAttribute(circle, 'cy', (service.parameters.get('diameter') as FormControl).value.toString());
-    rendererSpy.setAttribute(circle, 'r', (service.parameters.get('diameter') as FormControl).value.toString());
-    rendererSpy.setAttribute(circle, 'visibility', 'hidden');
-
-    rendererSpy.appendChild(markerDefs, marker);
-
-    rendererSpy.appendChild(marker, circle);
-
-    drawingServiceSpy.addObject(markerDefs);
-
-    /////////////---------------------------------------////////////////////////////
-    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 100, y: 12 });
-
-    rendererSpy.createElement.withArgs('polyline', 'svg').and.returnValue('polyline');
-    rendererSpy.createElement.withArgs('ellipse', 'svg').and.returnValue('ellipse');
+    rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
+    rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
+    rendererSpy.createElement.withArgs('circle','svg').and.returnValue('circle');
+    rendererSpy.createElement.withArgs('polyline','svg').and.returnValue('polyline');
     const form = service.parameters.get('rectStyleMotif') as FormControl;
-    form.patchValue('ligne');
-    service.onPressed(new MouseEvent('mousedown'));
-
     const sw: number = (service.parameters.get('strokeWidth') as FormControl).value;
-    expect(drawingServiceSpy.renderer.createElement).toHaveBeenCalledWith('polyline', 'svg');
-    let markerId = 0;
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('polyline', 'marker-start', `url(#Marker${markerId})`);
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('polyline', 'marker-mid', `url(#Marker${markerId})`);
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('polyline', 'marker-end', `url(#Marker${markerId})`);
-
-    //markerId ++;
-    expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polyline', 'stroke-width', sw.toString());
-  //expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('polyline', 'points', `${10} ${20}`);
-   expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polyline','stroke-dasharray','');
-   expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polyline','fill','none');
-
-
-  });
-  it('should select stylemotif pointille-trait', () => {
-    const service: LineToolService = TestBed.get(LineToolService);
-
-    //ajouter les attributs en relation avec le marqueur
-
-    const markerDefs = rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
-    const marker = rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
-
-    rendererSpy.setAttribute(marker, 'markerUnits', 'userSpaceOnUse');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith(marker, 'markerUnits', 'userSpaceOnUse');
-
-    drawingServiceSpy.renderer.setAttribute(marker, 'markerHeight', ((service.parameters.get('diameter') as FormControl).value).toString());
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'markerHeight', ((service.parameters.get('diameter') as FormControl).value).toString());
-    drawingServiceSpy.renderer.setAttribute(marker, 'markerWidth', ((service.parameters.get('diameter') as FormControl).value).toString());
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'markerHeight', ((service.parameters.get('diameter') as FormControl).value).toString());
-
-     const id  = 0;
-    drawingServiceSpy.renderer.setProperty(marker, 'id', `Marker${id.toString()}`);
-    expect(drawingServiceSpy.renderer.setProperty).toHaveBeenCalledWith
-    (marker, 'id', 'Marker0');
-    drawingServiceSpy.renderer.setAttribute(marker, 'viewBox',
-      `0 0 ${((service.parameters.get('diameter') as FormControl).value)} ${((service.parameters.get('diameter') as FormControl).value)}`);
-    drawingServiceSpy.renderer.setAttribute
-    (marker, 'refX', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-    drawingServiceSpy.renderer.setAttribute
-    (marker, 'refY', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'viewBox',
-      `0 0 ${((service.parameters.get('diameter') as FormControl).value)} ${((service.parameters.get('diameter') as FormControl).value)}`);
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'refX', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'refY', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-
-    const  circle = rendererSpy.createElement.withArgs('circle', 'svg');//.and.returnValue('circle');
-    rendererSpy.setAttribute(circle, 'cx', (service.parameters.get('diameter') as FormControl).value.toString());
-    rendererSpy.setAttribute(circle, 'cy', (service.parameters.get('diameter') as FormControl).value.toString());
-    rendererSpy.setAttribute(circle, 'r', (service.parameters.get('diameter') as FormControl).value.toString());
-    rendererSpy.setAttribute(circle, 'visibility', 'hidden');
-
-    rendererSpy.appendChild(markerDefs, marker);
-
-    rendererSpy.appendChild(marker, circle);
-
-    drawingServiceSpy.addObject(markerDefs);
-
-    /////////////---------------------------------------////////////////////////////
-    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 100, y: 12 });
-
-    rendererSpy.createElement.withArgs('polyline', 'svg').and.returnValue('polyline');
-    rendererSpy.createElement.withArgs('ellipse', 'svg').and.returnValue('ellipse');
-    const form = service.parameters.get('rectStyleMotif') as FormControl;
     form.patchValue('pointille-trait');
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
     service.onPressed(new MouseEvent('mousedown'));
-
-    const sw: number = (service.parameters.get('strokeWidth') as FormControl).value;
-    expect(drawingServiceSpy.renderer.createElement).toHaveBeenCalledWith('polyline', 'svg');
-    let markerId = 0;
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('polyline', 'marker-start', `url(#Marker${markerId})`);
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('polyline', 'marker-mid', `url(#Marker${markerId})`);
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('polyline', 'marker-end', `url(#Marker${markerId})`);
-    expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polyline', 'stroke-width', sw.toString());
-   expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polyline','stroke-dasharray','16');
-   expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polyline','fill','none');
-
-
+    expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polyline','stroke-dasharray',`${sw * 2}`);
 
   });
 
-  it('should select stylemotif pointille-point', () => {
+  it('should select stylemotif en pointille-point', () => {
     const service: LineToolService = TestBed.get(LineToolService);
 
     //ajouter les attributs en relation avec le marqueur
-
-    const markerDefs = rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
-    const marker = rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
-
-        rendererSpy.setAttribute(marker, 'markerUnits', 'userSpaceOnUse');
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith(marker, 'markerUnits', 'userSpaceOnUse');
-
-    drawingServiceSpy.renderer.setAttribute(marker, 'markerHeight', ((service.parameters.get('diameter') as FormControl).value).toString());
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'markerHeight', ((service.parameters.get('diameter') as FormControl).value).toString());
-    drawingServiceSpy.renderer.setAttribute(marker, 'markerWidth', ((service.parameters.get('diameter') as FormControl).value).toString());
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'markerHeight', ((service.parameters.get('diameter') as FormControl).value).toString());
-
-     const id  = 0;
-    drawingServiceSpy.renderer.setProperty(marker, 'id', `Marker${id.toString()}`);
-    expect(drawingServiceSpy.renderer.setProperty).toHaveBeenCalledWith
-    (marker, 'id', 'Marker0');
-    drawingServiceSpy.renderer.setAttribute(marker, 'viewBox',
-      `0 0 ${((service.parameters.get('diameter') as FormControl).value)} ${((service.parameters.get('diameter') as FormControl).value)}`);
-    drawingServiceSpy.renderer.setAttribute
-    (marker, 'refX', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-    drawingServiceSpy.renderer.setAttribute
-    (marker, 'refY', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'viewBox',
-      `0 0 ${((service.parameters.get('diameter') as FormControl).value)} ${((service.parameters.get('diameter') as FormControl).value)}`);
-
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'refX', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith
-    (marker, 'refY', (((service.parameters.get('diameter') as FormControl).value) / 2).toString());
-
-    const  circle = rendererSpy.createElement.withArgs('circle', 'svg');//.and.returnValue('circle');
-    rendererSpy.setAttribute(circle, 'cx', (service.parameters.get('diameter') as FormControl).value.toString());
-    rendererSpy.setAttribute(circle, 'cy', (service.parameters.get('diameter') as FormControl).value.toString());
-    rendererSpy.setAttribute(circle, 'r', (service.parameters.get('diameter') as FormControl).value.toString());
-    rendererSpy.setAttribute(circle, 'visibility', 'hidden');
-
-    rendererSpy.appendChild(markerDefs, marker);
-
-    rendererSpy.appendChild(marker, circle);
-
-    drawingServiceSpy.addObject(markerDefs);
-
-    /////////////---------------------------------------////////////////////////////
-    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 100, y: 12 });
-
-    rendererSpy.createElement.withArgs('polyline', 'svg').and.returnValue('polyline');
-    rendererSpy.createElement.withArgs('ellipse', 'svg').and.returnValue('ellipse');
+    rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
+    rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
+    rendererSpy.createElement.withArgs('circle','svg').and.returnValue('circle');
+    rendererSpy.createElement.withArgs('polyline','svg').and.returnValue('polyline');
     const form = service.parameters.get('rectStyleMotif') as FormControl;
-
-    form.patchValue('pointille-point');
-    service.onPressed(new MouseEvent('mousedown'));
-
     const sw: number = (service.parameters.get('strokeWidth') as FormControl).value;
-    expect(drawingServiceSpy.renderer.createElement).toHaveBeenCalledWith('polyline', 'svg');
-    let markerId = 0;
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('polyline', 'marker-start', `url(#Marker${markerId})`);
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('polyline', 'marker-mid', `url(#Marker${markerId})`);
-    expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('polyline', 'marker-end', `url(#Marker${markerId})`);
-
-    //markerId ++;
-    expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polyline', 'stroke-width', sw.toString());
-   expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polyline','stroke-dasharray','1 12');
-   expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polyline','fill','none');
-   expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polyline','fill','none');
+    form.patchValue('pointille-point');
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
+    service.onPressed(new MouseEvent('mousedown'));
+    expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polyline','stroke-dasharray',`1 ${sw * 1.5}`);
 
   });
+
 
   it('should not select stylejonction',() => {
     const service: LineToolService = TestBed.get(LineToolService);
@@ -802,7 +495,7 @@ describe('LineToolService', () => {
 
   });
 
-  it('should execute  onKeyDown if shift is pressed and object exist ', () => {
+  it('should call removeRecentPoint  ', () => {
     const service: LineToolService = TestBed.get(LineToolService);
     rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
     rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
@@ -814,7 +507,6 @@ describe('LineToolService', () => {
     service.onPressed(new MouseEvent('mousedown'));
     service.onKeyDown(eventKeyDown);
     expect(spy).toHaveBeenCalled();
-
   });
 
 });
