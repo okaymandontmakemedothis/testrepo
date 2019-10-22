@@ -814,7 +814,6 @@ describe('LineToolService', () => {
     service.onPressed(new MouseEvent('mousedown'));
     service.onKeyDown(eventKeyDown);
     expect(spy).toHaveBeenCalled();
-
   });
 
 });
