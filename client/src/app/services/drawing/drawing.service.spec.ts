@@ -24,7 +24,7 @@ describe('DrawingService', () => {
 
   it('#rgbColorString should return rgba color in string', () => {
     service.color = rgbColor;
-    const rgbString = 'rgb(' + rgbColor.r + ',' + rgbColor.g + ',' + rgbColor.b + ')';
+    const rgbString = 'rgba(' + rgbColor.r + ',' + rgbColor.g + ',' + rgbColor.b + ')';
     expect(service.rgbColorString).toBe(rgbString);
   });
 
