@@ -28,7 +28,7 @@ export class PipetteToolService implements ITools {
     if (event.button === 0 || event.button === 2) {
       const target = event.target as SVGElement;
       const targetName: string | null = target.getAttribute('name');
-      if (!targetName) {
+      if (target.tagName.toLowerCase() === 'svg') {
         if (event.button === 0) { // left click so set primary color to color of object
           this.toolsColorService.setPrimaryColor(this.drawingService.color, this.drawingService.alpha);
         } else {     // right click so set secondary color to color of object
@@ -36,43 +36,44 @@ export class PipetteToolService implements ITools {
         }
         return;
       }
-      const propertyMap: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[targetName];
-      if (!propertyMap) {
-        return;
-      }
-      const primaryColorAttribute: string | undefined = propertyMap.primaryColor;
-      const primaryAlphaAttribute: string | undefined = propertyMap.primaryOpacity;
-      if (!primaryColorAttribute || !primaryAlphaAttribute) {
-        return;
-      }
-      const actualValue = target.style.getPropertyValue(primaryColorAttribute);
-      let rgbString: string;
-      let alphaString: string;
-      if (actualValue.startsWith('url')) {
-        const patternElement: HTMLElement = (((document.getElementById(actualValue.replace('url("#', '').replace('")', '')) as HTMLElement)
-          .children.item(0) as HTMLElement)
-          .children.item(0) as HTMLElement);
-        rgbString = patternElement.getAttribute('fill') as string;
-        alphaString = patternElement.getAttribute('fill-opacity') as string;
-      } else {
-        rgbString = actualValue;
-        alphaString = target.style.getPropertyValue(primaryAlphaAttribute);
-      }
+      if (targetName) {
+        const propertyMap: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[targetName];
+        if (!propertyMap) {
+          return;
+        }
+        const primaryColorAttribute: string = propertyMap.primaryColor as string;
+        const primaryAlphaAttribute: string = propertyMap.primaryOpacity as string;
 
-      const rgbValue: RegExpMatchArray | null = rgbString.match(/\d+/g);
-      if (!rgbValue) {
-        return;
-      }
-      let rgb: RGB;
-      let a: number;
+        const actualValue = target.style.getPropertyValue(primaryColorAttribute);
+        let rgbString: string;
+        let alphaString: string;
+        if (actualValue.startsWith('url')) {
+          const patternElement: HTMLElement = (((document.getElementById
+            (actualValue.replace('url("#', '').replace('")', '')) as HTMLElement)
+            .children.item(0) as HTMLElement)
+            .children.item(0) as HTMLElement);
+          rgbString = patternElement.getAttribute('fill') as string;
+          alphaString = patternElement.getAttribute('fill-opacity') as string;
+        } else {
+          rgbString = actualValue;
+          alphaString = target.style.getPropertyValue(primaryAlphaAttribute);
+        }
 
-      rgb = { r: Number(rgbValue[0]), g: Number(rgbValue[1]), b: Number(rgbValue[2]) };
-      a = Number(alphaString);
+        const rgbValue: RegExpMatchArray | null = rgbString.match(/\d+/g);
+        if (!rgbValue) {
+          return;
+        }
+        let rgb: RGB;
+        let a: number;
 
-      if (event.button === 0) { // left click so set primary color to color of object
-        this.toolsColorService.setPrimaryColor(rgb, a);
-      } else {     // right click so set secondary color to color of object
-        this.toolsColorService.setSecondaryColor(rgb, a);
+        rgb = { r: Number(rgbValue[0]), g: Number(rgbValue[1]), b: Number(rgbValue[2]) };
+        a = Number(alphaString);
+
+        if (event.button === 0) { // left click so set primary color to color of object
+          this.toolsColorService.setPrimaryColor(rgb, a);
+        } else {     // right click so set secondary color to color of object
+          this.toolsColorService.setSecondaryColor(rgb, a);
+        }
       }
     }
   }

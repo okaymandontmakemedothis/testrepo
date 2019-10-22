@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogModule } from '@angular/material';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModules } from '../../app-material.module';
 import { AppComponent } from './app.component';
@@ -31,6 +31,7 @@ describe('AppComponent', () => {
         ReactiveFormsModule,
         MaterialModules,
       ],
+      providers:[{ provide: MatDialogRef,useValue:dialogRefSpyObj}],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 

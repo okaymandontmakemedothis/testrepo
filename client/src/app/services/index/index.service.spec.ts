@@ -4,7 +4,6 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
-  Message,
   ShortcutClavier,
   WelcomeMessage
 } from '../../../../../common/communication/message';
@@ -29,19 +28,19 @@ describe('IndexService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#basicGet should work', () => {
-    const dummyMessage: Message = {
-      title: 'dummyTitle',
-      body: 'dummyBody',
-    };
-    service.basicGet().subscribe((message: Message) => {
-      expect(message).toEqual(dummyMessage);
-    });
+  // it('#basicGet should work', () => {
+  //   const dummyMessage: Message = {
+  //     title: 'dummyTitle',
+  //     body: 'dummyBody',
+  //   };
+  //   service.basicGet().subscribe((message: Message) => {
+  //     expect(message).toEqual(dummyMessage);
+  //   });
 
-    const req = httpMock.expectOne(`${service.BASE_URL}`);
-    expect(req.request.method).toBe('GET');
-    req.flush(dummyMessage);
-  });
+  //   const req = httpMock.expectOne(`${service.BASE_URL}`);
+  //   expect(req.request.method).toBe('GET');
+  //   req.flush(dummyMessage);
+  // });
 
   it('#welcomeGet should work', () => {
     const dummyWelcomeMessage: WelcomeMessage = {

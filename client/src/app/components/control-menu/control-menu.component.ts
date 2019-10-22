@@ -36,11 +36,16 @@ export class ControlMenuComponent {
 
   /// Ouvrir le dialog de sauvegarde de dessin
   openSaveDrawing(): void {
-    this.dialog.open(SaveDrawingComponent, {});
+    this.dialog.open(SaveDrawingComponent, { width: '600px', maxHeight: '800px' });
   }
 
   /// Ouvrir le dialog d'ouverture de fichier
   openOpenDrawing(): void {
-    this.dialog.open(OpenDrawingComponent, { maxHeight: 800 });
+    this.dialog.open(OpenDrawingComponent, {
+      width: '800px',
+      maxHeight: '800px',
+      autoFocus: false,
+
+    });
   }
 }

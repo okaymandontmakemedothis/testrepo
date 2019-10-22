@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { faGripLines, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faProjectDiagram, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Point } from 'src/app/model/point.model';
 import { DrawingService } from '../../drawing/drawing.service';
 import { KeyCodes } from '../../hotkeys/hotkeys-constants';
@@ -17,7 +17,7 @@ import { INITIAL_WIDTH } from '../tools-constants';
 })
 export class LineToolService implements ITools {
   readonly toolName = 'Outil Ligne';
-  readonly faIcon: IconDefinition = faGripLines;
+  readonly faIcon: IconDefinition = faProjectDiagram;
   readonly id = ToolIdConstants.LINE_ID;
 
   private object: SVGPolylineElement | null;

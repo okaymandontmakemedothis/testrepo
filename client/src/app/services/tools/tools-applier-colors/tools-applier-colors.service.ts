@@ -30,17 +30,12 @@ export class ToolsApplierColorsService implements ITools {
       if (!targetName) {
         return;
       }
-      console.log(targetName);
       const propertyMap: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[targetName];
       if (!propertyMap) {
         return;
       }
-      console.log(propertyMap);
-      const primaryColorAttribute: string | undefined = propertyMap.primaryColor;
-      const primaryAlphaAttribute: string | undefined = propertyMap.primaryOpacity;
-      if (!primaryColorAttribute || !primaryAlphaAttribute) {
-        return;
-      }
+      const primaryColorAttribute: string = propertyMap.primaryColor as string;
+
       const actualValue = target.style.getPropertyValue(primaryColorAttribute);
 
       if (actualValue.startsWith('url')) {
@@ -66,25 +61,18 @@ export class ToolsApplierColorsService implements ITools {
         if (!property) {
           return;
         }
-        const colorAtribute: string | undefined = property[colorString];
-        const alphaAtribute: string | undefined = property[alphaString];
-        if (!colorAtribute || !alphaAtribute) {
-          return;
-        }
-        this.drawingService.renderer.setStyle(this.object, colorAtribute,
-          `rgb(${this.toolsColorService.primaryColor.r},${this.toolsColorService.primaryColor.g},
-          ${this.toolsColorService.primaryColor.b})`);
-        this.drawingService.renderer.setStyle(this.object, alphaAtribute, `${this.toolsColorService.primaryAlpha}`);
+        const colorAtribute: string = property[colorString] as string;
+        const alphaAtribute: string = property[alphaString] as string;
+
+        this.setColors(this.object, this.toolsColorService.primaryColor, colorAtribute);
+        this.setOpacity(this.object, this.toolsColorService.primaryAlpha, alphaAtribute);
         const markerID: string | null = this.object.getAttribute('marker-mid');
         if (markerID) {
           const markerEl: HTMLElement | null = document.getElementById(
             markerID.replace('url(#', '').replace(')', ''));
           if (markerEl) {
-            this.drawingService.renderer.setStyle(markerEl.firstChild, 'fill',
-              `rgb(${this.toolsColorService.primaryColor.r},${this.toolsColorService.primaryColor.g},
-              ${this.toolsColorService.primaryColor.b})`);
-            this.drawingService.renderer.setStyle(markerEl.firstChild, 'fillOpacity', `${this.toolsColorService.primaryAlpha}`);
-
+            this.setColors(markerEl.firstChild, this.toolsColorService.primaryColor, 'fill');
+            this.setOpacity(markerEl.firstChild, this.toolsColorService.primaryAlpha, 'fillOpacity');
           }
         }
       }
@@ -93,14 +81,14 @@ export class ToolsApplierColorsService implements ITools {
 
   }
 
-  setColors(rgb: RGB, property: string) {
+  setColors(element: any, rgb: RGB, property: string) {
     this.drawingService.renderer.setStyle(
-      this.object, property, `rgb(${rgb.r}, ${rgb.g},
+      element, property, `rgb(${rgb.r}, ${rgb.g},
         ${ rgb.b})`);
   }
 
-  setOpacity(a: number, property: string) {
-    this.drawingService.renderer.setStyle(this.object, 'property', a.toString());
+  setOpacity(element: any, a: number, property: string) {
+    this.drawingService.renderer.setStyle(element, property, a.toString());
   }
 
   /// Fonction non utilisé pour cet outil

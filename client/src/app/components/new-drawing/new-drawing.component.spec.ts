@@ -70,9 +70,9 @@ describe('NewDrawingComponent', () => {
     expect(component.dialogRef.close).toHaveBeenCalled();
   });
 
-  it('should not call dialog.close on the second time onAccept is called', () => {
-    // ...
-  });
+  // it('should not call dialog.close on the second time onAccept is called', () => {
+  //   // ...
+  // });
 
   it('should call dialogRef.close onCancel', () => {
     component.onCancel();

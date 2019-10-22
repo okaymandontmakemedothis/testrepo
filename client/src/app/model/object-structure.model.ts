@@ -53,4 +53,25 @@ export const OBJECT_ATTRIBUTE_STRUCTURE: Record<string, Record<string, string>> 
         width: 'width',
         height: 'height',
     },
+
+    polygone: {
+      primaryColor: 'fill',
+      primaryOpacity: 'fill-opacity',
+      secondaryColor: 'stroke',
+      secondaryOpacity: 'stroke-opacity',
+      x: 'none',
+      y: 'none',
+      width: 'none',
+      height: 'none',
+  },
+    texture: {
+        primaryColor: 'fill',
+        primaryOpacity: 'fill-opacity',
+        secondaryColor: 'none',
+        secondaryOpacity: 'none',
+        x: 'x',
+        y: 'y',
+        width: 'width',
+        height: 'height',
+    },
 };

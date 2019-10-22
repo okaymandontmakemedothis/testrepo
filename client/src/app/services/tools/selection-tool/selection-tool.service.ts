@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
-import { faPoo } from '@fortawesome/free-solid-svg-icons';
+import { faMousePointer } from '@fortawesome/free-solid-svg-icons';
 import { DrawingService } from '../../drawing/drawing.service';
 import { OffsetManagerService } from '../../offset-manager/offset-manager.service';
 import { ITools } from '../ITools';
@@ -12,7 +12,7 @@ import { ToolIdConstants } from '../tool-id-constants';
 })
 export class SelectionToolService implements ITools {
   readonly id: number = ToolIdConstants.SELECTION_ID;
-  readonly faIcon: IconDefinition = faPoo;
+  readonly faIcon: IconDefinition = faMousePointer;
   readonly toolName = 'Sélection';
   parameters: FormGroup;
 
@@ -44,18 +44,19 @@ export class SelectionToolService implements ITools {
       const obj = this.drawingService.getObject(Number(target.id));
 
       if (event.button === 0) {
-        if (obj && !this.rectID.includes(Number(obj.getAttribute('id'))) && (this.objects.length < 2 || !this.objects.includes(obj))) {
-          this.removeSelection();
-          this.objects.push(obj);
-          this.setSelection();
-          this.isIn = true;
-          this.rectSelectionId = this.drawingService.addObject(this.rectSelection);
-          this.rectID.push(this.rectSelectionId);
-          return;
-        } else if (this.isInside(offset.x, offset.y)) {
+        if (this.isInside(offset.x, offset.y)) {
           this.isIn = true;
         } else {
           this.removeSelection();
+          if (obj && !this.rectID.includes(Number(obj.getAttribute('id')))
+            && (this.objects.length < 2 || !this.objects.includes(obj))) {
+            this.objects.push(obj);
+            this.setSelection();
+            this.isIn = true;
+            this.rectSelectionId = this.drawingService.addObject(this.rectSelection);
+            this.rectID.push(this.rectSelectionId);
+            return;
+          }
         }
       } else if (event.button === 2) {
         if (obj && !this.rectID.includes(Number(obj.id))) {
@@ -168,11 +169,10 @@ export class SelectionToolService implements ITools {
     this.drawingService.getObjectList().forEach((value) => {
       if (!this.rectID.includes(Number(value.getAttribute('id')))
         && Number(value.getAttribute('id')) !== this.rectInversementId
-        && value.tagName !== 'defs') {
+        && value.tagName !== 'defs' && Number(value.getAttribute('id')) !== 1) {
         allObject.push(value);
       }
     });
-    allObject.splice(0, 1);
 
     const rectBox = rectUsing.getBoundingClientRect();
 
@@ -251,7 +251,6 @@ export class SelectionToolService implements ITools {
             translate = '0 0';
           }
         });
-
         const translateElm = translate.replace(/[^-?\d]+/g, ',').split(',').filter((el) => el !== '');
         this.drawingService.renderer.setAttribute(obj, 'transform',
           `translate(${Number(translateElm[0]) + x},${Number(translateElm[1]) + y}) ${rotate}`);
@@ -365,10 +364,14 @@ export class SelectionToolService implements ITools {
   }
 
   private isInside(x: number, y: number) {
-    return x >= (Number(this.rectSelection.getAttribute('x')) - this.recStrokeWidth / 2)
-      && x <= (Number(this.rectSelection.getAttribute('x')) + Number(this.rectSelection.getAttribute('width')) + this.recStrokeWidth / 2)
-      && y >= (Number(this.rectSelection.getAttribute('y')) - this.recStrokeWidth / 2)
-      && y <= (Number(this.rectSelection.getAttribute('y')) + Number(this.rectSelection.getAttribute('height')) + this.recStrokeWidth / 2);
+    if (this.rectSelection) {
+      return x >= (Number(this.rectSelection.getAttribute('x')) - this.recStrokeWidth / 2)
+        && x <= (Number(this.rectSelection.getAttribute('x')) + Number(this.rectSelection.getAttribute('width')) + this.recStrokeWidth / 2)
+        && y >= (Number(this.rectSelection.getAttribute('y')) - this.recStrokeWidth / 2)
+        && y <= (Number(this.rectSelection.getAttribute('y')) +
+          Number(this.rectSelection.getAttribute('height')) + this.recStrokeWidth / 2);
+    }
+    return false;
   }
 
   private strToNum(str: string | null) {
