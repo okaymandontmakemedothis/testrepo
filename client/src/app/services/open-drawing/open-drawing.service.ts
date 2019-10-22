@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment.prod';
 import { Drawing } from '../../../../../common/communication/drawing';
 import { DrawingService } from '../drawing/drawing.service';
 import { TagService } from '../tag/tag.service';
+import { GetDrawingRequestService } from '../get-drawing-request/get-drawing-request.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class OpenDrawingService {
   selectedTags: string[] = [];
   allTags: string[] = [];
 
-  constructor(private http: HttpClient, public dialog: MatDialog, private tagService: TagService, private drawingService: DrawingService) {
+  constructor(private getDrawingRequestService: GetDrawingRequestService, public dialog: MatDialog, private tagService: TagService, private drawingService: DrawingService) {
     this.selectedTags = [];
     this.tagService.retrieveTags().subscribe((tags: string[]) => this.allTags = tags);
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
@@ -37,9 +38,7 @@ export class OpenDrawingService {
     this.selectedDrawing = drawing;
   }
   getDrawings(): Observable<Drawing[]> {
-    return this.http.get<Drawing[]>(environment.serverURL + '/drawings/').pipe(
-      catchError(() => of([])),
-    );
+    return this.getDrawingRequestService.getDrawings()
 
   }
   getBackgroundSelected(drawing: Drawing): string {

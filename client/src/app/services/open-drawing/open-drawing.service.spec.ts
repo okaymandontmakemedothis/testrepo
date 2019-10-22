@@ -13,12 +13,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { TagService } from '../tag/tag.service';
 import { of } from 'rxjs';
+import { GetDrawingRequestService } from '../get-drawing-request/get-drawing-request.service';
 
 describe('OpenDrawingService', () => {
   let service: OpenDrawingService;
-  let fixture: ComponentFixture<OpenDrawingService>; 
    let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
    let tagServiceSpy: jasmine.SpyObj<TagService>;
+   let getDrawingRequestServiceSpy: jasmine.SpyObj<GetDrawingRequestService>
 
   const mockDrawing: Drawing = {
     id: '2',
@@ -33,20 +34,22 @@ describe('OpenDrawingService', () => {
     const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing',]);
     const spyTagService = jasmine.createSpyObj('TagService', ['containsTag','retrieveTags']);
     const tagControl: FormControl = new FormControl('Test');
+    
 
-
-    const indexSpy = jasmine.createSpyObj('IndexService', ['getDrawingPreview']);
+    const spyGetDrawingRequest = jasmine.createSpyObj('GetDrawingRequestService', ['getDrawings']);
 
     spyTagService.retrieveTags.and.returnValue(of(['tag1', 'tag2']))
     TestBed.configureTestingModule(
       {
         imports: [MaterialModules, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, HttpClientModule],
 
-      providers: [{ provide: DrawingService, useValue: spyDrawingService },{ provide: TagService, useValue: spyTagService }],
+      providers: [{ provide: DrawingService, useValue: spyDrawingService },{ provide: TagService, useValue: spyTagService },
+        { provide: GetDrawingRequestService, useValue: spyGetDrawingRequest }],
     });
     service = TestBed.get(OpenDrawingService);
     drawingServiceSpy = TestBed.get(DrawingService);
     tagServiceSpy = TestBed.get(TagService);
+    getDrawingRequestServiceSpy=TestBed.get(GetDrawingRequestService);
 
     console.log('LOG Kevin');
     TestBed.compileComponents();
@@ -58,13 +61,12 @@ describe('OpenDrawingService', () => {
     const service: OpenDrawingService = TestBed.get(OpenDrawingService);
     expect(service).toBeTruthy();
   });
-  it('should get drawing previews', () => {
-    const service: OpenDrawingService = TestBed.get(OpenDrawingService);
+  it('should get drawing previews',  ()  => {
+    getDrawingRequestServiceSpy.getDrawings.and.returnValue(of([mockDrawing]))
 
-    service.getDrawings().subscribe((drawingList:Drawing[]) => {
-      console.log(drawingList)
+     service.getDrawings().subscribe((drawingList:Drawing[]) => {
+      expect(getDrawingRequestServiceSpy.getDrawings).toHaveBeenCalled()
       expect(drawingList).toEqual([mockDrawing]);
-
     });
 
   });
