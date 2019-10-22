@@ -1,26 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-// import SpyObj = jasmine.SpyObj;
-// import { of } from 'rxjs';
-// import { Drawing } from '../../../../../common/communication/drawing';
 import { HttpClientModule } from '@angular/common/http';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { MaterialModules } from 'src/app/app-material.module';
-import { OpenDrawingComponent } from 'src/app/components/open-drawing/open-drawing.component';
 import { Drawing } from '../../../../../common/communication/drawing';
 import { DrawingService } from '../drawing/drawing.service';
 import { GetDrawingRequestService } from '../get-drawing-request/get-drawing-request.service';
-import { IndexService } from '../index/index.service';
 import { TagService } from '../tag/tag.service';
 import { OpenDrawingService } from './open-drawing.service';
 
 describe('OpenDrawingService', () => {
   let service: OpenDrawingService;
   let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
-  let tagServiceSpy: jasmine.SpyObj<TagService>;
+  // let tagServiceSpy: jasmine.SpyObj<TagService>;
   let getDrawingRequestServiceSpy: jasmine.SpyObj<GetDrawingRequestService>;
 
   const dialogRefSpyObj = jasmine.createSpyObj({
@@ -38,9 +32,9 @@ describe('OpenDrawingService', () => {
     svg: 'example',
   };
   beforeEach(() => {
-    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing', ]);
+    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing',]);
     const spyTagService = jasmine.createSpyObj('TagService', ['containsTag', 'retrieveTags']);
-    const tagControl: FormControl = new FormControl('Test');
+    // const tagControl: FormControl = new FormControl('Test');
 
     const spyGetDrawingRequest = jasmine.createSpyObj('GetDrawingRequestService', ['getDrawings']);
 
@@ -49,12 +43,12 @@ describe('OpenDrawingService', () => {
       {
         imports: [MaterialModules, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, HttpClientModule],
 
-      providers: [{ provide: DrawingService, useValue: spyDrawingService }, { provide: TagService, useValue: spyTagService },
+        providers: [{ provide: DrawingService, useValue: spyDrawingService }, { provide: TagService, useValue: spyTagService },
         { provide: GetDrawingRequestService, useValue: spyGetDrawingRequest }, { provide: MatDialogRef, useValue: dialogRefSpyObj }],
-    });
+      });
     service = TestBed.get(OpenDrawingService);
     drawingServiceSpy = TestBed.get(DrawingService);
-    tagServiceSpy = TestBed.get(TagService);
+    // tagServiceSpy = TestBed.get(TagService);
     getDrawingRequestServiceSpy = TestBed.get(GetDrawingRequestService);
 
     TestBed.compileComponents();
@@ -62,10 +56,9 @@ describe('OpenDrawingService', () => {
   });
 
   it('should be created', () => {
-    const service: OpenDrawingService = TestBed.get(OpenDrawingService);
     expect(service).toBeTruthy();
   });
-  it('should get drawing previews',  ()  => {
+  it('should get drawing previews', () => {
     getDrawingRequestServiceSpy.getDrawings.and.returnValue(of([mockDrawing]));
 
     service.getDrawings().subscribe((drawingList: Drawing[]) => {
@@ -75,23 +68,23 @@ describe('OpenDrawingService', () => {
   });
   it('should getBackground from drawing', () => {
 
-      const result = service.getBackground(mockDrawing);
-      expect(result).toEqual(`rgba(0,0,0,0)`);
+    const result = service.getBackground(mockDrawing);
+    expect(result).toEqual(`rgba(0,0,0,0)`);
 
   });
   it('should return grey background color for selected', () => {
-    service.selectedDrawing=mockDrawing
+    service.selectedDrawing = mockDrawing;
     const result = service.getBackgroundSelected(mockDrawing);
-    expect(result).toEqual("grey");
+    expect(result).toEqual('grey');
 
-});
-it('should return white background color for not selected', () => {
-  service.selectedDrawing=null
+  });
+  it('should return white background color for not selected', () => {
+    service.selectedDrawing = null;
 
-  const result = service.getBackgroundSelected(mockDrawing);
-  expect(result).toEqual(`white`);
+    const result = service.getBackgroundSelected(mockDrawing);
+    expect(result).toEqual(`white`);
 
-});
+  });
   it('#reset should reset the values for the save drawing service', () => {
     service.reset();
     expect(service.tagCtrl.untouched).toBeTruthy();

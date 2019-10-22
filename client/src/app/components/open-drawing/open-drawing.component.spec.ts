@@ -17,8 +17,8 @@ import { OpenDrawingComponent } from './open-drawing.component';
 describe('OpenDrawingComponent', () => {
   let component: OpenDrawingComponent;
   let fixture: ComponentFixture<OpenDrawingComponent>;
-  let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
-  let openDrawingServiceSpy: jasmine.SpyObj<OpenDrawingService>;
+  // let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
+  // let openDrawingService: jasmine.SpyObj<OpenDrawingService>;
   const mockDrawing: Drawing = {
     id: '2',
     name: 'mock',
@@ -37,11 +37,10 @@ describe('OpenDrawingComponent', () => {
   dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(async(() => {
-    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing']);
+    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing',]);
 
     let spyOpenDrawingService = jasmine.createSpyObj('OpenDrawingService', ['getDrawings', 'selectDrawing', 'getBackgroundSelected',
-    'getBackground', 'reset', 'add', 'remove', 'selectTag', 'accept', 'openDrawing','tagCtrl','filteredTags','allTags','selectedTags']);
-
+      'getBackground', 'reset', 'add', 'remove', 'selectTag', 'accept', 'openDrawing']);
 
     const spyTagService = jasmine.createSpyObj('TagService', ['containsTag']);
     const tagControl: FormControl = new FormControl('Test');
@@ -61,6 +60,7 @@ describe('OpenDrawingComponent', () => {
         , { provide: TagService, useValue: spyTagService }, { provide: OpenDrawingService, useValue: spyOpenDrawingService },
       ],
     });
+
     spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
     // spyOn(TestBed.get(OpenDrawingService), 'getDrawings').and.returnValue({
     //   subscribe: (): Observable<Drawing[]> => {
@@ -73,45 +73,15 @@ describe('OpenDrawingComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OpenDrawingComponent);
-    drawingServiceSpy = TestBed.get(DrawingService);
-    openDrawingServiceSpy = TestBed.get(OpenDrawingService);
+    // drawingServiceSpy = TestBed.get(DrawingService);
+    // openDrawingService = TestBed.get(OpenDrawingService);
 
     component = fixture.componentInstance;
     fixture.detectChanges();
-
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
-  // it('#tagCtrl should return tagCtrl from service', () => {
-  //   let result =component.tagCtrl
-  //   expect(openDrawingServiceSpy.tagCtrl).toHaveBeenCalled();
-  // });
-  // it('#filteredTags should return filteredTags from service', () => {
-  //   let result =component.filteredTags
-  //   expect(openDrawingServiceSpy.filteredTags).toHaveBeenCalled();
-  // });
-  // it('#selectedTags should return selectedTags from service', () => {
-  //   let result =component.filteredTags
-  //   expect(openDrawingServiceSpy.selectedTags).toHaveBeenCalled();
-  // });
-  // it('#allTags should return allTags from service', () => {
-  //   let result =component.allTags
-  //   expect(openDrawingServiceSpy.allTags).toHaveBeenCalled();
-  // });
-  it('#getBackground should return background from service', () => {
-    component.getBackground(mockDrawing)
-    expect(openDrawingServiceSpy.getBackground).toHaveBeenCalled();
   });
   // it('should create new drawing with drawing service', () => {
   //   // fixture = TestBed.createComponent(OpenDrawingComponent);
@@ -124,7 +94,6 @@ describe('OpenDrawingComponent', () => {
   // });
   // it('should getBackground from drawing', () => {
   //     const result = component.getBackground(mockDrawing);
-  //     console.log(result);
   //     expect(result).toEqual(`rgba(0,0,0,0)`);
 
   // });
@@ -162,17 +131,4 @@ describe('OpenDrawingComponent', () => {
   //   expect(component.selectedDrawing).toBe(null);
   // });
 
-  it('#openDrawing should create a new drawing', () => {
-    const dialogRef = TestBed.get(MatDialogRef);
-    const drawing: Drawing = {
-      id: '0',
-      name: '', tags: [''], width: 0, height: 0, backGroundColor: { rgb: { r: 0, g: 0, b: 0 }, a: 1 },
-      svg: '',
-    };
-
-    component.openDrawing();
-
-    expect(drawingServiceSpy.newDrawing).toHaveBeenCalled();
-    expect(dialogRef.close).toHaveBeenCalled();
-  });
 });

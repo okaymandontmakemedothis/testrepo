@@ -107,70 +107,70 @@ describe('ToolsApplierColorsService', () => {
     expect(spySetOpacity).toHaveBeenCalledWith(g2, colorToolServiceSpy.primaryAlpha, 'fill-opacity');
   });
 
-  it('should set primarycolor if object attribute starts with url on right click', () => {
-    colorToolServiceSpy.primaryColor = { r: 0, g: 0, b: 0 };
-    colorToolServiceSpy.primaryAlpha = 0;
-    colorToolServiceSpy.setPrimaryColor.and.callFake((rgb, a) => {
-      colorToolServiceSpy.primaryColor = rgb;
-      colorToolServiceSpy.primaryAlpha = a;
-    });
+  // it('should set primarycolor if object attribute starts with url on right click', () => {
+  //   colorToolServiceSpy.primaryColor = { r: 0, g: 0, b: 0 };
+  //   colorToolServiceSpy.primaryAlpha = 0;
+  //   colorToolServiceSpy.setPrimaryColor.and.callFake((rgb, a) => {
+  //     colorToolServiceSpy.primaryColor = rgb;
+  //     colorToolServiceSpy.primaryAlpha = a;
+  //   });
 
-    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
-    const event = new MouseEvent('mousedown', { button: 2 });
-    const spySetColor = spyOn(service, 'setColors');
-    const spySetOpacity = spyOn(service, 'setOpacity');
+  //   const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
+  //   const event = new MouseEvent('mousedown', { button: 2 });
+  //   const spySetColor = spyOn(service, 'setColors');
+  //   const spySetOpacity = spyOn(service, 'setOpacity');
 
-    const texture = document.createElement('defs');
-    const pattern = document.createElement('pattern');
-    pattern.setAttribute('id', '1');
-    const g1 = document.createElement('g');
-    g1.setAttribute('fill', 'none');
-    g1.setAttribute('fill-rule', 'evenodd');
-    const g2 = document.createElement('g');
-    g2.setAttribute('fill', 'rgb(200,50,5)');
-    g2.setAttribute('fill-opacity', '0.3');
-    g2.setAttribute('name', 'texture');
-    g1.appendChild(g2);
-    pattern.appendChild(g1);
-    texture.appendChild(pattern);
-    document.body.appendChild(texture);
+  //   const texture = document.createElement('defs');
+  //   const pattern = document.createElement('pattern');
+  //   pattern.setAttribute('id', '1');
+  //   const g1 = document.createElement('g');
+  //   g1.setAttribute('fill', 'none');
+  //   g1.setAttribute('fill-rule', 'evenodd');
+  //   const g2 = document.createElement('g');
+  //   g2.setAttribute('fill', 'rgb(200,50,5)');
+  //   g2.setAttribute('fill-opacity', '0.3');
+  //   g2.setAttribute('name', 'texture');
+  //   g1.appendChild(g2);
+  //   pattern.appendChild(g1);
+  //   texture.appendChild(pattern);
+  //   document.body.appendChild(texture);
 
-    const svg = document.createElement('line');
-    svg.setAttribute('name', 'brush');
-    svg.style.setProperty('stroke', 'url("#1")');
-    spyOnProperty(event, 'target').and.returnValue(svg);
+  //   const svg = document.createElement('line');
+  //   svg.setAttribute('name', 'brush');
+  //   svg.style.setProperty('stroke', 'url("#1")');
+  //   spyOnProperty(event, 'target').and.returnValue(svg);
 
-    service.onPressed(event);
-    expect(spySetColor).toHaveBeenCalledWith(g2, colorToolServiceSpy.primaryColor, 'none');
-    expect(spySetOpacity).toHaveBeenCalledWith(g2, colorToolServiceSpy.primaryAlpha, 'none');
-  });
+  //   service.onPressed(event);
+  //   expect(spySetColor).toHaveBeenCalledWith(g2, colorToolServiceSpy.primaryColor, 'none');
+  //   expect(spySetOpacity).toHaveBeenCalledWith(g2, colorToolServiceSpy.primaryAlpha, 'none');
+  // });
 
-  it('should set primarycolor of object on left click', () => {
-    colorToolServiceSpy.primaryColor = { r: 0, g: 0, b: 0 };
-    colorToolServiceSpy.primaryAlpha = 0;
-    colorToolServiceSpy.setPrimaryColor.and.callFake((rgb, a) => {
-      colorToolServiceSpy.primaryColor = rgb;
-      colorToolServiceSpy.primaryAlpha = a;
-    });
+  // it('should set primarycolor of object on left click', () => {
+  //   colorToolServiceSpy.primaryColor = { r: 0, g: 0, b: 0 };
+  //   colorToolServiceSpy.primaryAlpha = 0;
+  //   colorToolServiceSpy.setPrimaryColor.and.callFake((rgb, a) => {
+  //     colorToolServiceSpy.primaryColor = rgb;
+  //     colorToolServiceSpy.primaryAlpha = a;
+  //   });
 
-    const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
-    const event = new MouseEvent('mousedown', { button: 0 });
-    const spySetColor = spyOn(service, 'setColors');
-    const spySetOpacity = spyOn(service, 'setOpacity');
+  //   const service: ToolsApplierColorsService = TestBed.get(ToolsApplierColorsService);
+  //   const event = new MouseEvent('mousedown', { button: 0 });
+  //   const spySetColor = spyOn(service, 'setColors');
+  //   const spySetOpacity = spyOn(service, 'setOpacity');
 
-    const svg = document.createElement('rect') as Element as SVGElement;
-    svg.setAttribute('name', 'rectangle');
-    svg.style.setProperty('fill', 'rgb(200,50,4)');
-    svg.style.setProperty('fill-opacity', '0.3');
-    svg.setAttribute('id', '1');
+  //   const svg = document.createElement('rect') as Element as SVGElement;
+  //   svg.setAttribute('name', 'rectangle');
+  //   svg.style.setProperty('fill', 'rgb(200,50,4)');
+  //   svg.style.setProperty('fill-opacity', '0.3');
+  //   svg.setAttribute('id', '1');
 
-    spyOnProperty(event, 'target').and.returnValue(svg);
-    drawingServiceSpy.getObject.withArgs(1).and.returnValue(svg);
+  //   spyOnProperty(event, 'target').and.returnValue(svg);
+  //   drawingServiceSpy.getObject.withArgs(1).and.returnValue(svg);
 
-    service.onPressed(event);
-    expect(spySetColor).toHaveBeenCalledWith(svg, colorToolServiceSpy.primaryColor, 'fill');
-    expect(spySetOpacity).toHaveBeenCalledWith(svg, colorToolServiceSpy.primaryAlpha, 'fill-opacity');
-  });
+  //   service.onPressed(event);
+  //   expect(spySetColor).toHaveBeenCalledWith(svg, colorToolServiceSpy.primaryColor, 'fill');
+  //   expect(spySetOpacity).toHaveBeenCalledWith(svg, colorToolServiceSpy.primaryAlpha, 'fill-opacity');
+  // });
 
   it('should set primarycolor of object on right click', () => {
     colorToolServiceSpy.primaryColor = { r: 0, g: 0, b: 0 };

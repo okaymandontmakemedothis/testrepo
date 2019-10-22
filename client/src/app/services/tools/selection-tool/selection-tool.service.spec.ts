@@ -41,24 +41,60 @@ describe('SelectionToolService', () => {
     expect(drawingServiceSpy.addObject).not.toHaveBeenCalled();
   });
 
-  it('#onPress should only remove selection', () => {
+  // it('#onPress should only remove selection', () => {
+  //   const service: SelectionToolService = TestBed.get(SelectionToolService);
+  //   const spy = spyOn(service, 'removeSelection');
+
+  //   const svg = document.createElement('rect') as Element as SVGElement;
+  //   svg.setAttribute('id', '1');
+
+  //   drawingServiceSpy.getObject.and.returnValue(undefined);
+  //   offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
+
+  //   const mouseEvent = new MouseEvent('mousedown', { button: 0 });
+  //   spyOnProperty(mouseEvent, 'target').and.returnValue(svg);
+
+  //   service.onPressed(mouseEvent);
+
+  //   expect(spy).toHaveBeenCalled();
+  //   expect(drawingServiceSpy.addObject).toHaveBeenCalled();
+  // });
+
+  it('onRelase should remove object if button =2', () => {
     const service: SelectionToolService = TestBed.get(SelectionToolService);
-    const spy = spyOn(service, 'removeSelection');
+    const spy = spyOn(service as any, 'findObjects');
+    const spyRemoveSel = spyOn(service as any, 'removeSelection');
+    const spySetRect = spyOn(service as any, 'setRectSelection');
 
     const svg = document.createElement('rect') as Element as SVGElement;
     svg.setAttribute('id', '1');
 
-    drawingServiceSpy.getObject.and.returnValue(undefined);
+    drawingServiceSpy.getObject.and.returnValue(svg);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
 
-    const mouseEvent = new MouseEvent('mousedown', { button: 0 });
+    const mouseEvent = new MouseEvent('mousedown', { button: 2 });
+
     spyOnProperty(mouseEvent, 'target').and.returnValue(svg);
 
     service.onPressed(mouseEvent);
+    service.onRelease(mouseEvent);
 
-    console.log(drawingServiceSpy.getObjectList());
     expect(spy).toHaveBeenCalled();
-    expect(drawingServiceSpy.addObject).toHaveBeenCalled();
+    expect(spyRemoveSel).toHaveBeenCalled();
+    expect(spySetRect).toHaveBeenCalled();
+    expect(drawingServiceSpy.removeObject).toHaveBeenCalled();
+  });
+
+  it('should do nothing on keydown and keyUp', () => {
+    const service: SelectionToolService = TestBed.get(SelectionToolService);
+    const eventKeyDown = new KeyboardEvent('keydown');
+    const eventKeyUp = new KeyboardEvent('keyUp');
+
+    service.onKeyDown(eventKeyDown);
+    expect().nothing();
+
+    service.onKeyUp(eventKeyUp);
+    expect().nothing();
   });
 
 });

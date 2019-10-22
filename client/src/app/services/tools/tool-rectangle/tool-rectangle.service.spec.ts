@@ -208,7 +208,7 @@ describe('ToolRectangleService', () => {
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
     rendererSpy.createElement.withArgs('rect', 'svg').and.returnValue('rect');
     const moveEvent = new MouseEvent('mousemove', { movementX: 2, movementY: 2 });
-    const setSizeSpy = spyOn(service as any, 'setSize');
+    spyOn(service as any, 'setSize');
     service.onPressed(new MouseEvent('mousedown', { button: 0 }));
     service.onRelease(new MouseEvent('mouseup'));
     drawingServiceSpy.addObject.calls.reset();

@@ -77,8 +77,9 @@ describe('SaveDrawingService', () => {
     const input: HTMLInputElement = document.createElement('input');
     input.value = 'tag1';
     const value = 'tag1';
-    const intialLength: number = service.tags.length;
     service.tags = ['tag1'];
+    const intialLength: number = service.tags.length;
+    service.allTags = ['tag1'];
     service.tagCtrl.setValue('tag1');
     service.add({ input, value }, false);
     expect(service.tags.length).toEqual(intialLength);

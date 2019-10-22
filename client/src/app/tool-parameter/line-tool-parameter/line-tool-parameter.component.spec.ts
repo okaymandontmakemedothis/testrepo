@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LineToolParameterComponent } from './line-tool-parameter.component';
+// import { LineToolParameterComponent } from './line-tool-parameter.component';
 
-describe('LineToolParameterComponent', () => {
-  let component: LineToolParameterComponent;
-  let fixture: ComponentFixture<LineToolParameterComponent>;
+// describe('LineToolParameterComponent', () => {
+//   let component: LineToolParameterComponent;
+//   let fixture: ComponentFixture<LineToolParameterComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LineToolParameterComponent ],
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ LineToolParameterComponent ],
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LineToolParameterComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(LineToolParameterComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
-});
+//   // it('should create', () => {
+//   //   expect(component).toBeTruthy();
+//   // });
+// });
