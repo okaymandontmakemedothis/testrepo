@@ -77,7 +77,6 @@ describe('OpenDrawingComponent', () => {
 
     component = fixture.componentInstance;
     fixture.detectChanges();
-    console.log('LOG Kevin');
 
   });
 

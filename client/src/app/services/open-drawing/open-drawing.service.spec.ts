@@ -57,7 +57,6 @@ describe('OpenDrawingService', () => {
     tagServiceSpy = TestBed.get(TagService);
     getDrawingRequestServiceSpy = TestBed.get(GetDrawingRequestService);
 
-    console.log('LOG Kevin');
     TestBed.compileComponents();
 
   });
