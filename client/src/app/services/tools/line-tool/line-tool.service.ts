@@ -246,7 +246,6 @@ export class LineToolService implements ITools {
       this.pointsList.pop();
       this.pointsList.push(obj as Point);
     }
-
     this.updatelistPoint();
   }
 
@@ -254,9 +253,11 @@ export class LineToolService implements ITools {
     /// mettre a jour la liste de points contenant les segments
     this.pointsList.splice(0);
     this.updatelistPoint();
+
     if (this.object) {
       this.object = null;
     }
+
   }
 
   changeTool(): void {
