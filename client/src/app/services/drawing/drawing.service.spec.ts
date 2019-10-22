@@ -2,7 +2,6 @@ import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
 import { DrawingService } from './drawing.service';
-import { Renderer2 } from '@angular/core';
 
 describe('DrawingService', () => {
   const rgbColor: RGB = DEFAULT_RGB_COLOR;
@@ -11,16 +10,18 @@ describe('DrawingService', () => {
   let rendererSpy: jasmine.SpyObj<Renderer2>;
 
   beforeEach(() => {
-    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle']);
+    rendererSpy = jasmine.createSpyObj('Renderer2',
+      ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', 'insertBefore', 'removeChild']);
 
     TestBed.configureTestingModule({
       providers: [{ provide: Renderer2, useValue: rendererSpy }],
 
     });
     service = TestBed.get(DrawingService);
-    
+    service.drawing = document.createElementNS('svg', 'svg') as SVGElement;
+
     rendererSpy = TestBed.get(Renderer2);
-    service.renderer=rendererSpy
+    service.renderer = rendererSpy;
 
   });
 
