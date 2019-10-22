@@ -14,6 +14,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { TagService } from '../tag/tag.service';
 import { of } from 'rxjs';
 import { GetDrawingRequestService } from '../get-drawing-request/get-drawing-request.service';
+import { MatDialogRef } from '@angular/material';
+import { OpenDrawingComponent } from 'src/app/components/open-drawing/open-drawing.component';
 
 describe('OpenDrawingService', () => {
   let service: OpenDrawingService;
@@ -21,6 +23,11 @@ describe('OpenDrawingService', () => {
    let tagServiceSpy: jasmine.SpyObj<TagService>;
    let getDrawingRequestServiceSpy: jasmine.SpyObj<GetDrawingRequestService>
 
+   const dialogRefSpyObj = jasmine.createSpyObj({
+    afterClosed: of({}),
+    afterOpened: of({}),
+    close: null,
+  });
   const mockDrawing: Drawing = {
     id: '2',
     name: 'mock',
@@ -44,7 +51,7 @@ describe('OpenDrawingService', () => {
         imports: [MaterialModules, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, HttpClientModule],
 
       providers: [{ provide: DrawingService, useValue: spyDrawingService },{ provide: TagService, useValue: spyTagService },
-        { provide: GetDrawingRequestService, useValue: spyGetDrawingRequest }],
+        { provide: GetDrawingRequestService, useValue: spyGetDrawingRequest },{ provide: MatDialogRef, useValue: dialogRefSpyObj }],
     });
     service = TestBed.get(OpenDrawingService);
     drawingServiceSpy = TestBed.get(DrawingService);
@@ -56,7 +63,7 @@ describe('OpenDrawingService', () => {
 
 
   });
-
+  
   it('should be created', () => {
     const service: OpenDrawingService = TestBed.get(OpenDrawingService);
     expect(service).toBeTruthy();
@@ -99,4 +106,31 @@ describe('OpenDrawingService', () => {
     expect(service.selectedTags.length).toEqual(intialLength);
 
   });
+  it('#filter should return the tags filtered to match string', () => {
+    expect(service.filter('Tag1')).toEqual(['tag1']);
+  });
+  it('should change the filtered tags', () => {
+    service.filteredTags.subscribe((value) => {
+      expect(value).toBeTruthy();
+    });
+    service.tagCtrl.patchValue('tag1');
+  });
+  it('#selected should push the tag value', () => {
+    service.selectTag('Tag8');
+    expect(service.selectedTags.includes('Tag8')).toBeTruthy();
+    expect(service.tagCtrl.value).toBeNull();
+  });
+  it('#accept should not open drawing if no drawing selected',()=>{
+    service.selectedDrawing=null;
+    const dialogRef = TestBed.get(MatDialogRef)
+    expect(service.accept(dialogRef,false)).not.toBeDefined()
+  })
+
+  it('#openDrawing should  call openDrawing on drawing service',()=>{
+    const dialogRef = TestBed.get(MatDialogRef)
+    service.selectedDrawing=mockDrawing;
+
+    service.openDrawing(dialogRef,true)
+    expect(drawingServiceSpy.openDrawing).toHaveBeenCalled()
+  })
 });

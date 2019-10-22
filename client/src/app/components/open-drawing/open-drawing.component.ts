@@ -139,11 +139,11 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // ouvre un nouveau dessin  avec l'ancien drawing
   accept(): void {
-      this.openDrawingService.accept(this.dialogRef, this.matAutocomplete);
+      this.openDrawingService.accept(this.dialogRef, this.matAutocomplete.isOpen);
   }
 
   openDrawing(): void {
-    this.openDrawingService.openDrawing(this.dialogRef, this.matAutocomplete);
+    this.openDrawingService.openDrawing(this.dialogRef, this.matAutocomplete.isOpen);
   }
 
   close(): void {
@@ -162,7 +162,7 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   // Selecting a tag from suggestion
   selected(event: MatAutocompleteSelectedEvent): void {
     console.log('Select Tag');
-    this.openDrawingService.selectTag(event);
+    this.openDrawingService.selectTag(event.option.viewValue);
     this.tagInput.nativeElement.value = '';
     this.dataSource.filter = this.openDrawingService.selectedTags.toString();
   }

@@ -93,15 +93,15 @@ export class OpenDrawingService {
 
   }
     // Selecting a tag from suggestion
-  selectTag(event: MatAutocompleteSelectedEvent): void {
-    this.selectedTags.push(event.option.viewValue);
+  selectTag(tagName: string): void {
+    this.selectedTags.push(tagName);
     this.tagCtrl.setValue(null);
     this.selectedDrawing = null;
 
   }
 
     // ouvre un nouveau dessin  avec l'ancien drawing
-    accept(dialogRef: MatDialogRef<OpenDrawingComponent>, matAutocomplete: MatAutocomplete): void {
+    accept(dialogRef: MatDialogRef<OpenDrawingComponent>, matAutocompleteIsOpen: Boolean): void {
       if (!this.selectedDrawing) { return; }
       if (this.drawingService.isCreated) {
         const alert = this.dialog.open(NewDrawingAlertComponent, {
@@ -109,19 +109,18 @@ export class OpenDrawingService {
         });
         alert.afterClosed().subscribe((result: boolean) => {
           if (result) {
-            this.openDrawing(dialogRef, matAutocomplete);
+            this.openDrawing(dialogRef, matAutocompleteIsOpen);
           }
         });
       } else {
-        this.openDrawing(dialogRef, matAutocomplete);
+        this.openDrawing(dialogRef, matAutocompleteIsOpen);
       }
     }
 
-    openDrawing(dialogRef: MatDialogRef<OpenDrawingComponent>, matAutocomplete: MatAutocomplete): void {
+    openDrawing(dialogRef: MatDialogRef<OpenDrawingComponent>, matAutocompleteIsOpen: Boolean): void {
       if (!this.selectedDrawing) { return; }
       this.drawingService.isCreated = true;
       this.drawingService.openDrawing(this.selectedDrawing);
-      console.log(matAutocomplete.isOpen);
       dialogRef.close();
     }
 
