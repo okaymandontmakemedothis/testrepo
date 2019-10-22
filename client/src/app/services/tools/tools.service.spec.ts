@@ -37,7 +37,7 @@ describe('ToolsListService', () => {
   };
 
   beforeEach(() => {
-    const spyPencil = jasmine.createSpyObj('PencilToolService', ['']);
+    const spyPencil = jasmine.createSpyObj('PencilToolService', ['onKeyDown','onKeyUp','onPressed']);
     const spyBrush = jasmine.createSpyObj('BrushToolService', ['']);
     const spyApplier = jasmine.createSpyObj('ToolsApplierColorsService', ['']);
     const spyRect = jasmine.createSpyObj('ToolRectangleService', ['']);
@@ -76,6 +76,7 @@ describe('ToolsListService', () => {
     lineToolServiceSpy = TestBed.get(LineToolService);
     selectToolServiceSpy = TestBed.get(SelectionToolService);
 
+    
   });
 
   it('should be created', () => {
@@ -242,35 +243,32 @@ describe('ToolsListService', () => {
     const service: ToolsService = TestBed.get(ToolsService);
 
     service.tools.clear();
-    service.tools.set(0, tool);
+    service.tools.set(0, pencilToolServiceSpy);
 
     const keyEvent = new KeyboardEvent('keydown');
     const mouseEvent = new MouseEvent('mousedown');
 
     service.onPressed(mouseEvent);
-    spyOn(tool, 'onKeyDown');
     service.selectTool(1);
 
     window.dispatchEvent(keyEvent);
 
-    expect(tool.onKeyDown(keyEvent)).not.toHaveBeenCalled();
+    expect(pencilToolServiceSpy.onKeyDown).not.toHaveBeenCalled();
   });
 
   it('onKeyTriggered does not calls onKeyDown of the current tool because there was no click', () => {
     const service: ToolsService = TestBed.get(ToolsService);
 
     service.tools.clear();
-    service.tools.set(0, tool);
+    service.tools.set(0, pencilToolServiceSpy);
 
     const keyEvent = new KeyboardEvent('keydown');
-
-    spyOn(tool, 'onKeyDown').and.returnValue();
 
     service.selectTool(0);
 
     window.dispatchEvent(keyEvent);
 
-    expect(tool.onKeyDown).not.toHaveBeenCalled();
+    expect(pencilToolServiceSpy.onKeyDown).not.toHaveBeenCalled();
   });
 
   it('onKeyTriggered calls onKeyUp of the current tool', () => {
@@ -296,35 +294,33 @@ describe('ToolsListService', () => {
     const service: ToolsService = TestBed.get(ToolsService);
 
     service.tools.clear();
-    service.tools.set(0, tool);
+    service.tools.set(0, pencilToolServiceSpy);
 
     const keyEvent = new KeyboardEvent('keyup');
     const mouseEvent = new MouseEvent('mousedown');
 
-    spyOn(tool, 'onKeyUp').and.returnValue();
 
     service.selectTool(1);
     service.onPressed(mouseEvent);
 
     window.dispatchEvent(keyEvent);
 
-    expect(tool.onKeyUp).not.toHaveBeenCalled();
+    expect(pencilToolServiceSpy.onKeyUp).not.toHaveBeenCalled();
   });
 
   it('onKeyTriggered does not calls onKeyUp of the current tool because there was no click', () => {
     const service: ToolsService = TestBed.get(ToolsService);
 
     service.tools.clear();
-    service.tools.set(0, tool);
+    service.tools.set(0, pencilToolServiceSpy);
 
     const keyEvent = new KeyboardEvent('keyup');
 
-    spyOn(tool, 'onKeyUp');
 
     service.selectTool(0);
 
     window.dispatchEvent(keyEvent);
 
-    expect(tool.onKeyUp).not.toHaveBeenCalled();
+    expect(pencilToolServiceSpy.onKeyUp).not.toHaveBeenCalled();
   });
 });

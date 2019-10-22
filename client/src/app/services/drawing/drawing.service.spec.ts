@@ -2,7 +2,6 @@ import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { DEFAULT_RGB_COLOR, RGB } from 'src/app/model/rgb.model';
 import { DrawingService } from './drawing.service';
-import { Renderer2 } from '@angular/core';
 
 describe('DrawingService', () => {
   const rgbColor: RGB = DEFAULT_RGB_COLOR;
