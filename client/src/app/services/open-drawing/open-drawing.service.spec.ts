@@ -1,22 +1,20 @@
 import { HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { MaterialModules } from 'src/app/app-material.module';
-import { OpenDrawingComponent } from 'src/app/components/open-drawing/open-drawing.component';
 import { Drawing } from '../../../../../common/communication/drawing';
 import { DrawingService } from '../drawing/drawing.service';
 import { GetDrawingRequestService } from '../get-drawing-request/get-drawing-request.service';
-import { IndexService } from '../index/index.service';
 import { TagService } from '../tag/tag.service';
 import { OpenDrawingService } from './open-drawing.service';
 
 describe('OpenDrawingService', () => {
   let service: OpenDrawingService;
   let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
-  let tagServiceSpy: jasmine.SpyObj<TagService>;
+  // let tagServiceSpy: jasmine.SpyObj<TagService>;
   let getDrawingRequestServiceSpy: jasmine.SpyObj<GetDrawingRequestService>;
 
   const dialogRefSpyObj = jasmine.createSpyObj({
@@ -34,9 +32,9 @@ describe('OpenDrawingService', () => {
     svg: 'example',
   };
   beforeEach(() => {
-    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing', ]);
+    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing',]);
     const spyTagService = jasmine.createSpyObj('TagService', ['containsTag', 'retrieveTags']);
-    const tagControl: FormControl = new FormControl('Test');
+    // const tagControl: FormControl = new FormControl('Test');
 
     const spyGetDrawingRequest = jasmine.createSpyObj('GetDrawingRequestService', ['getDrawings']);
 
@@ -50,7 +48,7 @@ describe('OpenDrawingService', () => {
       });
     service = TestBed.get(OpenDrawingService);
     drawingServiceSpy = TestBed.get(DrawingService);
-    tagServiceSpy = TestBed.get(TagService);
+    // tagServiceSpy = TestBed.get(TagService);
     getDrawingRequestServiceSpy = TestBed.get(GetDrawingRequestService);
 
     TestBed.compileComponents();

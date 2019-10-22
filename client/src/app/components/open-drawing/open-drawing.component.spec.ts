@@ -17,8 +17,8 @@ import { OpenDrawingComponent } from './open-drawing.component';
 describe('OpenDrawingComponent', () => {
   let component: OpenDrawingComponent;
   let fixture: ComponentFixture<OpenDrawingComponent>;
-  let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
-  let openDrawingService: jasmine.SpyObj<OpenDrawingService>;
+  // let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
+  // let openDrawingService: jasmine.SpyObj<OpenDrawingService>;
   const mockDrawing: Drawing = {
     id: '2',
     name: 'mock',
@@ -37,7 +37,7 @@ describe('OpenDrawingComponent', () => {
   dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(async(() => {
-    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing', ]);
+    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing',]);
 
     let spyOpenDrawingService = jasmine.createSpyObj('OpenDrawingService', ['getDrawings', 'selectDrawing', 'getBackgroundSelected',
       'getBackground', 'reset', 'add', 'remove', 'selectTag', 'accept', 'openDrawing']);
@@ -73,8 +73,8 @@ describe('OpenDrawingComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OpenDrawingComponent);
-    drawingServiceSpy = TestBed.get(DrawingService);
-    openDrawingService = TestBed.get(OpenDrawingService);
+    // drawingServiceSpy = TestBed.get(DrawingService);
+    // openDrawingService = TestBed.get(OpenDrawingService);
 
     component = fixture.componentInstance;
     fixture.detectChanges();
