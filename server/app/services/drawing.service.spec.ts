@@ -26,7 +26,7 @@ describe('Testing drawing.service', () => {
                 svg: '<rect x="1" y="1" width="1" height="1" id="1"></rect>',
             });
             tagCollection.insertOne({ name: 'tag1', numberOfUses: 1 });
-            // drawingsCollection.findOne({ name: { $eq: 'name' } }).then((res) => console.log(res));
+
             mc.close();
             done();
         });

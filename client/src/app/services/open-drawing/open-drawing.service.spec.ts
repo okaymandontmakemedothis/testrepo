@@ -58,7 +58,6 @@ describe('OpenDrawingService', () => {
   });
 
   it('should be created', () => {
-    const service: OpenDrawingService = TestBed.get(OpenDrawingService);
     expect(service).toBeTruthy();
   });
   it('should get drawing previews', () => {

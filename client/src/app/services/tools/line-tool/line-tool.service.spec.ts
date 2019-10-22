@@ -51,13 +51,13 @@ describe('LineToolService', () => {
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
     service.onPressed(new MouseEvent('mousedown'));
     service.onRelease(new MouseEvent('mouseup'));
-    setTimeout(() => {}, 10 );
+    setTimeout(() => {return; }, 10 );
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
     service.onPressed(new MouseEvent('mousedown'));
 
     service.onPressed(new MouseEvent('mousedown'));
     service.onRelease(new MouseEvent('mouseup'));
-    setTimeout(() => {}, 10 );
+    setTimeout(() => {return; }, 10 );
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
     service.onPressed(new MouseEvent('mousedown'));
     expect(service).toBeTruthy();
@@ -73,7 +73,7 @@ describe('LineToolService', () => {
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
     service.onPressed(new MouseEvent('mousedown') );
 
-    setTimeout(() => {  },
+    setTimeout(() => {return; },
     250);
     service.onRelease(new MouseEvent('mouseup'));
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });

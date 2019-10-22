@@ -23,7 +23,11 @@ export class OpenDrawingService {
   selectedTags: string[] = [];
   allTags: string[] = [];
 
-  constructor(private getDrawingRequestService: GetDrawingRequestService, public dialog: MatDialog, private tagService: TagService, private drawingService: DrawingService) {
+  constructor(
+    private getDrawingRequestService: GetDrawingRequestService,
+    public dialog: MatDialog,
+    private tagService: TagService,
+    private drawingService: DrawingService) {
     this.selectedTags = [];
     this.tagService.retrieveTags().subscribe((tags: string[]) => this.allTags = tags);
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
@@ -89,7 +93,7 @@ export class OpenDrawingService {
     this.selectedDrawing = null;
 
   }
-    // Selecting a tag from suggestion
+  // Selecting a tag from suggestion
   selectTag(tagName: string): void {
     this.selectedTags.push(tagName);
     this.tagCtrl.setValue(null);
@@ -97,28 +101,28 @@ export class OpenDrawingService {
 
   }
 
-    // ouvre un nouveau dessin  avec l'ancien drawing
-    accept(dialogRef: MatDialogRef<OpenDrawingComponent>): void {
-      if (!this.selectedDrawing) { return; }
-      if (this.drawingService.isCreated) {
-        const alert = this.dialog.open(NewDrawingAlertComponent, {
-          role: 'alertdialog',
-        });
-        alert.afterClosed().subscribe((result: boolean) => {
-          if (result) {
-            this.openDrawing(dialogRef);
-          }
-        });
-      } else {
-        this.openDrawing(dialogRef);
-      }
+  // ouvre un nouveau dessin  avec l'ancien drawing
+  accept(dialogRef: MatDialogRef<OpenDrawingComponent>): void {
+    if (!this.selectedDrawing) { return; }
+    if (this.drawingService.isCreated) {
+      const alert = this.dialog.open(NewDrawingAlertComponent, {
+        role: 'alertdialog',
+      });
+      alert.afterClosed().subscribe((result: boolean) => {
+        if (result) {
+          this.openDrawing(dialogRef);
+        }
+      });
+    } else {
+      this.openDrawing(dialogRef);
     }
+  }
 
-    openDrawing(dialogRef: MatDialogRef<OpenDrawingComponent>): void {
-      if (!this.selectedDrawing) { return; }
-      this.drawingService.isCreated = true;
-      this.drawingService.openDrawing(this.selectedDrawing);
-      dialogRef.close();
-    }
+  openDrawing(dialogRef: MatDialogRef<OpenDrawingComponent>): void {
+    if (!this.selectedDrawing) { return; }
+    this.drawingService.isCreated = true;
+    this.drawingService.openDrawing(this.selectedDrawing);
+    dialogRef.close();
+  }
 
 }

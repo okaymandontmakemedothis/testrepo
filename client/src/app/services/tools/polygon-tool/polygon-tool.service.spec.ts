@@ -87,7 +87,8 @@
 
 //     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polygon', 'fill',
 //     `rgb(${colorToolServiceSpy.primaryColor.r},${colorToolServiceSpy.primaryColor.g},${colorToolServiceSpy.primaryColor.b})`);
-//     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polygon', 'fillOpacity', colorToolServiceSpy.primaryAlpha.toString());
+//     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polygon',
+// 'fillOpacity', colorToolServiceSpy.primaryAlpha.toString());
 
 //     service.onPressed(new MouseEvent('mousedown', { button: 2 }));
 
@@ -131,7 +132,8 @@
 //       `rgb(${colorToolServiceSpy.primaryColor.r},${colorToolServiceSpy.primaryColor.g},${colorToolServiceSpy.primaryColor.b})`);
 //     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polygon', 'stroke',
 //       `rgb(${colorToolServiceSpy.secondaryColor.r},${colorToolServiceSpy.secondaryColor.g},${colorToolServiceSpy.secondaryColor.b})`);
-//     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polygon', 'fillOpacity', colorToolServiceSpy.primaryAlpha.toString());
+//     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polygon',
+// 'fillOpacity', colorToolServiceSpy.primaryAlpha.toString());
 //     expect(drawingServiceSpy.renderer.setStyle).toHaveBeenCalledWith('polygon', 'strokeOpacity',
 //       colorToolServiceSpy.secondaryAlpha.toString());
 

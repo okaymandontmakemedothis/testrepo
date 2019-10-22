@@ -43,7 +43,7 @@ export class LineToolService implements ITools {
     private offsetManager: OffsetManagerService,
     private colorTool: ToolsColorService,
     private drawingService: DrawingService,
-    ) {
+  ) {
     this.clickNumber = 0;
     this.strokeWidth = new FormControl(INITIAL_WIDTH);
     this.diameter = new FormControl(3 * INITIAL_WIDTH);
@@ -148,7 +148,7 @@ export class LineToolService implements ITools {
 
   /// Réinitialisation de l'outil après avoir laisser le clique de la souris
 
-  onRelease(event: MouseEvent): void { }
+  onRelease(event: MouseEvent): void { return; }
 
   /// Ajout d'un point seulon le déplacement de la souris
   onMove(event: MouseEvent): void {
@@ -186,9 +186,9 @@ export class LineToolService implements ITools {
   }
 
   private changePoint(point: Point): void {
-   // if (this.object) {
-      this.pointsList.pop();
-      this.pointsList.push(point);
+    // if (this.object) {
+    this.pointsList.pop();
+    this.pointsList.push(point);
     // }
   }
 
