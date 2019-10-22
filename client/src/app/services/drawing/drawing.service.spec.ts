@@ -10,12 +10,17 @@ describe('DrawingService', () => {
   let rendererSpy: jasmine.SpyObj<Renderer2>;
 
   beforeEach(() => {
-    rendererSpy = jasmine.createSpyObj('Renderer2',
-      ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', 'insertBefore', 'removeChild']);
+    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle']);
 
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [{ provide: Renderer2, useValue: rendererSpy }],
+
+    });
     service = TestBed.get(DrawingService);
-    service.renderer = rendererSpy;
+    
+    rendererSpy = TestBed.get(Renderer2);
+    service.renderer=rendererSpy
+
   });
 
   it('should be created', () => {
@@ -25,13 +30,13 @@ describe('DrawingService', () => {
   it('#rgbaColorString should return rgba color in string', () => {
     service.color = rgbColor;
     service.alpha = alpha;
-    const rgbaString = 'rgb(' + rgbColor.r + ',' + rgbColor.g + ',' + rgbColor.b + ',' + alpha + ')';
+    const rgbaString = 'rgba(' + rgbColor.r + ',' + rgbColor.g + ',' + rgbColor.b + ',' + alpha + ')';
     expect(service.rgbaColorString).toBe(rgbaString);
   });
 
   it('#rgbColorString should return rgba color in string', () => {
     service.color = rgbColor;
-    const rgbString = 'rgba(' + rgbColor.r + ',' + rgbColor.g + ',' + rgbColor.b + ')';
+    const rgbString = 'rgb(' + rgbColor.r + ',' + rgbColor.g + ',' + rgbColor.b + ')';
     expect(service.rgbColorString).toBe(rgbString);
   });
 

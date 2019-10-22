@@ -235,9 +235,6 @@ export class PolygonToolService implements ITools {
     /// reset array from previous values
     this.points = [];
 
-    if (size === 0) {
-      return;
-    }
     /// determine circle angles
     const angle = 360 / this.vertexNumber.value;
     /// set initial angle if square
