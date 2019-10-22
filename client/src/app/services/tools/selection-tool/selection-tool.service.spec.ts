@@ -56,15 +56,9 @@ describe('SelectionToolService', () => {
 
   //   service.onPressed(mouseEvent);
 
-<<<<<<< HEAD
-    expect(spy).toHaveBeenCalled();
-    expect(drawingServiceSpy.addObject).toHaveBeenCalled();
-  });
-=======
   //   expect(spy).toHaveBeenCalled();
   //   expect(drawingServiceSpy.addObject).toHaveBeenCalled();
   // });
->>>>>>> bbf33e346e0dd75f59da87ead0b446e922021c3e
 
   it('onRelase should remove object if button =2', () => {
     const service: SelectionToolService = TestBed.get(SelectionToolService);

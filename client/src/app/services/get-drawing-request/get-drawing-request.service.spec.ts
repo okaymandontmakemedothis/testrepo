@@ -37,7 +37,7 @@ describe('GetDrawingRequestService', () => {
 
     await service.getDrawings()
 
-    const req = httpMock.expectNone(`${environment.serverURL}/drawings/`);
+    httpMock.expectNone(`${environment.serverURL}/drawings/`);
     // expect(req.request.method).toBe('GET');
     // req.flush(test);
 
