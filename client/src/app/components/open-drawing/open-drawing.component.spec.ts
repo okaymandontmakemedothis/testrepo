@@ -20,7 +20,7 @@ describe('OpenDrawingComponent', () => {
   let component: OpenDrawingComponent;
   let fixture: ComponentFixture<OpenDrawingComponent>;
   let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
-  let openDrawingService: jasmine.SpyObj<OpenDrawingService>;
+  let openDrawingServiceSpy: jasmine.SpyObj<OpenDrawingService>;
   const mockDrawing: Drawing = {
     id: '2',
     name: 'mock',
@@ -42,7 +42,8 @@ describe('OpenDrawingComponent', () => {
     const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing',]);
 
     let spyOpenDrawingService = jasmine.createSpyObj('OpenDrawingService', ['getDrawings', 'selectDrawing', 'getBackgroundSelected',
-      'getBackground', 'reset', 'add', 'remove', 'selectTag', 'accept', 'openDrawing']);
+    'getBackground', 'reset', 'add', 'remove', 'selectTag', 'accept', 'openDrawing','tagCtrl','filteredTags','allTags','selectedTags']);
+
 
     const spyTagService = jasmine.createSpyObj('TagService', ['containsTag']);
     const tagControl: FormControl = new FormControl('Test');
@@ -75,7 +76,7 @@ describe('OpenDrawingComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OpenDrawingComponent);
     drawingServiceSpy = TestBed.get(DrawingService);
-    openDrawingService = TestBed.get(OpenDrawingService);
+    openDrawingServiceSpy = TestBed.get(OpenDrawingService);
 
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -84,6 +85,35 @@ describe('OpenDrawingComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  // it('should create', () => {
+  //   expect(component).toBeTruthy();
+  // });
+  // it('should create', () => {
+  //   expect(component).toBeTruthy();
+  // });
+  // it('should create', () => {
+  //   expect(component).toBeTruthy();
+  // });
+  // it('#tagCtrl should return tagCtrl from service', () => {
+  //   let result =component.tagCtrl
+  //   expect(openDrawingServiceSpy.tagCtrl).toHaveBeenCalled();
+  // });
+  // it('#filteredTags should return filteredTags from service', () => {
+  //   let result =component.filteredTags
+  //   expect(openDrawingServiceSpy.filteredTags).toHaveBeenCalled();
+  // });
+  // it('#selectedTags should return selectedTags from service', () => {
+  //   let result =component.filteredTags
+  //   expect(openDrawingServiceSpy.selectedTags).toHaveBeenCalled();
+  // });
+  // it('#allTags should return allTags from service', () => {
+  //   let result =component.allTags
+  //   expect(openDrawingServiceSpy.allTags).toHaveBeenCalled();
+  // });
+  it('#getBackground should return background from service', () => {
+    component.getBackground(mockDrawing)
+    expect(openDrawingServiceSpy.getBackground).toHaveBeenCalled();
   });
   // it('should create new drawing with drawing service', () => {
   //   // fixture = TestBed.createComponent(OpenDrawingComponent);

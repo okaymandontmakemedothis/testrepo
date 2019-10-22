@@ -15,7 +15,7 @@ import { SelectionToolService } from './selection-tool/selection-tool.service';
 import { PolygonToolService } from './polygon-tool/polygon-tool.service';
 import { LineToolService } from './line-tool/line-tool.service';
 
-describe('ToolsListService', () => {
+describe('ToolsService', () => {
   // let pencilToolServiceSpy: jasmine.SpyObj<PencilToolService>;
 
   const tool: ITools = {
