@@ -27,7 +27,7 @@ describe('NewDrawingComponent', () => {
   dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(async(() => {
-    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle',]);
+    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', ]);
     let spyDrawingService = jasmine.createSpyObj('DrawingService', ['addObject', 'removeObject', 'newDrawing']);
     spyDrawingService = {
       ...spyDrawingService,
