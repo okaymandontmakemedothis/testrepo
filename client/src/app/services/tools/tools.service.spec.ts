@@ -5,15 +5,15 @@ import { BrushToolService } from './brush-tool/brush-tool.service';
 import { EtampeToolService } from './etampe-tool/etampe-tool.service';
 import { GridService } from './grid-tool/grid.service';
 import { ITools } from './ITools';
+import { LineToolService } from './line-tool/line-tool.service';
 import { PencilToolService } from './pencil-tool/pencil-tool.service';
 import { PipetteToolService } from './pipette-tool/pipette-tool.service';
+import { PolygonToolService } from './polygon-tool/polygon-tool.service';
+import { SelectionToolService } from './selection-tool/selection-tool.service';
 import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
 import { ToolsService } from './tools.service';
-import { SelectionToolService } from './selection-tool/selection-tool.service';
-import { PolygonToolService } from './polygon-tool/polygon-tool.service';
-import { LineToolService } from './line-tool/line-tool.service';
 
 describe('ToolsListService', () => {
   let pencilToolServiceSpy: jasmine.SpyObj<PencilToolService>;
@@ -27,8 +27,6 @@ describe('ToolsListService', () => {
   let polyToolServiceSpy: jasmine.SpyObj<PolygonToolService>;
   let lineToolServiceSpy: jasmine.SpyObj<LineToolService>;
   let selectToolServiceSpy: jasmine.SpyObj<SelectionToolService>;
-
-
 
   const tool: ITools = {
     id: 0, faIcon: faSquare, toolName: 'tool', parameters: FormGroup.prototype,
@@ -250,6 +248,7 @@ describe('ToolsListService', () => {
 
     service.onPressed(mouseEvent);
     service.selectTool(1);
+    service.onPressed(mouseEvent);
 
     window.dispatchEvent(keyEvent);
 

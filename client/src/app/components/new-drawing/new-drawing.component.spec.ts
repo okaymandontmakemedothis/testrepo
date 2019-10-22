@@ -27,7 +27,7 @@ describe('NewDrawingComponent', () => {
   dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(async(() => {
-    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', ]);
+    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle',]);
     let spyDrawingService = jasmine.createSpyObj('DrawingService', ['addObject', 'removeObject', 'newDrawing']);
     spyDrawingService = {
       ...spyDrawingService,
@@ -70,9 +70,9 @@ describe('NewDrawingComponent', () => {
     expect(component.dialogRef.close).toHaveBeenCalled();
   });
 
-  it('should not call dialog.close on the second time onAccept is called', () => {
-    // ...
-  });
+  // it('should not call dialog.close on the second time onAccept is called', () => {
+  //   // ...
+  // });
 
   it('should call dialogRef.close onCancel', () => {
     component.onCancel();
