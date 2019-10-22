@@ -71,15 +71,8 @@ export class ToolsApplierColorsService implements ITools {
           const markerEl: HTMLElement | null = document.getElementById(
             markerID.replace('url(#', '').replace(')', ''));
           if (markerEl) {
-<<<<<<< HEAD
-            this.drawingService.renderer.setStyle(markerEl.firstChild, 'fill',
-              `rgb(${this.toolsColorService.primaryColor.r},${this.toolsColorService.primaryColor.g},
-              ${this.toolsColorService.primaryColor.b})`);
-            this.drawingService.renderer.setStyle(markerEl.firstChild, 'fillOpacity', `${this.toolsColorService.primaryAlpha}`);
-=======
             this.setColors(markerEl.firstChild, this.toolsColorService.primaryColor, 'fill');
             this.setOpacity(markerEl.firstChild, this.toolsColorService.primaryAlpha, 'fillOpacity');
->>>>>>> old-state
           }
         }
       }
