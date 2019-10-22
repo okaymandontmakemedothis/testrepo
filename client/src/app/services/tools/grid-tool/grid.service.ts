@@ -6,7 +6,6 @@ import { DrawingService } from '../../drawing/drawing.service';
 import { ITools } from '../ITools';
 import { ToolIdConstants } from '../tool-id-constants';
 import { INITIAL_CELL_SIZE, INITIAL_TRANSPARENCE } from '../tools-constants';
-// import { NewDrawingService } from '../new-drawing/new-drawing.service';
 
 @Injectable({
     providedIn: 'root',
@@ -31,7 +30,7 @@ export class GridService implements ITools {
     pattern: SVGPatternElement;
     form: FormGroup;
 
-    constructor(private drawingService: DrawingService, ) { // private newDrawingService: NewDrawingService) {
+    constructor(private drawingService: DrawingService, ) {
         this.sizeCell = new FormControl(INITIAL_CELL_SIZE, Validators.min(1));
         this.transparence = new FormControl(INITIAL_TRANSPARENCE, Validators.min(0.1));
         this.activerGrille = new FormControl(false);
@@ -42,20 +41,16 @@ export class GridService implements ITools {
             activerGrille: this.activerGrille,
             color: this.color,
         });
-        this.screenSizeX = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        this.screenSizeY = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        this.screenSizeX = window.innerWidth;
+        this.screenSizeY = window.innerHeight;
     }
 
-    onPressed(event: MouseEvent) {
-        // this.createPatternGrid();
-    }
-    onRelease(event: MouseEvent) {
-        return;
-    }
-    onMove(event: MouseEvent) {
-        return null;
-    }
-
+    // tslint:disable-next-line: no-empty
+    onPressed(event: MouseEvent) { }
+    // tslint:disable-next-line: no-empty
+    onRelease(event: MouseEvent) { }
+    // tslint:disable-next-line: no-empty
+    onMove(event: MouseEvent) { }
     // tslint:disable-next-line: no-empty
     onKeyDown(event: KeyboardEvent): void { }
 
@@ -107,10 +102,12 @@ export class GridService implements ITools {
     }
 
     hideGrid() {
+        this.activerGrille.setValue(false);
         this.drawingService.renderer.setStyle(this.rect, 'visibility', 'hidden');
     }
 
     showGrid() {
+        this.activerGrille.setValue(true);
         this.drawingService.renderer.setStyle(this.rect, 'visibility', 'visible');
     }
 

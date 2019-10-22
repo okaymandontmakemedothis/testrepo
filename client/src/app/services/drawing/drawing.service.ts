@@ -23,7 +23,7 @@ export class DrawingService {
   height = 0;
   drawing: SVGElement;
 
-  objectList: Map<number, SVGElement>;
+  private objectList: Map<number, SVGElement>;
 
   constructor() {
     this.objectList = new Map<number, SVGElement>();
@@ -38,6 +38,10 @@ export class DrawingService {
 
   get isSaved(): boolean {
     return this.saved || !this.isCreated;
+  }
+
+  getObjectList(): Map<number, SVGElement> {
+    return this.objectList;
   }
 
   get objects(): Map<number, SVGElement> {

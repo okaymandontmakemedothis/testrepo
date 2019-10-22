@@ -12,7 +12,7 @@ import { SaveDrawingService } from './save-drawing.service';
 describe('SaveDrawingService', () => {
   let injector: TestBed;
   let service: SaveDrawingService;
-  let drawingServiceMock: { id: string, width: number, height: number, color: RGB, alpha: number, drawing: SVGElement, saved: boolean }
+  let drawingServiceMock: { id: string, width: number, height: number, color: RGB, alpha: number, drawing: SVGElement, saved: boolean };
   let errorMessageSpy: jasmine.SpyObj<ErrorMessageService>;
   let gridServiceSpy: jasmine.SpyObj<GridService>;
   let saveRequestSpy: jasmine.SpyObj<SaveRequestService>;

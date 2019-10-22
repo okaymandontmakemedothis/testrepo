@@ -26,16 +26,16 @@ export class ToolsApplierColorsService implements ITools {
   onPressed(event: MouseEvent): void {
     if (event.button === 0 || event.button === 2) {
       const target = event.target as SVGElement;
-
-      const propertyMap: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[target.tagName];
+      const targetName: string | null = target.getAttribute('name');
+      if (!targetName) {
+        return;
+      }
+      const propertyMap: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[targetName];
       if (!propertyMap) {
         return;
       }
-      const primaryColorAttribute: string | undefined = propertyMap.primaryColor;
-      const primaryAlphaAttribute: string | undefined = propertyMap.primaryOpacity;
-      if (!primaryColorAttribute || !primaryAlphaAttribute) {
-        return;
-      }
+      const primaryColorAttribute: string = propertyMap.primaryColor as string;
+
       const actualValue = target.style.getPropertyValue(primaryColorAttribute);
 
       if (actualValue.startsWith('url')) {
@@ -55,32 +55,40 @@ export class ToolsApplierColorsService implements ITools {
         alphaString = 'secondaryOpacity';
       }
       if (this.object) {
-        const tag: string = this.object.tagName === 'g' ? 'rect' : this.object.tagName;
-        const property: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[tag];
+        const objectName: string | null = this.object.getAttribute('name');
+        const attributeName: string = objectName ? objectName : 'rectangle';
+        const property: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[attributeName];
         if (!property) {
           return;
         }
-        const colorAtribute: string | undefined = property[colorString];
-        const alphaAtribute: string | undefined = property[alphaString];
-        if (!colorAtribute || !alphaAtribute) {
-          return;
+        const colorAtribute: string = property[colorString] as string;
+        const alphaAtribute: string = property[alphaString] as string;
+
+        this.setColors(this.object, this.toolsColorService.primaryColor, colorAtribute);
+        this.setOpacity(this.object, this.toolsColorService.primaryAlpha, alphaAtribute);
+        const markerID: string | null = this.object.getAttribute('marker-mid');
+        if (markerID) {
+          const markerEl: HTMLElement | null = document.getElementById(
+            markerID.replace('url(#', '').replace(')', ''));
+          if (markerEl) {
+            this.setColors(markerEl.firstChild, this.toolsColorService.primaryColor, 'fill');
+            this.setOpacity(markerEl.firstChild, this.toolsColorService.primaryAlpha, 'fillOpacity');
+          }
         }
-        this.drawingService.renderer.setStyle(this.object, colorAtribute,
-          `rgb(${this.toolsColorService.primaryColor.r},${this.toolsColorService.primaryColor.g},
-          ${this.toolsColorService.primaryColor.b})`);
-        this.drawingService.renderer.setStyle(this.object, alphaAtribute, `${this.toolsColorService.primaryAlpha}`);
       }
+
     }
+
   }
 
-  setColors(rgb: RGB, property: string) {
+  setColors(element: any, rgb: RGB, property: string) {
     this.drawingService.renderer.setStyle(
-      this.object, property, `rgb(${rgb.r}, ${rgb.g},
+      element, property, `rgb(${rgb.r}, ${rgb.g},
         ${ rgb.b})`);
   }
 
-  setOpacity(a: number, property: string) {
-    this.drawingService.renderer.setStyle(this.object, 'property', a.toString());
+  setOpacity(element: any, a: number, property: string) {
+    this.drawingService.renderer.setStyle(element, property, a.toString());
   }
 
   /// Fonction non utilisé pour cet outil

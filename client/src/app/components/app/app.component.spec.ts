@@ -21,6 +21,7 @@ describe('AppComponent', () => {
   dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(async(() => {
+    // const spyWelcome = jasmine.createSpyObj('WelcomeDialogService', ['']);
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
@@ -32,6 +33,8 @@ describe('AppComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
+
+    // welcomeServiceSpy = TestBed.get(WelcomeDialogService);
     spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
     welcomeDialogService = TestBed.get(WelcomeDialogService);
     TestBed.compileComponents();
@@ -61,4 +64,16 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     expect(openSpy).toHaveBeenCalled();
   });
+
+  it('should open a dialog on openDialog', () => {
+    component.openDialog();
+    expect(component.dialog.open).toHaveBeenCalled();
+  });
+
+  /*it('should create the app', () => {
+    welcomeServiceSpy.form.setValue({ messageActivated: false });
+    const spy = spyOn(component, 'openDialog');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });*/
 });

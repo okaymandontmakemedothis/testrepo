@@ -55,6 +55,9 @@ export class BrushToolService implements ITools {
       if (this.strokeWidth.value && this.strokeWidth.value > 0) {
         const polyline: SVGPolylineElement = this.drawingService.renderer.createElement('polyline', 'svg');
         const dot: SVGEllipseElement = this.drawingService.renderer.createElement('ellipse', 'svg');
+        this.drawingService.renderer.setAttribute(polyline, 'name', 'brush');
+        this.drawingService.renderer.setAttribute(dot, 'name', 'dot');
+
         const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
         this.lastPoint = { x: offset.x, y: offset.y };
         this.drawingService.renderer.setAttribute(dot, 'cx', this.lastPoint.x.toString());

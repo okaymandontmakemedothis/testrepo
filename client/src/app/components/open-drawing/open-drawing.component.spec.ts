@@ -52,7 +52,7 @@ describe('OpenDrawingComponent', () => {
     spyOn(TestBed.get(OpenDrawingService), 'getDrawings').and.returnValue({
       subscribe: (): Observable<Drawing[]> => {
         return of(new Array(mockDrawing));
-      }
+      },
     });
 
     TestBed.compileComponents();

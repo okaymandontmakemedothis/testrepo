@@ -14,17 +14,22 @@ import { DIALOG_PROPERTIES, WelcomeDialogComponent } from '../welcome-dialog/wel
 })
 export class ControlMenuComponent {
 
-  constructor(private dialog: MatDialog, private drawingService: DrawingService) {
+  constructor(
+    private dialog: MatDialog,
+    private drawingService: DrawingService,
+  ) {
   }
 
   get isSaved(): boolean {
     return this.drawingService.isSaved;
   }
+
   /// Ouvre une nouveau dialog de creation de dessin
   openNewDrawing(): void {
     this.dialog.open(NewDrawingComponent, {});
   }
-  /// Ouvre le message de vienvenue
+
+  /// Ouvre le message de bienvenue
   openWelcomeMessage(): void {
     this.dialog.open(WelcomeDialogComponent, DIALOG_PROPERTIES);
   }

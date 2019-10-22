@@ -19,8 +19,8 @@ export class CanvasComponent implements AfterViewInit {
 
   /// À l'initialisation, le canvas s'abonne au service de dessin pour reçevoir en string le svg
   ngAfterViewInit() {
-
     this.drawingService.drawingEmit.subscribe((el: SVGElement) => {
+      console.log('allo');
       if (this.svg) {
         this.renderer.removeChild(this.canvasDiv.nativeElement, this.svg);
       }

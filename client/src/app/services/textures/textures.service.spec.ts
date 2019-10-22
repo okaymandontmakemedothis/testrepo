@@ -30,4 +30,23 @@ describe('TexturesService', () => {
   it('should return texture one as the first texture option', () => {
     expect(service.firstTexture.value).toBe(TEXTURE_ONE);
   });
+
+  it('should return null if the texture number is below 0', () => {
+    expect(service.returnTexture(-1)).toBeNull();
+  });
+
+  it('should get texture element', () => {
+    const renderer2Spy = jasmine.createSpyObj('Renderer2', ['appendChild']);
+    const texture = jasmine.createSpyObj('TextureOne', ['getPattern']);
+    spyOn(service, 'returnTexture').and.returnValue(texture);
+    service.getTextureElement(1, { rgb: { r: 100, g: 100, b: 100 }, a: 0.6 }, 2, 2, renderer2Spy);
+    expect(texture.getPattern).toHaveBeenCalled();
+  });
+
+  it('should get texture element when null', () => {
+    spyOn(service, 'returnTexture').and.returnValue(null);
+    const renderer2Spy = jasmine.createSpyObj('Renderer2', ['appendChild']);
+    service.getTextureElement(1, { rgb: { r: 100, g: 100, b: 100 }, a: 0.6 }, 2, 2, renderer2Spy);
+    expect(service.getTextureElement(1, { rgb: { r: 100, g: 100, b: 100 }, a: 0.6 }, 2, 2, renderer2Spy)).toBeNull();
+  });
 });
