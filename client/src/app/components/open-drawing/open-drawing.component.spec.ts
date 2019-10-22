@@ -2,17 +2,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent, MatDialog,
-  MatDialogRef, MatPaginator, MatTableDataSource
+  MatDialog,
+  MatDialogRef
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { MaterialModules } from 'src/app/app-material.module';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 import { OpenDrawingService } from 'src/app/services/open-drawing/open-drawing.service';
 import { TagService } from 'src/app/services/tag/tag.service';
 import { Drawing } from '../../../../../common/communication/drawing';
-// import { Drawing } from '../../../../../common/communication/drawing';
 import { OpenDrawingComponent } from './open-drawing.component';
 
 describe('OpenDrawingComponent', () => {
@@ -38,7 +37,7 @@ describe('OpenDrawingComponent', () => {
   dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(async(() => {
-    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing',]);
+    const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing']);
 
     let spyOpenDrawingService = jasmine.createSpyObj('OpenDrawingService', ['getDrawings', 'selectDrawing', 'getBackgroundSelected',
     'getBackground', 'reset', 'add', 'remove', 'selectTag', 'accept', 'openDrawing','tagCtrl','filteredTags','allTags','selectedTags']);
