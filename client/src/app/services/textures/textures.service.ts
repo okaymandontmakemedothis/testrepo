@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Renderer2 } from '@angular/core';
+import { RGBA } from 'src/app/model/rgba.model';
 import { TextureOptions } from '../../model/texture-options.model';
 import { ITexture } from '../../textures/ITexture';
 import { TEXTURE_FIVE, TEXTURE_FOUR, TEXTURE_ONE, TEXTURE_THREE, TEXTURE_TWO } from '../../textures/texture-id';
@@ -21,6 +22,7 @@ export class TexturesService {
     { value: TEXTURE_FIVE, viewValue: 'Texture 5' },
   ];
   textureList: Map<number, ITexture> = new Map<number, ITexture>();
+  private lastId = 0;
 
   constructor() {
     this.initTexureMap();
@@ -46,8 +48,16 @@ export class TexturesService {
     return this.textureOptionList[0];
   }
 
+  getTextureElement(textureNumber: number, primaryColor: RGBA, x: number, y: number, renderer: Renderer2): SVGDefsElement | null {
+    const texture: ITexture | null = this.returnTexture(textureNumber);
+    if (texture) {
+      return texture.getPattern(primaryColor, 'texture-' + (this.lastId++), x, y, renderer);
+    }
+    return null;
+  }
+
   /// Retourne la texture de l'index voulue
-  returnTexture(textureNumber: number): ITexture|null {
+  returnTexture(textureNumber: number): ITexture | null {
     if (textureNumber < 0) {
       return null;
     }

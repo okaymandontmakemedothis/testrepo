@@ -16,6 +16,7 @@ describe('ControlMenuComponent', () => {
   const dialogRefSpyObj = jasmine.createSpyObj({
     afterClosed: of({}),
     afterOpened: of({}),
+    open: null,
     close: null,
   });
   dialogRefSpyObj.componentInstance = { body: '' };
@@ -40,28 +41,28 @@ describe('ControlMenuComponent', () => {
   });
 
   it('should call openWelcomeMessage() when button is clicked', fakeAsync(() => {
-    spyOn(component, 'openWelcomeMessage');
+    spyOn(component, 'openWelcomeMessage').and.callThrough();
     const welcomeButton = fixture.debugElement.query(By.css('button[id=welcome]'));
     welcomeButton.triggerEventHandler('click', null);
     expect(component.openWelcomeMessage).toHaveBeenCalled();
   }));
 
   it('should call openNewDrawing() when button is clicked', fakeAsync(() => {
-    spyOn(component, 'openNewDrawing');
+    spyOn(component, 'openNewDrawing').and.callThrough();
     const drawingButton = fixture.debugElement.query(By.css('button[id=drawing]'));
     drawingButton.triggerEventHandler('click', null);
     expect(component.openNewDrawing).toHaveBeenCalled();
   }));
 
   it('should call openSaveDrawing() when button is clicked', fakeAsync(() => {
-    spyOn(component, 'openSaveDrawing');
+    spyOn(component, 'openSaveDrawing').and.callThrough();
     const drawingButton = fixture.debugElement.query(By.css('button[id=save]'));
     drawingButton.triggerEventHandler('click', null);
     expect(component.openSaveDrawing).toHaveBeenCalled();
   }));
 
   it('should call openOpenDrawing() when button is clicked', fakeAsync(() => {
-    spyOn(component, 'openOpenDrawing');
+    spyOn(component, 'openOpenDrawing').and.callThrough();
     const drawingButton = fixture.debugElement.query(By.css('button[id=openDrawing]'));
     drawingButton.triggerEventHandler('click', null);
     expect(component.openOpenDrawing).toHaveBeenCalled();

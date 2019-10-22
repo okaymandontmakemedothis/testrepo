@@ -25,12 +25,12 @@ export class HotkeysFichierService {
 
       if (event.ctrlKey && event.code === KeyCodes.s) {
         event.preventDefault();
-        this.hotkeysFichierEmitter.emit('CS');
+        this.hotkeysFichierEmitter.emit(EmitReturn.SAVE_DRAWING);
       }
 
       if (event.ctrlKey && event.code === KeyCodes.g) {
         event.preventDefault();
-        this.hotkeysFichierEmitter.emit('CG');
+        this.hotkeysFichierEmitter.emit(EmitReturn.OPEN_DRAWING);
       }
 
       if (event.ctrlKey && event.code === KeyCodes.e) {

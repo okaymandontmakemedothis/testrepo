@@ -1,3 +1,4 @@
+import { Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DrawingService } from '../../services/drawing/drawing.service';
 import { CanvasComponent } from './canvas.component';
@@ -7,6 +8,8 @@ describe('CanvasComponent', () => {
   let fixture: ComponentFixture<CanvasComponent>;
   let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
 
+  let rendererSpy: jasmine.SpyObj<Renderer2>;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CanvasComponent],
@@ -15,9 +18,14 @@ describe('CanvasComponent', () => {
   }));
 
   beforeEach(() => {
-    const spyDrawing = jasmine.createSpyObj('DrawingService', ['']);
+    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle']);
+    let spyDrawingService = jasmine.createSpyObj('DrawingService', ['']);
+    spyDrawingService = {
+      ...spyDrawingService,
+      renderer: rendererSpy,
+    };
     TestBed.configureTestingModule({
-      providers: [{ provide: DrawingService, useValue: spyDrawing }],
+      providers: [{ provide: DrawingService, useValue: spyDrawingService }],
       declarations: [CanvasComponent],
     });
     drawingServiceSpy = TestBed.get(DrawingService);
@@ -37,6 +45,7 @@ describe('CanvasComponent', () => {
     expect(component.height).toEqual(100);
     expect(component.width).toEqual(100);
   });
+
   it('should return 0 when service created value is false ', () => {
     drawingServiceSpy.isCreated = false;
     expect(component.height).toEqual(0);
@@ -61,12 +70,15 @@ describe('CanvasComponent', () => {
     expect(component.isDrawingCreated).toEqual(false);
   });
 
-  it(' ngAfterView should be called ', () => {
-    expect((component.svg.nativeElement as Element).innerHTML).toEqual('');
+  // it(' ngAfterView should be called ', () => {
+  // component.ngAfterViewInit();
+  // rendererSpy.appendChild.withArgs('svg', 'rect');
+  // const elm = SVGElement.prototype;
 
-    drawingServiceSpy.svgString.emit('chaine');
+  // component.canvasDiv = ElementRef.prototype;
+  // drawingServiceSpy.drawingEmit.emit();
 
-    expect((component.svg.nativeElement as Element).innerHTML).toEqual('chaine');
-  });
+  // expect(component.svg).toEqual(elm);
+  // });
 
 });

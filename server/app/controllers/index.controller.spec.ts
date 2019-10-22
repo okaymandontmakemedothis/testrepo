@@ -1,26 +1,20 @@
-import {assert} from 'chai';
-// import * as chai from 'chai';
+import { expect, request } from 'chai';
+import { Application } from '../app';
+import { container } from '../inversify.config';
+import Types from '../types';
+import { IndexServiceMock } from './index.controller.mock';
 
-// import 'chai-http'
-// let server = require('./../')
+describe('index.controller', () => {
+    describe('/index', () => {
+        it('get /text should send the welcome message if success', (done: Mocha.Done) => {
+            container.unbind(Types.IndexService);
+            container.bind(Types.IndexService).to(IndexServiceMock);
+            const app: Application = container.get<Application>(Types.Application);
+            request(app.app).get('/api/index/text').end((err, res) => {
+                expect(res.body).to.eql({ body: 'body', end: 'end', });
+                done();
+            });
 
-// // const req = chai.request(server)
-
-// // //Configure chai
-// chai.use(require('chai-http'))
-
-// Sample test to check test framework functionality
-it('Sample test: should complete this test', (done) => {
-    assert.ok(true);
-    done();
+        });
+    });
 });
-
-// describe('/about',()=>{
-//     it('it should return about text',(done)=>{
-//         chai.request(server).get('/api/index/about').end((response:Response)=>{
-//             expect(response.body).to.equal("")
-//             done()
-
-//         })
-//     })
-// })

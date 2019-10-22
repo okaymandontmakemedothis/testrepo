@@ -14,28 +14,38 @@ import { DIALOG_PROPERTIES, WelcomeDialogComponent } from '../welcome-dialog/wel
 })
 export class ControlMenuComponent {
 
-  constructor(private dialog: MatDialog, private drawingService: DrawingService) {
+  constructor(
+    private dialog: MatDialog,
+    private drawingService: DrawingService,
+  ) {
   }
 
   get isSaved(): boolean {
     return this.drawingService.isSaved;
   }
+
   /// Ouvre une nouveau dialog de creation de dessin
   openNewDrawing(): void {
     this.dialog.open(NewDrawingComponent, {});
   }
-  /// Ouvre le message de vienvenue
+
+  /// Ouvre le message de bienvenue
   openWelcomeMessage(): void {
     this.dialog.open(WelcomeDialogComponent, DIALOG_PROPERTIES);
   }
 
   /// Ouvrir le dialog de sauvegarde de dessin
   openSaveDrawing(): void {
-    this.dialog.open(SaveDrawingComponent, {});
+    this.dialog.open(SaveDrawingComponent, { width: '600px', maxHeight: '800px' });
   }
 
   /// Ouvrir le dialog d'ouverture de fichier
   openOpenDrawing(): void {
-    this.dialog.open(OpenDrawingComponent, {maxHeight: 800});
+    this.dialog.open(OpenDrawingComponent, {
+      width: '800px',
+      maxHeight: '800px',
+      autoFocus: false,
+
+    });
   }
 }
