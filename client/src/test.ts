@@ -19,12 +19,7 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting(),
 );
 // Then we find all the tests.
-<<<<<<< HEAD
 // const context = require.context('./', true, /.spec\.ts$/);
-const context = require.context('./', true, /tool-ellipse.service.spec\.ts$/);
-=======
-const context = require.context('./', true, /.spec\.ts$/);
-// const context = require.context('./', true, /new-drawing.component.spec\.ts$/);
->>>>>>> 510d7ae85752f74f0ab364fa6fc7d23cebc25afe
+const context = require.context('./', true, /selection-tool.service.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
