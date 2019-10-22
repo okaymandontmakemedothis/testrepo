@@ -121,6 +121,13 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   get filteredTags(): Observable<string[]> {
     return this.openDrawingService.filteredTags;
   }
+  get selectedTags(): string[] {
+    return this.openDrawingService.selectedTags;
+  }
+  get allTags():string[]{
+    return this.openDrawingService.allTags;
+
+  }
 
   // ouvre un nouveau dessin  avec l'ancien drawing
   accept(): void {
