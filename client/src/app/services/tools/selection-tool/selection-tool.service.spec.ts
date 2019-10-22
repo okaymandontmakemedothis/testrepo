@@ -56,22 +56,15 @@ describe('SelectionToolService', () => {
 
   //   service.onPressed(mouseEvent);
 
-<<<<<<< HEAD
-    expect(spy).toHaveBeenCalled();
-    expect(drawingServiceSpy.addObject).toHaveBeenCalled();
-  });
-=======
   //   expect(spy).toHaveBeenCalled();
   //   expect(drawingServiceSpy.addObject).toHaveBeenCalled();
   // });
->>>>>>> bbf33e346e0dd75f59da87ead0b446e922021c3e
 
   it('onRelase should remove object if button =2', () => {
     const service: SelectionToolService = TestBed.get(SelectionToolService);
     const spy = spyOn(service as any, 'findObjects');
     const spyRemoveSel = spyOn(service as any, 'removeSelection');
     const spySetRect = spyOn(service as any, 'setRectSelection');
-
 
     const svg = document.createElement('rect') as Element as SVGElement;
     svg.setAttribute('id', '1');

@@ -296,7 +296,6 @@ describe('ToolsListService', () => {
     const keyEvent = new KeyboardEvent('keyup');
     const mouseEvent = new MouseEvent('mousedown');
 
-
     service.selectTool(1);
     service.onPressed(mouseEvent);
 
@@ -312,7 +311,6 @@ describe('ToolsListService', () => {
     service.tools.set(0, pencilToolServiceSpy);
 
     const keyEvent = new KeyboardEvent('keyup');
-
 
     service.selectTool(0);
 

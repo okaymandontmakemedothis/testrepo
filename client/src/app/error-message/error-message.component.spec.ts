@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ErrorMessageComponent } from './error-message.component';
-import { of } from 'rxjs';
-import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
-import { MaterialModules } from '../app-material.module';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
+import { MaterialModules } from '../app-material.module';
+import { ErrorMessageComponent } from './error-message.component';
 
 describe('ErrorMessageComponent', () => {
   let component: ErrorMessageComponent;
@@ -25,7 +25,7 @@ describe('ErrorMessageComponent', () => {
         useValue: {
           title: 'title',
           description: 'description',
-        }
+        },
       }],
     })
       .compileComponents();
