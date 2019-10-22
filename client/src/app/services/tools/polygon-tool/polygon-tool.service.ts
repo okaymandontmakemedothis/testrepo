@@ -106,16 +106,14 @@ export class PolygonToolService implements ITools {
 
   /// Effectively this tool does not need this
   // tslint:disable-next-line: no-empty
-  onKeyDown(event: KeyboardEvent): void {}
+  onKeyDown(event: KeyboardEvent): void { }
 
   /// Effectively this tool does not need this
   // tslint:disable-next-line: no-empty
-  onKeyUp(event: KeyboardEvent): void {}
+  onKeyUp(event: KeyboardEvent): void { }
 
   private setSize(mouseX: number, mouseY: number): void {
     if (this.object) {
-
-      console.log(this.firstX, this.firstY);
 
       let size: number;
       const strokeWidth: number = this.strokeWidth.value;
@@ -144,32 +142,14 @@ export class PolygonToolService implements ITools {
         }
       }
 
-      console.log(this.x, this.y);
-
-      this.center = {x: 0, y: 0};
-      const contourOffset: Point = {x: 0, y: 0};
-      if ( this.x >= this.firstX && this.y >= this.firstY ) {
-        this.center.x = this.firstX + size / 2 + strokeWidth;
-        this.center.y = this.firstY + size / 2 + strokeWidth;
-        contourOffset.x = - Math.abs(this.firstX - this.x);
-        contourOffset.y = - Math.abs(this.firstY - this.y);
-      } else if ( this.x >= this.firstX && this.y < this.firstY ) {
-        this.center.x = this.firstX + size / 2 + strokeWidth;
-        this.center.y = this.firstY - size / 2 - strokeWidth;
-      } else if ( this.x < this.firstX && this.y >= this.firstY ) {
-        this.center.x = this.firstX - size / 2 - strokeWidth;
-        this.center.y = this.firstY + size / 2 + strokeWidth;
-      } else {
-        this.center.x = this.firstX - size / 2 - strokeWidth;
-        this.center.y = this.firstY - size / 2 - strokeWidth;
-      }
+      this.center = { x: this.x + size / 2, y: this.y + size / 2 };
 
       if (size <= 0) {
         return;
       }
 
-      this.drawingService.renderer.setAttribute(this.contour, 'x', (this.x + contourOffset.x).toString());
-      this.drawingService.renderer.setAttribute(this.contour, 'y', (this.y + contourOffset.y).toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'x', (this.x).toString());
+      this.drawingService.renderer.setAttribute(this.contour, 'y', (this.y).toString());
 
       this.drawingService.renderer.setAttribute(this.contour, 'width', (size + strokeWidth * 2).toString());
       this.drawingService.renderer.setAttribute(this.contour, 'height', (size + strokeWidth * 2).toString());
@@ -178,17 +158,19 @@ export class PolygonToolService implements ITools {
 
       this.drawingService.renderer.setAttribute(this.object, 'points', this.getPointsString());
 
-      const polygonDimensions = this.getDimensions();
-      let ratio: number = Math.min(size / polygonDimensions.x, size / polygonDimensions.y);
-      ratio = (ratio < 1 ? 1 : ratio);
-      const initialOffset = this.findSmallestDeltasBetween(this.points, {x: this.firstX, y: this.firstY});
-      const totalOffsetX = -(polygonDimensions.x * (ratio - 1) * this.firstX / size) + initialOffset.x
-      - (Math.sign(contourOffset.x) * strokeWidth);
-      const totalOffsetY = -(polygonDimensions.y * (ratio - 1) * this.firstY / size) + initialOffset.y
-      - (Math.sign(contourOffset.y) * strokeWidth);
+      const polyRect = this.object.getBoundingClientRect();
+      const rectRect = (this.contour as SVGRectElement).getBoundingClientRect();
 
-      this.drawingService.renderer.setAttribute(this.object, 'transform',
-      'scale(' + ratio + ',' + ratio + ') translate (' + totalOffsetX + ',' + totalOffsetY + ')' );
+      const polyCenter: Point = { x: polyRect.left + polyRect.width / 2, y: polyRect.top + polyRect.height / 2 };
+      const rectCenter: Point = { x: rectRect.left + rectRect.width / 2, y: rectRect.top + rectRect.height / 2 };
+
+      const difY = rectCenter.y - polyCenter.y;
+
+      this.points.forEach((pt) => {
+        pt.y += difY;
+      });
+
+      this.drawingService.renderer.setAttribute(this.object, 'points', this.getPointsString());
     }
   }
 
@@ -249,71 +231,11 @@ export class PolygonToolService implements ITools {
     }
   }
 
-  private getDimensions(): Point {
-    let highest = -Infinity;
-    let lowest = Infinity;
-    let leftmost = Infinity;
-    let rightmost = -Infinity;
-    for ( const point of this.points ) {
-      if ( point.x < leftmost ) {
-        leftmost = point.x;
-      }
-      if ( point.x > rightmost ) {
-        rightmost = point.x;
-      }
-      if ( point.y > highest ) {
-        highest = point.y;
-      }
-      if ( point.y < lowest ) {
-        lowest = point.y;
-      }
-    }
-    return {x: (rightmost - leftmost), y: (highest - lowest)};
-  }
-
-  private findSmallestDeltasBetween(compared: {x: number, y: number}[], comparand: Point): Point {
-    let smallestXDelta = Infinity;
-    let smallestYDelta = Infinity;
-    let isXNegative = false;
-    let isYNegative = false;
-
-    for ( const point of compared) {
-      /// Calculate the deltas
-      const tempXDelta = Math.abs(comparand.x - point.x);
-      if ( tempXDelta < smallestXDelta ) {
-        smallestXDelta = tempXDelta;
-        /// Determine the signs
-        if ( point.x > comparand.x ) {
-          isXNegative = true;
-        } else {
-          isXNegative = false;
-        }
-      }
-      const tempYDelta = Math.abs(comparand.y - point.y);
-      if ( tempYDelta < smallestYDelta ) {
-        smallestYDelta = tempYDelta;
-        /// Determine the signs
-        if ( point.y > comparand.y ) {
-          isYNegative = true;
-        } else {
-          isYNegative = false;
-        }
-      }
-    }
-    if (isXNegative) {
-      smallestXDelta = -smallestXDelta;
-    }
-    if (isYNegative) {
-      smallestYDelta = -smallestYDelta;
-    }
-    return { x: smallestXDelta, y: smallestYDelta };
-  }
-
   private getPoints(size: number, center: Point) {
     /// reset array from previous values
     this.points = [];
 
-    if ( size === 0 ) {
+    if (size === 0) {
       return;
     }
     /// determine circle angles
@@ -330,7 +252,7 @@ export class PolygonToolService implements ITools {
     this.getPointsXandY(radius, 0, center);
     /// repeat last step but add angle as you go for the n-1 remaining sides/points
     let angleToAdd = 0;
-    for (let i = 1; i < this.vertexNumber.value; i++ ) {
+    for (let i = 1; i < this.vertexNumber.value; i++) {
       angleToAdd += angle;
       this.getPointsXandY(radius, angleToAdd, center);
     }
@@ -340,7 +262,7 @@ export class PolygonToolService implements ITools {
     const strokeWidth = this.strokeWidth.value;
     const y = center.y + (radius - strokeWidth) * Math.sin(this.getRAD((this.initialAngle + angleToAdd) % 360));
     const x = center.x + (radius - strokeWidth) * Math.cos(this.getRAD((this.initialAngle + angleToAdd) % 360));
-    this.points.push({x, y});
+    this.points.push({ x, y });
   }
 
   private getRAD(angle: number) {
