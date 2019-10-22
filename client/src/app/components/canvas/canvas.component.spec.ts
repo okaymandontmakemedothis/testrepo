@@ -78,7 +78,6 @@ describe('CanvasComponent', () => {
     // component.canvasDiv = ElementRef.prototype;
     // drawingServiceSpy.drawingEmit.emit();
 
-
     // expect(component.svg).toEqual(elm);
   });
 

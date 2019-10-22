@@ -20,6 +20,10 @@ getTestBed().initTestEnvironment(
 );
 // Then we find all the tests.
 // const context = require.context('./', true, /.spec\.ts$/);
+<<<<<<< HEAD
 const context = require.context('./', true, /polygon-tool.service.spec\.ts$/);
+=======
+const context = require.context('./', true, /textures.service.spec\.ts$/);
+>>>>>>> old-state
 // And load the modules.
 context.keys().map(context);

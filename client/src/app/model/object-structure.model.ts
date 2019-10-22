@@ -64,4 +64,14 @@ export const OBJECT_ATTRIBUTE_STRUCTURE: Record<string, Record<string, string>> 
       width: 'none',
       height: 'none',
   },
+    texture: {
+        primaryColor: 'fill',
+        primaryOpacity: 'fill-opacity',
+        secondaryColor: 'none',
+        secondaryOpacity: 'none',
+        x: 'x',
+        y: 'y',
+        width: 'width',
+        height: 'height',
+    },
 };
