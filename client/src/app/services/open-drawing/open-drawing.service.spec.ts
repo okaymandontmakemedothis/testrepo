@@ -59,11 +59,42 @@ describe('OpenDrawingService', () => {
     expect(service).toBeTruthy();
   });
   it('should get drawing previews', () => {
-    // const service: OpenDrawingService = TestBed.get(OpenDrawingService);
-    // service.getDrawings.subscribe((drawingList) => {
-    //   expect(drawingList).toEqual([mockDrawing]);
+    const service: OpenDrawingService = TestBed.get(OpenDrawingService);
 
-    // });
+    service.getDrawings().subscribe((drawingList:Drawing[]) => {
+      console.log(drawingList)
+      expect(drawingList).toEqual([mockDrawing]);
+
+    });
+
+  });
+  it('#reset should reset the values for the save drawing service', () => {
+    service.reset();
+    expect(service.tagCtrl.untouched).toBeTruthy();
+    expect(service.selectedTags.length).toEqual(0);
+  });
+
+  it('#add should add a tag in the list of selected tags', () => {
+    const input: HTMLInputElement = document.createElement('input');
+    input.value = 'VALUE';
+    const value = 'test';
+    service.tagCtrl.setValue('val');
+    service.add({ input, value }, true);
+    expect(service.tagCtrl.value).toBeNull();
+    expect(service.selectedTags.includes(value.trim())).toBeTruthy();
+    expect(input.value).toEqual('');
+  });
+  it('#add should not a tag if already present', () => {
+    service.selectedTags=['test']
+
+    const intialLength: number = service.selectedTags.length;
+
+    const input: HTMLInputElement = document.createElement('input');
+    input.value = 'VALUE';
+    const value = 'test';
+    service.tagCtrl.setValue('val');
+    service.add({ input, value }, true);
+    expect(service.selectedTags.length).toEqual(intialLength);
 
   });
 });

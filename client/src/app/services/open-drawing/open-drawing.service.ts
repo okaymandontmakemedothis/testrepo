@@ -37,7 +37,6 @@ export class OpenDrawingService {
     this.selectedDrawing = drawing;
   }
   getDrawings(): Observable<Drawing[]> {
-    console.log('called');
     return this.http.get<Drawing[]>(environment.serverURL + '/drawings/').pipe(
       catchError(() => of([])),
     );
