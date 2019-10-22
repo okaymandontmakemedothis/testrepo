@@ -19,6 +19,7 @@ export class ToolRectangleService implements ITools {
   readonly id = ToolIdConstants.RECTANGLE_ID;
 
   private object: SVGRectElement | null;
+  private isAdded = false;
 
   parameters: FormGroup;
   private strokeWidth: FormControl;
@@ -61,7 +62,7 @@ export class ToolRectangleService implements ITools {
       this.drawingService.renderer.setAttribute(this.object, 'y', this.y.toString());
 
       this.drawingService.renderer.setStyle(this.object, 'stroke-width', this.strokeWidth.value.toString());
-     // this.drawingService.renderer.setStyle(this.object, 'stroke-alignment', 'outer');
+      // this.drawingService.renderer.setStyle(this.object, 'stroke-alignment', 'outer');
 
       if (event.button === 0) {
         this.setStyle();
@@ -75,15 +76,17 @@ export class ToolRectangleService implements ITools {
   onRelease(event: MouseEvent): void {
     this.object = null;
     this.isSquare = false;
+    this.isAdded = false;
   }
 
   /// Quand le bouton de la sourie est apuyé et on bouge celle-ci, l'objet courrant subit des modifications.
   onMove(event: MouseEvent): void {
     const offset: { x: number, y: number } = this.offsetManager.offsetFromMouseEvent(event);
-    if (this.object) {
-      this.setSize(offset.x, offset.y);
+    if (!this.isAdded && this.object) {
       this.drawingService.addObject(this.object);
+      this.isAdded = true;
     }
+    this.setSize(offset.x, offset.y);
   }
 
   onKeyDown(event: KeyboardEvent): void {

@@ -11,6 +11,9 @@ import { ToolEllipseService } from './tool-ellipse/tool-ellipse.service';
 import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
 import { ToolsService } from './tools.service';
+import { SelectionToolService } from './selection-tool/selection-tool.service';
+import { PolygonToolService } from './polygon-tool/polygon-tool.service';
+import { LineToolService } from './line-tool/line-tool.service';
 
 describe('ToolsListService', () => {
   // let pencilToolServiceSpy: jasmine.SpyObj<PencilToolService>;
@@ -24,6 +27,7 @@ describe('ToolsListService', () => {
   beforeEach(() => {
     // const spyPencil = jasmine.createSpyObj('PencilToolService', ['onPressed']);
 
+    const spySelection = jasmine.createSpyObj('SelectionToolService', ['removeSelection']);
     TestBed.configureTestingModule({
       providers: [
         PencilToolService,
@@ -34,6 +38,9 @@ describe('ToolsListService', () => {
         PipetteToolService,
         EtampeToolService,
         GridService,
+        PolygonToolService,
+        LineToolService,
+        { provide: SelectionToolService, useValue: spySelection },
       ],
     });
 
@@ -141,7 +148,7 @@ describe('ToolsListService', () => {
     service.tools.set(0, tool);
 
     const mouseEvent = new MouseEvent('mousedown');
-    spyOn(tool, 'onMove').and.returnValue();
+    spyOn(tool, 'onMove');
 
     service.selectTool(0);
     service.onPressed(mouseEvent);
@@ -209,14 +216,13 @@ describe('ToolsListService', () => {
     const keyEvent = new KeyboardEvent('keydown');
     const mouseEvent = new MouseEvent('mousedown');
 
-    spyOn(tool, 'onKeyDown').and.returnValue();
-
-    service.selectTool(1);
     service.onPressed(mouseEvent);
+    const spy = spyOn(tool, 'onKeyDown');
+    service.selectTool(1);
 
     window.dispatchEvent(keyEvent);
 
-    expect(tool.onKeyDown).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalled();
   });
 
   it('onKeyTriggered does not calls onKeyDown of the current tool because there was no click', () => {
