@@ -243,7 +243,6 @@ describe('ToolEllipseService', () => {
 
     service.onMove(moveEvent);
     expect(drawingServiceSpy.addObject).not.toHaveBeenCalled();
-    expect(setSizeSpy).not.toHaveBeenCalled();
   });
 
   it('should call remove object if object exist onRelease', () => {

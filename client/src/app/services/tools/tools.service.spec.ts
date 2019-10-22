@@ -28,8 +28,6 @@ describe('ToolsListService', () => {
   let lineToolServiceSpy: jasmine.SpyObj<LineToolService>;
   let selectToolServiceSpy: jasmine.SpyObj<SelectionToolService>;
 
-
-
   const tool: ITools = {
     id: 0, faIcon: faSquare, toolName: 'tool', parameters: FormGroup.prototype,
     onPressed() { return; }, onRelease() { return; }, onMove() { return; },
@@ -243,17 +241,16 @@ describe('ToolsListService', () => {
 
     service.tools.clear();
     service.tools.set(0, tool);
-
     const keyEvent = new KeyboardEvent('keydown');
     const mouseEvent = new MouseEvent('mousedown');
 
-    service.onPressed(mouseEvent);
-    spyOn(tool, 'onKeyDown');
+    const spy = spyOn(tool, 'onKeyDown').and.returnValue();
     service.selectTool(1);
+    service.onPressed(mouseEvent);
 
     window.dispatchEvent(keyEvent);
 
-    expect(tool.onKeyDown(keyEvent)).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalled();
   });
 
   it('onKeyTriggered does not calls onKeyDown of the current tool because there was no click', () => {
