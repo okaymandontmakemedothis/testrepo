@@ -30,17 +30,12 @@ export class ToolsApplierColorsService implements ITools {
       if (!targetName) {
         return;
       }
-      console.log(targetName);
       const propertyMap: Record<string, string> | undefined = OBJECT_ATTRIBUTE_STRUCTURE[targetName];
       if (!propertyMap) {
         return;
       }
-      console.log(propertyMap);
-      const primaryColorAttribute: string | undefined = propertyMap.primaryColor;
-      const primaryAlphaAttribute: string | undefined = propertyMap.primaryOpacity;
-      if (!primaryColorAttribute || !primaryAlphaAttribute) {
-        return;
-      }
+      const primaryColorAttribute: string = propertyMap.primaryColor as string;
+
       const actualValue = target.style.getPropertyValue(primaryColorAttribute);
 
       if (actualValue.startsWith('url')) {

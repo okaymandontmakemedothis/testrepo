@@ -8,20 +8,13 @@ import { MaterialModules } from 'src/app/app-material.module';
 import { DrawingService } from 'src/app/services/drawing/drawing.service';
 // import { Drawing } from '../../../../../common/communication/drawing';
 import { OpenDrawingComponent } from './open-drawing.component';
+import { Drawing } from '../../../../../common/communication/drawing';
 
 describe('OpenDrawingComponent', () => {
   let component: OpenDrawingComponent;
   let fixture: ComponentFixture<OpenDrawingComponent>;
-  // let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
-  // const mockDrawing: Drawing = {
-  //   id: '2',
-  //   name: 'mock',
-  //   tags: ['tag1', 'tag2'],
-  //   width: 0,
-  //   height: 0,
-  //   backGroundColor: { rgb: { r: 0, g: 0, b: 0 }, a: 0 },
-  //   svg: '',
-  // };
+
+  let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
 
   const dialogRefSpyObj = jasmine.createSpyObj({
     afterClosed: of({}),
@@ -37,6 +30,7 @@ describe('OpenDrawingComponent', () => {
       imports: [MaterialModules, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, HttpClientModule],
       providers: [{ provide: MatDialogRef, useValue: dialogRefSpyObj }, { provide: DrawingService, useValue: spyDrawing }],
     });
+    drawingServiceSpy = TestBed.get(DrawingService);
     spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
     TestBed.compileComponents();
   }));
@@ -52,13 +46,25 @@ describe('OpenDrawingComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should create new drawing with drawing service', () => {
-    // fixture = TestBed.createComponent(OpenDrawingComponent);
-    // component = fixture.componentInstance;
 
-    // component.openDrawing(mockDrawing);
-    // expect(drawingServiceSpy.addDrawingObjectList).toHaveBeenCalled();
+  it('#close should close de dialog', () => {
+    const dialogRef = TestBed.get(MatDialogRef);
+    component.close();
 
+    expect(dialogRef.close).toHaveBeenCalled();
   });
 
+  it('#openDrawing should create a new drawing', () => {
+    const dialogRef = TestBed.get(MatDialogRef);
+    const drawing: Drawing = {
+      id: '0',
+      name: '', tags: [''], width: 0, height: 0, backGroundColor: { rgb: { r: 0, g: 0, b: 0 }, a: 1 },
+      svg: '',
+    };
+
+    component.openDrawing(drawing);
+
+    expect(drawingServiceSpy.newDrawing).toHaveBeenCalled();
+    expect(dialogRef.close).toHaveBeenCalled();
+  });
 });

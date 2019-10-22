@@ -13,7 +13,7 @@ describe('ToolEllipseService', () => {
   let rendererSpy: jasmine.SpyObj<Renderer2>;
 
   beforeEach(() => {
-    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle',]);
+    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', ]);
     const spyOffset = jasmine.createSpyObj('OffsetManagerService', ['offsetFromMouseEvent']);
     const spyColor = jasmine.createSpyObj('ToolsColorService', ['']);
     let spyDrawingService = jasmine.createSpyObj('DrawingService', ['addObject', 'removeObject']);
@@ -133,7 +133,7 @@ describe('ToolEllipseService', () => {
     service.onMove(moveEvent);
   });
 
-    it('should not addObject if contour doesnt exist ', () => {
+  it('should not addObject if contour doesnt exist ', () => {
     const service: ToolEllipseService = TestBed.get(ToolEllipseService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 10 });
     service.onPressed(new MouseEvent('mousedown', { button: 0 }));
@@ -254,10 +254,10 @@ describe('ToolEllipseService', () => {
     service.onPressed(new MouseEvent('mousedown', { button: 0 }));
     service.onRelease(new MouseEvent('mouseup'));
     expect(drawingServiceSpy.removeObject).toHaveBeenCalled();
-    
+
   });
 
-   it('should not call remove object if object is undefined onRelease', () => {
+  it('should not call remove object if object is undefined onRelease', () => {
     const service: ToolEllipseService = TestBed.get(ToolEllipseService);
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 0, y: 0 });
     service.onPressed(new MouseEvent('mousedown', { button: 0 }));

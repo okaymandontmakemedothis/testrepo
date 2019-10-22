@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 
+import { EventEmitter } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { of } from 'rxjs';
+import { GridService } from '../tools/grid-tool/grid.service';
 import { ToolsService } from '../tools/tools.service';
+import { EmitReturn } from './hotkeys-constants';
 import { HotkeysFichierService } from './hotkeys-fichier/hotkeys-fichier.service';
 import { HotkeysOutilService } from './hotkeys-outil/hotkeys-outil.service';
 import { HotkeysSelectionService } from './hotkeys-selection/hotkeys-selection.service';
 import { HotkeysTravailService } from './hotkeys-travail/hotkeys-travail.service';
 import { HotkeysService } from './hotkeys.service';
-import { EmitReturn } from './hotkeys-constants';
-import { EventEmitter } from '@angular/core';
-import { GridService } from '../tools/grid-tool/grid.service';
-import { FormControl } from '@angular/forms';
-import { of } from 'rxjs';
 
 describe('HotkeysService', () => {
   let hotkeyFichierServiceSpy: jasmine.SpyObj<HotkeysFichierService>;

@@ -20,6 +20,6 @@ getTestBed().initTestEnvironment(
 );
 // Then we find all the tests.
 const context = require.context('./', true, /.spec\.ts$/);
-// const context = require.context('./', true, /hotkeys.service.spec\.ts$/);
+// const context = require.context('./', true, /selection-tool.service.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
