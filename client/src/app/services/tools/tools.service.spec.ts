@@ -12,7 +12,7 @@ import { ToolRectangleService } from './tool-rectangle/tool-rectangle.service';
 import { ToolsApplierColorsService } from './tools-applier-colors/tools-applier-colors.service';
 import { ToolsService } from './tools.service';
 
-describe('ToolsListService', () => {
+describe('ToolsService', () => {
   // let pencilToolServiceSpy: jasmine.SpyObj<PencilToolService>;
 
   const tool: ITools = {
