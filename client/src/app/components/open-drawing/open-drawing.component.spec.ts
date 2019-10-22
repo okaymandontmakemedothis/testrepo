@@ -40,7 +40,7 @@ describe('OpenDrawingComponent', () => {
     const spyDrawingService = jasmine.createSpyObj('DrawingService', ['newDrawing', 'addDrawingObjectList', 'openDrawing', ]);
 
     let spyOpenDrawingService = jasmine.createSpyObj('OpenDrawingService', ['getDrawings', 'selectDrawing', 'getBackgroundSelected',
-    'getBackground', 'reset', 'add', 'remove', 'selectTag', 'accept', 'openDrawing']);
+      'getBackground', 'reset', 'add', 'remove', 'selectTag', 'accept', 'openDrawing']);
 
     const spyTagService = jasmine.createSpyObj('TagService', ['containsTag']);
     const tagControl: FormControl = new FormControl('Test');
@@ -96,7 +96,6 @@ describe('OpenDrawingComponent', () => {
   // });
   // it('should getBackground from drawing', () => {
   //     const result = component.getBackground(mockDrawing);
-  //     console.log(result);
   //     expect(result).toEqual(`rgba(0,0,0,0)`);
 
   // });

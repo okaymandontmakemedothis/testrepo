@@ -10,16 +10,18 @@ describe('DrawingService', () => {
   let rendererSpy: jasmine.SpyObj<Renderer2>;
 
   beforeEach(() => {
-    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle']);
+    rendererSpy = jasmine.createSpyObj('Renderer2',
+      ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle', 'insertBefore', 'removeChild']);
 
     TestBed.configureTestingModule({
       providers: [{ provide: Renderer2, useValue: rendererSpy }],
 
     });
     service = TestBed.get(DrawingService);
-    
+    service.drawing = document.createElementNS('svg', 'svg') as SVGElement;
+
     rendererSpy = TestBed.get(Renderer2);
-    service.renderer=rendererSpy
+    service.renderer = rendererSpy;
 
   });
 

@@ -1,16 +1,35 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ErrorMessageComponent } from './error-message.component';
+import { of } from 'rxjs';
+import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+import { MaterialModules } from '../app-material.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ErrorMessageComponent', () => {
   let component: ErrorMessageComponent;
   let fixture: ComponentFixture<ErrorMessageComponent>;
+  const dialogRefSpyObj = jasmine.createSpyObj({
+    afterClosed: of({}),
+    afterOpened: of({}),
+    open: null,
+    close: null,
+  });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ErrorMessageComponent ],
+      imports: [MaterialModules, NoopAnimationsModule],
+      declarations: [ErrorMessageComponent],
+      providers: [{ provide: MatDialogRef, useValue: dialogRefSpyObj }, {
+        provide: MAT_DIALOG_DATA,
+        useValue: {
+          title: 'title',
+          description: 'description',
+        }
+      }],
     })
-    .compileComponents();
+      .compileComponents();
+    spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
   }));
 
   beforeEach(() => {

@@ -19,7 +19,11 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting(),
 );
 // Then we find all the tests.
+<<<<<<< HEAD
+// const context = require.context('./', true, /.spec\.ts$/);
+const context = require.context('./', true, /selection-tool.service.spec\.ts$/);
+=======
 const context = require.context('./', true, /.spec\.ts$/);
-// const context = require.context('./', true, /new-drawing.component.spec\.ts$/);
+>>>>>>> bbf33e346e0dd75f59da87ead0b446e922021c3e
 // And load the modules.
 context.keys().map(context);

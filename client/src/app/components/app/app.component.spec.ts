@@ -31,7 +31,7 @@ describe('AppComponent', () => {
         ReactiveFormsModule,
         MaterialModules,
       ],
-      providers:[{ provide: MatDialogRef,useValue:dialogRefSpyObj}],
+      providers: [{ provide: MatDialogRef, useValue: dialogRefSpyObj }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 
@@ -67,6 +67,9 @@ describe('AppComponent', () => {
   });
 
   it('should open a dialog on openDialog', () => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
     component.openDialog();
     expect(component.dialog.open).toHaveBeenCalled();
   });
