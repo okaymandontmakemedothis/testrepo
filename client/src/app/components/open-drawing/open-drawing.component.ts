@@ -22,7 +22,7 @@ import { NewDrawingAlertComponent } from '../new-drawing/new-drawing-alert/new-d
 })
 export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  tagCtrl = new FormControl();
+  // tagCtrl = new FormControl();
   visible = true;
   selectable = true;
   removable = true;
@@ -30,9 +30,9 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   pageIndex = 0;
 
-  filteredTags: Observable<string[]>;
-  selectedTags: string[] = [];
-  allTags: string[] = [];
+  // filteredTags: Observable<string[]>;
+  // selectedTags: string[] = [];
+  // allTags: string[] = [];
 
   @ViewChild('tagInput', { static: false }) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
@@ -60,24 +60,20 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
           this.dataSource.data = drawings;
           this.drawingPreview = drawings;
           this.isLoaded = true;
-          this.selectedTags = [];
-          this.tagService.retrieveTags().subscribe((tags: string[]) => this.allTags = tags);
-          this.filteredTags = this.tagCtrl.valueChanges.pipe(
-            startWith(null),
-            map((tag: string | null) => tag ? this.filter(tag) : this.allTags.slice()));
+
           this.dataSource.filter = '';
         });
     });
     this.dialogRef.afterClosed().subscribe(() => {
       this.isLoaded = false;
       this.selectedDrawing = null;
-      this.selectedTags = [];
+      this.openDrawingService.reset();
     });
   }
 
   ngOnInit(): void {
     console.log(this.paginator);
-    this.dataSource.filterPredicate = ((data: Drawing, filter: string) => this.tagService.containsTag(data, this.selectedTags));
+    this.dataSource.filterPredicate = ((data: Drawing, filter: string) => this.tagService.containsTag(data, this.openDrawingService.selectedTags));
 
     this.dataObs = this.dataSource.connect();
 
@@ -119,6 +115,12 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   selectDrawing(drawing: Drawing) {
     this.selectedDrawing = drawing;
   }
+  get tagCtrl(): FormControl {
+    return this.openDrawingService.tagCtrl;
+  }
+  get filteredTags(): Observable<string[]> {
+    return this.openDrawingService.filteredTags;
+  }
 
   // ouvre un nouveau dessin  avec l'ancien drawing
   accept(): void {
@@ -151,49 +153,28 @@ export class OpenDrawingComponent implements OnInit, OnDestroy, AfterViewInit {
   add(event: MatChipInputEvent): void {
     // Add tag only when MatAutocomplete is not open
     // To make sure this does not conflict with OptionSelected Event
-    if (!this.matAutocomplete.isOpen) {
-      const input = event.input;
-      const value = event.value;
-
-      // Add our tag
-      if ((value || '').trim()) {
-        if (!this.selectedTags.includes(value.trim())) {
-          this.selectedTags.push(value.trim());
-        }
-      }
-
-      // Reset the input value
-      if (input) {
-        input.value = '';
-      }
-
-      this.tagCtrl.setValue(null);
-    }
+    this.openDrawingService.add(event,this.matAutocomplete.isOpen)
     this.selectedDrawing = null;
-    this.dataSource.filter = this.selectedTags.toString();
+    this.dataSource.filter = this.openDrawingService.selectedTags.toString();
   }
 
   remove(tag: string): void {
-    const index = this.selectedTags.indexOf(tag);
-
-    if (index >= 0) {
-      this.selectedTags.splice(index, 1);
-    }
+    this.openDrawingService.remove(tag)
     this.selectedDrawing = null;
-    this.dataSource.filter = this.selectedTags.toString();
+    this.dataSource.filter = this.openDrawingService.selectedTags.toString();
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.selectedTags.push(event.option.viewValue);
-    this.tagCtrl.setValue(null);
+    console.log(this.openDrawingService.selectedTags)
+    this.openDrawingService.selectedTags.push(event.option.viewValue);
+    this.openDrawingService.tagCtrl.setValue(null);
     this.tagInput.nativeElement.value = '';
     this.selectedDrawing = null;
-    this.dataSource.filter = this.selectedTags.toString();
+    this.dataSource.filter = this.openDrawingService.selectedTags.toString();
   }
 
   private filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.allTags.filter((tag) => tag.toLowerCase().indexOf(filterValue) === 0);
+    return this.openDrawingService.filter(value);
   }
 
 }

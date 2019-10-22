@@ -3,11 +3,12 @@ import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatChipInputEvent, MatDialog } from '@angular/material';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, startWith, map } from 'rxjs/operators';
 import { RGBA } from 'src/app/model/rgba.model';
 // import { IndexService } from '../index/index.service';
 import { environment } from 'src/environments/environment.prod';
 import { Drawing } from '../../../../../common/communication/drawing';
+import { TagService } from '../tag/tag.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,15 @@ export class OpenDrawingService {
   selectedTags: string[] = [];
   allTags: string[] = [];
 
-  constructor(private http: HttpClient, public dialog: MatDialog) {
+
+
+  constructor(private http: HttpClient, public dialog: MatDialog,private tagService: TagService) {
+    this.selectedTags = [];
+    this.tagService.retrieveTags().subscribe((tags: string[]) => this.allTags = tags);
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) => tag ? this.filter(tag) : this.allTags.slice()));
+
   }
   getDrawings(): Observable<Drawing[]> {
     console.log('called');
@@ -54,8 +63,7 @@ export class OpenDrawingService {
 
       this.tagCtrl.setValue(null);
     }
-    this.selectedDrawing = null;
-    this.dataSource.filter = this.selectedTags.toString();
+    // this.dataSource.filter = this.selectedTags.toString();
   }
 
   remove(tag: string): void {
@@ -64,12 +72,15 @@ export class OpenDrawingService {
     if (index >= 0) {
       this.selectedTags.splice(index, 1);
     }
-    this.selectedDrawing = null;
-    this.dataSource.filter = this.selectedTags.toString();
+
   }
-  private filter(value: string): string[] {
+  filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.allTags.filter((tag) => tag.toLowerCase().indexOf(filterValue) === 0);
+  }
+  reset():void{
+    this.selectedTags = [];
+
   }
 
 }
