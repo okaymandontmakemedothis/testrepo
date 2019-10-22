@@ -21,7 +21,7 @@ describe('AppComponent', () => {
   dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(async(() => {
-    //const spyWelcome = jasmine.createSpyObj('WelcomeDialogService', ['']);
+    // const spyWelcome = jasmine.createSpyObj('WelcomeDialogService', ['']);
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
@@ -34,7 +34,7 @@ describe('AppComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 
-    //welcomeServiceSpy = TestBed.get(WelcomeDialogService);
+    // welcomeServiceSpy = TestBed.get(WelcomeDialogService);
     spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
     welcomeDialogService = TestBed.get(WelcomeDialogService);
     TestBed.compileComponents();

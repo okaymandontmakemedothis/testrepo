@@ -40,8 +40,8 @@ export class LineToolService implements ITools {
   private rectStyleJonction: FormControl;
 
   constructor(
-    private offsetManager: OffsetManagerService, 
-    private colorTool: ToolsColorService, 
+    private offsetManager: OffsetManagerService,
+    private colorTool: ToolsColorService,
     private drawingService: DrawingService,
     ) {
     this.clickNumber = 0;
@@ -189,7 +189,7 @@ export class LineToolService implements ITools {
    // if (this.object) {
       this.pointsList.pop();
       this.pointsList.push(point);
-    //}
+    // }
   }
 
   /// mettre a jour la liste de points reliant les segments
@@ -259,7 +259,6 @@ export class LineToolService implements ITools {
     }*/
   }
 
- 
   changeTool(): void {
     this.onDoublePressed();
   }
@@ -291,4 +290,3 @@ export class LineToolService implements ITools {
     }
   }
 }
-

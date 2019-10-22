@@ -6,27 +6,25 @@ import { OffsetManagerService } from '../../offset-manager/offset-manager.servic
 import { ToolsColorService } from '../../tools-color/tools-color.service';
 import { LineToolService } from './line-tool.service';
 import { KeyCodes } from '../../hotkeys/hotkeys-constants';
-//import { INITIAL_WIDTH } from '../tools-constants';
+
 describe('LineToolService', () => {
   let offsetManagerServiceSpy: jasmine.SpyObj<OffsetManagerService>;
   let colorToolServiceSpy: jasmine.SpyObj<ToolsColorService>;
   let drawingServiceSpy: jasmine.SpyObj<DrawingService>;
   let rendererSpy: jasmine.SpyObj<Renderer2>;
-  //let lineSpy: jasmine.SpyObj<LineToolService>;
   beforeEach(() => {
-    
    const spyOffset = jasmine.createSpyObj('OffsetManagerService', ['offsetFromMouseEvent']);
-    const spyColor = jasmine.createSpyObj('ToolsColorService', ['']);
-    rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle',
+   const spyColor = jasmine.createSpyObj('ToolsColorService', ['']);
+   rendererSpy = jasmine.createSpyObj('Renderer2', ['createElement', 'setProperty', 'setAttribute', 'appendChild', 'setStyle',
     'addObject' ]);
-    let spyDrawingService = jasmine.createSpyObj('DrawingService', ['addObject', 'removeObject']);
-    spyDrawingService = {
+   let spyDrawingService = jasmine.createSpyObj('DrawingService', ['addObject', 'removeObject']);
+   spyDrawingService = {
       ...spyDrawingService,
       renderer: rendererSpy,
     };
 
 
-    TestBed.configureTestingModule({
+   TestBed.configureTestingModule({
       providers: [LineToolService,
         { provide: DrawingService, useValue: spyDrawingService },
         { provide: OffsetManagerService, useValue: spyOffset },
@@ -124,8 +122,7 @@ describe('LineToolService', () => {
     rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
     rendererSpy.createElement.withArgs('circle','svg').and.returnValue('circle');
     rendererSpy.createElement.withArgs('polyline','svg').and.returnValue('polyline');
-    
-   
+
     //faire un double clic
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
     service.onPressed(new MouseEvent('mousedown') );
@@ -802,6 +799,21 @@ describe('LineToolService', () => {
     offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 10, y: 12 });
     service.onPressed(new MouseEvent('mousedown'));
     expect(drawingServiceSpy.renderer.setAttribute).toHaveBeenCalledWith('circle', 'visibility', 'visible');
+
+  });
+
+  it('should execute  onKeyDown if shift is pressed and object exist ', () => {
+    const service: LineToolService = TestBed.get(LineToolService);
+    rendererSpy.createElement.withArgs('marker', 'svg').and.returnValue('marker');
+    rendererSpy.createElement.withArgs('defs', 'svg').and.returnValue('defs');
+    rendererSpy.createElement.withArgs('circle', 'svg').and.returnValue('circle');
+    rendererSpy.createElement.withArgs('polyline', 'svg').and.returnValue('polyline');
+    const eventKeyDown = new KeyboardEvent('keydown', { code: KeyCodes.backSpace });
+    offsetManagerServiceSpy.offsetFromMouseEvent.and.returnValue({ x: 100, y: 12 });
+    const spy =  spyOn(service as any, 'removeRecentPoint');
+    service.onPressed(new MouseEvent('mousedown'));
+    service.onKeyDown(eventKeyDown);
+    expect(spy).toHaveBeenCalled();
 
   });
 

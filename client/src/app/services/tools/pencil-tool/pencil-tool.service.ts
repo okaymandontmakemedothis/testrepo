@@ -114,5 +114,3 @@ export class PencilToolService implements ITools {
   }
 
 }
-
-

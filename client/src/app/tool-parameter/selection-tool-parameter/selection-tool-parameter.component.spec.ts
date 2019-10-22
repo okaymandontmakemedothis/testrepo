@@ -8,7 +8,7 @@ describe('SelectionToolParameterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectionToolParameterComponent ]
+      declarations: [ SelectionToolParameterComponent ],
     })
     .compileComponents();
   }));
