@@ -1,31 +1,46 @@
 <h1 mat-dialog-title>Sauvegarder le dessin</h1>
-<div mat-dialog-content>
-    <mat-form-field>
-        <mat-label>Nom du dessin</mat-label>
-        <input matInput [formControl]='nameCtrl' required>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-chip-list #chipList aria-label="Sélection d'étiquette">
-            <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
-                (removed)="remove(tag)">
-                {{tag}}
-                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-            </mat-chip>
-            <input placeholder="Étiquette(s)..." #tagInput [formControl]="tagCtrl" [matAutocomplete]="auto"
-                [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
-        </mat-chip-list>
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-                {{tag}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
+<div mat-dialog-content style="display:grid">
+    <div style="grid-column: 1;
+    grid-row: 1;">
+        <div>
+            <mat-form-field>
+                <mat-label>Nom du dessin</mat-label>
+                <input matInput [formControl]='nameCtrl' required>
+            </mat-form-field>
+        </div>
+        <div class="tumbnail">
+            <svg #svg height="150" width="150">
+            </svg>
+        </div>
+        <div>
+            <mat-form-field class="tag-list">
+                <mat-chip-list #chipList aria-label="Sélection d'étiquette">
+                    <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
+                        (removed)="remove(tag)">
+                        {{tag}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                    <input placeholder="Étiquette(s)..." #tagInput [formControl]="tagCtrl" [matAutocomplete]="auto"
+                        [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                </mat-chip-list>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                    <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                        {{tag}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+    </div>
+    <div style="grid-column: 1;
+    grid-row: 1;" *ngIf="!saveEnabled">
+        <mat-progress-spinner class="example-margin" color="primary" mode="indeterminate">
+        </mat-progress-spinner>
+    </div>
 </div>
-<svg #svg height="150" width="150">
-</svg>
+
 <div mat-dialog-actions align="end">
     <button mat-raised-button color=primary (click)="save()"
-        [disabled]="nameCtrl.invalid && saveEnabled">Sauvegarder</button>
+        [disabled]="!saveEnabled || (nameCtrl.invalid && tagCtrl.dirty)">Sauvegarder</button>
     <button mat-raised-button color=primary (click)="close()">Annuler</button>
 </div>

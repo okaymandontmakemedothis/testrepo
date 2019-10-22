@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { HotkeysService } from 'src/app/services/hotkeys/hotkeys.service';
 import { WelcomeDialogService } from 'src/app/services/welcome-dialog/welcome-dialog.service';
 import { NewDrawingComponent } from '../new-drawing/new-drawing.component';
 import { WelcomeDialogComponent } from '../welcome-dialog/welcome-dialog/welcome-dialog.component';
-import { HotkeysService } from 'src/app/services/hotkeys/hotkeys.service';
 
 @Component({
   selector: 'app-root',
