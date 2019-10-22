@@ -128,38 +128,19 @@ export class PolygonToolService implements ITools {
         size = Math.abs(height);
       }
 
-      if (width < 0) {
-        if (Math.abs(width) > Math.abs(height)) {
-          this.x = this.firstX - size - strokeWidth * 2;
-        } else {
-          this.x = mouseX;
-        }
-      } else {
-        if (Math.abs(width) > Math.abs(height)) {
-          this.x = this.firstX;
-        } else {
-          if ( height < 0 ) {
-            this.x = this.firstX - size - strokeWidth * 2;
-          } else {
-            this.x = mouseX;
-          }
-        }
-      }
-      if (height < 0) {
-        if (Math.abs(width) < Math.abs(height)) {
-          this.y = this.firstY - size - strokeWidth * 2;
-        } else {
-          this.y = mouseY;
-        }
-      } else {
-        if (Math.abs(width) < Math.abs(height)) {
+      if (width >= 0) {
+        this.x = this.firstX;
+        if (height > 0) {
           this.y = this.firstY;
         } else {
-          if ( width < 0 ) {
-            this.y = this.firstY - size - strokeWidth * 2;
-          } else {
-            this.y = mouseY;
-          }
+          this.y = this.firstY - size - strokeWidth * 2;
+        }
+      } else {
+        this.x = this.firstX - size - strokeWidth * 2;
+        if (height >= 0) {
+          this.y = this.firstY;
+        } else {
+          this.y = this.firstY - size - strokeWidth * 2;
         }
       }
 
@@ -183,8 +164,8 @@ export class PolygonToolService implements ITools {
         this.center.y = this.firstY - size / 2 - strokeWidth;
       }
 
-      if (size < 0) {
-        size = 0;
+      if (size <= 0) {
+        return;
       }
 
       this.drawingService.renderer.setAttribute(this.contour, 'x', (this.x + contourOffset.x).toString());
