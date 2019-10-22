@@ -283,7 +283,7 @@ describe('ToolsApplierColorsService', () => {
     svg.setAttribute('name', 'rect');
     spyOnProperty(event, 'target').and.returnValue(svg);
 
-    const svg2 = document.createElement('rect') as Element as SVGElement;
+    const svg2 = document.createElement('circle') as Element as SVGElement;
     svg2.setAttribute('name', 'string');
     svg2.setAttribute('id', '1');
     drawingServiceSpy.getObject.withArgs(1).and.returnValue(svg2);
