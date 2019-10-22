@@ -16,7 +16,19 @@ import { PolygonToolService } from './polygon-tool/polygon-tool.service';
 import { LineToolService } from './line-tool/line-tool.service';
 
 describe('ToolsListService', () => {
-  // let pencilToolServiceSpy: jasmine.SpyObj<PencilToolService>;
+  let pencilToolServiceSpy: jasmine.SpyObj<PencilToolService>;
+  let brushToolServiceSpy: jasmine.SpyObj<BrushToolService>;
+  let applierToolServiceSpy: jasmine.SpyObj<ToolsApplierColorsService>;
+  let rectToolServiceSpy: jasmine.SpyObj<ToolRectangleService>;
+  let ellToolServiceSpy: jasmine.SpyObj<ToolEllipseService>;
+  let pipetteToolServiceSpy: jasmine.SpyObj<PipetteToolService>;
+  let etampeToolServiceSpy: jasmine.SpyObj<EtampeToolService>;
+  let gridToolServiceSpy: jasmine.SpyObj<GridService>;
+  let polyToolServiceSpy: jasmine.SpyObj<PolygonToolService>;
+  let lineToolServiceSpy: jasmine.SpyObj<LineToolService>;
+  let selectToolServiceSpy: jasmine.SpyObj<SelectionToolService>;
+
+
 
   const tool: ITools = {
     id: 0, faIcon: faSquare, toolName: 'tool', parameters: FormGroup.prototype,
@@ -25,26 +37,45 @@ describe('ToolsListService', () => {
   };
 
   beforeEach(() => {
-    // const spyPencil = jasmine.createSpyObj('PencilToolService', ['onPressed']);
-
+    const spyPencil = jasmine.createSpyObj('PencilToolService', ['']);
+    const spyBrush = jasmine.createSpyObj('BrushToolService', ['']);
+    const spyApplier = jasmine.createSpyObj('ToolsApplierColorsService', ['']);
+    const spyRect = jasmine.createSpyObj('ToolRectangleService', ['']);
+    const spyEllipse = jasmine.createSpyObj('ToolEllipseService', ['']);
+    const spyPipette = jasmine.createSpyObj('PipetteToolService', ['']);
+    const spyEtampe = jasmine.createSpyObj('EtampeToolService', ['']);
+    const spyGrid = jasmine.createSpyObj('GridService', ['']);
+    const spyPoly = jasmine.createSpyObj('PolygonToolService', ['']);
+    const spyLine = jasmine.createSpyObj('LineToolService', ['changeTool']);
     const spySelection = jasmine.createSpyObj('SelectionToolService', ['removeSelection']);
+
     TestBed.configureTestingModule({
       providers: [
-        PencilToolService,
-        BrushToolService,
-        ToolsApplierColorsService,
-        ToolRectangleService,
-        ToolEllipseService,
-        PipetteToolService,
-        EtampeToolService,
-        GridService,
-        PolygonToolService,
-        LineToolService,
-        { provide: SelectionToolService, useValue: spySelection },
+        {provide: PencilToolService, useValue: spyPencil},
+        {provide: BrushToolService, useValue: spyBrush},
+        {provide: ToolsApplierColorsService, useValue: spyApplier},
+        {provide: ToolRectangleService, useValue: spyRect},
+        {provide: ToolEllipseService, useValue: spyEllipse},
+        {provide: PipetteToolService, useValue: spyPipette},
+        {provide: EtampeToolService, useValue: spyEtampe},
+        {provide: GridService, useValue: spyGrid},
+        {provide: PolygonToolService, useValue: spyPoly},
+        {provide: LineToolService, useValue: spyLine},
+        {provide: SelectionToolService, useValue: spySelection },
       ],
     });
+    pencilToolServiceSpy = TestBed.get(PencilToolService);
+    brushToolServiceSpy = TestBed.get(BrushToolService);
+    applierToolServiceSpy = TestBed.get(ToolsApplierColorsService);
+    rectToolServiceSpy = TestBed.get(ToolRectangleService);
+    ellToolServiceSpy = TestBed.get(ToolEllipseService);
+    pipetteToolServiceSpy = TestBed.get(PipetteToolService);
+    etampeToolServiceSpy = TestBed.get(EtampeToolService);
+    gridToolServiceSpy = TestBed.get(GridService);
+    polyToolServiceSpy = TestBed.get(PolygonToolService);
+    lineToolServiceSpy = TestBed.get(LineToolService);
+    selectToolServiceSpy = TestBed.get(SelectionToolService);
 
-    // pencilToolServiceSpy = TestBed.get(PencilToolService);
   });
 
   it('should be created', () => {
@@ -217,12 +248,12 @@ describe('ToolsListService', () => {
     const mouseEvent = new MouseEvent('mousedown');
 
     service.onPressed(mouseEvent);
-    const spy = spyOn(tool, 'onKeyDown');
+    spyOn(tool, 'onKeyDown');
     service.selectTool(1);
 
     window.dispatchEvent(keyEvent);
 
-    expect(spy).not.toHaveBeenCalled();
+    expect(tool.onKeyDown(keyEvent)).not.toHaveBeenCalled();
   });
 
   it('onKeyTriggered does not calls onKeyDown of the current tool because there was no click', () => {
